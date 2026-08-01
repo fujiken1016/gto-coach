@@ -1,0 +1,2551 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d1230">
+<title>GTO Coach — 全ストリート対応ポーカートレーナー</title>
+<style>
+  :root{
+    --bg0:#070a18; --bg1:#0d1230; --panel:#10162e; --panel2:#181f42; --border:#2a3566;
+    --text:#eef2ff; --sub:#8b96c9;
+    --cyan:#29e0ff; --magenta:#ff2d95; --gold:#ffd23e; --purple:#8a6cff; --mint:#59f5c0;
+    --green:#3fe37f; --red:#ff5470; --yellow:#ffce4d; --blue:#4da3ff;
+    --raise:#e5344f; --fold:#39415f; --call:#2f7ff7; --mix:#d99b1d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  button{touch-action:manipulation;} /* ダブルタップズーム抑止 */
+  body{
+    background:
+      radial-gradient(1200px 500px at 50% -10%, #1b2454 0%, transparent 60%),
+      radial-gradient(900px 500px at 100% 110%, #2a1140 0%, transparent 55%),
+      linear-gradient(160deg, var(--bg0) 0%, var(--bg1) 100%);
+    color:var(--text);
+    font-family:-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+    min-height:100vh; overflow-x:hidden;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:repeating-linear-gradient(115deg, rgba(255,255,255,.022) 0 2px, transparent 2px 26px);
+  }
+  .wrap{max-width:840px;margin:0 auto;padding:16px;position:relative;z-index:1;}
+  header{text-align:center;padding:14px 0 4px;}
+  header h1{
+    font-size:30px;font-style:italic;font-weight:900;letter-spacing:2px;
+    background:linear-gradient(95deg,var(--cyan) 10%,#7ab8ff 40%,var(--magenta) 90%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 14px rgba(41,224,255,.45));
+    animation:logoGlow 3s ease-in-out infinite alternate;
+  }
+  @keyframes logoGlow{from{filter:drop-shadow(0 0 8px rgba(41,224,255,.3));}to{filter:drop-shadow(0 0 18px rgba(255,45,149,.5));}}
+  header p{color:var(--sub);font-size:12px;margin-top:4px;letter-spacing:1px;}
+  .modebar{display:flex;gap:10px;margin:16px 0 6px;justify-content:center;flex-wrap:wrap;}
+  .mode{
+    padding:10px 22px;border:1px solid var(--border);background:var(--panel);color:var(--sub);
+    cursor:pointer;font-size:13.5px;font-weight:800;font-style:italic;letter-spacing:1px;
+    transform:skewX(-10deg);border-radius:8px;transition:.18s;
+  }
+  .mode>span{display:inline-block;transform:skewX(10deg);}
+  .mode:hover{border-color:var(--cyan);color:var(--cyan);}
+  .mode.active{
+    background:linear-gradient(95deg,var(--cyan),#3d7bff);color:#031024;border-color:transparent;
+    box-shadow:0 0 18px rgba(41,224,255,.55), 0 4px 0 rgba(0,0,0,.35);
+  }
+  .tabs{display:flex;gap:8px;margin:14px 0;justify-content:center;flex-wrap:wrap;}
+  .tab{padding:8px 14px;border-radius:20px;border:1px solid var(--border);background:var(--panel);color:var(--sub);cursor:pointer;font-size:12.5px;font-weight:700;transition:.15s;}
+  .tab:hover{border-color:var(--mint);color:var(--mint);}
+  .tab.active{background:linear-gradient(95deg,var(--mint),#2fd39a);border-color:transparent;color:#03160c;box-shadow:0 0 14px rgba(89,245,192,.4);}
+  .tab .lv{font-size:10px;display:block;opacity:.8;}
+  .scenario-picker{display:flex;gap:6px;justify-content:center;margin-bottom:12px;flex-wrap:wrap;}
+  .sp{font-size:11px;padding:5px 11px;border-radius:14px;border:1px solid var(--border);background:var(--panel);color:var(--sub);cursor:pointer;transition:.15s;}
+  .sp.active{border-color:var(--cyan);color:var(--cyan);font-weight:700;box-shadow:0 0 10px rgba(41,224,255,.35);}
+  .statsbar{display:flex;gap:10px;justify-content:center;margin-bottom:14px;flex-wrap:wrap;}
+  .stat{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--border);border-radius:12px;padding:7px 16px;text-align:center;min-width:88px;}
+  .stat .v{font-size:19px;font-weight:900;color:var(--gold);text-shadow:0 0 10px rgba(255,210,62,.35);}
+  .stat .l{font-size:10px;color:var(--sub);}
+  .table-area{
+    background:radial-gradient(ellipse at 50% 30%, #1c2f6e 0%, #131f4d 55%, #0d1536 100%);
+    border:3px solid rgba(41,224,255,.35);border-radius:120px;padding:26px 18px 22px;text-align:center;
+    box-shadow:0 0 30px rgba(41,224,255,.18), 0 14px 40px rgba(0,0,0,.55), inset 0 0 70px rgba(4,10,40,.7);
+  }
+  .scenario{font-size:13px;color:#cfe0ff;margin-bottom:4px;font-weight:700;}
+  .scenario .pos{background:#050d28;color:var(--cyan);padding:2px 10px;border-radius:10px;font-weight:800;border:1px solid rgba(41,224,255,.4);}
+  .pot-line{font-size:11px;color:#93a8e8;margin-bottom:14px;}
+  .cards{display:flex;gap:14px;justify-content:center;margin-bottom:6px;perspective:600px;}
+  .card{
+    width:88px;height:122px;background:linear-gradient(160deg,#ffffff,#e9edf7);border-radius:12px;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;font-weight:800;
+    box-shadow:0 6px 18px rgba(0,0,0,.5), 0 0 0 2px rgba(255,255,255,.08);
+  }
+  .card.deal{animation:dealCard .45s cubic-bezier(.2,1.4,.4,1) both;}
+  .card:nth-child(2).deal{animation-delay:.12s;}
+  @keyframes dealCard{from{transform:translateY(-46px) rotateZ(-9deg) rotateY(70deg);opacity:0;}to{transform:none;opacity:1;}}
+  .card .r{font-size:40px;line-height:1;} .card .s{font-size:30px;line-height:1.1;}
+  .card.red{color:#e0245e;} .card.black{color:#1a2035;}
+  .actions{display:flex;gap:12px;justify-content:center;margin:18px 0 6px;flex-wrap:wrap;}
+  .btn,.gbtn{
+    position:relative;padding:13px 30px;border:none;font-size:15px;font-weight:900;font-style:italic;letter-spacing:1.5px;
+    cursor:pointer;color:#fff;border-radius:10px;transform:skewX(-8deg);
+    box-shadow:0 5px 0 rgba(0,0,0,.45), 0 0 16px rgba(0,0,0,.3);transition:.12s;
+  }
+  .btn>i,.gbtn>i{font-style:italic;display:inline-block;transform:skewX(8deg);}
+  .btn:hover,.gbtn:hover{transform:skewX(-8deg) translateY(-2px);}
+  .btn:active,.gbtn:active{transform:skewX(-8deg) translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.4);}
+  .btn:disabled{opacity:.4;cursor:default;}
+  .btn.raise,.gbtn.raiseb{background:linear-gradient(180deg,#ff6d8e,#e5344f);box-shadow:0 5px 0 #8e1f31,0 0 18px rgba(255,84,112,.5);}
+  .btn.fold,.gbtn.fold{background:linear-gradient(180deg,#5b6787,#3c4560);box-shadow:0 5px 0 #232a3f;}
+  .btn.call,.gbtn.callb{background:linear-gradient(180deg,#4da3ff,#2668e8);box-shadow:0 5px 0 #143b8f,0 0 18px rgba(77,163,255,.45);}
+  .gbtn.check{background:linear-gradient(180deg,#38c6f0,#1d8fd6);box-shadow:0 5px 0 #0f527e,0 0 16px rgba(56,198,240,.4);}
+  .btn.allinB,.gbtn.allin{background:linear-gradient(180deg,#a988ff,#7a4fe8);box-shadow:0 5px 0 #45278f,0 0 20px rgba(138,108,255,.55);}
+  .gbtn.betS{background:linear-gradient(180deg,#4fe08a,#1fae57);box-shadow:0 5px 0 #10633a,0 0 16px rgba(63,227,127,.4);}
+  .gbtn.betB{background:linear-gradient(180deg,#2fcf74,#178a45);box-shadow:0 5px 0 #0d5230,0 0 16px rgba(63,227,127,.45);}
+  .gbtn.next{background:linear-gradient(95deg,var(--gold),#ffb52e);color:#2a1a00;box-shadow:0 5px 0 #8f6200,0 0 20px rgba(255,210,62,.5);padding:12px 38px;}
+  .feedback{margin-top:14px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--border);border-radius:16px;padding:16px;display:none;}
+  .feedback.show{display:block;animation:pop .28s cubic-bezier(.2,1.4,.4,1);}
+  @keyframes pop{from{transform:scale(.94);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .verdict{font-size:22px;font-weight:900;font-style:italic;margin-bottom:6px;letter-spacing:1px;}
+  .verdict.stamp{animation:stampIn .4s cubic-bezier(.2,1.8,.4,1) both;}
+  @keyframes stampIn{0%{transform:scale(2.2) rotate(-10deg);opacity:0;}60%{transform:scale(.95) rotate(2deg);opacity:1;}100%{transform:scale(1) rotate(0);}}
+  .verdict.ok{color:var(--green);text-shadow:0 0 14px rgba(63,227,127,.5);}
+  .verdict.ng{color:var(--red);text-shadow:0 0 14px rgba(255,84,112,.5);}
+  .verdict.mix{color:var(--yellow);text-shadow:0 0 14px rgba(255,206,77,.5);}
+  .freqbar{display:flex;height:22px;border-radius:8px;overflow:hidden;margin:8px 0;border:1px solid var(--border);font-size:10.5px;font-weight:800;color:#fff;}
+  .freqbar>div{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;}
+  .fq-r{background:linear-gradient(180deg,#ff5477,#d92747);}
+  .fq-c{background:linear-gradient(180deg,#4da3ff,#2668e8);}
+  .fq-f{background:linear-gradient(180deg,#4a5578,#353e5c);}
+  .correct-line{font-size:13px;color:var(--sub);margin-bottom:6px;}
+  .correct-line b{color:var(--text);}
+  .reason{font-size:14px;line-height:1.8;background:rgba(5,12,40,.6);border:1px solid var(--border);border-radius:12px;padding:12px 14px;}
+  .reason .rtitle{font-size:11px;color:var(--cyan);font-weight:800;display:block;margin-bottom:4px;letter-spacing:1px;}
+  .fb-btns{display:flex;gap:10px;margin-top:12px;}
+  .btn2{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-size:14px;font-weight:800;cursor:pointer;transition:.15s;}
+  .btn2:hover{border-color:var(--cyan);color:var(--cyan);}
+  .btn2.primary{background:linear-gradient(95deg,var(--mint),#2fd39a);border-color:transparent;color:#03160c;box-shadow:0 0 14px rgba(89,245,192,.35);}
+  .grid-wrap{margin-top:12px;display:none;}
+  .grid-wrap.show{display:block;animation:pop .25s ease;}
+  .legend{display:flex;gap:12px;font-size:11px;color:var(--sub);margin-bottom:6px;flex-wrap:wrap;}
+  .legend span{display:inline-flex;align-items:center;gap:4px;}
+  .legend i{width:12px;height:12px;border-radius:3px;display:inline-block;}
+  table.range{border-collapse:collapse;width:100%;table-layout:fixed;}
+  table.range td{border:1px solid #060a20;font-size:8.5px;text-align:center;padding:0;height:24px;color:#fff;font-weight:700;border-radius:2px;text-shadow:0 1px 2px rgba(0,0,0,.7);}
+  td.hilite{outline:3px solid #fff;outline-offset:-3px;box-shadow:0 0 12px rgba(255,255,255,.7);}
+  footer{text-align:center;color:var(--sub);font-size:10.5px;margin:18px 0 8px;line-height:1.7;}
+  footer a{color:var(--sub);}
+  .ginfo{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0;font-size:12px;color:var(--sub);}
+  .ginfo b{color:var(--gold);}
+  .ginfo .chip{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:4px 12px;}
+  .ginfo .chip.depth{cursor:pointer;transition:.15s;}
+  .ginfo .chip.depth:hover{border-color:var(--cyan);}
+  .ginfo .chip.depth.active{border-color:var(--cyan);color:var(--cyan);font-weight:800;box-shadow:0 0 10px rgba(41,224,255,.3);}
+  .gtable{
+    position:relative;height:440px;overflow:hidden;
+    background:radial-gradient(ellipse at 50% 32%, #1c2f6e 0%, #131f4d 55%, #0c1434 100%);
+    border:3px solid rgba(41,224,255,.4);border-radius:210px;
+    box-shadow:0 0 34px rgba(41,224,255,.2), 0 16px 44px rgba(0,0,0,.6), inset 0 0 80px rgba(3,8,34,.8);
+  }
+  .gtable::before{
+    content:"";position:absolute;inset:10px;border-radius:200px;pointer-events:none;
+    border:1px solid rgba(138,108,255,.35);box-shadow:inset 0 0 26px rgba(138,108,255,.14);
+  }
+  .seat{position:absolute;width:126px;text-align:center;transform:translate(-50%,-50%);z-index:2;}
+  .seat .plate{
+    background:linear-gradient(180deg, rgba(13,20,52,.94), rgba(7,12,36,.94));
+    border:1px solid #33418a;border-radius:12px;padding:5px 6px;font-size:11px;line-height:1.5;
+    box-shadow:0 4px 14px rgba(0,0,0,.5);transition:.2s;
+  }
+  .seat.folded .plate{opacity:.32;filter:saturate(.3);}
+  .seat.acting .plate{border-color:var(--gold);animation:actPulse 1s ease-in-out infinite;}
+  @keyframes actPulse{0%,100%{box-shadow:0 0 6px rgba(255,210,62,.45),0 4px 14px rgba(0,0,0,.5);}50%{box-shadow:0 0 22px rgba(255,210,62,.85),0 4px 14px rgba(0,0,0,.5);}}
+  .seat.winner .plate{border-color:var(--gold);animation:winGlow 1.4s ease-in-out infinite;transform:scale(1.05);}
+  @keyframes winGlow{0%,100%{box-shadow:0 0 14px rgba(255,210,62,.7);}50%{box-shadow:0 0 30px rgba(255,210,62,1);}}
+  .seat .toprow{display:flex;align-items:center;gap:5px;justify-content:center;}
+  .seat .ava{
+    width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:17px;
+    background:radial-gradient(circle at 35% 30%, #2a3a7a, #101838);
+    border:2px solid var(--ac,#29e0ff);box-shadow:0 0 10px var(--ac,#29e0ff);
+  }
+  .seat .nm{font-weight:800;font-size:10.5px;}
+  .seat .posb{display:inline-block;background:#050d28;color:var(--cyan);border:1px solid rgba(41,224,255,.35);border-radius:6px;padding:0 5px;font-size:9px;margin-left:2px;}
+  .seat .stk{color:var(--gold);font-weight:800;text-shadow:0 0 8px rgba(255,210,62,.3);}
+  .seat .bet{margin-top:2px;font-size:11px;color:#ffe9a8;font-weight:800;min-height:15px;}
+  .seat .bet.pop{animation:betPop .35s cubic-bezier(.2,1.8,.4,1);}
+  @keyframes betPop{0%{transform:scale(1.9);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  .seat .hole{display:flex;gap:3px;justify-content:center;margin-top:3px;min-height:34px;perspective:300px;}
+  .mini{width:24px;height:33px;border-radius:4px;background:linear-gradient(160deg,#fff,#e7ebf5);font-size:12px;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;box-shadow:0 2px 5px rgba(0,0,0,.4);}
+  .mini.red{color:#e0245e;} .mini.black{color:#1a2035;}
+  .mini.back{background:repeating-linear-gradient(45deg,#26336e,#26336e 3px,#33418a 3px,#33418a 6px);border:1px solid #4052a0;}
+  .mini.ghost{opacity:.4;filter:saturate(.4);}
+  .seat.folded .hole .mini.ghost{opacity:.55;} /* foldedプレートの減光と重なっても視認できる程度に */
+  .mini.deal{animation:miniDeal .4s cubic-bezier(.2,1.4,.4,1) both;}
+  @keyframes miniDeal{from{transform:translateY(-26px) rotateZ(-14deg);opacity:0;}to{transform:none;opacity:1;}}
+  .mini.flipin{animation:miniFlip .5s cubic-bezier(.3,1.3,.4,1) both;}
+  @keyframes miniFlip{from{transform:rotateY(90deg) scale(1.25);}to{transform:rotateY(0) scale(1);}}
+  .dealerbtn{position:absolute;width:20px;height:20px;background:linear-gradient(180deg,#fff,#cdd6ea);color:#111;border-radius:50%;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);box-shadow:0 0 8px rgba(255,255,255,.5);z-index:2;}
+  .center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:100%;z-index:1;}
+  .board{display:flex;gap:6px;justify-content:center;min-height:62px;perspective:500px;}
+  .bcard{width:44px;height:61px;border-radius:6px;background:linear-gradient(160deg,#fff,#e9edf7);font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.45);}
+  .bcard .r{font-size:20px;line-height:1;} .bcard .s{font-size:15px;line-height:1;}
+  .bcard.red{color:#e0245e;} .bcard.black{color:#1a2035;}
+  .bcard.flip{animation:boardFlip .5s cubic-bezier(.3,1.3,.4,1) both;}
+  @keyframes boardFlip{from{transform:rotateY(90deg) translateY(-8px) scale(1.15);opacity:.4;}to{transform:none;opacity:1;}}
+  .potv{margin-top:8px;color:var(--gold);font-size:14px;font-weight:900;font-style:italic;letter-spacing:1px;text-shadow:0 0 12px rgba(255,210,62,.45);}
+  .potv.pulse{animation:potPulse .4s cubic-bezier(.2,1.6,.4,1);}
+  @keyframes potPulse{0%{transform:scale(1.35);color:#fff;}100%{transform:scale(1);}}
+  .gmsg{margin-top:4px;color:#a9bcf5;font-size:12px;min-height:16px;}
+  #cutin{position:absolute;inset:0;pointer-events:none;z-index:5;display:flex;align-items:center;opacity:0;overflow:hidden;}
+  #cutin.go{animation:cutWrap .95s ease both;}
+  @keyframes cutWrap{0%{opacity:1;}88%{opacity:1;}100%{opacity:0;}}
+  #cutin .ribbon{
+    width:120%;margin-left:-10%;padding:14px 0;text-align:center;transform:skewY(-4deg) translateX(-110%);
+    font-size:44px;font-weight:900;font-style:italic;letter-spacing:6px;color:#fff;
+    text-shadow:0 0 18px rgba(255,255,255,.8), 3px 3px 0 rgba(0,0,0,.35);
+    position:relative;
+  }
+  #cutin.go .ribbon{animation:ribbonSlide .95s cubic-bezier(.16,1,.3,1) both;}
+  @keyframes ribbonSlide{0%{transform:skewY(-4deg) translateX(-110%);}22%{transform:skewY(-4deg) translateX(0);}78%{transform:skewY(-4deg) translateX(1.5%);}100%{transform:skewY(-4deg) translateX(115%);}}
+  #cutin .ribbon::before{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:repeating-linear-gradient(100deg, rgba(255,255,255,.16) 0 8px, transparent 8px 30px);
+    mix-blend-mode:overlay;
+  }
+  .ribbon.raise{background:linear-gradient(95deg,#ff2d5e 0%,#ff5477 45%,#c11039 100%);box-shadow:0 0 40px rgba(255,45,94,.8);}
+  .ribbon.bet{background:linear-gradient(95deg,#12b25b 0%,#3fe37f 45%,#0a8a44 100%);box-shadow:0 0 40px rgba(63,227,127,.7);}
+  .ribbon.allin{background:linear-gradient(95deg,#7a3cff 0%,#b06bff 40%,#ff2d95 100%);box-shadow:0 0 46px rgba(176,107,255,.9);}
+  .ribbon.win{background:linear-gradient(95deg,#ffb52e 0%,#ffd23e 45%,#ff8a00 100%);color:#3a2000;text-shadow:0 0 16px rgba(255,255,255,.9);box-shadow:0 0 46px rgba(255,210,62,.9);}
+  .ribbon.lose{background:linear-gradient(95deg,#3c4560 0%,#5b6787 50%,#2a3148 100%);color:#c9d2ea;text-shadow:0 0 10px rgba(120,140,200,.6);box-shadow:0 0 30px rgba(60,70,110,.8);}
+  .ribbon.lvl{background:linear-gradient(95deg,#29e0ff 0%,#4da3ff 55%,#2668e8 100%);box-shadow:0 0 40px rgba(41,224,255,.8);}
+  .fx{position:absolute;inset:0;pointer-events:none;z-index:4;}
+  .pt{
+    position:absolute;width:9px;height:9px;background:var(--c,#ffd23e);
+    transform:translate(-50%,-50%) rotate(45deg);opacity:0;
+    animation:ptFly .95s cubic-bezier(.2,.7,.4,1) both;
+    box-shadow:0 0 8px var(--c,#ffd23e);
+  }
+  @keyframes ptFly{
+    0%{transform:translate(-50%,-50%) rotate(45deg) scale(1.4);opacity:1;}
+    100%{transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(240deg) scale(.2);opacity:0;}
+  }
+  /* ===== チップ・投げ捨てカード ===== */
+  .chips{position:absolute;transform:translate(-50%,-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:none;}
+  .cstack{position:relative;width:20px;height:20px;}
+  .cdisc{position:absolute;left:0;width:20px;height:20px;border-radius:50%;border:2.5px dashed rgba(255,255,255,.9);box-sizing:border-box;box-shadow:0 1px 3px rgba(0,0,0,.6), inset 0 0 4px rgba(0,0,0,.35);}
+  .cd1{background:#8b96b4;} .cd2{background:#e5534b;} .cd3{background:#2f7ff7;} .cd4{background:#22a55e;} .cd5{background:#caa53d;}
+  .camt{font-size:10.5px;font-weight:800;color:#ffe9a8;text-shadow:0 1px 3px #000;letter-spacing:.5px;}
+  .chips.pop-in{animation:chipIn .32s cubic-bezier(.2,1.6,.4,1);}
+  @keyframes chipIn{from{transform:translate(-50%,-50%) scale(1.7);opacity:0;}to{transform:translate(-50%,-50%) scale(1);opacity:1;}}
+  .flycard{
+    position:absolute;width:24px;height:33px;border-radius:4px;z-index:3;pointer-events:none;
+    transform:translate(-50%,-50%);opacity:.95;
+    background:repeating-linear-gradient(45deg,#26336e,#26336e 3px,#33418a 3px,#33418a 6px);border:1px solid #4052a0;
+    transition:left .55s ease-in, top .55s ease-in, transform .55s ease-in, opacity .4s .2s;
+  }
+  .gactions{display:flex;gap:10px;justify-content:center;margin:16px 0 4px;flex-wrap:wrap;min-height:54px;}
+  .gactions .gbtn{animation:riseIn .28s cubic-bezier(.2,1.5,.4,1) both;}
+  .gactions .gbtn:nth-child(2){animation-delay:.05s;} .gactions .gbtn:nth-child(3){animation-delay:.1s;} .gactions .gbtn:nth-child(4){animation-delay:.15s;}
+  @keyframes riseIn{from{transform:skewX(-8deg) translateY(26px);opacity:0;}to{transform:skewX(-8deg) translateY(0);opacity:1;}}
+  .gbtn{padding:12px 20px;font-size:14px;}
+  .gbtn.szchip{padding:7px 12px;font-size:12px;line-height:1.25;}
+  .gbtn .szv{display:block;font-size:10px;opacity:.85;font-style:normal;letter-spacing:0;}
+  .coach{margin-top:12px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--border);border-radius:16px;padding:12px 14px;}
+  .coach h3{font-size:13px;color:var(--cyan);margin-bottom:8px;letter-spacing:1px;}
+  .centry{border-left:3px solid var(--border);padding:7px 10px;margin-bottom:8px;font-size:12.5px;line-height:1.7;background:rgba(5,12,40,.55);border-radius:0 10px 10px 0;animation:slideIn .3s cubic-bezier(.2,1.3,.4,1) both;}
+  @keyframes slideIn{from{transform:translateX(-18px);opacity:0;}to{transform:none;opacity:1;}}
+  .centry.ok{border-color:var(--green);} .centry.ng{border-color:var(--red);} .centry.mx{border-color:var(--yellow);}
+  .centry .chead{font-weight:800;font-size:12px;}
+  .centry .cbody{color:#c3cdf2;}
+  .centry .freqbar{height:18px;font-size:9.5px;max-width:420px;}
+  .centry .cgrid-btn{margin-top:6px;padding:5px 14px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--cyan);font-size:11px;font-weight:800;cursor:pointer;transition:.15s;}
+  .centry .cgrid-btn:hover{border-color:var(--cyan);box-shadow:0 0 8px rgba(41,224,255,.3);}
+  .centry .cgrid{display:none;margin-top:8px;}
+  .centry .cgrid.show{display:block;animation:pop .25s ease;}
+  /* ===== 弱点分析パネル ===== */
+  .stt{position:fixed;inset:0;background:rgba(4,7,20,.82);backdrop-filter:blur(6px);z-index:50;display:none;overflow-y:auto;padding:18px 10px calc(18px + env(safe-area-inset-bottom));}
+  .stt.show{display:block;}
+  .stt-box{max-width:560px;margin:0 auto;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--border);border-radius:16px;padding:16px;}
+  .stt-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:800;color:var(--cyan);}
+  .stt-head .btn2{flex:none;width:auto;padding:8px 14px;}
+  .stt-sum{font-size:13.5px;margin-bottom:10px;}
+  .stt-box h4{font-size:12px;color:var(--sub);margin:14px 0 6px;letter-spacing:1px;}
+  .stt-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:12px;}
+  .stt-l{flex:0 0 90px;}
+  .stt-bar{flex:1;height:10px;background:rgba(5,12,40,.8);border-radius:5px;overflow:hidden;}
+  .stt-fill{height:100%;border-radius:5px;}
+  .stt-v{flex:0 0 92px;text-align:right;font-weight:700;}
+  .stt-v i{color:var(--sub);font-size:10px;font-style:normal;}
+  .stt-leak{background:rgba(5,12,40,.6);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:7px 10px;margin-bottom:7px;}
+  .stt-leak-h{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;margin-bottom:2px;}
+  .stt-leak-h span{color:var(--sub);font-size:11px;}
+  .stt-leak-a{font-size:11.5px;color:#c3cdf2;line-height:1.6;}
+  .gover{margin-top:12px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--gold);border-radius:16px;padding:18px;text-align:center;display:none;box-shadow:0 0 24px rgba(255,210,62,.25);}
+  .gover.show{display:block;animation:pop .3s ease;}
+  .gover .big{font-size:22px;font-weight:900;font-style:italic;margin-bottom:6px;letter-spacing:1px;color:var(--gold);text-shadow:0 0 14px rgba(255,210,62,.5);}
+  @media(max-width:560px){
+    .wrap{padding:10px 8px;}
+    header{padding:8px 0 2px;}
+    header h1{font-size:22px;}
+    header p{font-size:10.5px;}
+    .modebar{gap:6px;margin:10px 0 4px;}
+    .mode{padding:9px 13px;font-size:12px;}
+    .ginfo{gap:5px;font-size:10.5px;}
+    .ginfo .chip{padding:3px 8px;}
+    .tabs{gap:5px;margin:10px 0;}
+    .tab{padding:7px 10px;font-size:11.5px;}
+    .sp{padding:6px 10px;font-size:11px;}
+    .stat{padding:5px 10px;min-width:72px;}
+    .stat .v{font-size:16px;}
+    .gtable{height:400px;border-radius:110px;}
+    .seat{width:98px;} .seat .plate{font-size:9.5px;padding:4px 4px;} .seat .ava{width:22px;height:22px;font-size:13px;}
+    .seat .nm{font-size:9.5px;} .seat .posb{font-size:8px;padding:0 3px;}
+    .mini{width:21px;height:29px;font-size:10.5px;}
+    .bcard{width:38px;height:53px;} .bcard .r{font-size:17px;} .bcard .s{font-size:13px;}
+    .card{width:72px;height:100px;} .card .r{font-size:32px;} .card .s{font-size:24px;}
+    .btn{padding:12px 18px;font-size:13px;min-height:44px;}
+    /* アクションバーを画面下に固定（親指で届く） */
+    .gactions{
+      position:sticky;bottom:0;z-index:20;gap:6px;margin:10px -8px 0;
+      padding:10px 8px calc(10px + env(safe-area-inset-bottom));
+      background:linear-gradient(180deg, transparent 0%, rgba(7,10,24,.92) 22%, rgba(7,10,24,.98) 100%);
+      backdrop-filter:blur(6px);
+    }
+    .gbtn{padding:11px 12px;font-size:12.5px;min-height:44px;}
+    .gbtn.szchip{padding:7px 9px;font-size:11px;min-height:40px;}
+    .coach{padding:10px 10px;}
+    .centry{font-size:12px;}
+    #cutin .ribbon{font-size:26px;letter-spacing:3px;padding:11px 0;}
+    .potv{font-size:12.5px;}
+    table.range td{height:22px;font-size:7.5px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>♠ GTO COACH</h1>
+    <p>プリフロップからリバーまで、毎アクションをGTO基準で判定し「なぜ」までフィードバックする日本語ポーカートレーナー</p>
+  </header>
+
+  <div class="modebar" id="modebar">
+    <button class="mode active" data-mode="quiz"><span>📝 1問1答クイズ</span></button>
+    <button class="mode" data-mode="cash"><span>💵 キャッシュ</span></button>
+    <button class="mode" data-mode="tour"><span>🏆 トーナメント</span></button>
+    <button class="mode" id="sndBtn" title="効果音のON/OFF"><span>🔊</span></button>
+    <button class="mode" id="bgmBtn" title="BGMのON/OFF"><span>🎵</span></button>
+    <button class="mode" id="statsBtn" title="弱点分析"><span>📈 分析</span></button>
+  </div>
+
+  <!-- ============ クイズモード ============ -->
+  <div id="quizSection">
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-level="1"><span class="lv">LEVEL 1</span>オープン</button>
+      <button class="tab" data-level="2"><span class="lv">LEVEL 2</span>vs オープン</button>
+      <button class="tab" data-level="3"><span class="lv">LEVEL 3</span>vs 3ベット</button>
+      <button class="tab" data-level="4"><span class="lv">LEVEL 4</span>vs 4ベット</button>
+    </div>
+    <div class="scenario-picker" id="scenarioPicker"></div>
+    <div class="statsbar">
+      <div class="stat"><div class="v" id="stAcc">-</div><div class="l">正答率</div></div>
+      <div class="stat"><div class="v" id="stCount">0</div><div class="l">回答数</div></div>
+      <div class="stat"><div class="v" id="stStreak">0</div><div class="l">連続正解</div></div>
+    </div>
+    <div class="table-area">
+      <div class="scenario" id="scenarioText"></div>
+      <div class="pot-line" id="potLine"></div>
+      <div class="cards">
+        <div class="card" id="card1"><span class="r"></span><span class="s"></span></div>
+        <div class="card" id="card2"><span class="r"></span><span class="s"></span></div>
+      </div>
+    </div>
+    <div class="actions" id="actions"></div>
+    <div class="feedback" id="feedback">
+      <div class="verdict" id="verdict"></div>
+      <div class="correct-line" id="correctLine"></div>
+      <div class="freqbar" id="freqBar"></div>
+      <div class="reason"><span class="rtitle">💡 なぜ？</span><span id="reasonText"></span></div>
+      <div class="fb-btns">
+        <button class="btn2" id="toggleGrid">レンジ表を見る</button>
+        <button class="btn2 primary" id="nextBtn">次のハンド →</button>
+      </div>
+      <div class="grid-wrap" id="gridWrap">
+        <div class="legend" id="legend"></div>
+        <table class="range" id="rangeGrid"></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ゲームモード ============ -->
+  <div id="gameSection" style="display:none">
+    <div class="ginfo">
+      <span class="chip" id="giMode"></span>
+      <span class="chip depth" id="depth100">100BB</span>
+      <span class="chip depth" id="depth300">300BB</span>
+      <span class="chip">ハンド <b id="giHand">0</b></span>
+      <span class="chip">ブラインド <b id="giBlind"></b></span>
+      <span class="chip" id="giLevelWrap" style="display:none">レベル <b id="giLevel"></b></span>
+      <span class="chip">コーチ評価 <b id="giScore">-</b></span>
+    </div>
+    <div class="gtable" id="gtable">
+      <div class="center">
+        <div class="board" id="board"></div>
+        <div class="potv" id="potv"></div>
+        <div class="gmsg" id="gmsg"></div>
+      </div>
+      <div class="fx" id="fx"></div>
+      <div id="cutin"><div class="ribbon" id="cutinRibbon"></div></div>
+    </div>
+    <div class="gactions" id="gactions"></div>
+    <div class="coach">
+      <h3>🎓 コーチ（GTO頻度＋レンジ推定勝率で毎アクション判定）</h3>
+      <div id="coachLog"><div style="color:var(--sub);font-size:12px">ハンドが始まるとここに判定が並びます。</div></div>
+    </div>
+    <div class="gover" id="gover"></div>
+  </div>
+
+  <div class="stt" id="statsPanel"></div>
+
+  <footer>
+    プリフロップ根拠: ソルバー由来チャート55種＝相手ポジション別に全マッチアップ網羅（<a href="https://github.com/AHTOOOXA/poker-charts" target="_blank">poker-charts (MIT)</a> 収録の Greenline / pekarstas 2ソースを頻度統合、100bb 6-max、頻度は25%刻み。実測がない3スポットのみ隣接ポジションから補間）。<br>
+    ポストフロップ: 相手の推定レンジ（ブラフ含むGTO想定）へのモンテカルロ勝率＋ポットオッズ/MDF/SPR判定に加え、集計ソルバーレポート由来のCB頻度・チェックレイズ/プローブ頻度・バリュー:ブラフ均衡比、書籍理論（ジオメトリックサイジング/マルチウェイ防御/コミットメント）とプロの定石（対人エクスプロイト）で講評。トーナメント15bb以下はナッシュ押し引きチャート（Beasts of Poker転載・アンティあり基準）。300BBモードのチャートは100bb基準の近似。学習用であり完全な最適解ではありません。<br>
+    <span style="display:inline-block;margin-top:8px">
+      <a href="privacy.html" style="color:var(--sub);margin:0 6px">プライバシーポリシー</a>｜<a href="disclaimer.html" style="color:var(--sub);margin:0 6px">免責事項</a>｜<a href="about.html" style="color:var(--sub);margin:0 6px">運営者情報</a>｜<a href="contact.html" style="color:var(--sub);margin:0 6px">お問い合わせ</a>
+    </span><br>
+    <span style="display:inline-block;margin-top:4px">© 2026 GTO Coach — 本サイトは戦略学習ツールであり、賭博行為を推奨するものではありません。</span>
+  </footer>
+</div>
+
+<script>
+/* ================================================================
+   ソルバー由来プリフロップ頻度データ
+   出典: github.com/AHTOOOXA/poker-charts (MIT) — Greenline / pekarstas
+   形式: { "チャートキー": { "ハンド": [レイズ%, コール%] } } 残り%はフォールド
+   ================================================================ */
+const PRE={"BB-ISO":{"22":[100,0],"33":[100,0],"44":[100,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[100,0],"K7s":[100,0],"K6s":[100,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"AJo":[100,0],"KJo":[100,0],"QJo":[100,0],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"ATo":[100,0],"TT":[100,0],"T9s":[100,0],"A9o":[100,0],"98s":[100,0],"87s":[100,0],"76s":[100,0],"65s":[100,0],"54s":[100,0]},"BB-vs-4bet-BTN":{"55":[0,50],"66":[0,50],"77":[50,50],"88":[50,50],"99":[50,50],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"AQo":[0,50],"QQ":[100,0],"QJs":[0,50],"JJ":[100,0],"JTs":[0,100],"TT":[0,100],"T9s":[0,100],"98s":[0,100],"87s":[0,50],"76s":[0,50]},"BB-vs-4bet-CO":{"88":[50,0],"99":[50,50],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"AKo":[100,0],"KK":[100,0],"KQs":[0,50],"AQo":[0,50],"QQ":[100,0],"JJ":[50,50],"TT":[0,100],"98s":[0,50],"87s":[0,50],"76s":[0,50]},"BB-vs-4bet-MP":{"99":[0,50],"AA":[100,0],"AKs":[100,0],"AQs":[0,50],"AKo":[0,100],"KK":[100,0],"QQ":[50,50],"JJ":[0,100],"TT":[0,100]},"BB-vs-4bet-SB":{"66":[50,50],"77":[50,50],"88":[50,50],"99":[0,100],"AA":[50,50],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,50],"AQo":[0,100],"QQ":[100,0],"QJs":[0,100],"JJ":[100,0],"JTs":[0,100],"TT":[0,100],"T9s":[0,100],"87s":[0,100],"76s":[0,100],"65s":[0,100],"54s":[0,100]},"BB-vs-4bet-UTG":{"AA":[100,0],"AKs":[100,0],"AKo":[0,100],"KK":[100,0],"QQ":[0,100],"JJ":[0,100],"TT":[0,100]},"BB-vs-open-BTN":{"22":[0,100],"33":[0,100],"44":[0,100],"55":[0,100],"66":[0,100],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[0,100],"A8s":[0,100],"A7s":[0,100],"A6s":[0,100],"A5s":[100,0],"A4s":[100,0],"A3s":[0,100],"A2s":[0,100],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[0,100],"K8s":[0,100],"K7s":[0,100],"K6s":[0,100],"K5s":[0,100],"K4s":[0,100],"K3s":[0,100],"K2s":[0,100],"AQo":[100,0],"KQo":[50,50],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[0,100],"Q8s":[0,100],"Q7s":[0,100],"Q6s":[0,100],"Q5s":[0,100],"Q4s":[0,100],"Q3s":[0,100],"Q2s":[0,100],"AJo":[100,0],"KJo":[0,100],"QJo":[0,100],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"J8s":[0,100],"J7s":[0,100],"J6s":[0,100],"J5s":[0,100],"J4s":[0,100],"J3s":[0,100],"J2s":[0,100],"ATo":[0,100],"KTo":[0,100],"QTo":[0,100],"JTo":[0,100],"TT":[100,0],"T9s":[100,0],"T8s":[100,0],"T7s":[0,100],"T6s":[0,100],"T5s":[0,100],"T4s":[0,100],"A9o":[0,100],"K9o":[0,100],"Q9o":[0,100],"J9o":[0,100],"T9o":[0,100],"98s":[100,0],"97s":[100,0],"96s":[0,100],"95s":[0,100],"A8o":[0,100],"K8o":[0,100],"Q8o":[0,100],"J8o":[0,100],"T8o":[0,100],"98o":[0,100],"87s":[100,0],"86s":[100,0],"85s":[0,100],"A7o":[0,100],"K7o":[0,100],"87o":[0,100],"76s":[100,0],"75s":[0,100],"74s":[0,100],"A6o":[0,100],"76o":[0,100],"65s":[100,0],"64s":[0,100],"63s":[0,100],"A5o":[0,100],"54s":[100,0],"53s":[0,100],"52s":[0,100],"A4o":[0,100],"43s":[0,100],"42s":[0,100],"A3o":[0,100],"32s":[0,100],"A2o":[0,100]},"BB-vs-open-CO":{"22":[0,100],"33":[0,100],"44":[0,100],"55":[0,100],"66":[0,100],"77":[0,100],"88":[50,50],"99":[50,50],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[0,100],"A8s":[0,100],"A7s":[0,100],"A6s":[0,100],"A5s":[100,0],"A4s":[100,0],"A3s":[0,100],"A2s":[0,100],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[50,50],"K9s":[0,100],"K8s":[0,100],"K7s":[0,100],"K6s":[0,100],"K5s":[0,100],"K4s":[0,100],"K3s":[0,100],"K2s":[0,100],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[50,50],"Q9s":[0,100],"Q8s":[0,100],"Q7s":[0,100],"Q6s":[0,100],"Q5s":[0,100],"Q4s":[0,100],"Q3s":[0,100],"Q2s":[0,50],"AJo":[100,0],"KJo":[0,100],"QJo":[0,100],"JJ":[100,0],"JTs":[100,0],"J9s":[0,100],"J8s":[0,100],"J7s":[0,100],"J6s":[0,100],"J5s":[0,100],"J4s":[0,50],"J3s":[0,50],"J2s":[0,50],"ATo":[0,100],"KTo":[0,100],"QTo":[0,50],"TT":[100,0],"T9s":[0,100],"T8s":[0,100],"T7s":[0,100],"T6s":[0,50],"A9o":[0,100],"98s":[100,0],"97s":[0,100],"96s":[0,100],"95s":[0,100],"A8o":[0,100],"87s":[100,0],"86s":[0,100],"85s":[0,100],"84s":[0,100],"76s":[100,0],"75s":[0,100],"74s":[0,100],"65s":[100,0],"64s":[0,100],"63s":[0,100],"54s":[0,100],"53s":[0,100],"43s":[0,100]},"BB-vs-open-MP":{"22":[0,100],"33":[0,100],"44":[0,100],"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[50,50],"A9s":[0,100],"A8s":[0,100],"A7s":[0,100],"A6s":[0,100],"A5s":[100,0],"A4s":[100,0],"A3s":[0,100],"A2s":[0,100],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[50,50],"KTs":[0,100],"K9s":[0,100],"K8s":[0,100],"K7s":[0,100],"K6s":[0,100],"K5s":[0,100],"K4s":[0,100],"K3s":[0,100],"K2s":[0,100],"AQo":[50,50],"KQo":[0,100],"QQ":[100,0],"QJs":[50,50],"QTs":[0,100],"Q9s":[0,100],"Q8s":[0,100],"Q7s":[0,100],"Q6s":[0,50],"AJo":[0,100],"KJo":[0,100],"QJo":[0,50],"JJ":[100,0],"JTs":[0,100],"J9s":[0,100],"J8s":[0,100],"J7s":[0,50],"ATo":[0,100],"TT":[100,0],"T9s":[0,100],"T8s":[0,100],"T7s":[0,100],"98s":[0,100],"97s":[0,100],"96s":[0,100],"87s":[100,0],"86s":[0,100],"85s":[0,50],"76s":[100,0],"75s":[0,100],"74s":[0,50],"65s":[100,0],"64s":[0,100],"54s":[100,0],"53s":[0,100],"43s":[0,100]},"BB-vs-open-SB":{"22":[50,50],"33":[50,50],"44":[50,50],"55":[50,50],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[50,50],"A8s":[50,50],"A7s":[50,50],"A6s":[50,50],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[50,50],"K8s":[50,50],"K7s":[50,50],"K6s":[50,50],"K5s":[50,50],"K4s":[50,50],"K3s":[50,50],"K2s":[50,50],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[50,50],"Q8s":[50,50],"Q7s":[50,50],"Q6s":[50,50],"Q5s":[50,50],"Q4s":[50,50],"Q3s":[50,50],"Q2s":[50,50],"AJo":[100,0],"KJo":[50,50],"QJo":[50,50],"JJ":[100,0],"JTs":[100,0],"J9s":[50,50],"J8s":[50,50],"J7s":[50,50],"J6s":[50,50],"J5s":[50,50],"J4s":[50,50],"J3s":[50,50],"J2s":[0,50],"ATo":[50,50],"KTo":[50,50],"QTo":[50,50],"JTo":[50,50],"TT":[100,0],"T9s":[100,0],"T8s":[50,50],"T7s":[100,0],"T6s":[100,0],"T5s":[50,50],"T4s":[50,50],"T3s":[50,50],"T2s":[0,50],"A9o":[50,50],"K9o":[50,50],"Q9o":[50,50],"J9o":[50,50],"T9o":[0,100],"98s":[100,0],"97s":[100,0],"96s":[100,0],"95s":[50,50],"94s":[50,50],"93s":[50,50],"92s":[0,50],"A8o":[0,100],"K8o":[0,100],"Q8o":[0,100],"J8o":[0,100],"T8o":[0,100],"98o":[50,50],"87s":[100,0],"86s":[100,0],"85s":[100,0],"84s":[50,50],"83s":[0,100],"82s":[0,50],"A7o":[0,100],"K7o":[0,100],"Q7o":[0,100],"J7o":[0,100],"T7o":[0,50],"97o":[0,100],"87o":[0,100],"76s":[100,0],"75s":[100,0],"74s":[50,50],"73s":[0,100],"72s":[0,50],"A6o":[0,100],"K6o":[0,100],"Q6o":[0,100],"86o":[0,100],"76o":[0,100],"65s":[100,0],"64s":[100,0],"63s":[0,100],"62s":[0,50],"A5o":[50,50],"K5o":[0,100],"75o":[0,100],"65o":[0,100],"54s":[100,0],"53s":[50,50],"52s":[0,100],"A4o":[50,50],"K4o":[50,50],"54o":[0,100],"43s":[50,50],"42s":[0,100],"A3o":[50,50],"32s":[0,100],"A2o":[50,50]},"BB-vs-open-UTG":{"22":[0,100],"33":[0,100],"44":[0,100],"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[50,50],"A9s":[0,100],"A8s":[0,100],"A7s":[0,100],"A6s":[0,100],"A5s":[100,0],"A4s":[100,0],"A3s":[0,100],"A2s":[0,100],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[50,50],"KTs":[0,100],"K9s":[0,100],"K8s":[0,100],"K7s":[0,100],"K6s":[0,100],"K5s":[0,100],"K4s":[0,100],"K3s":[0,100],"K2s":[0,100],"AQo":[50,50],"KQo":[0,100],"QQ":[100,0],"QJs":[50,50],"QTs":[0,100],"Q9s":[0,100],"Q8s":[0,100],"Q7s":[0,50],"AJo":[0,100],"KJo":[0,50],"QJo":[0,50],"JJ":[100,0],"JTs":[0,100],"J9s":[0,100],"J8s":[0,100],"ATo":[0,100],"QTo":[0,50],"JTo":[0,50],"TT":[100,0],"T9s":[0,100],"T8s":[0,100],"T7s":[0,100],"98s":[0,100],"97s":[0,100],"96s":[0,100],"87s":[100,0],"86s":[0,100],"85s":[0,50],"76s":[100,0],"75s":[0,100],"74s":[0,50],"65s":[100,0],"64s":[0,100],"54s":[100,0],"53s":[0,100],"43s":[0,100]},"BTN-ISO":{"22":[100,0],"33":[100,0],"44":[100,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[100,0],"K7s":[100,0],"K6s":[100,0],"K5s":[100,0],"K4s":[100,0],"K3s":[100,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"Q8s":[100,0],"Q7s":[100,0],"Q6s":[100,0],"AJo":[100,0],"KJo":[100,0],"QJo":[100,0],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"J8s":[100,0],"J7s":[100,0],"J6s":[100,0],"ATo":[100,0],"KTo":[100,0],"QTo":[100,0],"JTo":[100,0],"TT":[100,0],"T9s":[100,0],"T8s":[100,0],"T7s":[100,0],"T6s":[100,0],"A9o":[100,0],"98s":[100,0],"97s":[100,0],"96s":[100,0],"87s":[100,0],"86s":[100,0],"85s":[100,0],"76s":[100,0],"75s":[100,0],"74s":[100,0],"65s":[100,0],"64s":[100,0],"54s":[100,0]},"BTN-RFI":{"22":[100,0],"33":[100,0],"44":[100,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[100,0],"K7s":[100,0],"K6s":[100,0],"K5s":[100,0],"K4s":[100,0],"K3s":[100,0],"K2s":[100,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"Q8s":[100,0],"Q7s":[100,0],"Q6s":[100,0],"Q5s":[100,0],"Q4s":[100,0],"Q3s":[100,0],"Q2s":[100,0],"AJo":[100,0],"KJo":[100,0],"QJo":[100,0],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"J8s":[100,0],"J7s":[100,0],"J6s":[100,0],"J5s":[100,0],"ATo":[100,0],"KTo":[100,0],"QTo":[100,0],"JTo":[100,0],"TT":[100,0],"T9s":[100,0],"T8s":[100,0],"T7s":[100,0],"T6s":[100,0],"A9o":[100,0],"K9o":[100,0],"Q9o":[100,0],"J9o":[100,0],"T9o":[100,0],"98s":[100,0],"97s":[100,0],"96s":[100,0],"A8o":[100,0],"K8o":[50,0],"Q8o":[100,0],"J8o":[100,0],"T8o":[100,0],"98o":[100,0],"87s":[100,0],"86s":[100,0],"85s":[50,0],"A7o":[100,0],"76s":[100,0],"75s":[100,0],"74s":[50,0],"A6o":[100,0],"65s":[100,0],"64s":[100,0],"63s":[50,0],"A5o":[100,0],"54s":[100,0],"53s":[50,0],"A4o":[100,0],"43s":[50,0]},"BTN-vs-3bet-BB":{"22":[0,100],"33":[0,100],"44":[0,100],"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,100],"A8s":[0,100],"A7s":[0,100],"A6s":[0,100],"A5s":[0,100],"A4s":[0,100],"A3s":[50,0],"A2s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[0,100],"K9s":[0,100],"K8s":[0,100],"K7s":[50,0],"K6s":[50,0],"AQo":[0,100],"KQo":[50,0],"QQ":[100,0],"QJs":[0,100],"QTs":[0,100],"Q9s":[0,100],"AJo":[50,0],"JJ":[100,0],"JTs":[0,100],"J9s":[0,100],"J8s":[0,100],"ATo":[0,100],"TT":[0,100],"T9s":[0,100],"T8s":[0,100],"98s":[0,100],"87s":[0,100],"76s":[0,100],"65s":[0,100],"54s":[0,100]},"BTN-vs-3bet-SB":{"22":[0,100],"33":[0,100],"44":[0,100],"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,100],"A8s":[0,100],"A7s":[50,0],"A6s":[0,100],"A5s":[0,100],"A4s":[0,100],"A3s":[50,0],"A2s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[0,100],"K9s":[0,100],"K8s":[0,100],"K7s":[50,0],"K6s":[50,0],"AQo":[0,100],"KQo":[50,0],"QQ":[100,0],"QJs":[0,100],"QTs":[0,100],"Q9s":[0,100],"Q8s":[0,100],"AJo":[50,0],"JJ":[100,0],"JTs":[0,100],"J9s":[0,100],"J8s":[0,100],"ATo":[0,100],"TT":[0,100],"T9s":[0,100],"T8s":[0,100],"98s":[0,100],"97s":[0,100],"87s":[0,100],"76s":[0,100],"65s":[0,100],"54s":[0,100]},"BTN-vs-4bet-CO":{"66":[0,50],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,50],"A8s":[0,50],"A7s":[0,50],"A5s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[0,100],"K9s":[0,50],"AQo":[0,50],"KQo":[0,50],"QQ":[100,0],"QJs":[0,100],"QTs":[0,100],"Q9s":[0,50],"AJo":[0,50],"JJ":[0,100],"JTs":[0,100],"J9s":[0,50],"TT":[0,100],"T9s":[0,100],"T8s":[0,50],"98s":[0,100],"87s":[0,100],"76s":[0,100]},"BTN-vs-4bet-MP":{"66":[0,25],"77":[50,25],"88":[50,25],"99":[50,25],"AA":[50,50],"AKs":[50,50],"AQs":[0,100],"AJs":[0,100],"ATs":[0,75],"A5s":[50,25],"A4s":[0,25],"A3s":[0,25],"A2s":[0,25],"AKo":[50,50],"KK":[50,50],"KQs":[0,75],"KJs":[0,75],"KTs":[0,75],"AQo":[0,50],"QQ":[50,50],"QJs":[0,75],"QTs":[0,75],"JJ":[0,100],"JTs":[0,75],"TT":[0,100],"T9s":[0,100],"98s":[0,100],"87s":[0,100],"76s":[0,100],"A9s":[0,25],"A8s":[0,25],"A7s":[0,25],"K9s":[0,25],"KQo":[0,25],"Q9s":[0,25],"AJo":[0,25],"J9s":[0,25],"T8s":[0,25]},"BTN-vs-4bet-UTG":{"77":[0,50],"88":[0,50],"99":[0,50],"AA":[0,100],"AKs":[0,100],"AQs":[0,100],"AJs":[0,100],"ATs":[0,50],"A5s":[0,50],"A4s":[0,50],"A3s":[0,50],"A2s":[0,50],"AKo":[0,100],"KK":[0,100],"KQs":[0,50],"KJs":[0,50],"KTs":[0,50],"AQo":[0,50],"QQ":[0,100],"QJs":[0,50],"QTs":[0,50],"JJ":[0,100],"JTs":[0,50],"TT":[0,100],"T9s":[0,100],"98s":[0,100],"87s":[0,100],"76s":[0,100]},"BTN-vs-open-CO":{"44":[25,25],"55":[50,25],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[50,0],"A5s":[100,0],"A4s":[50,0],"A3s":[50,0],"A2s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[50,0],"K7s":[50,0],"K6s":[50,0],"K5s":[50,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"Q8s":[50,0],"Q7s":[50,0],"Q6s":[50,0],"AJo":[100,0],"KJo":[50,0],"QJo":[50,0],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"J8s":[50,0],"J7s":[50,0],"ATo":[50,0],"KTo":[50,0],"TT":[100,0],"T9s":[100,0],"T8s":[100,0],"T7s":[50,0],"A9o":[50,0],"98s":[100,0],"97s":[50,0],"96s":[50,0],"87s":[100,0],"86s":[50,0],"85s":[50,0],"76s":[100,0],"75s":[50,0],"65s":[50,0],"64s":[50,0],"54s":[50,0]},"BTN-vs-open-MP":{"44":[100,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"AJo":[100,0],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"TT":[100,0],"T9s":[100,0],"T8s":[100,0],"98s":[100,0],"97s":[100,0],"87s":[100,0],"86s":[100,0],"76s":[100,0],"75s":[100,0],"65s":[100,0],"54s":[100,0]},"BTN-vs-open-UTG":{"55":[25,25],"66":[25,25],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"AQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"JJ":[100,0],"JTs":[100,0],"TT":[100,0],"T9s":[100,0],"98s":[100,0],"87s":[100,0],"76s":[100,0]},"CO-ISO":{"22":[100,0],"33":[100,0],"44":[100,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[100,0],"K7s":[100,0],"K6s":[100,0],"K5s":[100,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"Q8s":[100,0],"AJo":[100,0],"KJo":[100,0],"QJo":[100,0],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"J8s":[100,0],"ATo":[100,0],"KTo":[100,0],"TT":[100,0],"T9s":[100,0],"T8s":[100,0],"98s":[100,0],"97s":[100,0],"87s":[100,0],"86s":[100,0],"76s":[100,0],"75s":[100,0],"65s":[100,0],"64s":[100,0],"54s":[100,0]},"CO-RFI":{"22":[100,0],"33":[100,0],"44":[100,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[100,0],"K7s":[100,0],"K6s":[100,0],"K5s":[50,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"Q8s":[100,0],"AJo":[100,0],"KJo":[100,0],"QJo":[100,0],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"J8s":[100,0],"J7s":[100,0],"ATo":[100,0],"KTo":[100,0],"QTo":[100,0],"JTo":[100,0],"TT":[100,0],"T9s":[100,0],"T8s":[100,0],"T7s":[100,0],"A9o":[50,0],"T9o":[50,0],"98s":[100,0],"97s":[100,0],"87s":[100,0],"86s":[100,0],"76s":[100,0],"75s":[100,0],"65s":[100,0],"64s":[100,0],"54s":[100,0]},"CO-vs-3bet-BB":{"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,100],"A8s":[50,0],"A5s":[50,0],"A4s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[0,100],"K9s":[0,100],"K8s":[50,0],"AQo":[0,50],"QQ":[100,0],"QJs":[0,100],"QTs":[0,100],"JJ":[0,100],"JTs":[0,100],"TT":[0,100],"T9s":[0,100],"87s":[0,100],"76s":[0,100],"65s":[0,100],"54s":[0,100]},"CO-vs-3bet-BTN":{"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,100],"A8s":[50,0],"A7s":[0,100],"A6s":[0,100],"A5s":[50,0],"A4s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[0,100],"K9s":[50,0],"AQo":[50,0],"KQo":[0,100],"QQ":[100,0],"QJs":[0,100],"QTs":[0,100],"AJo":[0,100],"JJ":[100,0],"JTs":[0,100],"J9s":[0,100],"TT":[0,100],"T9s":[0,100],"98s":[0,100],"87s":[0,100],"76s":[0,100],"65s":[0,100],"54s":[0,100]},"CO-vs-3bet-SB":{"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,100],"A8s":[50,0],"A5s":[50,0],"A4s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[0,100],"AQo":[0,100],"KQo":[50,0],"QQ":[100,0],"QJs":[0,100],"QTs":[0,100],"JJ":[0,100],"JTs":[0,100],"TT":[0,100],"T9s":[0,100],"98s":[0,100],"87s":[0,100],"76s":[0,100],"65s":[0,100],"54s":[0,100]},"CO-vs-4bet-MP":{"66":[0,25],"77":[50,25],"88":[50,25],"99":[50,25],"AA":[50,50],"AKs":[50,50],"AQs":[0,100],"AJs":[0,100],"ATs":[0,75],"A5s":[50,25],"A4s":[0,25],"AKo":[50,50],"KK":[50,50],"KQs":[0,75],"KJs":[0,75],"KTs":[0,75],"AQo":[0,50],"QQ":[50,50],"QJs":[0,75],"QTs":[0,75],"JJ":[0,100],"JTs":[0,75],"TT":[0,100],"A9s":[0,25],"A8s":[0,25],"A7s":[0,25],"K9s":[0,25],"KQo":[0,25],"Q9s":[0,25],"AJo":[0,25],"J9s":[0,25],"T9s":[0,50],"T8s":[0,25],"98s":[0,50],"87s":[0,50],"76s":[0,50]},"CO-vs-4bet-UTG":{"77":[0,50],"88":[0,50],"99":[0,50],"AA":[0,100],"AKs":[0,100],"AQs":[0,100],"AJs":[0,100],"ATs":[0,50],"A5s":[0,50],"A4s":[0,50],"AKo":[0,100],"KK":[0,100],"KQs":[0,50],"KJs":[0,50],"KTs":[0,50],"AQo":[0,50],"QQ":[0,100],"QJs":[0,50],"QTs":[0,50],"JJ":[0,100],"JTs":[0,50],"TT":[0,100]},"CO-vs-open-MP":{"44":[50,0],"55":[50,0],"66":[50,25],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A5s":[100,0],"A4s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"AQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"JJ":[100,0],"JTs":[100,0],"TT":[100,0],"T9s":[50,25],"A9s":[50,0],"A3s":[50,0],"A2s":[50,0],"K9s":[50,0],"KQo":[50,0],"Q9s":[50,0],"AJo":[50,0],"J9s":[50,0],"T8s":[50,0],"98s":[50,0],"97s":[50,0],"87s":[50,0],"86s":[50,0],"76s":[50,0],"75s":[50,0],"65s":[50,0],"54s":[50,0]},"CO-vs-open-UTG":{"66":[0,50],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A5s":[100,0],"A4s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"AQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"JJ":[100,0],"JTs":[100,0],"TT":[100,0],"T9s":[0,50]},"MP-ISO":{"22":[100,0],"33":[100,0],"44":[100,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[100,0],"K7s":[100,0],"K6s":[100,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"AJo":[100,0],"JJ":[100,0],"JTs":[100,0],"ATo":[100,0],"TT":[100,0],"T9s":[100,0],"98s":[100,0],"87s":[100,0],"76s":[100,0],"65s":[100,0]},"MP-RFI":{"22":[50,0],"33":[100,0],"44":[100,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[100,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"AJo":[100,0],"KJo":[100,0],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"ATo":[100,0],"TT":[100,0],"T9s":[100,0],"T8s":[50,0],"98s":[100,0],"87s":[100,0],"76s":[100,0],"65s":[100,0]},"MP-vs-3bet-BB":{"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A5s":[50,0],"A4s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[50,0],"QQ":[100,0],"QJs":[0,100],"JJ":[0,100],"JTs":[0,100],"TT":[0,100],"87s":[0,100],"76s":[0,100],"65s":[0,100]},"MP-vs-3bet-BTN":{"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,100],"A5s":[50,0],"A4s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[50,0],"AQo":[50,0],"QQ":[100,0],"QJs":[0,100],"QTs":[0,100],"JJ":[0,100],"JTs":[0,100],"TT":[0,100],"T9s":[0,100],"87s":[0,100],"76s":[0,100],"65s":[0,100]},"MP-vs-3bet-CO":{"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A5s":[50,0],"A4s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[50,0],"AQo":[50,0],"QQ":[100,0],"QJs":[0,100],"QTs":[0,100],"JJ":[0,100],"JTs":[0,100],"TT":[0,100]},"MP-vs-3bet-SB":{"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,100],"A5s":[50,0],"A4s":[50,0],"AKo":[0,100],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[50,0],"QQ":[100,0],"QJs":[0,100],"QTs":[50,0],"JJ":[0,100],"JTs":[0,100],"TT":[0,100],"T9s":[0,100],"87s":[0,100],"76s":[0,100],"65s":[0,100]},"MP-vs-4bet-UTG":{"77":[0,50],"88":[0,50],"99":[0,50],"AA":[0,100],"AKs":[0,100],"AQs":[0,100],"AJs":[0,50],"ATs":[0,50],"A5s":[0,50],"A4s":[0,50],"AKo":[0,100],"KK":[0,100],"KQs":[0,50],"KJs":[0,50],"KTs":[0,50],"AQo":[0,50],"QQ":[0,100],"QJs":[0,50],"QTs":[0,50],"JJ":[0,100],"JTs":[0,50],"TT":[0,50]},"MP-vs-open-UTG":{"66":[0,50],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A5s":[100,0],"A4s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"AQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"JJ":[100,0],"JTs":[100,0],"TT":[100,0]},"SB-ISO":{"22":[100,0],"33":[100,0],"44":[100,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[100,0],"K7s":[100,0],"K6s":[100,0],"K5s":[100,0],"K4s":[100,0],"K3s":[100,0],"K2s":[100,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"Q8s":[100,0],"Q7s":[100,0],"Q6s":[100,0],"AJo":[100,0],"KJo":[100,0],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"J8s":[100,0],"ATo":[100,0],"KTo":[100,0],"TT":[100,0],"T9s":[100,0],"T8s":[100,0],"98s":[100,0],"97s":[100,0],"87s":[100,0],"86s":[100,0],"76s":[100,0],"75s":[100,0],"65s":[100,0],"64s":[100,0],"54s":[100,0]},"SB-RFI":{"22":[100,0],"33":[100,0],"44":[100,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[100,0],"K7s":[100,0],"K6s":[100,0],"K5s":[100,0],"K4s":[100,0],"K3s":[100,0],"K2s":[100,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"Q8s":[100,0],"Q7s":[100,0],"Q6s":[100,0],"Q5s":[100,0],"Q4s":[100,0],"Q3s":[100,0],"AJo":[100,0],"KJo":[100,0],"QJo":[100,0],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"J8s":[100,0],"J7s":[100,0],"J6s":[100,0],"J5s":[100,0],"ATo":[100,0],"KTo":[100,0],"QTo":[100,0],"JTo":[100,0],"TT":[100,0],"T9s":[100,0],"T8s":[100,0],"T7s":[100,0],"T6s":[100,0],"A9o":[100,0],"K9o":[100,0],"Q9o":[100,0],"J9o":[100,0],"T9o":[100,0],"98s":[100,0],"97s":[100,0],"96s":[100,0],"A8o":[100,0],"K8o":[25,0],"Q8o":[50,0],"J8o":[100,0],"T8o":[100,0],"98o":[100,0],"87s":[100,0],"86s":[100,0],"A7o":[100,0],"76s":[100,0],"75s":[100,0],"A6o":[100,0],"65s":[100,0],"64s":[100,0],"A5o":[100,0],"54s":[100,0],"53s":[100,0],"A4o":[100,0],"43s":[100,0]},"SB-vs-3bet-BB":{"22":[0,100],"33":[0,100],"44":[0,100],"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,100],"A8s":[0,100],"A7s":[0,100],"A6s":[50,0],"A5s":[0,100],"A4s":[0,100],"A3s":[0,100],"A2s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[0,100],"K9s":[0,100],"K8s":[0,100],"K7s":[0,100],"K6s":[0,100],"AQo":[50,0],"KQo":[50,0],"QQ":[100,0],"QJs":[0,100],"QTs":[0,100],"Q9s":[0,100],"Q8s":[50,0],"AJo":[50,0],"KJo":[0,100],"JJ":[100,0],"JTs":[0,100],"J9s":[0,100],"J8s":[50,0],"ATo":[0,100],"TT":[100,0],"T9s":[0,100],"T8s":[0,100],"98s":[0,100],"97s":[0,100],"87s":[0,100],"76s":[0,100],"65s":[0,100],"54s":[0,100]},"SB-vs-4bet-BTN":{"77":[0,50],"88":[100,0],"99":[100,0],"AA":[0,100],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,50],"A8s":[0,50],"A7s":[0,50],"A6s":[0,50],"A5s":[0,50],"A4s":[0,50],"A3s":[0,50],"A2s":[0,50],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,50],"KTs":[0,50],"K9s":[0,50],"AQo":[0,100],"KQo":[0,50],"QQ":[100,0],"QJs":[0,50],"QTs":[0,50],"Q9s":[0,50],"AJo":[0,50],"JJ":[100,0],"JTs":[0,50],"J9s":[0,50],"ATo":[0,50],"TT":[0,100],"T9s":[0,100],"T8s":[0,50],"98s":[0,100],"87s":[0,100],"76s":[0,100]},"SB-vs-4bet-CO":{"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A9s":[0,50],"A5s":[0,50],"A4s":[0,50],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,50],"KTs":[0,50],"AQo":[0,50],"KQo":[0,50],"QQ":[100,0],"QJs":[0,50],"QTs":[0,50],"AJo":[0,50],"JJ":[100,0],"JTs":[0,50],"TT":[0,100],"T9s":[0,50],"T8s":[0,50],"98s":[0,100],"87s":[0,100]},"SB-vs-4bet-MP":{"88":[0,50],"99":[0,50],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,50],"ATs":[0,50],"A5s":[0,50],"A4s":[0,50],"AKo":[0,100],"KK":[100,0],"KQs":[0,50],"KJs":[0,50],"KTs":[0,50],"AQo":[0,50],"QQ":[0,100],"QJs":[0,50],"QTs":[0,50],"JJ":[0,100],"JTs":[0,50],"TT":[0,100],"87s":[0,50],"76s":[0,50]},"SB-vs-4bet-UTG":{"99":[0,50],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,50],"ATs":[0,50],"A5s":[0,50],"AKo":[0,100],"KK":[100,0],"KQs":[0,50],"KJs":[0,50],"AQo":[0,50],"QQ":[0,100],"QJs":[0,50],"JJ":[0,100],"JTs":[0,50],"TT":[0,100]},"SB-vs-open-BTN":{"22":[50,0],"33":[50,0],"44":[50,25],"55":[50,25],"66":[50,25],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[100,0],"K8s":[50,25],"K7s":[50,25],"K6s":[50,0],"K5s":[50,0],"K4s":[50,0],"K3s":[50,0],"K2s":[50,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[100,0],"Q8s":[50,25],"Q7s":[50,25],"Q6s":[50,0],"Q5s":[50,0],"AJo":[100,0],"KJo":[50,25],"QJo":[50,25],"JJ":[100,0],"JTs":[100,0],"J9s":[100,0],"J8s":[50,25],"J7s":[50,0],"J6s":[50,0],"ATo":[100,0],"KTo":[50,0],"JTo":[0,25],"TT":[100,0],"T9s":[100,0],"T8s":[100,0],"T7s":[50,0],"T6s":[50,0],"A9o":[50,0],"98s":[100,0],"97s":[50,0],"96s":[50,0],"87s":[100,0],"86s":[50,0],"85s":[50,0],"76s":[100,0],"75s":[50,0],"74s":[50,0],"65s":[50,0],"64s":[50,0],"54s":[50,0]},"SB-vs-open-CO":{"22":[50,0],"33":[50,0],"44":[50,0],"55":[50,0],"66":[50,25],"77":[50,25],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[50,0],"A7s":[50,0],"A6s":[50,0],"A5s":[100,0],"A4s":[100,0],"A3s":[50,25],"A2s":[50,25],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[50,25],"K8s":[50,0],"K7s":[50,0],"K6s":[50,0],"K5s":[50,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[50,25],"Q8s":[50,0],"AJo":[100,0],"KJo":[50,0],"JJ":[100,0],"JTs":[100,0],"J9s":[50,25],"J8s":[50,0],"ATo":[50,0],"TT":[100,0],"T9s":[100,0],"T8s":[50,0],"T7s":[50,0],"98s":[100,0],"97s":[50,0],"96s":[50,0],"87s":[100,0],"86s":[50,25],"85s":[50,0],"76s":[50,25],"75s":[50,0],"65s":[50,0],"64s":[50,0],"54s":[50,0]},"SB-vs-open-MP":{"22":[50,0],"33":[50,0],"44":[50,0],"55":[50,0],"66":[50,0],"77":[50,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[50,25],"A8s":[50,0],"A7s":[50,0],"A6s":[50,0],"A5s":[100,0],"A4s":[100,0],"A3s":[50,25],"A2s":[50,25],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"K9s":[50,0],"K8s":[50,0],"K7s":[50,0],"K6s":[50,0],"AQo":[100,0],"KQo":[50,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"Q9s":[50,0],"AJo":[50,0],"JJ":[100,0],"JTs":[100,0],"J9s":[50,0],"TT":[100,0],"T9s":[50,25],"T8s":[50,0],"98s":[50,25],"97s":[50,0],"87s":[100,0],"86s":[50,0],"76s":[100,0],"75s":[50,0],"65s":[50,0],"64s":[50,0],"54s":[50,0]},"SB-vs-open-UTG":{"22":[50,0],"33":[50,0],"44":[50,0],"55":[50,0],"66":[50,0],"77":[50,0],"88":[50,25],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[50,25],"A8s":[50,0],"A7s":[50,0],"A6s":[50,0],"A5s":[100,0],"A4s":[50,25],"A3s":[50,25],"A2s":[50,25],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[50,0],"AQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[50,0],"AJo":[50,0],"JJ":[100,0],"JTs":[100,0],"TT":[100,0],"T9s":[50,25],"98s":[50,25],"87s":[50,25],"76s":[50,0],"65s":[50,0],"54s":[50,0]},"UTG-RFI":{"22":[50,0],"33":[50,0],"44":[50,0],"55":[100,0],"66":[100,0],"77":[100,0],"88":[100,0],"99":[100,0],"AA":[100,0],"AKs":[100,0],"AQs":[100,0],"AJs":[100,0],"ATs":[100,0],"A9s":[100,0],"A8s":[100,0],"A7s":[100,0],"A6s":[100,0],"A5s":[100,0],"A4s":[100,0],"A3s":[100,0],"A2s":[100,0],"AKo":[100,0],"KK":[100,0],"KQs":[100,0],"KJs":[100,0],"KTs":[100,0],"AQo":[100,0],"KQo":[100,0],"QQ":[100,0],"QJs":[100,0],"QTs":[100,0],"AJo":[100,0],"JJ":[100,0],"JTs":[100,0],"ATo":[50,0],"TT":[100,0],"T9s":[100,0],"98s":[100,0],"87s":[50,0]},"UTG-vs-3bet-BB":{"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A5s":[50,0],"A4s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[50,0],"QQ":[100,0],"QJs":[0,100],"JJ":[0,100],"JTs":[0,100],"TT":[0,100],"T9s":[0,100],"87s":[0,100]},"UTG-vs-3bet-BTN":{"55":[0,100],"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A5s":[50,0],"A4s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[0,100],"AQo":[50,0],"QQ":[100,0],"QJs":[0,100],"QTs":[0,100],"JJ":[0,100],"JTs":[0,100],"TT":[0,100],"T9s":[0,100],"87s":[0,100]},"UTG-vs-3bet-CO":{"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A5s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[0,100],"AQo":[50,0],"QQ":[100,0],"QJs":[0,100],"JJ":[0,100],"TT":[0,100]},"UTG-vs-3bet-MP":{"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A5s":[50,0],"AKo":[100,0],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[0,100],"AQo":[50,0],"QQ":[100,0],"JJ":[0,100],"TT":[0,100]},"UTG-vs-3bet-SB":{"66":[0,100],"77":[0,100],"88":[0,100],"99":[0,100],"AA":[100,0],"AKs":[100,0],"AQs":[0,100],"AJs":[0,100],"ATs":[0,100],"A5s":[25,0],"A4s":[25,0],"AKo":[0,100],"KK":[100,0],"KQs":[0,100],"KJs":[0,100],"KTs":[25,0],"QQ":[100,0],"QJs":[0,100],"JJ":[0,100],"JTs":[0,100],"TT":[0,100],"T9s":[0,100],"87s":[0,100]}};
+
+const RANKS = "AKQJT98765432";
+function ri(c){ return RANKS.indexOf(c); }
+function cellHand(i, j){
+  if (i === j) return RANKS[i] + RANKS[j];
+  return i < j ? RANKS[i] + RANKS[j] + "s" : RANKS[j] + RANKS[i] + "o";
+}
+const POSMAP = { HJ:"MP" };
+const POSDISP = { MP:"HJ" };
+function cpos(p){ return POSMAP[p] || p; }
+function dpos(p){ return POSDISP[p] || p; }
+// 補間合成チャート（実測データがない相手ポジションを隣接から補間）
+const SYNTH = new Set(["CO-vs-open-MP", "BTN-vs-4bet-MP", "CO-vs-4bet-MP"]);
+function getChart(kind, hero, villain){
+  const h = cpos(hero), v = villain ? cpos(villain) : null;
+  if (kind === "RFI" || kind === "ISO"){
+    const key = h + "-" + kind;
+    return PRE[key] ? { key, cells: PRE[key], approx: false, synth: false } : null;
+  }
+  const key = h + "-" + kind + "-" + v;
+  if (PRE[key]) return { key, cells: PRE[key], approx: false, synth: SYNTH.has(key) };
+  const alt = Object.keys(PRE).filter(k => k.startsWith(h + "-" + kind + "-"));
+  if (alt.length) return { key: alt[0], cells: PRE[alt[0]], approx: true, synth: false };
+  return null;
+}
+function freqOf(cells, hand){
+  const e = cells[hand];
+  const r = e ? e[0] : 0, c = e ? e[1] : 0;
+  return { r, c, f: Math.max(0, 100 - r - c) };
+}
+// 頻度→判定: act='r'|'c'|'f'。handを渡すとナッツ級の例外処理あり
+function judgeFreq(fr, act, hand){
+  const pct = act === "r" ? fr.r : act === "c" ? fr.c : fr.f;
+  const best = Math.max(fr.r, fr.c, fr.f);
+  const bestAct = best === fr.r ? "r" : best === fr.c ? "c" : "f";
+  // チャートがトラップ（コール100%）型でも、AA/KKのレイズを不正解にはしない
+  if (act === "r" && pct < 30 && (hand === "AA" || hand === "KK") && fr.c >= 50)
+    return { cls:"mx", pct, bestAct, tag:"このチャートはコール型（トラップ重視）ですが、AA/KKのレイズが大きなミスになることはありません" };
+  if (pct >= 65) return { cls:"ok", pct, bestAct, tag:"GTOのメインアクション" };
+  if (pct >= 30) return { cls:"ok", pct, bestAct, tag:"GTOの高頻度ミックス（正解のひとつ）" };
+  if (pct >= 10) return { cls:"mx", pct, bestAct, tag:"GTOの低頻度ミックス（惜しい）" };
+  return { cls:"ng", pct, bestAct, tag:"GTO解ではほぼ選ばれません" };
+}
+const ACT_JA = { r:"レイズ", c:"コール", f:"フォールド" };
+
+/* ================= ハンドカテゴリ解説 ================= */
+function handCat(h){
+  const p = h.length === 2;
+  const hi = h[0], lo = h[1], suited = h[2] === "s";
+  if (p){
+    if (ri(hi) <= ri("J")) return "bigPair";
+    if (ri(hi) <= ri("7")) return "midPair";
+    return "smallPair";
+  }
+  if (hi === "A" && suited) return ri(lo) <= ri("T") ? "bigAceS" : "smallAceS";
+  if (hi === "A") return ri(lo) <= ri("T") ? "bigAceO" : "weakAceO";
+  const bothBway = ri(hi) <= ri("T") && ri(lo) <= ri("T");
+  if (bothBway) return suited ? "suitedBway" : "bwayO";
+  const gap = ri(lo) - ri(hi);
+  if (suited && gap === 1) return "suitedConn";
+  if (suited && gap <= 3) return "suitedGap";
+  if (suited && hi === "K") return "suitedKing";
+  if (suited) return "suitedJunk";
+  return "offsuitJunk";
+}
+const CAT_TEXT = {
+  bigPair:   "プレミアム級のポケットペア。プリフロップ時点で相手のほぼ全レンジに対して優位です。",
+  midPair:   "ミドルポケット。セットマイニング価値と、そのままでも勝てる中程度の強さを併せ持ちます。",
+  smallPair: "スモールポケット。ほぼセット狙いのハンドで、当たれば隠れた強い役になります。",
+  bigAceS:   "スーテッドのビッグエース。ナッツフラッシュ性能＋トップペア好キッカーで、バリューの柱になるハンドです。",
+  smallAceS: "小さいスーテッドエース。Aブロッカーで相手のAA/AKをブロックしつつ、ナッツフラッシュとホイールも狙える——ソルバーがブラフ枠に多用するハンドです。",
+  bigAceO:   "オフスートのビッグエース。トップペア勝負では強いものの、フラッシュ性能がなく多人数・深いポットには不向きです。",
+  weakAceO:  "キッカーの弱いオフスートエース。Aが当たってもキッカー負け（ドミネイト）しやすい典型的なトラップハンドです。",
+  suitedBway:"スーテッドブロードウェイ。トップペア・フラッシュ・ストレートの複合力があり、ほとんどのポジションで戦えます。",
+  bwayO:     "オフスートのブロードウェイ。見た目より弱く、ドミネイトされた時の損失が大きいハンドです。",
+  suitedConn:"スーテッドコネクター。ストレート＋フラッシュの両ドローで、ボードに絡んだ時の爆発力が魅力です。",
+  suitedGap: "間の空いたスーテッド。プレイアビリティはありますが、コネクターより一段落ちる強さです。",
+  suitedKing:"スーテッドキング。Kハイフラッシュの価値でギリギリレンジに入るかどうかのボーダーハンドです。",
+  suitedJunk:"スーテッドでも中身の弱いハンド。フラッシュ期待だけでは参加コストに見合いません。",
+  offsuitJunk:"オフスートの弱いハンド。勝率もプレイアビリティも低く、ほぼ全ポジションでフォールド対象です。"
+};
+const POS_NOTE = {
+  UTG: "UTG（最初に行動）は後ろに5人残っており、最もタイトなレンジが必要です。",
+  HJ:  "HJはUTGの次。まだ後ろに4人いるためタイトめのレンジを維持します。",
+  CO:  "COはBTNさえ降ろせば必ずポジションを取れる（ブラインドには常にIP）ため、レンジをかなり広げられます。",
+  BTN: "BTNは常にポジションを持てる最強の席。最も広くオープンできます。",
+  SB:  "SBはBBとの一騎打ち。広くレイズできますが、以降ずっとポジション不利です。",
+  BB:  "BBは既に1bb払っており割引価格で参加できるため、最も広く守れます。"
+};
+
+/* ================= クイズ ================= */
+const QUIZ_BTN = {
+  1: [ ["r","レイズ","raise"], ["f","フォールド","fold"] ],
+  2: [ ["r","3ベット","raise"], ["c","コール","call"], ["f","フォールド","fold"] ],
+  3: [ ["r","4ベット","raise"], ["c","コール","call"], ["f","フォールド","fold"] ],
+  4: [ ["r","オールイン","allinB"], ["c","コール","call"], ["f","フォールド","fold"] ]
+};
+function quizScenarios(level){
+  const out = [];
+  if (level === 1){
+    ["UTG","MP","CO","BTN","SB"].forEach(p => {
+      if (PRE[p + "-RFI"]) out.push({ key:p+"-RFI", hero:p, villain:null, label:dpos(p),
+        desc: p === "UTG" ? "あなたが最初のアクション。オープンするか？"
+            : `前は全員フォールド。あなたは ${dpos(p)}。オープンするか？`, pot:"ブラインド 0.5bb + 1bb" });
+    });
+  } else {
+    const kind = level === 2 ? "vs-open" : level === 3 ? "vs-3bet" : "vs-4bet";
+    const vsJa = level === 2 ? "オープン" : level === 3 ? "3ベット" : "4ベット";
+    Object.keys(PRE).filter(k => k.includes("-" + kind + "-")).forEach(k => {
+      const [hero,,,villain] = level === 2 ? [k.split("-")[0],0,0,k.split("-")[3]] : [k.split("-")[0],0,0,k.split("-")[3]];
+      out.push({ key:k, hero, villain, label:`${dpos(hero)} vs ${dpos(villain)}`,
+        desc: level === 2 ? `${dpos(villain)}が2.5bbにオープン。あなたは ${dpos(hero)}。`
+            : level === 3 ? `あなたが${dpos(hero)}からオープン → ${dpos(villain)}が3ベット。`
+            : `${dpos(villain)}がオープン → あなたが${dpos(hero)}から3ベット → ${dpos(villain)}が4ベット。`,
+        pot: level === 2 ? "オープン込みポット" : level === 3 ? "3ベット込みポット" : "4ベット込みポット（コールすればほぼコミット圏）" });
+    });
+  }
+  return out;
+}
+let curLevel = 1, curScIdx = 0, curHand = null, answered = false, quizScList = quizScenarios(1);
+const stats = JSON.parse(localStorage.getItem("pfc_stats_v2") || "{}");
+function stKey(){ return "L" + curLevel; }
+function getSt(){ if (!stats[stKey()]) stats[stKey()] = { n:0, ok:0, streak:0 }; return stats[stKey()]; }
+function saveSt(){ localStorage.setItem("pfc_stats_v2", JSON.stringify(stats)); }
+const SUITS = [["♠","black"],["♥","red"],["♦","red"],["♣","black"]];
+function dealQuizHand(cells){
+  const pool = [];
+  for (let i = 0; i < 13; i++) for (let j = 0; j < 13; j++){
+    const h = cellHand(i, j);
+    const w = h.length === 2 ? 6 : (h[2] === "s" ? 4 : 12);
+    const fr = freqOf(cells, h);
+    const interesting = fr.r + fr.c > 0 && Math.max(fr.r, fr.c, fr.f) < 100 || (fr.r + fr.c > 0 && fr.f > 0);
+    pool.push({ h, w, inRange: fr.r + fr.c > 0, interesting });
+  }
+  const roll = Math.random();
+  let cand = pool;
+  if (roll < 0.45){ const m = pool.filter(x => x.interesting); if (m.length) cand = m; }
+  else if (roll < 0.75){ const m = pool.filter(x => x.inRange); if (m.length) cand = m; }
+  const total = cand.reduce((s, x) => s + x.w, 0);
+  let r = Math.random() * total, pick = cand[0];
+  for (const x of cand){ r -= x.w; if (r <= 0){ pick = x; break; } }
+  return pick.h;
+}
+function cardsFor(h){
+  const s1 = SUITS[Math.floor(Math.random() * 4)];
+  let s2;
+  if (h.length === 3 && h[2] === "s") s2 = s1;
+  else { do { s2 = SUITS[Math.floor(Math.random() * 4)]; } while (s2[0] === s1[0]); }
+  return [[h[0], s1], [h[1], s2]];
+}
+function renderScenarioPicker(){
+  const el = document.getElementById("scenarioPicker");
+  el.innerHTML = "";
+  quizScList.forEach((sc, i) => {
+    const b = document.createElement("button");
+    b.className = "sp" + (i === curScIdx ? " active" : "");
+    b.textContent = sc.label;
+    b.onclick = () => { curScIdx = i; nextQuiz(); };
+    el.appendChild(b);
+  });
+}
+function renderButtons(){
+  const el = document.getElementById("actions");
+  el.innerHTML = "";
+  QUIZ_BTN[curLevel].forEach(([key, label, cls]) => {
+    const b = document.createElement("button");
+    b.className = "btn " + cls;
+    b.innerHTML = `<i>${label}</i>`;
+    b.onclick = () => answerQuiz(key);
+    el.appendChild(b);
+  });
+}
+function renderStats(){
+  const st = getSt();
+  document.getElementById("stAcc").textContent = st.n ? Math.round(st.ok / st.n * 100) + "%" : "-";
+  document.getElementById("stCount").textContent = st.n;
+  document.getElementById("stStreak").textContent = st.streak;
+}
+function nextQuiz(){
+  answered = false;
+  const sc = quizScList[curScIdx];
+  curHand = dealQuizHand(PRE[sc.key]);
+  const cards = cardsFor(curHand);
+  document.getElementById("scenarioText").innerHTML =
+    `あなたは <span class="pos">${dpos(sc.hero)}</span> ｜ ${sc.desc}`;
+  document.getElementById("potLine").textContent = sc.pot;
+  [0, 1].forEach(i => {
+    const c = document.getElementById("card" + (i + 1));
+    c.querySelector(".r").textContent = cards[i][0] === "T" ? "10" : cards[i][0];
+    c.querySelector(".s").textContent = cards[i][1][0];
+    c.className = "card " + cards[i][1][1];
+    void c.offsetWidth;
+    c.classList.add("deal");
+  });
+  document.getElementById("feedback").classList.remove("show");
+  document.getElementById("gridWrap").classList.remove("show");
+  document.getElementById("toggleGrid").textContent = "レンジ表を見る";
+  document.querySelectorAll("#actions .btn").forEach(b => b.disabled = false);
+  renderScenarioPicker();
+  renderStats();
+}
+function freqBarHTML(fr, raiseJa){
+  const seg = (pct, cls, label) => pct > 0 ? `<div class="${cls}" style="width:${pct}%">${pct >= 14 ? label + " " + pct + "%" : ""}</div>` : "";
+  return seg(fr.r, "fq-r", raiseJa) + seg(fr.c, "fq-c", "コール") + seg(fr.f, "fq-f", "フォールド");
+}
+function quizReason(sc, hand, fr, jd, raiseJa){
+  const cat = CAT_TEXT[handCat(hand)];
+  let ctx = "";
+  if (curLevel === 1) ctx = POS_NOTE[dpos(sc.hero)] || "";
+  else if (curLevel === 2) ctx = `${dpos(sc.villain)}のオープンレンジに対する${dpos(sc.hero)}の防御。ポジション${(sc.hero === "BB" && sc.villain === "SB") ? "有利（IP）" : ["BB","SB"].includes(sc.hero) ? "不利（OOP）" : "有利（IP）"}を織り込んだレンジです。`;
+  else if (curLevel === 3) ctx = `${dpos(sc.villain)}の3ベットレンジ（バリュー＋A5s等のブラフ）に対する対応。`;
+  else ctx = `4ベットに対してはコール後のSPRが1台まで下がり、続行するなら実質スタック全部の勝負です。`;
+  let mixNote = "";
+  const acts = [fr.r > 0, fr.c > 0, fr.f > 0].filter(Boolean).length;
+  if (acts >= 2) mixNote = " ソルバーはこのハンドを複数アクションに振り分けています（一つに固定すると搾取されるため）。指定頻度に近い比率で使い分けるのが理想です。";
+  return `${ctx} ${cat}${mixNote}`;
+}
+function answerQuiz(key){
+  if (answered) return;
+  answered = true;
+  document.querySelectorAll("#actions .btn").forEach(b => b.disabled = true);
+  const sc = quizScList[curScIdx];
+  const fr = freqOf(PRE[sc.key], curHand);
+  const jd = judgeFreq(fr, key, curHand);
+  const st = getSt();
+  st.n++;
+  if (jd.cls === "ok"){ st.ok++; st.streak++; } else st.streak = 0;
+  recordJudge(jd.cls, { street: "pre", spot: ["RFI","vsオープン","vs3ベット","vs4ベット"][curLevel - 1] + "（クイズ）",
+    pos: dpos(sc.hero), tags: preLeakTags(key, fr, null, dpos(sc.hero), null) });
+  saveSt();
+  const raiseJa = QUIZ_BTN[curLevel][0][1];
+  const v = document.getElementById("verdict");
+  if (jd.cls === "ok" && jd.pct < 65){ v.textContent = "✅ 正解（ミックス）"; v.className = "verdict ok"; }
+  else if (jd.cls === "ok"){ v.textContent = "✅ 正解！"; v.className = "verdict ok"; }
+  else if (jd.cls === "mx"){ v.textContent = "🟡 低頻度ミックス"; v.className = "verdict mix"; }
+  else { v.textContent = "❌ 不正解"; v.className = "verdict ng"; }
+  void v.offsetWidth;
+  v.classList.add("stamp");
+  (jd.cls === "ok" ? SFX.good : jd.cls === "mx" ? SFX.click : SFX.bad)();
+  document.getElementById("correctLine").innerHTML =
+    `ハンド: <b>${curHand}</b> ／ あなた: <b>${key === "r" ? raiseJa : ACT_JA[key]}（GTO頻度 ${jd.pct}%）</b> — ${jd.tag}<br>` +
+    `GTO解: <b>${raiseJa} ${fr.r}% ／ コール ${fr.c}% ／ フォールド ${fr.f}%</b>`;
+  document.getElementById("freqBar").innerHTML = freqBarHTML(fr, raiseJa);
+  document.getElementById("reasonText").textContent = quizReason(sc, curHand, fr, jd, raiseJa);
+  document.getElementById("feedback").classList.add("show");
+  renderStats();
+}
+/* 頻度グリッド描画（GTO Wizard風: セル内を頻度で塗り分け） */
+function renderFreqGridInto(tbl, cells, highlight){
+  tbl.innerHTML = "";
+  for (let i = 0; i < 13; i++){
+    const tr = document.createElement("tr");
+    for (let j = 0; j < 13; j++){
+      const h = cellHand(i, j);
+      const fr = freqOf(cells, h);
+      const td = document.createElement("td");
+      td.textContent = h;
+      const s1 = fr.r, s2 = fr.r + fr.c;
+      td.style.background = `linear-gradient(to right, var(--raise) 0 ${s1}%, var(--call) ${s1}% ${s2}%, var(--fold) ${s2}% 100%)`;
+      if (fr.r + fr.c === 0) td.style.color = "#79839f";
+      if (h === highlight) td.classList.add("hilite");
+      tr.appendChild(td);
+    }
+    tbl.appendChild(tr);
+  }
+}
+function renderFreqLegendInto(lg, raiseJa){
+  lg.innerHTML = `<span><i style="background:var(--raise)"></i>${raiseJa}</span>
+    <span><i style="background:var(--call)"></i>コール</span>
+    <span><i style="background:var(--fold)"></i>フォールド</span>
+    <span style="opacity:.8">セル内の色の面積 ＝ GTO頻度</span>`;
+}
+document.getElementById("tabs").addEventListener("click", e => {
+  const t = e.target.closest(".tab");
+  if (!t) return;
+  document.querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+  t.classList.add("active");
+  curLevel = +t.dataset.level;
+  curScIdx = 0;
+  quizScList = quizScenarios(curLevel);
+  renderButtons();
+  nextQuiz();
+});
+document.getElementById("nextBtn").onclick = nextQuiz;
+document.getElementById("toggleGrid").onclick = () => {
+  const g = document.getElementById("gridWrap");
+  const show = !g.classList.contains("show");
+  if (show){
+    const sc = quizScList[curScIdx];
+    renderFreqGridInto(document.getElementById("rangeGrid"), PRE[sc.key], curHand);
+    renderFreqLegendInto(document.getElementById("legend"), QUIZ_BTN[curLevel][0][1]);
+  }
+  g.classList.toggle("show", show);
+  document.getElementById("toggleGrid").textContent = show ? "レンジ表を閉じる" : "レンジ表を見る";
+};
+
+/* ==================================================================
+   ゲームモード
+   ================================================================== */
+const SUIT_CH = ["♠","♥","♦","♣"];
+const SUIT_COL = ["black","red","red","black"];
+const RC = {14:"A",13:"K",12:"Q",11:"J",10:"T",9:"9",8:"8",7:"7",6:"6",5:"5",4:"4",3:"3",2:"2"};
+function newDeck(){
+  const d = [];
+  for (let r = 2; r <= 14; r++) for (let s = 0; s < 4; s++) d.push({r, s});
+  for (let i = d.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [d[i], d[j]] = [d[j], d[i]];
+  }
+  return d;
+}
+function straightHigh(rankSet){
+  const set = new Set(rankSet);
+  if (set.has(14)) set.add(1);
+  const arr = [...set].sort((a, b) => b - a);
+  let run = 1, best = 0;
+  for (let i = 1; i < arr.length; i++){
+    if (arr[i] === arr[i-1] - 1){ run++; if (run >= 5) best = Math.max(best, arr[i] + 4); }
+    else run = 1;
+  }
+  return best;
+}
+function evalCards(cs){
+  const byRank = Array(15).fill(0), bySuit = [[],[],[],[]];
+  for (const c of cs){ byRank[c.r]++; bySuit[c.s].push(c.r); }
+  let flushRanks = null;
+  for (let s = 0; s < 4; s++) if (bySuit[s].length >= 5) flushRanks = bySuit[s];
+  const uniq = [];
+  for (let r = 14; r >= 2; r--) if (byRank[r]) uniq.push(r);
+  const sc = (cat, arr) => { let v = cat; for (let i = 0; i < 5; i++) v = v * 16 + (arr[i] || 0); return v; };
+  if (flushRanks){ const sf = straightHigh(flushRanks); if (sf) return sc(8, [sf]); }
+  const quads = uniq.find(r => byRank[r] === 4);
+  if (quads){ const k = uniq.find(r => r !== quads); return sc(7, [quads, k]); }
+  const trips = uniq.filter(r => byRank[r] === 3);
+  const pairs = uniq.filter(r => byRank[r] === 2);
+  if (trips.length && (pairs.length || trips.length > 1)){
+    const p = trips.length > 1 ? trips[1] : pairs[0];
+    return sc(6, [trips[0], p]);
+  }
+  if (flushRanks) return sc(5, flushRanks.slice().sort((a,b)=>b-a).slice(0,5));
+  const st = straightHigh(uniq);
+  if (st) return sc(4, [st]);
+  if (trips.length) return sc(3, [trips[0], ...uniq.filter(r => r !== trips[0]).slice(0,2)]);
+  if (pairs.length >= 2) return sc(2, [pairs[0], pairs[1], uniq.find(r => r !== pairs[0] && r !== pairs[1])]);
+  if (pairs.length === 1) return sc(1, [pairs[0], ...uniq.filter(r => r !== pairs[0]).slice(0,3)]);
+  return sc(0, uniq.slice(0,5));
+}
+function catOf(score){ let v = score; for (let i = 0; i < 5; i++) v = Math.floor(v / 16); return v; }
+function codeOf(c1, c2){
+  const hi = c1.r >= c2.r ? c1 : c2, lo = c1.r >= c2.r ? c2 : c1;
+  if (hi.r === lo.r) return RC[hi.r] + RC[lo.r];
+  return RC[hi.r] + RC[lo.r] + (hi.s === lo.s ? "s" : "o");
+}
+/* コードから具体カードをサンプル（使用済み回避は呼び出し側で確認） */
+function comboFromCode(code){
+  const r1 = 14 - ri(code[0]), r2 = 14 - ri(code[1]);
+  if (code.length === 2){
+    let s1 = Math.floor(Math.random() * 4), s2;
+    do { s2 = Math.floor(Math.random() * 4); } while (s2 === s1);
+    return [{r:r1,s:s1},{r:r2,s:s2}];
+  }
+  if (code[2] === "s"){
+    const s = Math.floor(Math.random() * 4);
+    return [{r:r1,s},{r:r2,s}];
+  }
+  let s1 = Math.floor(Math.random() * 4), s2;
+  do { s2 = Math.floor(Math.random() * 4); } while (s2 === s1);
+  return [{r:r1,s:s1},{r:r2,s:s2}];
+}
+/* ---- レンジ加重モンテカルロ勝率 ---- */
+function boardConnect(hole, board){ // 相手レンジのポストフロップ絞り込み用
+  const all = hole.concat(board);
+  const score = evalCards(all);
+  const cat = catOf(score);
+  if (cat >= 1){
+    // ホールカードが役に関与しているかをランク一致で判定（ボードだけの役は除外）
+    if (hole[0].r === hole[1].r) return true;
+    if (board.some(c => c.r === hole[0].r || c.r === hole[1].r)) return true;
+    if (cat >= 4) return true; // ストレート/フラッシュ級はホール寄与とみなす
+  }
+  if (board.length < 5){
+    const suitCnt = [0,0,0,0];
+    all.forEach(c => suitCnt[c.s]++);
+    for (let s = 0; s < 4; s++) if (suitCnt[s] >= 4 && hole.some(c => c.s === s)) return true;
+    const rset = new Set(all.map(c => c.r));
+    if (rset.has(14)) rset.add(1);
+    let fills = 0;
+    for (let cand = 1; cand <= 14; cand++){
+      if (rset.has(cand)) continue;
+      const t = new Set(rset); t.add(cand);
+      if (straightHigh([...t]) > (straightHigh([...rset]) || 0)) fills++;
+    }
+    if (fills >= 2) return true;
+  }
+  // オーバーカード2枚
+  const bmax = Math.max(...board.map(c => c.r));
+  if (hole[0].r > bmax && hole[1].r > bmax) return true;
+  return false;
+}
+function equityVsRanges(hole, board, opps, iters){
+  // opps: [{rangeCum: [[code, cumW]...] | null, aggro: bool}]
+  const baseUsed = new Set([...hole, ...board].map(c => c.r * 4 + c.s));
+  const restAll = [];
+  for (let r = 2; r <= 14; r++) for (let s = 0; s < 4; s++)
+    if (!baseUsed.has(r * 4 + s)) restAll.push({r, s});
+  let score = 0, n = 0;
+  for (let it = 0; it < iters; it++){
+    const used = new Set(baseUsed);
+    const oppHands = [];
+    let fail = false;
+    for (const o of opps){
+      let hand = null;
+      if (o.rangeCum){
+        for (let t = 0; t < 24; t++){
+          const roll = Math.random() * o.rangeCum[o.rangeCum.length - 1][1];
+          let lo = 0, hi = o.rangeCum.length - 1;
+          while (lo < hi){ const mid = (lo + hi) >> 1; if (o.rangeCum[mid][1] < roll) lo = mid + 1; else hi = mid; }
+          const cand = comboFromCode(o.rangeCum[lo][0]);
+          if (cand.some(c => used.has(c.r * 4 + c.s))) continue;
+          // 攻撃してきた相手のレンジ絞り込み。ただしGTOの相手はブラフも混ぜるため、
+          // ボードに絡まないハンドも bluffKeep の割合で残す（ポットベットのGTO均衡 ≒ バリュー2:ブラフ1）
+          if (o.aggro && board.length && !boardConnect(cand, board) && Math.random() > (o.bluffKeep ?? 0.28)) continue;
+          hand = cand;
+          break;
+        }
+      }
+      if (!hand){ // ランダムフォールバック
+        for (let t = 0; t < 30 && !hand; t++){
+          const c1 = restAll[Math.floor(Math.random() * restAll.length)];
+          const c2 = restAll[Math.floor(Math.random() * restAll.length)];
+          if (c1 !== c2 && !used.has(c1.r*4+c1.s) && !used.has(c2.r*4+c2.s)) hand = [c1, c2];
+        }
+      }
+      if (!hand){ fail = true; break; }
+      hand.forEach(c => used.add(c.r * 4 + c.s));
+      oppHands.push(hand);
+    }
+    if (fail) continue;
+    // ボード完成
+    const fill = [];
+    while (fill.length < 5 - board.length){
+      const c = restAll[Math.floor(Math.random() * restAll.length)];
+      if (!used.has(c.r * 4 + c.s)){ used.add(c.r * 4 + c.s); fill.push(c); }
+    }
+    const fullBoard = board.concat(fill);
+    const hs = evalCards(hole.concat(fullBoard));
+    let best = -1;
+    for (const oh of oppHands){
+      const os = evalCards(oh.concat(fullBoard));
+      if (os > best) best = os;
+    }
+    if (hs > best) score += 1;
+    else if (hs === best) score += 0.5;
+    n++;
+  }
+  return n ? score / n : 0.5;
+}
+function rangeCumFor(p){
+  // プリフロップの最終アクションから推定レンジ（重み累積配列）を構築
+  if (!p.preChart || !p.preAct) return null;
+  const cum = [];
+  let acc = 0;
+  for (const [hand, e] of Object.entries(p.preChart)){
+    const combos = hand.length === 2 ? 6 : hand[2] === "s" ? 4 : 12;
+    const w = (p.preAct === "r" ? e[0] : e[1]) * combos;
+    if (w > 0){ acc += w; cum.push([hand, acc]); }
+  }
+  return cum.length ? cum : null;
+}
+
+/* ---- ボードテクスチャ ---- */
+function boardTexture(board){
+  if (board.length < 3) return null;
+  const suits = [0,0,0,0];
+  board.forEach(c => suits[c.s]++);
+  const maxSuit = Math.max(...suits);
+  const ranks = board.map(c => c.r).sort((a,b) => b-a);
+  const paired = new Set(ranks).size < ranks.length;
+  const span = ranks[0] - ranks[ranks.length-1];
+  const connected = span <= 4 && !paired;
+  const suitTxt = maxSuit >= 3 && maxSuit === board.length ? "モノトーン（全て同スート＝フラッシュ最警戒）"
+    : maxSuit >= 3 ? "同スート3枚以上（フラッシュ完成があり得る）"
+    : maxSuit === 2 ? "ツートーン（フラッシュドローがあり得る）" : "レインボー";
+  const wet = maxSuit >= 2 && connected || maxSuit >= 3 || (connected && ranks[0] >= 9);
+  let t = suitTxt;
+  if (paired) t += "・ペアボード";
+  if (connected) t += "・コネクト（ストレート圏）";
+  return { text: t, wet, paired, monotone: maxSuit >= 3 };
+}
+
+/* ---- ゲーム状態 ---- */
+const BOT_DEFS = [
+  { name:"ボブ",  emoji:"🦈", color:"#29e0ff" },
+  { name:"ケン",  emoji:"🐯", color:"#ffd23e" },
+  { name:"リサ",  emoji:"🦊", color:"#ff2d95" },
+  { name:"ムサシ", emoji:"🐺", color:"#8a6cff" },
+  { name:"ユキ",  emoji:"🐰", color:"#59f5c0" }
+];
+const TOUR_LEVELS = [[10,20],[15,30],[20,40],[30,60],[50,100],[75,150],[100,200],[150,300],[200,400],[300,600]];
+const HANDS_PER_LEVEL = 8;
+const G = {
+  mode: null, players: [], btn: 0, pot: 0, board: [], deck: [],
+  handNo: 0, level: 0, sb: 1, bb: 2, running: false, gen: 0,
+  coach: { n: 0, s: 0 }, street: "pre",
+  lastActor: null, renderedBoard: 0, _lastPot: null,
+  cashDepth: +(localStorage.getItem("pfc_depth") || 100)
+};
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/* ---- 効果音（Web Audio合成・ファイル不要） ---- */
+let SND = localStorage.getItem("pfc_sound") !== "0";
+const SFX = (() => {
+  let ctx = null;
+  const ac = () => (ctx ||= new (window.AudioContext || window.webkitAudioContext)());
+  function tone(freq, dur, type, vol, slideTo){
+    if (!SND) return;
+    try{
+      const c = ac(), o = c.createOscillator(), g = c.createGain();
+      o.type = type || "sine";
+      o.frequency.setValueAtTime(freq, c.currentTime);
+      if (slideTo) o.frequency.exponentialRampToValueAtTime(Math.max(20, slideTo), c.currentTime + dur);
+      g.gain.setValueAtTime(vol || 0.15, c.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + dur);
+      o.connect(g).connect(c.destination);
+      o.start();
+      o.stop(c.currentTime + dur + 0.02);
+    }catch(e){}
+  }
+  function noise(dur, vol, freq){
+    if (!SND) return;
+    try{
+      const c = ac(), len = Math.floor(c.sampleRate * dur);
+      const buf = c.createBuffer(1, len, c.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+      const s = c.createBufferSource(), g = c.createGain(), f = c.createBiquadFilter();
+      s.buffer = buf;
+      f.type = "bandpass"; f.frequency.value = freq || 3000; f.Q.value = 0.8;
+      g.gain.value = vol || 0.12;
+      s.connect(f).connect(g).connect(c.destination);
+      s.start();
+    }catch(e){}
+  }
+  return {
+    init(){ try{ const c = ac(); if (c.state === "suspended") c.resume(); }catch(e){} },
+    click(){ tone(1300, .04, "square", .05); },
+    deal(){ noise(.09, .12, 4200); },
+    flip(){ noise(.06, .09, 5200); tone(950, .05, "triangle", .05); },
+    chip(){ tone(2700, .03, "square", .09); setTimeout(() => tone(2100, .035, "square", .07), 45); },
+    check(){ tone(520, .06, "sine", .14); setTimeout(() => tone(460, .07, "sine", .11), 95); },
+    fold(){ noise(.13, .09, 2400); },
+    collect(){ noise(.4, .11, 1100); setTimeout(() => tone(700, .12, "triangle", .07, 1100), 250); },
+    raise(){ tone(320, .16, "sawtooth", .11, 95); tone(640, .1, "square", .05); },
+    allin(){ tone(210, .42, "sawtooth", .15, 55); setTimeout(() => tone(420, .28, "square", .08, 105), 90); },
+    win(){ [880, 1100, 1320, 1760].forEach((f, i) => setTimeout(() => tone(f, .18, "triangle", .13), i * 95)); },
+    lose(){ tone(360, .3, "sine", .12, 220); setTimeout(() => tone(240, .45, "sine", .1, 145), 190); },
+    coins(){ for (let i = 0; i < 6; i++) setTimeout(() => tone(1700 + Math.random() * 900, .07, "triangle", .07), i * 55); },
+    lvl(){ tone(720, .12, "square", .1); setTimeout(() => tone(960, .16, "square", .1), 140); },
+    good(){ tone(880, .1, "triangle", .12); setTimeout(() => tone(1320, .16, "triangle", .12), 105); },
+    bad(){ tone(230, .26, "sawtooth", .1, 140); }
+  };
+})();
+/* ---- BGM（Web Audio生成・シンセウェーブ風ループ） ---- */
+let BGM_ON = localStorage.getItem("pfc_bgm") !== "0";
+const BGM = (() => {
+  let ctx = null, master = null, timer = null, playing = false, step = 0, padOscs = [];
+  // Am → F → C → G（MIDIノート）
+  const CHORDS = [[57,60,64],[53,57,60],[60,64,67],[55,59,62]];
+  const BASS = [[45,45,52,45],[41,41,48,41],[48,48,55,48],[43,43,50,43]];
+  const f = m => 440 * Math.pow(2, (m - 69) / 12);
+  function ac(){
+    if (ctx) return ctx;
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    master = ctx.createGain(); master.gain.value = 0.11;
+    const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 2600;
+    const dly = ctx.createDelay(); dly.delayTime.value = 0.31;
+    const fb = ctx.createGain(); fb.gain.value = 0.22;
+    master.connect(lp); lp.connect(ctx.destination);
+    lp.connect(dly); dly.connect(fb); fb.connect(dly); dly.connect(ctx.destination);
+    return ctx;
+  }
+  function note(midi, dur, type, vol, att){
+    const c = ac(), o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.value = f(midi);
+    const t = c.currentTime;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol, t + (att || 0.01));
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(master);
+    o.start(t); o.stop(t + dur + 0.05);
+    return o;
+  }
+  function hat(vol){
+    const c = ac(), len = Math.floor(c.sampleRate * 0.04);
+    const buf = c.createBuffer(1, len, c.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    const s = c.createBufferSource(), g = c.createGain(), hp = c.createBiquadFilter();
+    s.buffer = buf; hp.type = "highpass"; hp.frequency.value = 7000; g.gain.value = vol;
+    s.connect(hp).connect(g).connect(master); s.start();
+  }
+  function tick(){
+    const bar = Math.floor(step / 8) % 4;      // 8分×8＝1コード
+    const eighth = step % 8;
+    if (eighth === 0){ // コードチェンジ: パッド（デチューンsaw×2）
+      padOscs.forEach(o => { try{ o.stop(); }catch(e){} });
+      padOscs = CHORDS[bar].flatMap(m => [
+        note(m, 2.1, "sawtooth", 0.030, 0.4),
+        note(m + 0.08, 2.1, "sawtooth", 0.026, 0.4)
+      ]);
+    }
+    note(BASS[bar][Math.floor(eighth / 2)] , 0.24, "sawtooth", 0.10, 0.005); // ベース
+    if (eighth % 2 === 1) hat(eighth === 7 ? 0.05 : 0.028);                   // ハット（裏）
+    if (eighth % 2 === 0) note(CHORDS[bar][(step / 2) % 3] + 12, 0.16, "triangle", 0.038, 0.01); // アルペジオ
+    step++;
+  }
+  return {
+    start(){
+      if (playing || !BGM_ON) return;
+      try{ const c = ac(); if (c.state === "suspended") c.resume(); }catch(e){ return; }
+      playing = true; step = 0;
+      timer = setInterval(tick, 250); // 120BPMの8分
+    },
+    stop(){
+      playing = false;
+      if (timer){ clearInterval(timer); timer = null; }
+      padOscs.forEach(o => { try{ o.stop(); }catch(e){} });
+      padOscs = [];
+    },
+    get playing(){ return playing; }
+  };
+})();
+function renderBgmBtn(){
+  document.querySelector("#bgmBtn span").textContent = BGM_ON ? "🎵" : "🎵̸";
+  document.getElementById("bgmBtn").classList.toggle("active", BGM_ON);
+}
+document.getElementById("bgmBtn").onclick = () => {
+  BGM_ON = !BGM_ON;
+  localStorage.setItem("pfc_bgm", BGM_ON ? "1" : "0");
+  if (BGM_ON) BGM.start(); else BGM.stop();
+  renderBgmBtn();
+};
+document.addEventListener("click", () => { SFX.init(); BGM.start(); }, { once: true });
+function renderSndBtn(){
+  document.querySelector("#sndBtn span").textContent = SND ? "🔊" : "🔇";
+  document.getElementById("sndBtn").classList.toggle("active", SND);
+}
+document.getElementById("sndBtn").onclick = () => {
+  SND = !SND;
+  localStorage.setItem("pfc_sound", SND ? "1" : "0");
+  renderSndBtn();
+  if (SND){ SFX.init(); SFX.chip(); }
+};
+renderSndBtn();
+renderBgmBtn();
+function fmt(n){ return n.toLocaleString(); }
+function alivePlayers(){ return G.players.filter(p => !p.busted); }
+function activeInHand(){ return G.players.filter(p => !p.busted && !p.folded); }
+function posName(p){
+  const alive = alivePlayers();
+  if (alive.length === 2) return p.seat === G.btn ? "BTN" : "BB";
+  const order = [];
+  for (let k = 0; k < 6; k++){
+    const pl = G.players[(G.btn + k) % 6];
+    if (pl && !pl.busted) order.push(pl.seat);
+  }
+  // ショートハンデッドはBTN/SB/BBを固定し、残りを後ろ（CO側）から詰める
+  // 5人: BTN,SB,BB,HJ,CO ／ 4人: BTN,SB,BB,CO ／ 3人: BTN,SB,BB
+  const names = ["BTN","SB","BB"].concat(["UTG","HJ","CO"].slice(6 - alive.length));
+  const idx = order.indexOf(p.seat);
+  return names[idx] || "CO";
+}
+function cutin(text, kind){
+  ({ raise: SFX.raise, bet: SFX.raise, allin: SFX.allin, win: SFX.win, lose: SFX.lose, lvl: SFX.lvl }[kind] || (() => {}))();
+  const c = document.getElementById("cutin");
+  const r = document.getElementById("cutinRibbon");
+  r.className = "ribbon " + kind;
+  r.textContent = text;
+  c.classList.remove("go");
+  void c.offsetWidth;
+  c.classList.add("go");
+}
+function burst(seat){
+  const fx = document.getElementById("fx");
+  const [x, y] = SEAT_POS[seat];
+  const cols = ["#ffd23e","#29e0ff","#ff2d95","#8a6cff","#59f5c0"];
+  for (let i = 0; i < 16; i++){
+    const p = document.createElement("div");
+    p.className = "pt";
+    p.style.left = x + "%";
+    p.style.top = y + "%";
+    p.style.setProperty("--dx", (Math.random() * 180 - 90) + "px");
+    p.style.setProperty("--dy", (Math.random() * -150 - 15) + "px");
+    p.style.setProperty("--c", cols[i % cols.length]);
+    p.style.animationDelay = (Math.random() * 0.15) + "s";
+    fx.appendChild(p);
+    setTimeout(() => p.remove(), 1300);
+  }
+}
+const SEAT_POS = [
+  [50, 88], [11, 68], [11, 30], [50, 10], [89, 30], [89, 68]
+];
+/* ---- チップ・カード演出ヘルパー ---- */
+function chipSpot(seat){
+  const [sx, sy] = SEAT_POS[seat];
+  return [sx + (50 - sx) * 0.42, sy + (46 - sy) * 0.45];
+}
+function chipTier(amount){
+  if (amount < 10) return "cd1";
+  if (amount < 50) return "cd2";
+  if (amount < 200) return "cd3";
+  if (amount < 1000) return "cd4";
+  return "cd5";
+}
+function chipsHTML(amount){
+  const n = Math.min(4, Math.max(1, Math.ceil(Math.log10(amount + 1))));
+  let discs = "";
+  for (let i = 0; i < n; i++) discs += `<div class="cdisc ${chipTier(amount)}" style="top:${-i * 3}px"></div>`;
+  return `<div class="cstack">${discs}</div><span class="camt">${fmt(amount)}</span>`;
+}
+function spawnChipsEl(amount, x, y){
+  const el = document.createElement("div");
+  el.className = "chips";
+  el.innerHTML = chipsHTML(amount);
+  el.style.left = x + "%";
+  el.style.top = y + "%";
+  document.getElementById("gtable").appendChild(el);
+  return el;
+}
+async function collectBets(gen){
+  // 場のチップをポットへ吸い込むアニメーション
+  const hasBets = G.players.some(p => p.bet > 0);
+  if (hasBets){
+    SFX.collect();
+    document.querySelectorAll("#gtable .chips").forEach(el => {
+      el.style.transition = "left .45s ease-in, top .45s ease-in, opacity .25s .3s";
+      el.style.left = "50%"; el.style.top = "46%"; el.style.opacity = "0";
+    });
+    await sleep(560);
+    if (G.gen !== gen) return;
+  }
+  G.players.forEach(p => { G.pot += p.bet; p.contrib += p.bet; p.bet = 0; });
+  renderTable();
+}
+async function flyPotToWinners(awards, gen){
+  // ポット→勝者へチップが飛ぶ
+  SFX.coins();
+  for (const [w, amt] of awards){
+    const el = spawnChipsEl(amt, 50, 46);
+    void el.offsetWidth;
+    el.style.transition = "left .6s cubic-bezier(.3,.7,.4,1), top .6s cubic-bezier(.3,.7,.4,1), opacity .3s .5s";
+    const [tx, ty] = SEAT_POS[w.seat];
+    el.style.left = tx + "%"; el.style.top = ty + "%"; el.style.opacity = "0";
+    setTimeout(() => el.remove(), 900);
+  }
+  await sleep(800);
+}
+function flyCards(seat){
+  // フォールド: カード2枚を中央へ投げ捨てる
+  const [sx, sy] = SEAT_POS[seat];
+  const tbl = document.getElementById("gtable");
+  [-2, 2].forEach((off, i) => {
+    const el = document.createElement("div");
+    el.className = "flycard";
+    el.style.left = (sx + off) + "%";
+    el.style.top = (sy - 3) + "%";
+    tbl.appendChild(el);
+    void el.offsetWidth;
+    el.style.left = (48 + i * 4) + "%";
+    el.style.top = "44%";
+    el.style.transform = `translate(-50%,-50%) rotate(${(Math.random() * 240 + 120) * (i ? 1 : -1)}deg) scale(.75)`;
+    el.style.opacity = "0";
+    setTimeout(() => el.remove(), 700);
+  });
+}
+function renderTable(msg, opts = {}){
+  const tbl = document.getElementById("gtable");
+  tbl.querySelectorAll(".seat,.dealerbtn,.chips").forEach(e => e.remove());
+  G.players.forEach(p => {
+    const d = document.createElement("div");
+    d.className = "seat" + ((p.folded && !p.busted) || p.busted ? " folded" : "") + (p.acting ? " acting" : "") + (p.winner ? " winner" : "");
+    d.style.left = SEAT_POS[p.seat][0] + "%";
+    d.style.top = SEAT_POS[p.seat][1] + "%";
+    const showCards = p.isHero || p.show;
+    const flipCls = (p.show && !p.isHero && !p._flipped) ? " flipin" : "";
+    const dealCls = opts.deal ? " deal" : "";
+    const ghost = p.folded && p.isHero && p.hole ? " ghost" : ""; // 降りても自分のハンドは薄く見える
+    const holes = p.hole && (!p.folded || p.isHero) ? p.hole.map((c, ci) =>
+      showCards
+        ? `<div class="mini ${SUIT_COL[c.s]}${flipCls}${dealCls}${ghost}" style="animation-delay:${(p.seat * 0.06 + ci * 0.05).toFixed(2)}s">${RC[c.r] === "T" ? "10" : RC[c.r]}<span style="font-size:9px">${SUIT_CH[c.s]}</span></div>`
+        : `<div class="mini back${dealCls}" style="animation-delay:${(p.seat * 0.06 + ci * 0.05).toFixed(2)}s"></div>`).join("") : "";
+    if (p.show && !p.isHero) p._flipped = true;
+    const betPop = G.lastActor === p.seat ? " pop" : "";
+    d.innerHTML = `<div class="plate">
+      <div class="toprow">
+        <div class="ava" style="--ac:${p.color}">${p.emoji}</div>
+        <div>
+          <div class="nm">${p.name}<span class="posb">${p.busted ? "OUT" : posName(p)}</span></div>
+          <div class="stk">${fmt(p.stack)}</div>
+        </div>
+      </div>
+      <div class="bet${betPop}">${p.lastAct || ""}</div>
+      <div class="hole">${holes}</div>
+    </div>`;
+    tbl.appendChild(d);
+    // ベット中のチップを席の前に表示
+    if (p.bet > 0 && !p.busted){
+      const [cx, cy] = chipSpot(p.seat);
+      const ch = spawnChipsEl(p.bet, cx, cy);
+      if (G.lastActor === p.seat) ch.classList.add("pop-in");
+    }
+  });
+  const btnP = G.players[G.btn];
+  if (btnP){
+    const db = document.createElement("div");
+    db.className = "dealerbtn";
+    db.textContent = "D";
+    const [x, y] = SEAT_POS[G.btn];
+    db.style.left = (x + (x < 50 ? 11 : x > 50 ? -11 : 8)) + "%";
+    db.style.top = (y + (y > 50 ? -14 : 14)) + "%";
+    tbl.appendChild(db);
+  }
+  document.getElementById("board").innerHTML = G.board.map((c, i) =>
+    `<div class="bcard ${SUIT_COL[c.s]}${i >= G.renderedBoard ? " flip" : ""}" style="${i >= G.renderedBoard ? `animation-delay:${((i - G.renderedBoard) * 0.13).toFixed(2)}s` : ""}"><span class="r">${RC[c.r] === "T" ? "10" : RC[c.r]}</span><span class="s">${SUIT_CH[c.s]}</span></div>`).join("");
+  G.renderedBoard = G.board.length;
+  const betSum = G.players.reduce((s, p) => s + p.bet, 0);
+  const potNow = G.pot + betSum;
+  const pv = document.getElementById("potv");
+  pv.textContent = "POT " + fmt(potNow);
+  if (G._lastPot !== potNow && G._lastPot !== null){
+    pv.classList.remove("pulse");
+    void pv.offsetWidth;
+    pv.classList.add("pulse");
+  }
+  G._lastPot = potNow;
+  if (msg !== undefined) document.getElementById("gmsg").textContent = msg;
+  document.getElementById("giHand").textContent = G.handNo;
+  document.getElementById("giBlind").textContent = `${fmt(G.sb)} / ${fmt(G.bb)}`;
+  document.getElementById("giScore").textContent = G.coach.n ? Math.round(G.coach.s / G.coach.n * 100) + "点" : "-";
+  if (G.mode === "tour"){
+    document.getElementById("giLevelWrap").style.display = "";
+    document.getElementById("giLevel").textContent = (G.level + 1);
+  } else document.getElementById("giLevelWrap").style.display = "none";
+  document.getElementById("depth100").style.display = G.mode === "cash" ? "" : "none";
+  document.getElementById("depth300").style.display = G.mode === "cash" ? "" : "none";
+  document.getElementById("depth100").classList.toggle("active", G.cashDepth === 100);
+  document.getElementById("depth300").classList.toggle("active", G.cashDepth === 300);
+  G.lastActor = null;
+}
+function coachAdd(cls, head, body, gridData, freqHTML){
+  const log = document.getElementById("coachLog");
+  if (log.dataset.fresh !== "1"){ log.innerHTML = ""; log.dataset.fresh = "1"; }
+  const d = document.createElement("div");
+  d.className = "centry " + cls;
+  d.innerHTML = `<div class="chead">${head}</div>` +
+    (freqHTML ? `<div class="freqbar">${freqHTML}</div>` : "") +
+    `<div class="cbody">${body}</div>`;
+  if (gridData){
+    const btn = document.createElement("button");
+    btn.className = "cgrid-btn";
+    const btnLabel = gridData.label || "📊 レンジ表（GTO頻度）を見る";
+    btn.textContent = btnLabel;
+    const wrap = document.createElement("div");
+    wrap.className = "cgrid";
+    btn.onclick = () => {
+      const show = !wrap.classList.contains("show");
+      if (show && !wrap.dataset.done){
+        const lg = document.createElement("div");
+        lg.className = "legend";
+        const tbl = document.createElement("table");
+        tbl.className = "range";
+        renderFreqLegendInto(lg, gridData.raiseJa || "レイズ");
+        renderFreqGridInto(tbl, gridData.cells, gridData.hand);
+        wrap.appendChild(lg);
+        wrap.appendChild(tbl);
+        wrap.dataset.done = "1";
+      }
+      wrap.classList.toggle("show", show);
+      btn.textContent = show ? "📊 閉じる" : btnLabel;
+    };
+    d.appendChild(btn);
+    d.appendChild(wrap);
+  }
+  log.prepend(d);
+  while (log.children.length > 12) log.removeChild(log.lastChild);
+}
+function coachScore(cls){
+  G.coach.n++;
+  G.coach.s += cls === "ok" ? 1 : cls === "mx" ? 0.5 : 0;
+}
+
+/* ================================================================
+   累積リーク分析（全セッション永続・localStorage）
+   ================================================================ */
+const LEAK_DEF = {
+  preTight:    { ja:"タイトすぎ（プリフロップ）", adv:"GTOが高頻度で参加するハンドを捨てています。ミックス頻度のあるハンドは頻度通りに参加を。" },
+  preLoose:    { ja:"ルースすぎ（プリフロップ）", adv:"フォールドがメインのハンドで参加しています。「安いから見る」が積み重なる典型リークです。" },
+  prePassive:  { ja:"レイズ逃し（コール過多）", adv:"レイズがメインのスポットでコールを選びがち。主導権とフォールドエクイティを捨てています。" },
+  preWild:     { ja:"無理なプリフロップレイズ", adv:"GTOでほぼレイズしないハンドで攻めています。レンジが歪みポストフロップで苦しくなります。" },
+  limp:        { ja:"オープンリンプ癖", adv:"未オープンのポットはレイズorフォールドが基本。リンプは主導権もFEも放棄します。" },
+  pfTight:     { ja:"押し引き: シャブ不足", adv:"ショートスタックでナッシュのシャブレンジを降りています。ブラインド獲得の取り逃しは致命的です。" },
+  pfLoose:     { ja:"押し引き: シャブ過多", adv:"ナッシュのフォールド域でオールインしています。コールされた時の勝率が足りません。" },
+  overfold:    { ja:"オーバーフォールド", adv:"必要勝率を大きく超えているのに降りています。相手のブラフ（GTOなら必ず混ざる）に搾取される形です。" },
+  overcall:    { ja:"コールしすぎ（ステーション傾向）", adv:"必要勝率に届かないコールが多め。「当たってるかも」ではなく数字で判断を。" },
+  wildRaise:   { ja:"根拠の薄いレイズ", adv:"役もドローもないレイズが目立ちます。ブラフはブロッカー等の根拠がある時だけに。" },
+  missedValue: { ja:"バリューベット逃し", adv:"強い役でチェックしがち。ポットを育てないと勝ちハンドの期待値を捨てます。" },
+  mwBluff:     { ja:"マルチウェイブラフ", adv:"3人以上のポットでのブラフは自動利益が消えます。マルチウェイはバリュー特化で。" },
+  sizeErr:     { ja:"ベットサイズ選択", adv:"ボードに合わないサイズを選びがち。ドライ=小さく高頻度、ウェット/ポラライズ=大きくが基準です。" }
+};
+let LSTATS = (() => {
+  try{ const d = JSON.parse(localStorage.getItem("pfc_lstats_v1")); if (d && d.v === 1) return d; }catch(e){}
+  return { v:1, n:0, s:0, streets:{}, pos:{}, spots:{}, leaks:{}, recent:[] };
+})();
+function recordJudge(cls, meta){
+  const sc = cls === "ok" ? 1 : cls === "mx" ? 0.5 : 0;
+  const bump = (obj, key) => {
+    if (!key) return;
+    if (!obj[key]) obj[key] = { n:0, s:0 };
+    obj[key].n++; obj[key].s += sc;
+  };
+  LSTATS.n++; LSTATS.s += sc;
+  bump(LSTATS.streets, meta.street);
+  bump(LSTATS.pos, meta.pos);
+  bump(LSTATS.spots, meta.spot);
+  (meta.tags || []).forEach(tg => { LSTATS.leaks[tg] = (LSTATS.leaks[tg] || 0) + 1; });
+  LSTATS.recent.push(sc);
+  if (LSTATS.recent.length > 100) LSTATS.recent.shift();
+  try{ localStorage.setItem("pfc_lstats_v1", JSON.stringify(LSTATS)); }catch(e){}
+}
+// プリフロップ頻度判定からのリークタグ抽出
+function preLeakTags(norm, fr, ctx, pos, actionType){
+  const tags = [];
+  if (norm === "f" && fr.f <= 35) tags.push("preTight");
+  if (norm !== "f" && fr.f >= 65) tags.push("preLoose");
+  if (norm === "c" && fr.r >= 65) tags.push("prePassive");
+  if (norm === "r" && fr.r < 10 && fr.f >= 50) tags.push("preWild");
+  if (ctx && ctx.raises === 0 && actionType === "call" && pos !== "BB") tags.push("limp");
+  return tags;
+}
+function pct100(o){ return o && o.n ? Math.round(o.s / o.n * 100) : null; }
+function renderStatsPanel(){
+  const p = document.getElementById("statsPanel");
+  const all = pct100(LSTATS);
+  const recent = LSTATS.recent.length ? Math.round(LSTATS.recent.reduce((a,b)=>a+b,0) / LSTATS.recent.length * 100) : null;
+  const bar = (label, o) => {
+    const v = pct100(o);
+    return v === null ? "" : `<div class="stt-row"><span class="stt-l">${label}</span><div class="stt-bar"><div class="stt-fill" style="width:${v}%;background:${v>=70?"var(--green)":v>=50?"var(--yellow)":"var(--red)"}"></div></div><span class="stt-v">${v}点<i>（${o.n}回）</i></span></div>`;
+  };
+  const streetJa = { pre:"プリフロップ", flop:"フロップ", turn:"ターン", river:"リバー" };
+  const leaks = Object.entries(LSTATS.leaks).sort((a,b) => b[1] - a[1]).slice(0, 6);
+  const mistakes = Object.values(LSTATS.leaks).reduce((a,b)=>a+b, 0);
+  p.innerHTML = `
+    <div class="stt-box">
+      <div class="stt-head"><span>📈 弱点分析（全セッション累積）</span><button class="btn2" id="sttClose">閉じる</button></div>
+      ${LSTATS.n === 0 ? '<p style="color:var(--sub);font-size:13px">まだデータがありません。クイズやゲームをプレイすると判定が蓄積されます。</p>' : `
+      <div class="stt-sum">総合 <b>${all}点</b>（${LSTATS.n}判定）｜ 直近100判定 <b>${recent}点</b> ${recent !== null && all !== null ? (recent > all + 2 ? "📈 改善中" : recent < all - 2 ? "📉 下降気味" : "→ 安定") : ""}</div>
+      <h4>ストリート別</h4>
+      ${["pre","flop","turn","river"].map(st => bar(streetJa[st], LSTATS.streets[st])).join("")}
+      <h4>スポット別</h4>
+      ${Object.entries(LSTATS.spots).sort((a,b) => b[1].n - a[1].n).slice(0,8).map(([k,o]) => bar(k, o)).join("")}
+      <h4>ポジション別</h4>
+      ${["UTG","HJ","CO","BTN","SB","BB"].map(ps => bar(ps, LSTATS.pos[ps])).join("")}
+      <h4>⚠️ あなたの均衡からのズレ（リーク）トップ</h4>
+      ${leaks.length === 0 ? '<p style="color:var(--sub);font-size:12px">検出されたリークはまだありません。</p>'
+        : leaks.map(([k, c]) => `<div class="stt-leak"><div class="stt-leak-h"><b>${(LEAK_DEF[k]||{ja:k}).ja}</b><span>${c}回（ミス全体の${mistakes ? Math.round(c/mistakes*100) : 0}%）</span></div><div class="stt-leak-a">${(LEAK_DEF[k]||{adv:""}).adv}</div></div>`).join("")}
+      <button class="btn2" id="sttReset" style="margin-top:12px;color:var(--red)">分析データをリセット</button>`}
+    </div>`;
+  document.getElementById("sttClose").onclick = () => p.classList.remove("show");
+  const rst = document.getElementById("sttReset");
+  if (rst) rst.onclick = () => {
+    if (!confirm("累積の分析データを全て削除します。よろしいですか？")) return;
+    LSTATS = { v:1, n:0, s:0, streets:{}, pos:{}, spots:{}, leaks:{}, recent:[] };
+    localStorage.removeItem("pfc_lstats_v1");
+    renderStatsPanel();
+  };
+}
+document.getElementById("statsBtn").onclick = () => {
+  renderStatsPanel();
+  document.getElementById("statsPanel").classList.add("show");
+};
+const STREET_JA = { pre:"プリフロップ", flop:"フロップ", turn:"ターン", river:"リバー" };
+
+/* ---- プリフロップコーチ（GTO頻度） ---- */
+function coachPreflop(hero, ctx, action){
+  const code = codeOf(hero.hole[0], hero.hole[1]);
+  const pos = posName(hero);
+  // ==== トーナメント・ショートスタック: ナッシュ押し引き判定 ====
+  if (G.mode === "tour"){
+    const bbStack = (hero.stack + hero.bet) / G.bb;
+    if (bbStack <= 15 && ctx.raises === 0 && pos !== "BB"){
+      const bucket = pushBucket(bbStack);
+      const entry = PUSH_CHARTS[bucket] && PUSH_CHARTS[bucket][cpos(pos)];
+      if (entry){
+        const pset = expandPushRange(entry.range);
+        const inSet = pset.has(code);
+        const icm = alivePlayers().length <= 3 ? " 残り人数が少ない局面ではICM（賞金期待値）的に際どいスポットの回避が正解に寄ります。" : "";
+        let cls, msg;
+        if (action.type === "allin"){
+          cls = inSet ? "ok" : "ng";
+          msg = inSet ? `ナッシュ均衡（約${bucket}bb・${dpos(pos)}）のシャブレンジ（全ハンドの${entry.pct}%）に入っています。正しいオールインです。`
+                      : `ナッシュ（約${bucket}bb・${dpos(pos)}・シャブ率${entry.pct}%）ではフォールド域のハンドです。`;
+        } else if (action.type === "fold"){
+          cls = inSet ? "ng" : "ok";
+          msg = inSet ? "ナッシュではシャブ推奨のハンド。フォールドエクイティ＋ブラインド獲得のチャンスを逃しています。"
+                      : "ナッシュ通りの正しいフォールドです。";
+        } else {
+          cls = inSet ? "mx" : "ng";
+          msg = "15bb以下は原則「オールインかフォールド」の二択が数学的に最適。小さいレイズはAA/KK等のトラップ用途の低頻度ミックスのみです。";
+        }
+        coachScore(cls);
+        recordJudge(cls, { street: "pre", spot: "押し引き", pos: dpos(pos),
+          tags: (action.type === "fold" && inSet) ? ["pfTight"] : (action.type === "allin" && !inSet) ? ["pfLoose"] : [] });
+        const mark = cls === "ok" ? "✅" : cls === "mx" ? "🟡" : "❌";
+        const cells = {};
+        pset.forEach(h => cells[h] = [100, 0]);
+        coachAdd(cls, `${mark} プッシュ/フォールド: ${actJa(action)}（${code}・${dpos(pos)}・約${Math.round(bbStack)}bb）`,
+          `${msg} 押す側は「フォールドエクイティ＋2枚のカードの勝率」で広く押せ、受ける側は実力勝負なので狭くしか受けられません（押し引きの大原則）。チャートはアンティあり基準のため、本ゲーム（アンティなし）では1段階タイトに。${icm}`,
+          { cells, hand: code, raiseJa: "オールイン" });
+        return;
+      }
+    }
+    // オールインを受けた側のコール判定（構成値ベースの参考）
+    if (ctx.toCall > 0){
+      const shover = activeInHand().find(p => !p.isHero && p.allin);
+      if (shover){
+        const eff = Math.min(hero.stack + hero.bet, shover.contrib + shover.bet) / G.bb;
+        if (eff <= 15){
+          const cset = expandPushRange(BB_CALL_10BB[posName(shover) === "SB" ? "SB" : "_d"]);
+          const inC = cset.has(code);
+          let cls = action.type === "call" ? (inC ? "ok" : "ng") : action.type === "fold" ? (inC ? "mx" : "ok") : "mx";
+          coachScore(cls);
+          recordJudge(cls, { street: "pre", spot: "vsオールイン", pos: dpos(pos),
+            tags: (action.type === "call" && !inC) ? ["pfLoose"] : (action.type === "fold" && inC) ? ["pfTight"] : [] });
+          const mark = cls === "ok" ? "✅" : cls === "mx" ? "🟡" : "❌";
+          const cells = {};
+          cset.forEach(h => cells[h] = [0, 100]);
+          coachAdd(cls, `${mark} vs オールイン: ${actJa(action)}（${code}・約${Math.round(eff)}bb実効）`,
+            `${inC ? "コール目安レンジに入っています。" : "コール目安レンジ外です。シャブレンジ相手に実力で勝つ必要があるため、受ける側は大幅にタイトが正解。"}（目安レンジは複数ソースからの構成値・参考値）${alivePlayers().length <= 3 ? " ICM的にはさらに1〜2段階タイトに。" : ""}`,
+            { cells, hand: code, raiseJa: "コール" });
+          return;
+        }
+      }
+    }
+  }
+  const agg = ctx.aggPos;
+  let chart = null, kindJa = "", raiseJa = "レイズ", note = "";
+  if (ctx.raises === 0){
+    if (ctx.limped && pos === "BB" && action.type === "check"){
+      // BBオプションのチェックは常に正当。ISOレイズ頻度は参考情報として添える
+      const iso = getChart("ISO", "BB");
+      const isoR = iso ? freqOf(iso.cells, code).r : 0;
+      const cls = isoR >= 65 ? "mx" : "ok";
+      coachScore(cls);
+      coachAdd(cls, `${cls === "ok" ? "✅" : "🟡"} プリフロップ BBオプション: チェック（${code}・BB）`,
+        cls === "ok"
+          ? "リンプに対するBBのチェックは無料でフロップが見られる正当な選択です。"
+          : `チェック自体は損しませんが、このハンドはアイソレートレイズ頻度${isoR}%の強いハンド。リンパーからバリューを取りに行くレイズが推奨です。`);
+      return;
+    }
+    if (ctx.limped && PRE[cpos(pos) + "-ISO"]){
+      chart = getChart("ISO", pos);
+      kindJa = "vs リンプ（アイソレート）";
+      note = "リンパーを1人に絞り込む「アイソレート」レイズが基本。主導権とポジションを取りに行きます。";
+    } else if (pos === "BB"){
+      // BB未オープン: チェックが基準
+      const norm = action.type === "check" ? "c" : action.type === "fold" ? "f" : "r";
+      const cls = norm === "c" ? "ok" : norm === "f" ? "ng" : "mx";
+      coachScore(cls);
+      coachAdd(cls, `${cls === "ok" ? "✅" : cls === "mx" ? "🟡" : "❌"} プリフロップ: ${actJa(action)}（${code}・BB）`,
+        "誰もレイズしていないのでBBはチェックで無料のフロップが見られます。フォールドは論外、レイズは相手次第のオプションです。");
+      return;
+    } else {
+      chart = getChart("RFI", pos);
+      kindJa = "オープン";
+    }
+  } else if (ctx.raises === 1){
+    chart = getChart("vs-open", pos, agg);
+    kindJa = `vs ${dpos(cpos(agg||""))}オープン`;
+    raiseJa = "3ベット";
+    if (action.type === "raise" || action.type === "allin")
+      note += ["SB","BB"].includes(pos) ? "OOPからの3ベットは大きめ（オープンの4倍前後）が基準。" : "IPからの3ベットはオープンの3倍前後が基準。";
+  } else if (ctx.raises === 2){
+    chart = getChart("vs-3bet", pos, agg);
+    kindJa = `vs ${dpos(cpos(agg||""))}3ベット`;
+    raiseJa = "4ベット";
+    if (!ctx.heroWasAggressor) note = "（あなたはオープンレイザーではないため、オープンレイザー向けチャートでの近似判定です）";
+  } else {
+    chart = getChart("vs-4bet", pos, agg);
+    kindJa = `vs ${dpos(cpos(agg||""))}4ベット`;
+    raiseJa = "5ベット";
+    note += "💡プロの定石: 実戦（特にライブ/低レート）の4ベットはほぼAA/KKに偏るのが定説。チャートよりさらにタイトに受けるのが利益的です（Upswing）。";
+  }
+  const norm = (action.type === "raise" || action.type === "allin" || action.type === "bet") ? "r"
+    : action.type === "call" ? "c" : action.type === "check" ? "c" : "f";
+  if (!chart){
+    // チャートなしフォールバック
+    const cls = "mx";
+    coachScore(cls);
+    coachAdd(cls, `🟡 プリフロップ: ${actJa(action)}（${code}・${pos}）`,
+      `このスポット（${kindJa}）の直接チャートがないため参考判定です。基準: 4ベット以降はQQ+/AKが軸、A5sがブラフ筆頭。`);
+    return;
+  }
+  const fr = freqOf(chart.cells, code);
+  // ヒーロー自身のレンジも記録（ポストフロップのレンジvsレンジ分析用）
+  if (norm === "r" || norm === "c"){ hero.preChart = chart.cells; hero.preAct = norm; }
+  const jd = judgeFreq(fr, norm, code);
+  recordJudge(jd.cls, { street: "pre",
+    spot: ctx.raises === 0 ? (ctx.limped ? "vsリンプ" : "RFI") : ctx.raises === 1 ? "vsオープン" : ctx.raises === 2 ? "vs3ベット" : "vs4ベット",
+    pos: dpos(pos), tags: preLeakTags(norm, fr, ctx, pos, action.type) });
+  if (alivePlayers().length === 2){
+    // ヘッズアップは6maxチャートの近似のため、❌はミックス扱いに緩和
+    if (jd.cls === "ng") jd.cls = "mx";
+    note += "（ヘッズアップは6maxチャートによる近似判定。実際のHU GTOはこれよりずっと広いレンジが正解です）";
+  }
+  coachScore(jd.cls);
+  const mark = jd.cls === "ok" ? "✅" : jd.cls === "mx" ? "🟡" : "❌";
+  const cat = CAT_TEXT[handCat(code)];
+  const approxNote = chart.approx ? `（近似: ${chart.key.split("-").map(t => dpos(t)).join(" ")} チャートを使用）`
+    : chart.synth ? "（このスポットは隣接ポジションのチャートから補間した値です）" : "";
+  const gtoLine = `GTO解: <b>${raiseJa} ${fr.r}% ／ コール ${fr.c}% ／ フォールド ${fr.f}%</b>。`;
+  const depthNote = (G.mode === "cash" && G.cashDepth >= 300) ? " 【300BBディープ】スーテッド・ポケットの価値が上がり、ドミネイトされやすいオフスートブロードウェイやスタックオフの価値は下がります。チャートより一段慎重に。" : "";
+  // 実効スタック（一番深い相手基準）でチャートの読み替えを指示
+  const oppsAct0 = activeInHand().filter(p => !p.isHero);
+  const effBB = oppsAct0.length ? Math.min(hero.stack + hero.bet, Math.max(...oppsAct0.map(p => p.stack + p.bet))) / G.bb : (hero.stack + hero.bet) / G.bb;
+  const effNote = (effBB >= 16 && effBB < 60)
+    ? ` 【実効${Math.round(effBB)}bb】チャートは100bb基準: 浅いスタックではセットマイニングや小スーテッドのコール価値が下がり、3ベット/4ベットはコミット前提。ミックス頻度のコール側は1段階フォールド寄りに読み替えてください。`
+    : (effBB >= 60 && effBB < 80) ? ` 【実効${Math.round(effBB)}bb】ほぼ100bb基準どおりでOK。` : "";
+  const shortNote = (G.mode === "tour" && G.players[0].stack / G.bb < 25) ? " 【ショートスタック】25bb未満ではチャートよりタイトに。オープンは小さく、3ベットはオールイン混じりが基準です。" : "";
+  const bestJa = jd.bestAct === "r" ? raiseJa : jd.bestAct === "c" ? "コール" : "フォールド";
+  coachAdd(jd.cls,
+    `${mark} ${STREET_JA.pre} ${kindJa}: ${actJa(action)}（${code}・${pos}）— GTO頻度 ${jd.pct}%`,
+    `${jd.tag}。${gtoLine}最頻アクションは<b>${bestJa}</b>。${cat} ${note}${approxNote}${depthNote}${effNote}${shortNote}`,
+    { cells: chart.cells, hand: code, raiseJa },
+    freqBarHTML(fr, raiseJa));
+}
+function actJa(action){
+  return ({raise:"レイズ",call:"コール",fold:"フォールド",check:"チェック",allin:"オールイン",bet:"ベット"})[action.type];
+}
+
+/* ---- 役名（ショーダウン表示用） ---- */
+function handNameOf(cards){
+  const NAMES = ["ハイカード","ワンペア","ツーペア","スリーカード","ストレート","フラッシュ","フルハウス","フォーカード","ストレートフラッシュ"];
+  return NAMES[catOf(evalCards(cards))];
+}
+
+/* ---- ポストフロップ役分類 ---- */
+function classifyMade(hole, board){
+  if (!board.length) return { label: "", draws: [], strongDraw: false };
+  const score = evalCards(hole.concat(board));
+  const cat = catOf(score);
+  const names = ["ハイカード","ワンペア","ツーペア","スリーカード","ストレート","フラッシュ","フルハウス","フォーカード","ストレートフラッシュ"];
+  let label = names[cat];
+  if (cat === 1){
+    const boardTop = Math.max(...board.map(c => c.r));
+    if (hole[0].r === hole[1].r){
+      label = hole[0].r > boardTop ? "オーバーペア" : "アンダーペア（ボードのトップカード未満）";
+    } else {
+      const pr = board.some(c => c.r === hole[0].r) ? hole[0].r : board.some(c => c.r === hole[1].r) ? hole[1].r : 0;
+      if (pr === boardTop) label = "トップペア";
+      else if (pr > 0) label = "ミドル/ボトムペア";
+      else label = "ボードペアのみ（実質ハイカード）";
+    }
+  }
+  const draws = [];
+  let strongDraw = false;
+  if (board.length < 5){
+    const suitCnt = [0,0,0,0];
+    hole.concat(board).forEach(c => suitCnt[c.s]++);
+    for (let s = 0; s < 4; s++)
+      if (suitCnt[s] === 4 && hole.some(c => c.s === s)){ draws.push("フラッシュドロー"); strongDraw = true; }
+    const rset = new Set(hole.concat(board).map(c => c.r));
+    if (rset.has(14)) rset.add(1);
+    let fills = 0;
+    for (let cand = 1; cand <= 14; cand++){
+      if (rset.has(cand)) continue;
+      const t = new Set(rset); t.add(cand);
+      if (straightHigh([...t]) > (straightHigh([...rset]) || 0)) fills++;
+    }
+    if (catOf(score) < 4){
+      if (fills >= 2){ draws.push("オープンエンド級ストレートドロー"); strongDraw = true; }
+      else if (fills === 1) draws.push("ガットショット");
+    }
+  }
+  return { label, draws, strongDraw };
+}
+
+/* ---- ポストフロップコーチ（レンジ推定勝率） ---- */
+/* ================================================================
+   ポストフロップGTO知識ベース
+   出典: GTO Wizard blog / Upswing Poker / RangeConverter 集計レポート
+   （CB頻度・サイズ、チェックレイズ/プローブ頻度、バリュー:ブラフ比、MDF）
+   ================================================================ */
+function classifyFlop(board){
+  const f = board.slice(0, 3);
+  const suits = [0,0,0,0];
+  f.forEach(c => suits[c.s]++);
+  const mono = Math.max(...suits) === 3;
+  const ranks = f.map(c => c.r).sort((a,b) => b-a);
+  const paired = new Set(ranks).size < 3;
+  const hi = ranks[0];
+  const conn = ranks[0] - ranks[2] <= 4 && !paired;
+  const twoTone = Math.max(...suits) === 2;
+  if (paired) return { key:"PAIRED", ja:"ペアボード" };
+  if (mono) return { key:"MONO", ja:"モノトーン" };
+  if (hi === 14 && !conn) return { key:"A_HIGH", ja:"Aハイ・ドライ" };
+  if (hi >= 12 && !conn) return { key:"BWAY", ja:"K/Qハイ・ブロードウェイ" };
+  if (conn && hi >= 10 && twoTone) return { key:"TT_HIGH_CONN", ja:"高連結ツートーン（ウェット）" };
+  if (conn) return { key:"MID_CONN", ja:"連結ボード" };
+  if (hi <= 9) return { key:"LOW", ja:"ローボード" };
+  return { key:"MID", ja:"ミドルボード" };
+}
+// CB頻度/サイズ（%）: ポットタイプ×ポジション×ボードクラス（集計ソルバーレポート由来の近似）
+const CBET_GUIDE = {
+  SRP_IP:  { A_HIGH:{f:80,s:33}, BWAY:{f:95,s:33}, PAIRED:{f:90,s:33}, MID_CONN:{f:50,s:66}, MID:{f:60,s:50}, LOW:{f:50,s:50}, MONO:{f:35,s:33}, TT_HIGH_CONN:{f:40,s:90}, _d:{f:63,s:40} },
+  SRP_OOP: { A_HIGH:{f:45,s:33}, BWAY:{f:55,s:33}, PAIRED:{f:45,s:33}, MID_CONN:{f:20,s:50}, MID:{f:30,s:50}, LOW:{f:25,s:50}, MONO:{f:25,s:33}, TT_HIGH_CONN:{f:30,s:66}, _d:{f:33,s:40} },
+  "3BP_IP":  { _d:{f:80,s:30} },
+  "3BP_OOP": { _d:{f:66,s:33} }
+};
+const PF_NOTES = {
+  xrSmall: 13, xrBig: 9, probe: 31,
+  bluffShare: s => s / (1 + 2 * s) // リバー均衡ブラフ率（sはポット比）
+};
+/* ================================================================
+   トーナメント: ナッシュ・プッシュ/フォールドチャート
+   出典: Beasts Of Poker Nash chart (chipEV, ante12.5%) ほか
+   6max UTG = フルリングLJ列。pct=シャブ頻度
+   ================================================================ */
+const PUSH_CHARTS = {
+  5:  { UTG:{pct:33.0,range:"22+ Ax+ K4s+ K9o+ Q7s+ QTo+ J8s+ JTo T8s+ 98s 87s"},
+        MP: {pct:39.4,range:"22+ Ax+ K2s+ K7o+ Q6s+ Q9o+ J7s+ J9o+ T7s+ T9o 97s+ 87s"},
+        CO: {pct:42.7,range:"22+ Ax+ K2s+ K5o+ Q4s+ Q8o+ J7s+ J9o+ T7s+ T9o 97s+ 87s"},
+        BTN:{pct:50.5,range:"22+ Kx+ Q2s+ Q6o+ J5s+ J8o+ T6s+ T8o+ 97s+ 87s"},
+        SB: {pct:84.9,range:"22+ Tx+ 92s+ 93o+ 82s+ 84o+ 73s+ 75o+ 63s+ 65o 53s+ 43s"} },
+  8:  { UTG:{pct:28.8,range:"22+ A2s+ A4o+ K7s+ KTo+ Q9s+ QTo+ J8s+ JTo T8s+ 98s 87s"},
+        MP: {pct:32.1,range:"22+ Ax+ K5s+ KTo+ Q8s+ QTo+ J8s+ JTo T8s+ 97s+ 87s 76s"},
+        CO: {pct:37.0,range:"22+ Ax+ K2s+ K8o+ Q7s+ Q9o+ J8s+ JTo T7s+ 97s+ 86s+ 76s 65s"},
+        BTN:{pct:45.7,range:"22+ Ax+ K2s+ K3o+ Q4s+ Q8o+ J7s+ J9o+ T7s+ T9o 96s+ 86s+ 76s 65s"},
+        SB: {pct:81.6,range:"22+ Jx+ T2s+ T3o+ 92s+ 95o+ 82s+ 85o+ 73s+ 75o+ 63s+ 65o 52s+ 43s"} },
+  10: { UTG:{pct:25.2,range:"22+ A2s+ A7o+ K7s+ KTo+ Q9s+ QJo J8s+ JTo T8s+ 98s 87s"},
+        MP: {pct:30.6,range:"22+ Ax+ K7s+ KTo+ Q9s+ QTo+ J8s+ JTo T8s+ 98s 87s"},
+        CO: {pct:34.2,range:"22+ Ax+ K4s+ K9o+ Q8s+ QTo+ J8s+ JTo T7s+ 97s+ 86s+ 76s 65s"},
+        BTN:{pct:43.3,range:"22+ Ax+ K2s+ K5o+ Q5s+ Q9o+ J7s+ J9o+ T7s+ T9o 96s+ 86s+ 75s+ 65s 54s"},
+        SB: {pct:75.3,range:"22+ Qx+ J2s+ J3o+ T2s+ T6o+ 92s+ 96o+ 84s+ 86o+ 73s+ 75o+ 63s+ 65o 53s+ 43s"} },
+  12: { UTG:{pct:22.5,range:"22+ A2s+ A9o+ K9s+ KTo+ Q9s+ QJo J8s+ JTo T8s+ 98s"},
+        MP: {pct:27.9,range:"22+ A2s+ A4o+ K8s+ KTo+ Q8s+ QJo J8s+ JTo T8s+ 98s 87s"},
+        CO: {pct:33.0,range:"22+ Ax+ K5s+ KTo+ Q8s+ QTo+ J8s+ JTo T7s+ 97s+ 86s+ 76s 65s"},
+        BTN:{pct:39.7,range:"22+ Ax+ K2s+ K8o+ Q5s+ Q9o+ J7s+ JTo T7s+ T9o 96s+ 86s+ 75s+ 65s 54s"},
+        SB: {pct:71.9,range:"22+ Qx+ J2s+ J5o+ T2s+ T6o+ 93s+ 96o+ 84s+ 86o+ 74s+ 76o 63s+ 65o 53s+ 43s"} },
+  15: { UTG:{pct:18.9,range:"22+ A7s+ A5s-A4s ATo+ K8s+ KJo+ Q9s+ QJo J9s+ T8s+ 98s"},
+        MP: {pct:23.4,range:"22+ A2s+ A9o+ K7s+ KTo+ Q8s+ QJo J8s+ JTo T8s+ 98s"},
+        CO: {pct:30.3,range:"22+ A2s+ A3o+ K7s+ KTo+ Q8s+ QTo+ J8s+ JTo T8s+ 97s+ 87s"},
+        BTN:{pct:36.0,range:"22+ Ax+ K3s+ K9o+ Q7s+ QTo+ J7s+ JTo T7s+ T9o 97s+ 86s+ 76s 65s"},
+        SB: {pct:63.5,range:"22+ Kx+ Q2s+ Q4o+ J2s+ J7o+ T3s+ T7o+ 95s+ 97o+ 84s+ 87o 74s+ 76o 64s+ 53s+ 43s"} }
+};
+// BBのコールレンジ目安（複数ソースからの構成値）
+const BB_CALL_10BB = {
+  SB:  "22+ A2s+ A4o+ K7s+ K9o+ Q9s+ QTo+ J9s+ JTo T9s",
+  _d:  "22+ A2s+ A8o+ KTs+ KJo+ QTs+ QJo JTs"
+};
+// レンジ文字列パーサ（"22+" "K4s+" "QTo+" "A5s-A4s" "Ax+"対応）
+function expandPushRange(str){
+  const set = new Set();
+  const one = tok => {
+    const mx = tok.match(/^([AKQJT98765432])x\+$/);
+    if (mx){ // Xx+ = ハイカードX以上の全ハンド（ペア含む）
+      for (let hi = ri(mx[1]); hi >= 0; hi--){
+        for (let lo = hi + 1; lo < 13; lo++){
+          set.add(RANKS[hi] + RANKS[lo] + "s");
+          set.add(RANKS[hi] + RANKS[lo] + "o");
+        }
+        set.add(RANKS[hi] + RANKS[hi]);
+      }
+      return;
+    }
+    const plus = tok.endsWith("+");
+    if (plus) tok = tok.slice(0, -1);
+    if (tok.includes("-")){ // A5s-A4s / 77-99
+      const [a, b] = tok.split("-");
+      if (a.length === 2 && a[0] === a[1]){
+        const lo = Math.max(ri(a[0]), ri(b[0])), hi = Math.min(ri(a[0]), ri(b[0]));
+        for (let i = hi; i <= lo; i++) set.add(RANKS[i] + RANKS[i]);
+      } else {
+        const h = a[0], suf = a[2];
+        const lo = Math.max(ri(a[1]), ri(b[1])), hi = Math.min(ri(a[1]), ri(b[1]));
+        for (let i = hi; i <= lo; i++) set.add(h + RANKS[i] + suf);
+      }
+      return;
+    }
+    if (tok.length === 2 && tok[0] === tok[1]){ // ペア
+      if (plus){ for (let i = ri(tok[0]); i >= 0; i--) set.add(RANKS[i] + RANKS[i]); }
+      else set.add(tok);
+      return;
+    }
+    const h = tok[0], l = tok[1], suf = tok[2]; // 非ペア
+    if (plus){ for (let i = ri(l); i > ri(h); i--) set.add(h + RANKS[i] + suf); }
+    else set.add(tok);
+  };
+  str.trim().split(/\s+/).filter(Boolean).forEach(one);
+  return set;
+}
+function pushBucket(bb){
+  if (bb <= 6.5) return 5;
+  if (bb <= 9) return 8;
+  if (bb <= 11) return 10;
+  if (bb <= 13.5) return 12;
+  return 15;
+}
+
+/* 書籍理論の公式群（Mathematics of Poker / Janda / GTO Wizard）*/
+const THEORY = {
+  alpha: s => s / (1 + s),                                 // ブラフ損益分岐フォールド率
+  mdf: s => 1 / (1 + s),
+  geoBet: (spr, n) => (Math.pow(1 + 2 * spr, 1 / n) - 1) / 2, // 残りnストリートのジオメトリックサイズ（pot比）
+  mwDefense: (s, n) => 1 - Math.pow(s / (1 + s), 1 / n)    // マルチウェイの1人あたり防御頻度
+};
+function heroIsIP(hero){
+  const order = actingOrder("flop").filter(p => !p.folded && !p.busted);
+  return order.length ? order[order.length - 1] === hero : false;
+}
+
+/* ---- ハンド履歴の要約・レンジvsレンジ分析 ---- */
+const ACT_HIST_JA = { fold:"フォールド", check:"チェック", call:"コール", bet:"ベット", raise:"レイズ", allin:"オールイン" };
+function lineOf(p){
+  if (!G.history) return "";
+  const parts = [];
+  for (const st of ["pre", "flop", "turn", "river"]){
+    const a = G.history.filter(h => h.seat === p.seat && h.street === st).map(h => ACT_HIST_JA[h.type]).join("→");
+    if (a) parts.push(`${STREET_JA[st]}:${a}`);
+  }
+  return parts.join(" ");
+}
+function sampleFromCum(cum, board){
+  const used = new Set(board.map(c => c.r * 4 + c.s));
+  for (let t = 0; t < 20; t++){
+    const roll = Math.random() * cum[cum.length - 1][1];
+    let lo = 0, hi = cum.length - 1;
+    while (lo < hi){ const mid = (lo + hi) >> 1; if (cum[mid][1] < roll) lo = mid + 1; else hi = mid; }
+    const cand = comboFromCode(cum[lo][0]);
+    if (!cand.some(c => used.has(c.r * 4 + c.s))) return cand;
+  }
+  return null;
+}
+function rangeAdvantage(hero, vill){
+  // レンジ全体 vs レンジ全体の勝率をサンプリングで概算 → 有利/互角/不利
+  const hc = rangeCumFor(hero), vc = rangeCumFor(vill);
+  if (!hc || !vc || G.board.length < 3) return null;
+  let sum = 0, n = 0;
+  for (let i = 0; i < 12; i++){
+    const hh = sampleFromCum(hc, G.board);
+    if (!hh) continue;
+    sum += equityVsRanges(hh, G.board, [{ rangeCum: vc, aggro: false }], 60);
+    n++;
+  }
+  if (n < 6) return null;
+  const e = sum / n;
+  return e > 0.56 ? "有利" : e < 0.44 ? "不利" : "ほぼ互角";
+}
+function buildStory(hero, ctx){
+  if (!G.history || G.board.length < 3) return "";
+  const lastAgg = [...G.history].reverse().find(h => !h.isHero && ["bet", "raise", "allin"].includes(h.type));
+  const opp = lastAgg ? G.players[lastAgg.seat] : activeInHand().find(p => !p.isHero);
+  const hl = lineOf(hero);
+  let story = `【これまでの流れ】あなた（${hl || "アクションなし"}）`;
+  if (opp) story += `｜${opp.name}（${lineOf(opp) || "アクションなし"}）`;
+  story += "。";
+  const interp = [];
+  if (G.heroWasAggressor) interp.push("あなたはプリフロップのアグレッサー。強いレンジを主張して攻め続けられる側です");
+  else interp.push("あなたはコール側。レンジ全体では相手より受け身に見られており、強い役はより隠れています");
+  if (opp){
+    const barrels = G.history.filter(h => h.seat === opp.seat && h.street !== "pre" && ["bet", "raise", "allin"].includes(h.type)).length;
+    if (barrels >= 3) interp.push(`${opp.name}は3ストリート連続の攻め（トリプルバレル）＝バリューとブラフの二極。GTO均衡ではポットベットでもバリュー2:ブラフ1程度は混ざるので、「強い役しかない」と決めつけるのは誤りです`);
+    else if (barrels === 2) interp.push(`${opp.name}のダブルバレルでレンジは強めに絞られますが、フラッシュドロー・ストレートドローのセミブラフも十分残っています`);
+    const crStreets = ["flop", "turn", "river"].filter(st => {
+      const acts = G.history.filter(h => h.seat === opp.seat && h.street === st).map(h => h.type);
+      return acts.includes("check") && acts.includes("raise");
+    });
+    if (crStreets.length) interp.push(`${opp.name}のチェックレイズはGTOでも強い役＋強ドローの混成。最大警戒のラインです`);
+    const passiveThenBet = G.street === "river" && lastAgg && lastAgg.street === "river" &&
+      !G.history.some(h => h.seat === opp.seat && ["flop", "turn"].includes(h.street) && ["bet", "raise"].includes(h.type));
+    if (passiveThenBet) interp.push(`ずっと受け身だった${opp.name}の突然のリバーベット。到達した役（ドロー完成等）か、諦めブラフの二択になりやすいラインです`);
+    const adv = rangeAdvantage(hero, opp);
+    if (adv) interp.push(`このボードのレンジ勝負（レンジ全体同士の勝率）はあなたが${adv}`);
+  }
+  return story + " 【読み】" + interp.join("。") + "。";
+}
+function coachPostflop(hero, ctx, action){
+  const bluffKeep = G.board.length === 3 ? 0.35 : G.board.length === 4 ? 0.28 : 0.22;
+  const opps = activeInHand().filter(p => p !== hero).map(p => ({
+    rangeCum: rangeCumFor(p),
+    aggro: (p.aggStreets || 0) > 0,
+    bluffKeep
+  }));
+  const eq = equityVsRanges(hero.hole, G.board, opps, 400);
+  const info = classifyMade(hero.hole, G.board);
+  const tex = boardTexture(G.board);
+  const potTotal = G.pot + G.players.reduce((s, p) => s + p.bet, 0);
+  const eqPct = Math.round(eq * 100);
+  const rangeBased = opps.some(o => o.rangeCum);
+  const eqLabel = rangeBased ? "対 相手推定レンジ＝ブラフも含むGTO想定" : "対ランダム概算";
+  const effStack = Math.min(hero.stack, Math.max(...activeInHand().filter(p => p !== hero).map(p => p.stack), 1));
+  const spr = potTotal > 0 ? (effStack / potTotal) : 99;
+  const effLine = `〔実効${Math.round(effStack / G.bb)}bb・SPR ${spr < 10 ? spr.toFixed(1) : Math.round(spr)}〕`;
+  let cls, advice;
+  const texLine = tex ? `ボード: ${tex.text}。` : "";
+  if (ctx.toCall > 0){
+    const need = ctx.toCall / (potTotal + ctx.toCall);
+    const needPct = Math.round(need * 100);
+    const mdf = Math.round(Math.max(0, (potTotal - ctx.toCall) / potTotal) * 100);
+    const bluffCatch = (G.street === "river" && catOf(evalCards(hero.hole.concat(G.board))) === 1 && !info.label.includes("オーバー") && !info.label.includes("ボードペア"))
+      ? "あなたのハンドは典型的なブラフキャッチャー（相手のバリューには負け、ブラフには勝つ）。GTOではMDF分をコールしないと相手のブラフがやり得になります。" : "";
+    const sRatio = ctx.toCall / Math.max(1, potTotal - ctx.toCall);
+    const mwLine = opps.length >= 2
+      ? `マルチウェイのため防御義務は全員で分散されます（このサイズの1人あたり防御目安は約${Math.round(THEORY.mwDefense(sRatio, opps.length) * 100)}%＝HUのMDFより大幅に低い）。降り気味が正解です。` : "";
+    const base = `役: <b>${info.label}</b>${info.draws.length ? "＋" + info.draws.join("・") : ""}。${texLine}${effLine}勝率 <b>${eqPct}%</b>（${eqLabel}）／ 必要勝率 <b>${needPct}%</b> ／ MDF（最低防御頻度）目安 <b>${mdf}%</b>。${mwLine}${bluffCatch}`;
+    const foldNgTh = opps.length >= 2 ? 0.25 : 0.15; // マルチウェイはオーバーフォールドが理論的にも正当
+    if (action.type === "fold"){
+      if (eq < need + 0.03){ cls = "ok"; advice = base + "勝率が必要勝率に届かず、フォールドが正解です。オッズに合わないコールを重ねないことが長期の勝ち筋です。"; }
+      else if (eq > need + foldNgTh){ cls = "ng"; advice = base + "必要勝率を大きく上回っており、明確に損なフォールドです。これを降り続けると相手のブラフに搾取されます（相手のレンジにブラフが含まれる前提の理論値です）。"; }
+      else { cls = "mx"; advice = base + "境界線のフォールド。相手の攻撃レンジがバリューに寄っているなら許容です。"; }
+    } else if (action.type === "call"){
+      if (eq > need + 0.05){ cls = "ok"; advice = base + "オッズに合う正当なコールです。" + (eq > 0.8 ? "この強さならレイズでバリューを取る選択も有力でした。" : "") + (info.strongDraw && spr > 3 ? " ドローは当たった時のインプライドオッズも上乗せできます。" : ""); }
+      else if (eq > need - 0.05){ cls = "mx"; advice = base + "ほぼ損益分岐のコール。ポジションの有無と相手のブラフ頻度で判断が割れるゾーンです。"; }
+      else { cls = "ng"; advice = base + "必要勝率に届かないコールです。「安いから見る」の積み重ねが一番の損失源（リーク）になります。"; }
+    } else {
+      if (eq > 0.72){ cls = "ok"; advice = base + "強い役でのレイズ＝バリューレイズ。相手のコール可能レンジからしっかり取れる良い判断です。"; }
+      else if (info.strongDraw){ cls = "ok"; advice = base + "強いドローでのセミブラフレイズ。降ろせれば即利益、コールされても35%前後のドロー勝率が残る、GTOでも主要なラインです。"; }
+      else if (eq > 0.55){ cls = "mx"; advice = base + "ミドル級でのレイズはややオーバープレイ気味。コールでポットコントロールも有力です。"; }
+      else { cls = "ng"; advice = base + "役もドローも薄いレイズは根拠のないブラフです。ブロッカーやボード優位などの根拠を持てる時だけにしましょう。"; }
+    }
+  } else {
+    const base = `役: <b>${info.label}</b>${info.draws.length ? "＋" + info.draws.join("・") : ""}。${texLine}${effLine}勝率 <b>${eqPct}%</b>（${eqLabel}）。`;
+    const sprNote = spr > 5 && info.label.includes("ペア") && !info.label.includes("オーバー") && catOf(evalCards(hero.hole.concat(G.board))) <= 1 ? ` SPRが高い（約${spr.toFixed(1)}）ので、ワンペアで全額入れる価値はありません。` : "";
+    if (action.type === "check"){
+      const vsAgg = opps.some(o => o.aggro);
+      if (eq > 0.8 && vsAgg){ cls = "mx"; advice = base + "強い役ですが、相手がアグレッサーならチェックレイズ（トラップ）狙いも成立します。ベットとの使い分けを意識しましょう。"; }
+      else if (eq > 0.8){ cls = "ng"; advice = base + "明確なバリューベット逃しです。強い役はベットしてポットを育てないと期待値を捨てることになります。"; }
+      else if (eq > 0.6){ cls = "mx"; advice = base + "ベット・チェックどちらも取れる中間ゾーン。" + (tex && tex.wet ? "ウェットなボードなので守りのベット（プロテクト）寄りが無難です。" : "ドライなボードならチェックで罠を張る選択も成立します。"); }
+      else { cls = "ok"; advice = base + "弱い役はチェックでポットを小さく保つのが基本です。" + sprNote; }
+    } else {
+      if (eq > 0.6){ cls = "ok"; advice = base + "バリュー＆プロテクトのベット。" + (tex && tex.wet ? "ウェットボードではドローに正しい価格を払わせる意味でも重要です。" : "") + sprNote; }
+      else if (info.strongDraw){ cls = "ok"; advice = base + "セミブラフベット。降ろせれば即利益、コールされてもドローの勝率が残る攻めの一手です。"; }
+      else if (eq > 0.45){ cls = "mx"; advice = base + "薄めのベット。小さいサイズのブロックベットなら成立しますが、レイズされたら素直に降りる前提で。"; }
+      else if (opps.length === 1){ cls = "mx"; advice = base + "1人相手へのブラフ。" + (tex && !tex.wet ? "ドライボードはブラフが通りやすい良い条件です。" : "ウェットボードは相手も繋がりやすくブラフ成功率が下がります。") + "頻度管理を忘れずに。"; }
+      else { cls = "ng"; advice = base + "複数人相手に役なしのブラフは通りにくく、期待値マイナスです。"; }
+    }
+  }
+  // ==== ポストフロップGTOガイド（集計頻度・理論式に基づく講評） ====
+  let gtoNote = "";
+  let sizeErr = false;
+  {
+    const potType = (G.preRaises >= 2) ? "3BP" : "SRP";
+    const ip = heroIsIP(hero);
+    const bc = classifyFlop(G.board);
+    const preAggSeat = G.aggBySt ? G.aggBySt.pre : null;
+    const heroPreAgg = preAggSeat === hero.seat;
+    const flopAggSeat = G.aggBySt ? G.aggBySt.flop : null;
+    const isBet = ["bet", "raise", "allin"].includes(action.type);
+    const hu = activeInHand().length <= 2;
+    if (G.street === "flop" && ctx.toCall === 0 && heroPreAgg){
+      const tbl = CBET_GUIDE[potType + (ip ? "_IP" : "_OOP")] || CBET_GUIDE.SRP_IP;
+      const g = tbl[bc.key] || tbl._d;
+      gtoNote += `【CB基準】${potType === "3BP" ? "3ベットポット" : "シングルレイズポット"}・${ip ? "IP" : "OOP"}アグレッサーのこのボード（${bc.ja}）はGTO集計でCB頻度約${g.f}%・主流サイズ${g.s}%ポット。`;
+      if (isBet){
+        if (g.f >= 70 && hu){ cls = "ok"; gtoNote += "高頻度CBゾーン＝ハンドの強弱を問わずレンジ全体で打てるスポットです。"; }
+        else if (g.f <= 35 && eq < 0.45 && !info.strongDraw){ if (cls === "ok") cls = "mx"; gtoNote += "低頻度CBボードでの薄いベットはチェックが本線です。"; }
+        if (action.to && potTotal > 0){
+          const r = Math.round(action.to / potTotal * 100);
+          if (Math.abs(r - g.s) > 40){ gtoNote += `サイズはこのボードでは${g.s}%前後が主流です（あなた: ${r}%）。`; sizeErr = true; }
+        }
+      } else if (action.type === "check"){
+        if (g.f >= 80 && eq > 0.35){ if (cls === "ok") cls = "mx"; gtoNote += "ここはほぼレンジベットのボードなので、チェックは低頻度側です。"; }
+        else if (g.f <= 40){ cls = "ok"; gtoNote += "低頻度CBボードのチェックはGTOの本線です。"; }
+      }
+    }
+    if (G.street === "flop" && ctx.toCall > 0 && isBet && !heroPreAgg)
+      gtoNote += `【チェックレイズ】GTO集計の頻度はvs小サイズCBで約${PF_NOTES.xrSmall}%・vs大サイズで約${PF_NOTES.xrBig}%。2ペア以上のバリュー＋FD/OESDのセミブラフで構成します。`;
+    if (G.street === "turn" && ctx.toCall === 0 && flopAggSeat == null){
+      if (!heroPreAgg && !ip && isBet) gtoNote += `【プローブ】相手がフロップCBを打たなかった後のOOPベット（プローブ）はGTO集計で約${PF_NOTES.probe}%。ドロー完成ターンやローカードで増やします（実戦では相手がここで7〜10%降りすぎというデータもあり、広めに打って利益的）。`;
+      else if (heroPreAgg && ip && isBet) gtoNote += "【ディレイドCB】相手が2回チェックしたレンジは大きく弱体化しており、このIPベットは高頻度で有効です（大衆はここでGTO比6〜11%オーバーフォールド）。";
+    }
+    if (G.street === "flop" && isBet && ctx.toCall === 0 && !heroPreAgg && preAggSeat != null && activeInHand().some(p => p.seat === preAggSeat) && !ip)
+      gtoNote += `【ドンク】アグレッサーへ先に打つドンクベットはGTOではほぼ存在しません（例外はロー連結ボードのみ${bc.key === "MID_CONN" || bc.key === "LOW" ? "＝このボードは例外側で一部あり" : "。このボードでは非推奨"}）。`;
+    if (G.street === "turn" && isBet && flopAggSeat === hero.seat && G.board.length >= 4){
+      const t = G.board[3], flopMax = Math.max(...G.board.slice(0, 3).map(c => c.r));
+      const suitsNow = [0,0,0,0];
+      G.board.forEach(c => suitsNow[c.s]++);
+      const flushIn = Math.max(...suitsNow) >= 3;
+      if (t.r >= flopMax && t.r >= 11) gtoNote += "【バレル】ターンのオーバーカードはアグレッサーのレンジに有利＝好バレルカード。継続の根拠になります。";
+      else if (flushIn && !hero.hole.some(c => suitsNow[c.s] >= 3)) gtoNote += "【バレル】フラッシュ完成がありうるターンは相手の続行レンジが強くなる警戒カード。バレル頻度を落とすのが基準です。";
+    }
+    if (G.street === "river" && potTotal > 0){
+      if (isBet && action.to){
+        const s = action.to / potTotal;
+        const bs = Math.round(PF_NOTES.bluffShare(s) * 100);
+        if (eq > 0.65) gtoNote += `【均衡比率】このサイズ（ポット比${Math.round(s * 100)}%）のリバーベットは、均衡ならベットレンジの約${bs}%までブラフを混ぜられます。あなたはバリュー側として適切です。`;
+        else if (eq < 0.4) gtoNote += `【均衡比率】ブラフ側のベット。このサイズの均衡ブラフ率は約${bs}%が上限。相手のコール札（バリュー）をブロックするハンドで打つのが選定基準です。`;
+        else gtoNote += "【ポラライズ原則】リバーの大きなベットは「強い役かブラフか」の二極が原則。ミドル強度はチェックしてショーダウン価値を実現するのが基準です。";
+      } else if (ctx.toCall > 0){
+        const s = ctx.toCall / Math.max(1, potTotal - ctx.toCall);
+        gtoNote += `【均衡比率】相手のこのサイズ（ポット比${Math.round(s * 100)}%）が均衡なら、ベットレンジの約${Math.round(PF_NOTES.bluffShare(s) * 100)}%はブラフです。`;
+      }
+    }
+  }
+  if (gtoNote) advice += "<br>" + gtoNote;
+  // ==== SPRコミットメント・4ベットポット（書籍理論） ====
+  {
+    const commit = spr < 1 ? "【コミットメント】SPR<1＝実質コミット済み。妥当な役なら全額前提で最も期待値の高い入れ方を選ぶ段階です。"
+      : (G.preRaises >= 3 && G.street === "flop") ? "【4ベットポット】SPR≒2の超低SPR戦。オーバーペア/トップペア好キッカーでコミットが標準、CBは小さく（ハーフポット以下）が定石です。"
+      : (G.preRaises >= 2 && G.street === "flop" && spr <= 3 && spr >= 1) ? "【コミットメント】SPR≦3ではトップペア以上でスタックオフが標準ライン（書籍PNLHE基準）。ただしマルチウェイでは基準を1段階上げます。"
+      : "";
+    if (commit) advice += "<br>" + commit;
+  }
+  // ==== 💡プロの定石（対人エクスプロイト・GTOとは別軸） ====
+  {
+    let tip = "";
+    const suitsB = [0,0,0,0];
+    G.board.forEach(c => suitsB[c.s]++);
+    const sR = ctx.toCall > 0 ? ctx.toCall / Math.max(1, potTotal - ctx.toCall) : 0;
+    const crThisStreet = (() => {
+      const la = [...(G.history || [])].reverse().find(h => !h.isHero && ["bet", "raise", "allin"].includes(h.type) && h.street === G.street);
+      if (!la) return false;
+      const acts = (G.history || []).filter(h => h.seat === la.seat && h.street === G.street).map(h => h.type);
+      return acts.includes("check") && (acts.includes("raise") || acts.includes("allin"));
+    })();
+    if (crThisStreet && ctx.toCall > 0) tip = "実戦のチェックレイズはセット・2ペア偏重でブラフ不足が定説。ワンペアでの続行はGTO基準より一段慎重に（PokerCoaching）。";
+    else if (G.street === "river" && ctx.toCall > 0 && sR >= 0.6) tip = "低〜中レートのリバー大ベットはGTOよりずっとブラフが少ない（バリュー偏重）のが実戦データの定説。純粋なブラフキャッチャーはオーバーフォールドが利益的です（Upswing / Jonathan Little）。";
+    else if (G.street === "river" && ctx.toCall > 0 && Math.max(...suitsB) >= 3) tip = "ドローが完成したランナウトでは、大衆は「外れたドロー＝自然なブラフ候補」を持てないため、ベットはさらにバリューに偏ります（GTO Wizard）。";
+    else if (G.street === "turn" && action.type === "call") tip = "ターンをコールする前にリバーの計画を——どのカードが落ちたら何をするかを今決めてからコールするのが定石です（Jonathan Little）。";
+    else if (ctx.toCall === 0 && ["bet", "raise", "allin"].includes(action.type) && opps.length >= 2 && eq < 0.5 && !info.strongDraw) tip = "マルチウェイはブラフ厳禁ゾーン。防御義務が分散する分ブラフの自動利益が消えます。2〜3人なら強バリュー＋強ドローのみ、4人以上はほぼチェックが定石（GTO Wizard / Upswing）。";
+    if (tip) advice += `<br>💡 <b>プロの定石</b>（対人エクスプロイト視点）: ${tip}`;
+  }
+  // サイズ講評（GTOのサイズ理論: スモール=レンジベット / ポット=ポラライズ / オーバーベット=二極）
+  if ((action.type === "bet" || action.type === "raise") && action.to && potTotal > 0){
+    const ratio = action.to / potTotal;
+    let s;
+    if (ratio <= 0.42) s = (tex && tex.wet && eq > 0.6)
+      ? "サイズ講評: スモールですが、ウェットボードの強い役はドローに正しい価格を払わせる1/2〜3/4が基準です。"
+      : "サイズ講評: 1/3前後のスモール＝レンジベット向き。ドライボードならレンジ全体で高頻度に打てるサイズです。";
+    else if (ratio <= 0.85) s = "サイズ講評: 1/2〜3/4のスタンダードサイズ。バリューとプロテクションのバランスが良い選択です。";
+    else if (ratio <= 1.2) s = "サイズ講評: ポットサイズ＝レンジをポラライズ（強い役かブラフか）して最大圧力をかけるサイズです。";
+    else s = (eq > 0.75 || info.strongDraw)
+      ? "サイズ講評: オーバーベット＝ナッツ級orブラフの二極で使う上級サイズ。今回は根拠があり有効です。"
+      : (sizeErr = true, "サイズ講評: オーバーベットはナッツ級かブラフ専用。ミドル強度の役では損をしやすいサイズです。");
+    advice += " " + s;
+    // ジオメトリックサイジング（書籍理論）: 強い役の複数ストリートプラン
+    if (eq > 0.6 && G.street !== "river"){
+      const nL = G.street === "flop" ? 3 : 2;
+      const g2 = THEORY.geoBet(spr, nL);
+      if (g2 > 0.2 && g2 < 2.5) advice += ` 参考: 残り${nL}ストリートをジオメトリック（各約${Math.round(g2 * 100)}%ポット）で打つとリバーでちょうど全額が入ります（GEOボタン）。`;
+    }
+  }
+  coachScore(cls);
+  // 累積リーク記録
+  {
+    const tags = [];
+    if (ctx.toCall > 0){
+      const need2 = ctx.toCall / (potTotal + ctx.toCall);
+      if (action.type === "fold" && eq > need2 + (opps.length >= 2 ? 0.25 : 0.15)) tags.push("overfold");
+      if (action.type === "call" && eq < need2 - 0.05) tags.push("overcall");
+      if (["raise", "allin"].includes(action.type) && eq <= 0.55 && !info.strongDraw) tags.push("wildRaise");
+    } else {
+      if (action.type === "check" && eq > 0.8 && !opps.some(o => o.aggro)) tags.push("missedValue");
+      if (["bet", "raise", "allin"].includes(action.type) && opps.length >= 2 && eq < 0.5 && !info.strongDraw) tags.push("mwBluff");
+    }
+    if (sizeErr) tags.push("sizeErr");
+    const spot = (G.street === "flop" && ctx.toCall === 0 && G.aggBySt && G.aggBySt.pre === hero.seat) ? "CB判断"
+      : ctx.toCall > 0 ? "ベット対応" : "ベット/チェック選択";
+    recordJudge(cls, { street: G.street, spot, pos: posName(hero), tags });
+  }
+  const mark = cls === "ok" ? "✅" : cls === "mx" ? "🟡" : "❌";
+  const story = buildStory(hero, ctx);
+  // 相手の推定レンジ表（プリフロップアクション由来・レンジ内の濃さ=頻度）
+  let oppGrid = null;
+  {
+    const lastAggH = [...(G.history || [])].reverse().find(h => !h.isHero && ["bet", "raise", "allin"].includes(h.type));
+    const oppP = (lastAggH && G.players[lastAggH.seat] && !G.players[lastAggH.seat].folded) ? G.players[lastAggH.seat]
+      : activeInHand().find(p => !p.isHero && p.preChart);
+    if (oppP && oppP.preChart && oppP.preAct){
+      const cells = {};
+      for (const [h, e] of Object.entries(oppP.preChart)){
+        const w = oppP.preAct === "r" ? e[0] : e[1];
+        if (w > 0) cells[h] = [w, 0];
+      }
+      oppGrid = { cells, hand: null, raiseJa: "レンジ内", label: `📊 ${oppP.name}の推定レンジ表を見る` };
+    }
+  }
+  coachAdd(cls, `${mark} ${STREET_JA[G.street]}: ${actJa(action)}`, (story ? story + "<br>" : "") + "【判定】" + advice, oppGrid);
+}
+
+/* ---- ボットAI（プリフロップ＝GTOチャート準拠） ---- */
+let PCT = null;
+function buildPercentiles(){
+  const cached = localStorage.getItem("pfc_pct_v2");
+  if (cached){ PCT = JSON.parse(cached); return; }
+  const eqs = [];
+  for (let i = 0; i < 13; i++) for (let j = 0; j < 13; j++){
+    const code = cellHand(i, j);
+    const r1 = 14 - ri(code[0]), r2 = 14 - ri(code[1]);
+    const hole = code.length === 2 ? [{r:r1,s:0},{r:r2,s:1}]
+      : code[2] === "s" ? [{r:r1,s:0},{r:r2,s:0}] : [{r:r1,s:0},{r:r2,s:1}];
+    eqs.push({ code, eq: equityVsRanges(hole, [], [{rangeCum:null,aggro:false}], 600) });
+  }
+  eqs.sort((a, b) => b.eq - a.eq);
+  PCT = {};
+  eqs.forEach((x, idx) => PCT[x.code] = idx / 168);
+  localStorage.setItem("pfc_pct_v2", JSON.stringify(PCT));
+}
+function botDecide(p, ctx){
+  const code = codeOf(p.hole[0], p.hole[1]);
+  if (G.street === "pre"){
+    // トナメ・ショートスタック: ボットもナッシュ押し引き
+    if (G.mode === "tour"){
+      const bbStack = (p.stack + p.bet) / G.bb;
+      if (bbStack <= 15){
+        if (ctx.raises === 0 && posName(p) !== "BB"){
+          const e = PUSH_CHARTS[pushBucket(bbStack)] && PUSH_CHARTS[pushBucket(bbStack)][cpos(posName(p))];
+          if (e){
+            if (expandPushRange(e.range).has(code)){ p.preAct = "r"; p.preChart = null; return { type:"allin" }; }
+            return ctx.toCall > 0 ? { type:"fold" } : { type:"check" };
+          }
+        } else if (ctx.toCall > 0){
+          const shover = activeInHand().find(q => q !== p && q.allin);
+          if (shover){
+            const cset = expandPushRange(BB_CALL_10BB[posName(shover) === "SB" ? "SB" : "_d"]);
+            return cset.has(code) ? { type:"call" } : { type:"fold" };
+          }
+        }
+      }
+    }
+    let chart = null;
+    const pos = posName(p);
+    if (ctx.raises === 0){
+      if (pos === "BB" && ctx.toCall === 0){
+        chart = ctx.limped ? getChart("ISO", "BB") : null;
+        if (!chart) return { type:"check" };
+      } else if (ctx.limped && PRE[cpos(pos) + "-ISO"]){
+        chart = getChart("ISO", pos);
+      } else {
+        chart = getChart("RFI", pos);
+      }
+    }
+    else if (ctx.raises === 1) chart = getChart("vs-open", pos, ctx.aggPos);
+    else if (ctx.raises === 2) chart = getChart("vs-3bet", pos, ctx.aggPos);
+    else chart = getChart("vs-4bet", pos, ctx.aggPos);
+    if (chart){
+      const fr = freqOf(chart.cells, code);
+      const roll = Math.random() * 100;
+      p.preChart = chart.cells;
+      if (roll < fr.r){ p.preAct = "r"; return { type:"raise", to: raiseTo(ctx, ctx.raises === 0 ? "open" : "re") }; }
+      if (roll < fr.r + fr.c && ctx.toCall > 0){ p.preAct = "c"; return { type:"call" }; }
+      if (ctx.toCall === 0){ p.preAct = null; p.preChart = null; return { type:"check" }; }
+      return { type:"fold" };
+    }
+    // フォールバック（チャートなし）
+    const pct = PCT ? PCT[code] : 0.5;
+    if (ctx.raises >= 3) return pct <= 0.02 ? { type:"allin" } : pct <= 0.06 ? { type:"call" } : { type:"fold" };
+    if (pct <= 0.05) return { type:"raise", to: raiseTo(ctx, "re") };
+    if (pct <= 0.15 && ctx.toCall > 0) return { type:"call" };
+    return ctx.toCall === 0 ? { type:"check" } : { type:"fold" };
+  }
+  // ポストフロップ: 自レンジを意識した簡易AI
+  const nOpp = activeInHand().length - 1;
+  const eq = equityVsRanges(p.hole, G.board, Array(Math.max(1, nOpp)).fill({rangeCum:null, aggro:false}), 120);
+  const potTotal = G.pot + G.players.reduce((s, x) => s + x.bet, 0);
+  if (ctx.toCall === 0){
+    if (eq > 0.8) return { type:"bet", to: Math.round(potTotal * 0.7) };
+    if (eq > 0.62 && Math.random() < 0.65) return { type:"bet", to: Math.round(potTotal * 0.5) };
+    if (eq <= 0.62 && G.board.length < 5 && Math.random() < 0.5){
+      const cm = classifyMade(p.hole, G.board);
+      if (cm.strongDraw) return { type:"bet", to: Math.round(potTotal * 0.6) }; // セミブラフ
+    }
+    if (eq < 0.35 && Math.random() < 0.18 && nOpp === 1) return { type:"bet", to: Math.round(potTotal * 0.55) };
+    return { type:"check" };
+  }
+  const need = ctx.toCall / (potTotal + ctx.toCall);
+  if (eq > 0.85 && Math.random() < 0.55) return { type:"raise", to: raiseTo(ctx, "post") };
+  if (eq > need + 0.08) return { type:"call" };
+  if (eq > need - 0.02 && Math.random() < 0.4) return { type:"call" };
+  return { type:"fold" };
+}
+function raiseTo(ctx, kind){
+  if (kind === "open") return Math.round(G.bb * 2.5);
+  if (kind === "re") return Math.round(ctx.curBet * 3.2);
+  return Math.round(ctx.curBet * 2.8);
+}
+
+/* ---- ベッティングエンジン ---- */
+function applyAction(p, act, ctx){
+  G.lastActor = p.seat;
+  if (G.history) G.history.push({ street: G.street, seat: p.seat, name: p.name, isHero: !!p.isHero, type: act.type });
+  if (act.type === "fold"){ p.folded = true; p.lastAct = "フォールド"; flyCards(p.seat); SFX.fold(); return; }
+  if (act.type === "check"){ p.lastAct = "チェック"; SFX.check(); return; }
+  if (act.type === "call"){
+    SFX.chip();
+    const amt = Math.min(ctx.toCall, p.stack);
+    p.stack -= amt; p.bet += amt;
+    if (G.street === "pre" && !p.isHero && !p.preAct){ p.preAct = "c"; }
+    if (p.stack === 0){ p.allin = true; p.lastAct = "オールイン"; cutin("ALL IN!!", "allin"); }
+    else p.lastAct = "コール";
+    return;
+  }
+  let to = act.type === "allin" ? p.bet + p.stack : Math.max(act.to, ctx.curBet + ctx.lastRaise);
+  to = Math.min(to, p.bet + p.stack);
+  const add = to - p.bet;
+  p.stack -= add; p.bet = to;
+  if (p.stack === 0) p.allin = true;
+  const isRaise = to > ctx.curBet;
+  const wasBet = ctx.curBet === 0 || (G.street === "pre" && ctx.raises === 0);
+  if (isRaise){
+    const inc = to - ctx.curBet;
+    // フルレイズ（=直前レイズ幅以上）のみ正規のレイズ扱い。未満（ショートオールイン）はレイズ段数・最小レイズ幅・アグレッサーを更新しない
+    const fullRaise = inc >= ctx.lastRaise || ctx.curBet === 0;
+    if (fullRaise){
+      ctx.lastRaise = inc;
+      ctx.raises++;
+      ctx.lastAggressor = p;
+    }
+    ctx.curBet = to;
+    act._fullRaise = fullRaise;
+  }
+  if (G.street !== "pre") p.aggStreets = (p.aggStreets || 0) + 1;
+  if (act.type === "allin" || p.allin){
+    p.lastAct = "オールイン";
+    cutin("ALL IN!!", "allin");
+  } else if (G.street === "pre"){
+    p.lastAct = "レイズ";
+    cutin(ctx.raises >= 3 ? "4BET!!" : ctx.raises === 2 ? "3BET!!" : "RAISE!!", "raise");
+  } else if (wasBet){
+    p.lastAct = "ベット";
+    cutin("BET!", "bet");
+  } else {
+    p.lastAct = "レイズ";
+    cutin("RAISE!!", "raise");
+  }
+}
+function heroButtons(ctx){
+  return new Promise(resolve => {
+    const el = document.getElementById("gactions");
+    el.innerHTML = "";
+    const hero = G.players[0];
+    const potTotal = G.pot + G.players.reduce((s, p) => s + p.bet, 0);
+    const maxTo = hero.bet + hero.stack;
+    const mk = (html, cls, act, small) => {
+      const b = document.createElement("button");
+      b.className = "gbtn " + cls + (small ? " szchip" : "");
+      b.innerHTML = `<i>${html}</i>`;
+      b.onclick = () => { SFX.click(); el.innerHTML = ""; resolve(act); };
+      el.appendChild(b);
+    };
+    const chip = (label, to, type) => {
+      to = Math.min(Math.max(Math.round(to), type === "bet" ? G.bb : ctx.curBet + ctx.lastRaise), maxTo);
+      if (to >= maxTo) return; // オールインと同額ならオールインボタンに任せる
+      mk(`${label}<span class="szv">${fmt(to)}</span>`, type === "bet" ? "betS" : "raiseb", { type, to }, true);
+    };
+    if (ctx.toCall > 0){
+      mk("フォールド", "fold", { type:"fold" });
+      mk(`コール ${fmt(Math.min(ctx.toCall, hero.stack))}`, "callb", { type:"call" });
+      if (hero.stack > ctx.toCall){
+        if (G.street === "pre" && ctx.raises === 0){
+          chip("2.5bb", G.bb * 2.5, "raise");    // 未オープン: 通常オープンサイズ
+          chip("3bb", G.bb * 3, "raise");
+        } else if (G.street === "pre"){
+          chip("×3", ctx.curBet * 3, "raise");   // IP 3ベット/4ベット基準
+          chip("×4", ctx.curBet * 4, "raise");   // OOP 3ベット基準
+        } else {
+          chip("×2.2", ctx.curBet * 2.2, "raise");
+          chip("×3", ctx.curBet * 3, "raise");
+          chip("POTレイズ", ctx.curBet + potTotal + ctx.toCall, "raise");
+        }
+      }
+      mk("オールイン", "allin", { type:"allin" });
+    } else {
+      mk("チェック", "check", { type:"check" });
+      if (G.street === "pre"){
+        chip("2bb", G.bb * 2, "raise");
+        chip("2.5bb", G.bb * 2.5, "raise");
+        chip("3bb", G.bb * 3, "raise");
+      } else {
+        // ストリート別サイズメニュー（ソルバーの主流サイズに準拠: フロップ=小さめ中心、リバー=オーバーベット域まで）
+        if (G.street === "flop"){
+          chip("1/3", potTotal / 3, "bet");
+          chip("1/2", potTotal / 2, "bet");
+          chip("3/4", potTotal * 0.75, "bet");
+          chip("POT", potTotal, "bet");
+        } else if (G.street === "turn"){
+          chip("1/2", potTotal / 2, "bet");
+          chip("3/4", potTotal * 0.75, "bet");
+          chip("POT", potTotal, "bet");
+          chip("×1.5", potTotal * 1.5, "bet");
+        } else {
+          chip("1/2", potTotal / 2, "bet");
+          chip("3/4", potTotal * 0.75, "bet");
+          chip("POT", potTotal, "bet");
+          chip("×1.5", potTotal * 1.5, "bet");
+          chip("×2", potTotal * 2, "bet");
+        }
+        // ジオメトリックサイズ（残りストリートで均等にポットを育てて全額入るサイズ）
+        const oppMax = Math.max(...G.players.filter(p => !p.busted && !p.folded && p !== hero).map(p => p.stack + p.bet), 1);
+        const effStack = Math.min(hero.stack, oppMax);
+        const sprNow = potTotal > 0 ? effStack / potTotal : 0;
+        const nLeft = G.street === "flop" ? 3 : G.street === "turn" ? 2 : 1;
+        const geo = THEORY.geoBet(sprNow, nLeft);
+        if (geo > 0.25 && geo < 2.2 && sprNow > 0.3) chip(`GEO ${Math.round(geo * 100)}%`, potTotal * geo, "bet");
+      }
+      mk("オールイン", "allin", { type:"allin" });
+    }
+  });
+}
+function actingOrder(street){
+  const alive = alivePlayers();
+  if (alive.length === 2){
+    const btnP = G.players[G.btn];
+    const other = alive.find(p => p.seat !== G.btn);
+    return street === "pre" ? [btnP, other] : [other, btnP];
+  }
+  // 生存者をBTNから時計回りに並べ、プリフロップはBBの次から・ポストフロップはSBから
+  const ao = [];
+  for (let k = 0; k < 6; k++){
+    const p = G.players[(G.btn + k) % 6];
+    if (p && !p.busted) ao.push(p);
+  }
+  return street === "pre" ? ao.slice(3).concat(ao.slice(0, 3)) : ao.slice(1).concat([ao[0]]);
+}
+async function bettingRound(street, gen){
+  G.street = street;
+  const ctx = {
+    curBet: street === "pre" ? G.bb : 0,
+    lastRaise: G.bb,
+    raises: 0,
+    toCall: 0,
+    lastAggressor: null,
+    aggPos: null,
+    limped: false,
+    heroWasAggressor: G.heroWasAggressor || false
+  };
+  const order = actingOrder(street);
+  let toAct = new Set(order.filter(p => !p.folded && !p.allin));
+  let idx = 0, guard = 0;
+  while (toAct.size > 0 && activeInHand().length > 1 && guard++ < 200){
+    if (G.gen !== gen) return;
+    const p = order[idx % order.length];
+    idx++;
+    if (!toAct.has(p)) continue;
+    if (p.folded || p.allin){ toAct.delete(p); continue; }
+    ctx.toCall = ctx.curBet - p.bet;
+    ctx.aggPos = ctx.lastAggressor ? posName(ctx.lastAggressor) : null;
+    if (street === "pre" && ctx.raises === 0)
+      ctx.limped = order.some(q => !q.folded && q.bet >= G.bb && posName(q) !== "BB");
+    p.acting = true;
+    renderTable(`${p.name} の番…`);
+    let act;
+    if (p.isHero){
+      act = await heroButtons(ctx);
+      if (G.gen !== gen) return;
+      const prevRaises = ctx.raises;
+      if (street === "pre") coachPreflop(p, ctx, act);
+      else coachPostflop(p, ctx, act);
+      applyAction(p, act, ctx);
+      if (street === "pre" && ctx.raises > prevRaises) G.heroWasAggressor = true;
+    } else {
+      await sleep(430);
+      if (G.gen !== gen) return;
+      act = botDecide(p, ctx);
+      applyAction(p, act, ctx);
+    }
+    p.acting = false;
+    toAct.delete(p);
+    // フルレイズは全員のアクション権を再開。アンダーレイズ（ショートオールイン）は追加額への対応のみ必要
+    if (act._fullRaise || ((act.type === "raise" || act.type === "bet" || act.type === "allin") && ctx.curBet > 0)){
+      for (const q of order) if (q !== p && !q.folded && !q.allin && q.bet < ctx.curBet) toAct.add(q);
+      if (act._fullRaise) for (const q of order) if (q !== p && !q.folded && !q.allin) toAct.add(q);
+    }
+    renderTable();
+    if (["raise","bet","allin"].includes(act.type)){ await sleep(520); if (G.gen !== gen) return; }
+  }
+  if (G.aggBySt) G.aggBySt[street] = ctx.lastAggressor ? ctx.lastAggressor.seat : null;
+  if (street === "pre") G.preRaises = ctx.raises;
+  await collectBets(gen);
+}
+function distributePots(){
+  const inHand = G.players.filter(p => !p.busted && p.contrib > 0);
+  const results = [];
+  const contribs = inHand.map(p => ({ p, c: p.contrib }));
+  let guard = 0;
+  while (guard++ < 20){
+    const alive = contribs.filter(x => x.c > 0);
+    if (!alive.length) break;
+    const min = Math.min(...alive.map(x => x.c));
+    let amt = 0;
+    const elig = [];
+    for (const x of contribs){
+      if (x.c > 0){
+        amt += min;
+        x.c -= min;
+        if (!x.p.folded) elig.push(x.p);
+      }
+    }
+    const key = elig.map(p => p.seat).sort().join(",");
+    const prev = results.find(r => r.key === key);
+    if (prev) prev.amt += amt;
+    else results.push({ amt, elig, key });
+  }
+  const msgs = [];
+  const winners = new Set();
+  const awardMap = new Map();
+  for (const pot of results){
+    let best = -1, ws = [];
+    for (const p of pot.elig){
+      const s = evalCards(p.hole.concat(G.board));
+      if (s > best){ best = s; ws = [p]; }
+      else if (s === best) ws.push(p);
+    }
+    if (!ws.length) continue;
+    // チョップの端数はBTN左隣から時計回りで最初のプレイヤーへ
+    const seatRank = s => (s - G.btn - 1 + 6) % 6;
+    ws.sort((a, b) => seatRank(a.seat) - seatRank(b.seat));
+    const share = Math.floor(pot.amt / ws.length);
+    ws.forEach((w, i) => {
+      const got = share + (i === 0 ? pot.amt - share * ws.length : 0);
+      w.stack += got;
+      awardMap.set(w, (awardMap.get(w) || 0) + got);
+      winners.add(w);
+    });
+    msgs.push(ws.map(w => w.name).join("・") + ` が ${fmt(pot.amt)} 獲得`);
+  }
+  return { msg: msgs.join(" ／ "), winners, awards: [...awardMap] };
+}
+async function playHand(gen){
+  G.handNo++;
+  G.board = [];
+  G.pot = 0;
+  G.renderedBoard = 0;
+  G.heroWasAggressor = false;
+  G.history = []; // 全アクション履歴（総合フィードバック用）
+  G.aggBySt = {}; // ストリート別の最終アグレッサー席
+  G.preRaises = 0;
+  G.deck = newDeck();
+  if (G.mode === "tour"){
+    const nl = Math.min(Math.floor((G.handNo - 1) / HANDS_PER_LEVEL), TOUR_LEVELS.length - 1);
+    if (nl !== G.level && G.handNo > 1) cutin("BLINDS UP!", "lvl");
+    G.level = nl;
+    [G.sb, G.bb] = TOUR_LEVELS[G.level];
+  }
+  if (G.mode === "cash") G.players.forEach(p => { if (!p.isHero) p.stack = G.bb * G.cashDepth; });
+  G.players.forEach(p => {
+    p.folded = p.busted;
+    p.allin = false; p.bet = 0; p.contrib = 0; p.show = false; p.lastAct = ""; p.acting = false;
+    p.winner = false; p._flipped = false;
+    p.preChart = null; p.preAct = null; p.aggStreets = 0;
+    p.hole = p.busted ? null : [G.deck.pop(), G.deck.pop()];
+  });
+  do { G.btn = (G.btn + 1) % 6; } while (G.players[G.btn].busted);
+  const alive = alivePlayers();
+  let sbP, bbP;
+  if (alive.length === 2){
+    sbP = G.players[G.btn];
+    bbP = alive.find(p => p.seat !== G.btn);
+  } else {
+    const order = actingOrder("flop");
+    sbP = order[0]; bbP = order[1];
+  }
+  const post = (p, amt) => { const a = Math.min(amt, p.stack); p.stack -= a; p.bet = a; if (p.stack === 0) p.allin = true; };
+  post(sbP, G.sb); post(bbP, G.bb);
+  document.getElementById("coachLog").dataset.fresh = "0";
+  renderTable("新しいハンド開始", { deal: true });
+  SFX.deal();
+  await sleep(600);
+  if (G.gen !== gen) return;
+  const streets = ["pre", "flop", "turn", "river"];
+  for (const st of streets){
+    if (st === "flop") G.board.push(G.deck.pop(), G.deck.pop(), G.deck.pop());
+    if (st === "turn" || st === "river") G.board.push(G.deck.pop());
+    if (st !== "pre"){ renderTable(STREET_JA[st]); SFX.flip(); }
+    const canAct = activeInHand().filter(p => !p.allin);
+    if (activeInHand().length > 1 && canAct.length > 1) await bettingRound(st, gen);
+    else await collectBets(gen);
+    if (G.gen !== gen) return;
+    if (activeInHand().length <= 1) break;
+    // オールインで打ち合い終了→残りはランアウト: 全員のカードを公開してゆっくり進行
+    if (activeInHand().length > 1 && activeInHand().filter(p => !p.allin).length <= 1){
+      const revealed = activeInHand().some(p => p.show && !p.isHero);
+      if (!revealed){ activeInHand().forEach(p => p.show = true); renderTable("オールイン！ ショーダウン"); await sleep(1400); }
+      else if (st !== "river") await sleep(1100);
+      if (G.gen !== gen) return;
+    }
+  }
+  let msg, winners, awards;
+  const act = activeInHand();
+  if (act.length === 1){
+    act[0].stack += G.pot;
+    winners = [act[0]];
+    awards = [[act[0], G.pot]];
+    msg = `${act[0].name} が ${fmt(G.pot)} 獲得（全員フォールド）`;
+  } else {
+    while (G.board.length < 5) G.board.push(G.deck.pop());
+    // ショーダウン: カード公開 → 各席に役名を表示して一呼吸置く
+    act.forEach(p => { p.show = true; p.lastAct = handNameOf(p.hole.concat(G.board)); });
+    renderTable("ショーダウン！");
+    await sleep(1800);
+    if (G.gen !== gen) return;
+    const res = distributePots();
+    msg = res.msg;
+    winners = [...res.winners];
+    awards = res.awards;
+  }
+  // ポット→勝者へチップが飛ぶ演出
+  await flyPotToWinners(awards, gen);
+  if (G.gen !== gen) return;
+  G.pot = 0;
+  winners.forEach(w => { w.winner = true; burst(w.seat); });
+  // ショーダウン敗者は「マック」表示（フォールドとは別概念）
+  if (act.length > 1) act.forEach(p => {
+    if (!winners.includes(p)) p.lastAct = `マック（${handNameOf(p.hole.concat(G.board))}）`;
+    else p.lastAct = `WIN・${handNameOf(p.hole.concat(G.board))}`;
+  });
+  const hero = G.players[0];
+  if (winners.some(w => w.isHero)) cutin("WIN!!", "win");
+  else if (act.length > 1 && act.includes(hero)) cutin("LOSE…", "lose");
+  // 🃏 リザルト行（採点対象外）: フォールド/マック/勝ちを明確に区別
+  {
+    const heroWon = winners.some(w => w.isHero);
+    let rCls, rTxt;
+    if (heroWon && act.length > 1) { rCls = "ok"; rTxt = `ショーダウン勝ち: ${handNameOf(hero.hole.concat(G.board))} で獲得。`; }
+    else if (heroWon) { rCls = "ok"; rTxt = "全員フォールドでポット獲得（ハンドは公開されません）。"; }
+    else if (act.length > 1 && act.includes(hero)) { rCls = "ng"; rTxt = `ショーダウン負け → <b>マック</b>（${handNameOf(hero.hole.concat(G.board))}）。※コールしてショーダウンまで行った上での敗北で、フォールド（ショーダウン前に降りる）とは別物です。`; }
+    else if (hero.folded && !hero.busted){
+      const lf = [...(G.history || [])].reverse().find(h => h.isHero && h.type === "fold");
+      rTxt = `${lf ? STREET_JA[lf.street] : ""}で<b>フォールド</b>（ショーダウン不参加。あなたのハンドは卓上に薄く表示されています）。`;
+      rCls = "mx";
+    }
+    if (rTxt) coachAdd(rCls, `🃏 リザルト（ハンド${G.handNo}）`, rTxt);
+  }
+  G.players.forEach(p => { if (!p.busted && p.stack <= 0){ p.busted = true; } });
+  renderTable(msg);
+  if (act.length > 1) await sleep(900);
+}
+async function gameLoop(){
+  G.running = true;
+  const gen = G.gen;
+  while (G.running && G.gen === gen){
+    await playHand(gen);
+    if (G.gen !== gen) return;
+    const hero = G.players[0];
+    if (hero.busted || hero.stack <= 0){ endGame(false); return; }
+    if (G.mode === "tour" && alivePlayers().length === 1){ endGame(true); return; }
+    await new Promise(resolve => {
+      const el = document.getElementById("gactions");
+      el.innerHTML = "";
+      const b = document.createElement("button");
+      b.className = "gbtn next";
+      b.innerHTML = "<i>次のハンド →</i>";
+      b.onclick = () => { el.innerHTML = ""; resolve(); };
+      el.appendChild(b);
+    });
+    if (!G.running || G.gen !== gen) return;
+  }
+}
+function endGame(won){
+  G.running = false;
+  const el = document.getElementById("gover");
+  const score = G.coach.n ? Math.round(G.coach.s / G.coach.n * 100) : 0;
+  let title;
+  if (G.mode === "tour"){
+    const place = won ? 1 : alivePlayers().length + 1;
+    title = won ? "🏆 優勝！！" : `💥 バースト… ${place}位`;
+    if (won) cutin("CHAMPION!!", "win");
+  } else {
+    title = "💸 スタックがなくなりました";
+  }
+  el.innerHTML = `<div class="big">${title}</div>
+    <div style="color:var(--sub);font-size:13px;margin-bottom:12px">${G.handNo}ハンドプレイ ／ コーチ評価 ${score}点（✅=100 🟡=50 ❌=0の平均）</div>
+    <button class="gbtn next" onclick="startGame('${G.mode}')"><i>もう一度挑戦</i></button>`;
+  el.classList.add("show");
+  document.getElementById("gactions").innerHTML = "";
+}
+function startGame(mode){
+  if (!PCT){
+    const gm = document.getElementById("gmsg");
+    if (gm) gm.textContent = "初回準備中…";
+    buildPercentiles();
+  }
+  document.getElementById("gover").classList.remove("show");
+  document.getElementById("coachLog").innerHTML = '<div style="color:var(--sub);font-size:12px">ハンドが始まるとここに判定が並びます。</div>';
+  document.getElementById("coachLog").dataset.fresh = "0";
+  G.mode = mode;
+  G.gen = (G.gen || 0) + 1;
+  G.handNo = 0; G.level = 0;
+  G.coach = { n:0, s:0 };
+  G._lastPot = null;
+  if (mode === "tour"){ [G.sb, G.bb] = TOUR_LEVELS[0]; }
+  else { G.sb = 1; G.bb = 2; }
+  const startStack = mode === "tour" ? 1500 : G.bb * G.cashDepth;
+  G.players = [];
+  for (let i = 0; i < 6; i++){
+    const bd = i === 0 ? { name:"あなた", emoji:"😎", color:"#ffd23e" } : BOT_DEFS[i - 1];
+    G.players.push({
+      seat: i, isHero: i === 0, name: bd.name, emoji: bd.emoji, color: bd.color,
+      stack: startStack, bet: 0, contrib: 0, hole: null,
+      folded: false, allin: false, busted: false, show: false, lastAct: "", acting: false,
+      winner: false, _flipped: false, preChart: null, preAct: null, aggStreets: 0
+    });
+  }
+  G.btn = Math.floor(Math.random() * 6);
+  document.getElementById("giMode").textContent = mode === "tour" ? "🏆 トーナメント（SNG・6人）" : `💵 キャッシュ（${G.cashDepth}BB・ボットのスタックは毎ハンド初期値にリセット）`;
+  renderTable("");
+  G.running = false;
+  setTimeout(() => gameLoop(), 50);
+}
+document.getElementById("depth100").onclick = () => { G.cashDepth = 100; localStorage.setItem("pfc_depth", "100"); if (G.mode === "cash") startGame("cash"); };
+document.getElementById("depth300").onclick = () => { G.cashDepth = 300; localStorage.setItem("pfc_depth", "300"); if (G.mode === "cash") startGame("cash"); };
+document.getElementById("modebar").addEventListener("click", e => {
+  const m = e.target.closest(".mode");
+  if (!m) return;
+  document.querySelectorAll(".mode").forEach(x => x.classList.remove("active"));
+  m.classList.add("active");
+  const mode = m.dataset.mode;
+  const quiz = mode === "quiz";
+  document.getElementById("quizSection").style.display = quiz ? "" : "none";
+  document.getElementById("gameSection").style.display = quiz ? "none" : "";
+  G.running = false;
+  G.gen = (G.gen || 0) + 1;
+  if (!quiz) startGame(mode);
+});
+renderButtons();
+nextQuiz();
+</script>
+</body>
+</html>
