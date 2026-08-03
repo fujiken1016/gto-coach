@@ -28,7 +28,7 @@
 
 ## 動かす
 
-公開URL: **https://gto-coach-jp.vercel.app**（旧URL https://poker-coach-gamma.vercel.app も有効）。更新は `./deploy.sh` 1発。ローカルは `index.html` をブラウザで開くだけ。ローカルサーバーは `.claude/launch.json` の `poker-trainer`（port 8931、scratchpad経由配信）。
+公開URL: **https://shoubu-lab.com**（旧Vercel URLはリダイレクト）。更新は編集→commit→push（Cloudflare Pagesが自動デプロイ）。ローカルは `index.html` をブラウザで開くだけ。ローカルサーバーは `.claude/launch.json` の `poker-trainer`（port 8931、scratchpad経由配信）。
 
 ## 次フェーズ候補
 
