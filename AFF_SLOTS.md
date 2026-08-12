@@ -17,4 +17,4 @@
 - リンク差し替え時は `data-aff="スロットID"` でgrepして該当 `<a>` の href のみ更新
 - 全リンクに `target="_blank" rel="nofollow sponsored noopener"` を維持
 - セクション冒頭の「広告・PR」バッジと末尾の楽天アフィリ開示文は削除しない
-- **編集後は必ず `index.html` → `deploy/index.html` にコピー**（Cloudflare Pages は deploy/ を配信）
+- デプロイは **push＝リポジトリ直下から自動デプロイ**（Cloudflare Pages）。`deploy/` は .gitignore 対象のローカルコピーで配信には使われない（同期はしておくが正本はルート）
