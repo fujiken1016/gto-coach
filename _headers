@@ -7,8 +7,3 @@
   X-Robots-Tag: noindex
 /AFF_SLOTS.md
   X-Robots-Tag: noindex
-
-# deploy/ は公開ページと同一内容のコピー（/deploy/index.html 等が生きている）。
-# URL自体は壊さず、重複コンテンツとしてインデックスされるのだけ防ぐ。
-/deploy/*
-  X-Robots-Tag: noindex
