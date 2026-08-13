@@ -1,0 +1,14 @@
+# リポジトリ直下＝Cloudflare Pages の公開ディレクトリなので、運用ドキュメント(.md)も
+# URLとして生きてしまう。消すと履歴が失われるため、検索インデックスからだけ外す。
+# （robots.txt の Disallow は使わない。クロールを止めると noindex を読んでもらえないため）
+/*.md
+  X-Robots-Tag: noindex
+/README.md
+  X-Robots-Tag: noindex
+/AFF_SLOTS.md
+  X-Robots-Tag: noindex
+
+# deploy/ は公開ページと同一内容のコピー（/deploy/index.html 等が生きている）。
+# URL自体は壊さず、重複コンテンツとしてインデックスされるのだけ防ぐ。
+/deploy/*
+  X-Robots-Tag: noindex
