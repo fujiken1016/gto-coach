@@ -44,6 +44,8 @@ small{color:var(--sub);font-size:12.5px;}
 .eq{background:#050a1c;border:1px solid var(--border);border-radius:10px;padding:14px;margin:12px 0;
   text-align:center;font-size:15px;color:var(--gold);overflow-x:auto;white-space:nowrap;}
 .eq .small{display:block;font-size:12px;color:var(--sub);white-space:normal;margin-top:6px;}
+/* 狭い画面では数式を折り返す。小さい箱を横スクロールさせて読ませない（スマホ最優先） */
+@media(max-width:560px){.eq{white-space:normal;line-height:1.95;font-size:14.5px;}}
 
 /* ---- 表 ---- */
 .tablebox{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0;
@@ -139,3 +141,22 @@ footer a{color:var(--sub);margin:0 6px;display:inline-block;min-height:30px;}
 
 #selftest{font-size:12.5px;white-space:pre-wrap;background:#050a1c;border:1px solid var(--border);
   border-radius:10px;padding:12px;margin:14px 0;color:#c6d0f2;font-family:ui-monospace,Menlo,monospace;line-height:1.7;}
+
+/* ---- 書籍紹介（楽天アフィリエイト）---- */
+.books{margin:34px 0 6px;padding:18px 16px;background:linear-gradient(180deg,var(--panel) 0%,var(--panel2) 100%);
+  border:1px solid var(--border);border-radius:14px;}
+.books-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
+.books-head h2{font-size:17px;color:var(--gold);margin:0;padding:0;border-left:none;letter-spacing:.5px;}
+.pr-badge{font-size:10px;letter-spacing:.08em;color:#0b0f22;background:var(--sub);border-radius:4px;padding:2px 7px;font-weight:700;}
+.books-lead{font-size:12.5px;color:var(--sub);line-height:1.9;margin-bottom:14px;}
+.books-lead b{color:var(--text);}
+.book-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:11px;}
+.book{display:flex;flex-direction:column;gap:5px;background:#0a0f2699;border:1px solid var(--border);border-radius:12px;padding:13px 14px;}
+.book .bt{font-size:14px;font-weight:700;color:var(--text);line-height:1.5;}
+.book .ba{font-size:10.5px;color:var(--sub);}
+.book .bd{font-size:12px;color:var(--text);opacity:.86;line-height:1.75;flex:1;margin:2px 0 6px;}
+.book .bl{align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;background:#ffd23e1a;
+  border:1px solid #ffd23e66;color:var(--gold);border-radius:9px;padding:0 15px;font-size:12.5px;font-weight:700;text-decoration:none;}
+.book .bl:hover{background:var(--gold);color:#1a1400;}
+.books-disc{font-size:10.5px;color:var(--sub);opacity:.9;margin-top:13px;line-height:1.8;}
+@media (max-width:560px){ .books{padding:14px 12px;} .book-grid{grid-template-columns:1fr;} }
