@@ -1,0 +1,141 @@
+/* 勝負ラボ ベッティングシステム検証室 — 共通スタイル
+   375px 最優先。タップ標的は最小 44px。 */
+:root{
+  --bg0:#070a18; --bg1:#0d1230; --panel:#10162e; --panel2:#181f42; --border:#2a3566;
+  --text:#eef2ff; --sub:#8b96c9;
+  --cyan:#29e0ff; --magenta:#ff2d95; --gold:#ffd23e; --mint:#59f5c0;
+  --green:#3fe37f; --red:#ff5470; --amber:#ffb03a;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  background:
+    radial-gradient(1200px 500px at 50% -10%, #1b2454 0%, transparent 60%),
+    linear-gradient(160deg, var(--bg0) 0%, var(--bg1) 100%);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  min-height:100vh; overflow-x:hidden; line-height:1.85; font-size:15px;
+}
+.wrap{max-width:840px;margin:0 auto;padding:14px 14px 48px;}
+a{color:var(--cyan);}
+h1{font-size:23px;line-height:1.5;font-weight:900;margin:6px 0 10px;letter-spacing:.5px;}
+h2{font-size:18px;margin:34px 0 10px;padding-left:10px;border-left:4px solid var(--cyan);line-height:1.5;}
+h3{font-size:15.5px;margin:22px 0 6px;color:var(--mint);}
+p{margin:10px 0;font-size:14.5px;color:#d6ddfa;}
+ul,ol{margin:10px 0 10px 20px;}
+li{font-size:14.5px;color:#d6ddfa;margin:5px 0;}
+b,strong{color:#fff;}
+code{background:#050a1c;border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-size:13px;color:var(--gold);}
+small{color:var(--sub);font-size:12.5px;}
+
+/* ---- ヘッダ / パンくず ---- */
+.crumb{font-size:12.5px;color:var(--sub);margin-bottom:4px;}
+.crumb a{color:var(--sub);}
+.lead{font-size:14.5px;color:#c6d0f2;background:var(--panel);border:1px solid var(--border);
+  border-left:4px solid var(--mint);border-radius:10px;padding:12px 14px;margin:14px 0;}
+
+/* ---- 重要な注意書き ---- */
+.notice{background:#141a33;border:1px solid #3a4680;border-radius:10px;padding:12px 14px;margin:16px 0;font-size:13.5px;color:#c6d0f2;}
+.notice b{color:var(--gold);}
+.warn{background:#2a1420;border:1px solid #7a2740;border-left:4px solid var(--red);border-radius:10px;padding:12px 14px;margin:16px 0;font-size:14px;color:#ffd9e2;}
+.warn b{color:#fff;}
+
+/* ---- 数式 ---- */
+.eq{background:#050a1c;border:1px solid var(--border);border-radius:10px;padding:14px;margin:12px 0;
+  text-align:center;font-size:15px;color:var(--gold);overflow-x:auto;white-space:nowrap;}
+.eq .small{display:block;font-size:12px;color:var(--sub);white-space:normal;margin-top:6px;}
+
+/* ---- 表 ---- */
+.tablebox{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0;
+  border:1px solid var(--border);border-radius:10px;background:var(--panel);}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:13px;}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid #202a52;white-space:nowrap;}
+th{background:var(--panel2);color:var(--cyan);font-weight:700;font-size:12.5px;position:sticky;top:0;}
+td:first-child,th:first-child{text-align:left;}
+tr:last-child td{border-bottom:none;}
+td.bad{color:var(--red);font-weight:700;}
+td.good{color:var(--green);}
+.scrollhint{font-size:11.5px;color:var(--sub);margin:-6px 0 12px;}
+
+/* ---- シミュレータ ---- */
+.sim{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px;margin:18px 0;}
+.sim h2{margin-top:0;border-left-color:var(--gold);}
+.fields{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0;}
+@media(min-width:560px){.fields{grid-template-columns:1fr 1fr;}}
+.field{display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:12.5px;color:var(--sub);font-weight:700;}
+.field input,.field select{
+  min-height:46px;background:#050a1c;border:1px solid var(--border);border-radius:9px;
+  color:var(--text);font-size:16px;padding:0 12px;font-family:inherit;width:100%;
+}
+.field input:focus,.field select:focus{outline:2px solid var(--cyan);outline-offset:0;}
+.field .hint{font-size:11.5px;color:var(--sub);line-height:1.5;}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 4px;}
+button{
+  font-family:inherit;min-height:48px;padding:0 18px;border-radius:10px;border:1px solid var(--border);
+  background:var(--panel2);color:var(--text);font-size:14.5px;font-weight:800;cursor:pointer;
+  touch-action:manipulation;flex:1 1 auto;min-width:44px;transition:.15s;
+}
+button:hover:not(:disabled){border-color:var(--cyan);color:var(--cyan);}
+button:disabled{opacity:.4;cursor:not-allowed;}
+button.primary{background:linear-gradient(95deg,var(--cyan),#3d7bff);color:#031024;border-color:transparent;}
+button.danger{background:#3a1626;border-color:#7a2740;color:#ffb9c8;}
+button.ghost{background:transparent;}
+
+.tabs{display:flex;gap:8px;margin:6px 0 12px;}
+.tabs button{flex:1;min-height:48px;}
+.tabs button.active{background:linear-gradient(95deg,var(--mint),#2fd39a);color:#03160c;border-color:transparent;}
+
+/* 状態表示 */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0;}
+@media(min-width:560px){.stats{grid-template-columns:repeat(4,1fr);}}
+.stat{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--border);
+  border-radius:10px;padding:9px 8px;text-align:center;}
+.stat .v{font-size:19px;font-weight:900;color:var(--gold);line-height:1.35;word-break:break-all;}
+.stat .v.neg{color:var(--red);}
+.stat .v.pos{color:var(--green);}
+.stat .l{font-size:11px;color:var(--sub);line-height:1.4;}
+
+.hist{display:flex;gap:4px;flex-wrap:wrap;margin:10px 0;min-height:26px;}
+.pip{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#03160c;}
+.pip.w{background:var(--green);} .pip.l{background:var(--red);color:#fff;} .pip.p{background:var(--sub);}
+
+.msg{border-radius:10px;padding:12px 14px;margin:12px 0;font-size:14px;line-height:1.75;min-height:52px;
+  background:#0b1128;border:1px solid var(--border);color:#c6d0f2;}
+.msg.bust{background:#2a1420;border-color:#7a2740;color:#ffd9e2;}
+.msg.done{background:#12281f;border-color:#2c6b4b;color:#c9f7e2;}
+.msg b{color:#fff;}
+
+.chart{width:100%;height:190px;display:block;background:#050a1c;border:1px solid var(--border);border-radius:10px;margin:12px 0;}
+.legend{font-size:11.5px;color:var(--sub);margin:-6px 0 10px;}
+
+.seqbox{font-size:13px;color:var(--mint);background:#050a1c;border:1px solid var(--border);
+  border-radius:8px;padding:8px 10px;margin:8px 0;word-break:break-all;line-height:1.7;}
+
+.readme{background:#0b1128;border:1px solid var(--border);border-left:4px solid var(--gold);
+  border-radius:10px;padding:12px 14px;margin:14px 0;font-size:13.5px;color:#c6d0f2;}
+.readme h3{margin-top:0;color:var(--gold);font-size:14px;}
+
+/* 比較カード */
+.cards{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0;}
+@media(min-width:560px){.cards{grid-template-columns:1fr 1fr;}}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.card h3{margin:0 0 6px;font-size:16px;color:var(--cyan);}
+.card p{font-size:13.5px;margin:6px 0;}
+.card .go{display:inline-flex;align-items:center;min-height:44px;font-weight:800;font-size:14px;}
+.tag{display:inline-block;font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;margin:0 5px 5px 0;
+  border:1px solid var(--border);color:var(--sub);}
+.tag.hi{border-color:#7a2740;color:#ff8fa6;}
+.tag.mid{border-color:#7a5a1e;color:var(--amber);}
+.tag.lo{border-color:#2c6b4b;color:var(--green);}
+
+/* フッタ */
+footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--border);
+  font-size:12px;color:var(--sub);line-height:1.9;text-align:center;}
+footer a{color:var(--sub);margin:0 6px;display:inline-block;min-height:30px;}
+.related{margin:26px 0 0;font-size:13.5px;}
+.related a{display:inline-block;min-height:44px;line-height:44px;margin-right:14px;}
+
+#selftest{font-size:12.5px;white-space:pre-wrap;background:#050a1c;border:1px solid var(--border);
+  border-radius:10px;padding:12px;margin:14px 0;color:#c6d0f2;font-family:ui-monospace,Menlo,monospace;line-height:1.7;}
