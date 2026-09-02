@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>公営競技の資金管理法シミュレーション｜競馬・競艇でマーチンゲール法とココモ法を検証</title>
+<meta name="description" content="競馬・競艇でマーチンゲール法・ココモ法・ダランベール法・資金比例を回せる無料シミュレーター。オッズと払戻率を入れると、必要資金・破綻確率・回収率が出ます。オッズが低い馬券ほど賭け金が速く増えるという事実を数式と実測で確認できます。現金は一切扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/koei/">
+<link rel="stylesheet" href="/betting/app.css">
+<link rel="stylesheet" href="/koei/app.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2VF02QTTNV');</script>
+</head>
+<body>
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ 公営競技の資金管理法</div>
+<h1>公営競技の資金管理法シミュレーション<br>— 競馬・競艇でマーチンゲール法は成立するのか</h1>
+
+<div class="notice">
+<b>このページについて</b>：賭け方の数学的な性質を検証するための学習ツールです。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される「円」はすべてシミュレーション上の数値で、実際の金銭のやり取りは発生しません。
+勝てる買い方の紹介でも、馬券・舟券の購入を勧めるものでもありません。オンラインカジノ等の紹介・誘導も行いません。
+</div>
+
+<div class="lead">
+競馬・競艇は日本の法律で認められた公営競技です。だから「やっていいこと」ではあります。
+ただし<b>払戻率は70〜80%</b>と法律で決まっていて、これはカジノのどのゲームより不利です
+（ヨーロピアンルーレットの控除率は2.7%、バカラのバンカーは1.06%）。
+このページは「勝てる資金管理法」を紹介する場所ではありません。
+<b>資金管理の方法を変えると何が変わって、何が変わらないのか</b>を、数式と実測で切り分ける場所です。
+</div>
+
+<h2>先に結論：資金管理は期待値を1円も動かさない</h2>
+<p>賭け金 <code>b</code>、オッズ <code>o</code>倍（元返し込み）、的中率 <code>p</code> とすると、1回の賭けの期待収支はこうなります。</p>
+<div class="eq">
+E[1回の収支] ＝ b ×（p × o − 1）＝ − b ×（1 − p×o）
+<span class="small">1 − p×o が「1円あたりの期待損失率」＝控除率。パリミュチュエル方式では平均して p×o ＝ 払戻率になる</span>
+</div>
+<p>ここから、賭け方によらず必ずこうなります。</p>
+<div class="eq">
+E[トータルの収支] ＝ −（控除率）×（賭けた総額）
+</div>
+<p>右辺に「賭け金をどう決めたか」はどこにも出てきません。<b>マーチンゲール法だろうがココモ法だろうが定額だろうが、
+期待値は「賭けた総額 × 控除率」から動かない</b>ということです。
+資金管理が変えられるのは<b>損益のばらつきの形（＝どういう負け方をするか）</b>だけです。</p>
+
+<div class="warn">
+だから、このツールの読み方はこうなります。<br>
+<b>「プラスで終わった割合」が高く出ても、それは勝てているという意味ではありません。</b>
+同じ画面の「合計収支」と「回収率」を必ずセットで見てください。
+</div>
+
+<h2>公営競技がカジノと決定的に違う3点</h2>
+
+<h3>1｜オッズが固定ではない</h3>
+<p>カジノの赤／黒は常に2.0倍です。公営競技はレースごとにオッズが変わります。
+そして<b>マーチンゲール法の性質は、このオッズだけで決まります。</b>
+損失を1回の的中で取り返そうとすると、賭け金はこの倍率で増えていきます。</p>
+<div class="eq">
+1回ごとの賭け金の増え方 ＝ o ÷（o − 1）
+</div>
+<div class="tablebox">
+<table>
+<thead><tr><th>オッズ</th><th>賭け金の増え方</th><th>5連敗目に必要な額</th><th>5連敗までの累計投入</th><th>8連敗目に必要な額</th></tr></thead>
+<tbody>
+<tr><td>1.2倍（堅い複勝）</td><td class="bad">6.00倍</td><td class="bad">6,609,600</td><td class="bad">7,930,500</td><td class="bad">1,427,673,600</td></tr>
+<tr><td>1.5倍（複勝）</td><td class="bad">3.00倍</td><td class="bad">162,000</td><td>242,000</td><td class="bad">4,374,000</td></tr>
+<tr><td>2.0倍（カジノの赤/黒と同じ）</td><td>2.00倍</td><td>16,000</td><td>31,000</td><td>128,000</td></tr>
+<tr><td>2.5倍</td><td>1.67倍</td><td>5,500</td><td>12,700</td><td>25,500</td></tr>
+<tr><td>3.0倍（単勝の中心）</td><td>1.50倍</td><td>2,700</td><td>7,000</td><td>9,000</td></tr>
+<tr><td>5.0倍</td><td>1.25倍</td><td>700</td><td>2,500</td><td>1,400</td></tr>
+<tr><td>10.0倍</td><td class="good">1.11倍</td><td class="good">200</td><td class="good">1,000</td><td class="good">300</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。基準額1,000円・100円単位に切り上げ。</div>
+
+<p><b>ここが直感と正反対のところです。</b>
+「複勝は当たりやすいから安全」と言われますが、
+<b>当たりやすい（＝オッズが低い）馬券ほど、マーチンゲール法の賭け金は速く増えます。</b>
+複勝1.5倍なら1回ごとに3倍。5連敗で16万円、8連敗で437万円が必要になります。
+逆に10倍の馬券なら1回ごとに1.11倍しか増えません——連敗しやすい代わりに、賭け金は静かです。</p>
+
+<h3>2｜「負けたら倍」は、公営競技では損失を取り返せない</h3>
+<p>ネット上の「マーチンゲール法」の説明の多くは<b>単純な倍賭け</b>（1,000→2,000→4,000…）です。
+これはオッズ2.0倍を前提にした計算で、<b>公営競技の多くの買い目では成立しません。</b>
+n連敗のあとに的中したときの純益はこうなります。</p>
+<div class="eq">
+純益 ＝ b ×（2<sup>n</sup>（o − 2）＋ 1）
+<span class="small">o が 2.0 より小さいと、連敗が深いほどマイナスが膨らむ</span>
+</div>
+<div class="tablebox">
+<table>
+<thead><tr><th>オッズ</th><th>連敗なし</th><th>1連敗後</th><th>2連敗後</th><th>4連敗後</th><th>6連敗後</th></tr></thead>
+<tbody>
+<tr><td>1.1倍</td><td class="good">+100</td><td class="bad">−800</td><td class="bad">−2,600</td><td class="bad">−13,400</td><td class="bad">−56,600</td></tr>
+<tr><td>1.5倍</td><td class="good">+500</td><td>±0</td><td class="bad">−1,000</td><td class="bad">−7,000</td><td class="bad">−31,000</td></tr>
+<tr><td>1.8倍</td><td class="good">+800</td><td class="good">+600</td><td class="good">+200</td><td class="bad">−2,200</td><td class="bad">−11,800</td></tr>
+<tr><td>2.0倍</td><td class="good">+1,000</td><td class="good">+1,000</td><td class="good">+1,000</td><td class="good">+1,000</td><td class="good">+1,000</td></tr>
+<tr><td>3.0倍</td><td class="good">+2,000</td><td class="good">+3,000</td><td class="good">+5,000</td><td class="good">+17,000</td><td class="good">+65,000</td></tr>
+</tbody>
+</table>
+</div>
+<p><b>複勝1.5倍で倍賭けをすると、1連敗後に的中しても利益はゼロ、2連敗後に的中したら1,000円のマイナスです。</b>
+「1回当たれば取り返せる」という前提そのものが、オッズ2.0倍未満では成立していません。
+下のシミュレーターで「マーチンゲール法：単純な倍賭け」と「損失回収型」を切り替えると、この違いをそのまま観察できます。</p>
+
+<h3>3｜賭け金の上限が存在しない</h3>
+<p>カジノにはテーブル上限があり、賭け金を倍にし続けるとそこで必ず止まります。
+<b>公営競技には店側の上限がありません。</b>止めるものが自分しかない、ということです。
+これは「上限がないから有利」ではなく、<b>破綻が「上限で止まる」ではなく「資金がゼロになる」形で来る</b>という意味です。
+シミュレーターの「1レースに賭ける上限」は、自分で決める歯止めとして用意しています。</p>
+
+<h2 id="sim-heading">公営競技 資金管理法シミュレーター</h2>
+<p><b>1レースずつ</b>は手で進みます（自動再生は任意で、結果が勝手に流れることはありません）。
+<b>一括試行</b>は同じ設定を最大5,000セッション回して、破綻率・収支の分布・回収率・期待値との一致を表示します。
+乱数シードを入れれば同じ結果を何度でも再現できます。</p>
+<div class="sim">
+  <div id="sim" data-ticket="win"></div>
+</div>
+
+<h2>試してほしい4つの設定</h2>
+
+<h3>1｜「プラスで終わる割合」と「勝てる」は別物</h3>
+<p>券種＝JRA単勝／オッズ3.0／損失回収型マーチンゲール／初期資金10万円／基準1,000円／1レース上限50,000円／100レース。
+一括試行を回すと、プラスで終わるセッションの割合は高く出ます。それでも合計収支は大きなマイナスで、
+回収率は払戻率80%の近くに落ち着きます。</p>
+
+<h3>2｜複勝（オッズ1.5）に変えてみる</h3>
+<p>的中率は53%まで上がるのに、破綻はむしろ増えます。賭け金が1回ごとに3倍になるからです。
+<b>「当たりやすさ」は資金の安全性を意味しません。</b></p>
+
+<h3>3｜3連単（オッズ40）に変えてみる</h3>
+<p>今度は逆に、賭け金はほとんど増えません（1.03倍）。その代わり<b>的中率が1.8%</b>なので、
+20連敗が69%の確率で起きます。マーチンゲール法は「賭け金の爆発」か「延々と当たらない」のどちらかに必ずぶつかります。</p>
+
+<h3>4｜控除率0%の対照実験に変えてみる</h3>
+<p>券種を「控除率0%の対照実験」にすると、平均収支はほぼ0になります。
+<b>負ける原因は資金管理の方法ではなく控除率です。</b>
+そのうえで破綻率は0になりません。資金が有限である限り、賭け金を増やし続ける方法はいつか止まります。</p>
+
+<h2>実測：資金管理の方法を変えると何が変わるか</h2>
+<p>下のシミュレーターで実際に回した結果です。<b>券種＝JRA単勝／オッズ3.0倍（的中率26.67%）／初期資金10万円／
+基準1,000円／1レース上限50,000円／100レース／5,000セッション／乱数シード <code>20260902</code></b>。
+同じ数字を入れれば、この表はそのまま再現できます。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th>資金管理の方法</th><th>平均の総ベット額</th><th>平均収支（実測）</th><th>理論値<br>−20%×総ベット額</th><th>プラス率</th><th>続行不能</th><th>回収率</th></tr></thead>
+<tbody>
+<tr><td>定額（毎回1,000円）</td><td>100,000</td><td class="bad">−20,044</td><td>−20,000</td><td>6.4%</td><td class="good">0.0%</td><td>79.96%</td></tr>
+<tr><td>単純な倍賭け</td><td>124,693</td><td class="bad">−23,785</td><td>−24,939</td><td>22.1%</td><td class="bad">99.8%</td><td>80.93%</td></tr>
+<tr><td>損失回収型マーチンゲール</td><td>182,341</td><td class="bad">−36,474</td><td>−36,468</td><td>38.6%</td><td class="bad">59.4%</td><td>80.00%</td></tr>
+<tr><td>ココモ法</td><td>196,929</td><td class="bad">−40,904</td><td>−39,386</td><td>15.6%</td><td class="bad">84.3%</td><td>79.23%</td></tr>
+<tr><td>資金比例（手元の5%）</td><td>320,633</td><td class="bad">−63,967</td><td>−64,127</td><td>3.9%</td><td class="good">0.0%</td><td>80.05%</td></tr>
+<tr><td>ダランベール法</td><td>410,996</td><td class="bad">−83,920</td><td>−82,199</td><td>2.5%</td><td class="bad">97.0%</td><td>79.58%</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。金額はすべて仮想の円。</div>
+
+<p>この表の読みどころは3つあります。</p>
+<ul>
+  <li><b>「平均収支（実測）」と「理論値」がどの行でもほぼ一致している。</b>
+    賭け方が6種類とも違うのに、期待値は「−控除率 × 総ベット額」から1つも外れていません。</li>
+  <li><b>回収率はどの方法でも払戻率80%の近くに落ち着く。</b>資金管理では回収率は動きません。</li>
+  <li>🔴 <b>資金管理法を使うほど負けが大きくなっている。</b>
+    定額の総ベット額10万円に対し、ダランベール法は41万円。
+    期待損失は総ベット額に比例するので、<b>賭け金を増やす仕組みを足すほど期待損失は増えます</b>。
+    「うまく賭ければ損失を抑えられる」は、この表では成り立っていません。</li>
+</ul>
+<p>ついでに、<b>プラス率と平均収支が逆向きに動いている</b>ことにも注目してください。
+損失回収型はプラス率38.6%と最も「勝てているように見える」のに、平均収支は定額の1.8倍のマイナスです。
+<b>勝った回数は、勝っているかどうかの証拠になりません。</b></p>
+
+<h2>手法別・競技別のくわしい解説</h2>
+<div class="cards">
+  <a class="card" href="/koei/martingale-keiba">
+    <b>マーチンゲール法 × 競馬</b>
+    複勝・ワイドで倍賭けをするとどうなるか。回収率・必要資金・破綻確率を券種別に実測します。
+  </a>
+  <a class="card" href="/koei/cocomo-kyotei">
+    <b>ココモ法 × 競艇</b>
+    ココモ法は配当3倍を前提にした数列です。オッズが3倍を割るとどこから成立しなくなるのかを表で示します。
+  </a>
+  <a class="card" href="/koei/koujoritsu">
+    <b>競馬・競艇の控除率一覧</b>
+    JRA公式の券種別払戻率と、同じ資金を回し続けたときに何が残るかを計算します。
+  </a>
+</div>
+
+<section class="books" id="books">
+  <div class="books-head"><h2>この話をもっと深く知るための本</h2><span class="pr-badge">広告・PR</span></div>
+  <p class="books-lead">当サイトは<b>書籍・学習コンテンツのみ</b>を紹介します。オンラインカジノ等の賭博サービスへの誘導は一切行いません。<br>
+  ここで扱っているのは「確率と期待値」の話なので、その背景を扱った定番書を挙げます。</p>
+  <div class="book-grid">
+    <article class="book">
+      <div class="bt">ギャンブルのからくり　確率・統計であばく「必勝法」のウソ</div>
+      <div class="ba">谷岡一郎 ・ 講談社（ブルーバックス）</div>
+      <div class="bd">このページでやっていることを、統計学者が一冊かけて丁寧にやっている本。「必勝法」がなぜ成り立たないのかを、確率・統計の側から筋道立てて説明しています。</div>
+      <a class="bl" href="https://hb.afl.rakuten.co.jp/ichiba/56850033.f41b8543.56850034.48ac58ba/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fbook%2F18676571%2F&link_type=text" data-aff="RAKUTEN_KOEI_BOOK1" target="_blank" rel="nofollow sponsored noopener">楽天ブックスで見る ▸</a>
+    </article>
+    <article class="book">
+      <div class="bt">天才数学者はこう賭ける　誰も語らなかった株とギャンブルの話</div>
+      <div class="ba">ウィリアム・パウンドストーン ・ 青土社</div>
+      <div class="bd">「資金の何%を賭けるべきか」という問い（ケリー基準）が、どこから生まれてどう使われてきたかの物語。シミュレーターの「資金比例」の背景にある考え方です。</div>
+      <a class="bl" href="https://hb.afl.rakuten.co.jp/ichiba/56850033.f41b8543.56850034.48ac58ba/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fbook%2F4230697%2F&link_type=text" data-aff="RAKUTEN_KOEI_BOOK2" target="_blank" rel="nofollow sponsored noopener">楽天ブックスで見る ▸</a>
+    </article>
+    <article class="book">
+      <div class="bt">まぐれ　投資家はなぜ、運を実力と勘違いするのか</div>
+      <div class="ba">ナシーム・ニコラス・タレブ ・ ダイヤモンド社</div>
+      <div class="bd">「8割の日はプラスで終わっているのに、通算では負けている」がなぜ起きるのか。結果と実力を人がどう取り違えるかを扱った一冊。</div>
+      <a class="bl" href="https://hb.afl.rakuten.co.jp/ichiba/56850033.f41b8543.56850034.48ac58ba/?pc=https%3A%2F%2Fitem.rakuten.co.jp%2Fbook%2F5263811%2F&link_type=text" data-aff="RAKUTEN_KOEI_BOOK3" target="_blank" rel="nofollow sponsored noopener">楽天ブックスで見る ▸</a>
+    </article>
+  </div>
+  <p class="books-disc">※ 本セクションは楽天アフィリエイトプログラムを利用しています。リンクから商品を購入されると、運営者に紹介料が支払われることがあります。価格・在庫は各販売ページをご確認ください。</p>
+</section>
+
+<div class="sisters">
+  <b>カジノ側の同じ検証はこちら</b>
+  <a href="/betting/">ベッティングシステム検証室</a>
+  <a href="/betting/martingale">マーチンゲール法（カジノ）</a>
+  <a href="/betting/cocomo">ココモ法（カジノ）</a>
+</div>
+
+<h2>出典（一次情報）</h2>
+<ul>
+  <li>払戻率（競馬）：JRA公式「馬券のルール」内の<b>勝馬投票法ごとの払戻率について【平成26年6月7日以降】</b> — <a href="https://www.jra.go.jp/kouza/baken/" target="_blank" rel="noopener">jra.go.jp/kouza/baken/</a></li>
+  <li>払戻率の法定範囲（競馬）：<b>競馬法</b>（昭和23年法律第158号）— 売得金の「百分の七十以上農林水産大臣が定める率以下の範囲内」</li>
+  <li>払戻率（競艇）：BOAT RACE公式 用語辞典「払戻金」— 売上金の<b>100分の75</b>（正式には100分の75以上で施行者の定める率）</li>
+  <li>払戻率の法定範囲（競艇）：<b>モーターボート競走法</b>（昭和26年法律第242号）— 売上金の「百分の七十五以上国土交通大臣が定める率以下の範囲内」</li>
+</ul>
+
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+<script src="/koei/app.js"></script>
+</body>
+</html>
