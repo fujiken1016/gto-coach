@@ -8,6 +8,10 @@
  * 送るイベント： aff_click { network, item_id, from_page }
  *                note_click { note_id, from_page }
  *
+ * ※ シミュレータの実行イベント sim_run{area,mode,system,game,trials,from_page} は
+ *   ここではなく /betting/app.js と /koei/app.js の中で送っている（設定値を持つのが
+ *   そちらのため）。3サイトでイベント名を揃えてあるので月次で横に並べて読める。
+ *
  * 🔴 このファイルにAdSenseコードを足さないこと（勝負ラボは隔離ドメイン）。
  * gtag が未ロード（広告ブロッカー等）でも例外を投げない。
  */
