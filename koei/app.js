@@ -23,6 +23,32 @@
 
   var UNIT = 100; // 日本の勝馬投票券・舟券は100円単位。賭け金は必ず100円単位に切り上げる
 
+  /* ------------------------------------------------- GA4：実行イベント */
+  // sim_run{area,mode,system,game,trials,from_page}
+  // なぜ要るか：このページは「PVはあったが誰も動かさなかった」と「動かした」を
+  // 区別する手段が無かった。ツール型サイトの本質的な指標は訪問数ではなく実行数。
+  // 🔴 ここにAdSenseを足さないこと（勝負ラボは隔離ドメイン）。
+  // gtag 未ロード（広告ブロッカー等）でも例外を投げない＝UIを絶対に壊さない。
+  // 自己テスト（#selftest）の合成操作は実データに混ぜない。
+  var TRACK_OFF = (location.hash === '#selftest' || location.search.indexOf('selftest=1') >= 0);
+  function track(name, params) {
+    if (TRACK_OFF) return;
+    try { if (window.gtag) window.gtag('event', name, params); } catch (e) { /* 計測失敗でUIを壊さない */ }
+  }
+  // mode: 'play'（1レースずつの開始）／'batch'（一括試行）／'wall'（控除率の壁の試算）
+  // game には券種キー（win/place/boat2 等）を入れる＝競技・券種の別が読めるように
+  // trials: play＝1セッションの最大レース数／batch＝セッション数／wall＝回転数
+  function trackRun(mode, system, game, trials) {
+    track('sim_run', {
+      area: 'koei',
+      mode: mode,
+      system: system,
+      game: game,
+      trials: trials,
+      from_page: location.pathname
+    });
+  }
+
   /* ---------------------------------------------------------------- PRNG */
   function mulberry32(a) {
     return function () {
@@ -372,6 +398,7 @@
         path: [c.bankroll], hist: [], over: false, ruin: null, needed: 0, hitTarget: false
       };
       session.sys.init(session.s, c);
+      trackRun('play', c.system, c.ticket, c.maxRaces);
       renderPlay();
     }
     function nextBetOf() {
@@ -489,6 +516,7 @@
         setTimeout(function () {
           if (view !== 'batch') return;
           var c = cfg();
+          trackRun('batch', c.system, c.ticket, c.runs);
           lastBatch = runBatch(c, seedOf(c), c.runs);
           renderBatch(false);
         }, 30);
@@ -654,9 +682,20 @@
         '当てた分をまた次のレースに入れる（回転させる）ほど、この曲線に近づきます。</small>';
       out.appendChild(msg);
     }
+    // 入力のたびに送ると1回の利用が何十件にも膨らむので、
+    // 「実際に操作した」ことを1ページ表示につき1回だけ記録する
+    var wallSent = false;
+    function onWallInput() {
+      render();
+      if (wallSent) return;
+      wallSent = true;
+      var R = parseFloat(document.getElementById('w-r').value) || 75;
+      var n = Math.min(200, Math.max(1, parseInt(document.getElementById('w-n').value, 10) || 10));
+      trackRun('wall', 'koujoritsu', 'payout_' + R, n);
+    }
     Array.prototype.forEach.call(root.querySelectorAll('input,select'), function (n) {
-      n.addEventListener('change', render);
-      n.addEventListener('input', render);
+      n.addEventListener('change', onWallInput);
+      n.addEventListener('input', onWallInput);
     });
     render();
     root.__testWall = { render: render, out: out };

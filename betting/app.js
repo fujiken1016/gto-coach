@@ -13,6 +13,31 @@
 (function () {
   'use strict';
 
+  /* ------------------------------------------------- GA4：実行イベント */
+  // sim_run{area,mode,system,game,trials,from_page}
+  // なぜ要るか：このページは「PVはあったが誰も動かさなかった」と「動かした」を
+  // 区別する手段が無かった。ツール型サイトの本質的な指標は訪問数ではなく実行数。
+  // 🔴 ここにAdSenseを足さないこと（勝負ラボは隔離ドメイン）。
+  // gtag 未ロード（広告ブロッカー等）でも例外を投げない＝UIを絶対に壊さない。
+  // 自己テスト（#selftest）の合成操作は実データに混ぜない。
+  var TRACK_OFF = (location.hash === '#selftest' || location.search.indexOf('selftest=1') >= 0);
+  function track(name, params) {
+    if (TRACK_OFF) return;
+    try { if (window.gtag) window.gtag('event', name, params); } catch (e) { /* 計測失敗でUIを壊さない */ }
+  }
+  // mode: 'play'（1回プレイのセッション開始）／'batch'（一括試行の実行）
+  // trials: play＝1セッションの最大ゲーム数／batch＝まとめて回すセッション数
+  function trackRun(mode, c, trials) {
+    track('sim_run', {
+      area: 'betting',
+      mode: mode,
+      system: c.system,
+      game: c.game,
+      trials: trials,
+      from_page: location.pathname
+    });
+  }
+
   /* ---------------------------------------------------------------- PRNG */
   // mulberry32: シード固定で完全に再現できる決定的な擬似乱数
   function mulberry32(a) {
@@ -352,6 +377,7 @@
         path: [c.bankroll], hist: [], over: false, ruin: null, needed: 0, hitTarget: false
       };
       session.sys.init(session.s, c);
+      trackRun('play', c, c.maxRounds);
       renderPlay();
     }
 
@@ -467,6 +493,7 @@
         setTimeout(function () {
           if (view !== 'batch') return;   // 途中でタブが変わっていたら結果を捨てる
           var c = cfg();
+          trackRun('batch', c, c.runs);
           lastBatch = runBatch(c, seedOf(c), c.runs);
           renderBatch(false);
         }, 30);
