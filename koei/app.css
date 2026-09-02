@@ -1,0 +1,12 @@
+/* 勝負ラボ 公営競技シミュレーター — /betting/app.css への追加分だけを持つ
+   （共通の見た目・375px対応・タップ標的44px は /betting/app.css 側に入っている） */
+
+/* ---- 表の中で強調したい行 ---- */
+td.good{color:var(--green);font-weight:700;}
+td.bad{color:var(--red);font-weight:700;}
+table th{white-space:nowrap;}
+
+/* ---- 姉妹サイトへの導線 ---- */
+.sisters{margin:26px 0 0;padding:14px;background:var(--panel);border:1px solid var(--border);border-radius:12px;font-size:13px;}
+.sisters b{display:block;margin-bottom:6px;color:var(--mint);}
+.sisters a{display:inline-block;min-height:44px;line-height:44px;margin-right:14px;}

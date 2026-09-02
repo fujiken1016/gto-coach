@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>競馬・競艇の控除率一覧｜券種別の払戻率と「控除率の壁」計算機</title>
+<meta name="description" content="JRA公式の券種別払戻率（単勝80%〜WIN5 70%）と競艇75%を一次情報から整理。控除率が20〜30%であることと、同じ資金を回し続けると期待値が指数関数で削られる「控除率の壁」を計算機で確認できます。現金は一切扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/koei/koujoritsu">
+<link rel="stylesheet" href="/betting/app.css">
+<link rel="stylesheet" href="/koei/app.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2VF02QTTNV');</script>
+</head>
+<body>
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/koei/">公営競技の資金管理法</a> ／ 控除率</div>
+<h1>競馬・競艇の控除率一覧<br>— 券種別の払戻率と「控除率の壁」</h1>
+
+<div class="notice">
+<b>このページについて</b>：確率と期待値の学習ツールです。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される「円」はすべて計算上の数値です。馬券・舟券の購入を勧めるものではありません。
+オンラインカジノ等の紹介・誘導も行いません。
+</div>
+
+<div class="lead">
+控除率は「主催者が売上から取る割合」です。払戻率（還元率）とは <b>控除率 ＝ 100% − 払戻率</b> の関係にあります。
+この数字は法律で範囲が決まっていて、<b>予想の巧拙とは無関係に、賭けた全員に等しくかかります</b>。
+ここでは一次情報の数字だけを並べ、そのうえで「同じ資金を回し続けると何が残るのか」を計算します。
+</div>
+
+<h2>券種別の払戻率と控除率（JRA・一次情報）</h2>
+<p>JRA公式「馬券のルール」に掲載されている<b>勝馬投票法ごとの設定払戻率【平成26年6月7日以降】</b>です。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th>投票法</th><th>設定払戻率</th><th>控除率</th><th>1万円賭けたときの期待収支</th></tr></thead>
+<tbody>
+<tr><td>単勝</td><td>80.00%</td><td class="bad">20.00%</td><td class="bad">−2,000 円</td></tr>
+<tr><td>複勝</td><td>80.00%</td><td class="bad">20.00%</td><td class="bad">−2,000 円</td></tr>
+<tr><td>枠連</td><td>77.50%</td><td class="bad">22.50%</td><td class="bad">−2,250 円</td></tr>
+<tr><td>馬連</td><td>77.50%</td><td class="bad">22.50%</td><td class="bad">−2,250 円</td></tr>
+<tr><td>ワイド</td><td>77.50%</td><td class="bad">22.50%</td><td class="bad">−2,250 円</td></tr>
+<tr><td>馬単</td><td>75.00%</td><td class="bad">25.00%</td><td class="bad">−2,500 円</td></tr>
+<tr><td>3連複</td><td>75.00%</td><td class="bad">25.00%</td><td class="bad">−2,500 円</td></tr>
+<tr><td>3連単</td><td>72.50%</td><td class="bad">27.50%</td><td class="bad">−2,750 円</td></tr>
+<tr><td>WIN5</td><td>70.00%</td><td class="bad">30.00%</td><td class="bad">−3,000 円</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
+<p><small>根拠法：<b>競馬法</b>（昭和23年法律第158号）は、払戻対象総額を売得金の
+「百分の七十以上農林水産大臣が定める率以下の範囲内で日本中央競馬会が定める率」を乗じた額と規定しています。
+つまり<b>法律上の下限は払戻率70%（控除率30%）</b>で、その範囲内でJRAが券種ごとに決めています。</small></p>
+
+<h2>競艇（ボートレース）の払戻率</h2>
+<p>BOAT RACE公式の用語辞典「払戻金」の記述です。</p>
+<div class="eq">
+売上金（返還金を除く）の <b>100分の75</b>（正式には100分の75以上で施行者の定める率）
+<span class="small">＝ 控除率25%。根拠法はモーターボート競走法（昭和26年法律第242号）</span>
+</div>
+<p>モーターボート競走法は、払戻金を売上金の「百分の七十五以上国土交通大臣が定める率以下の範囲内で施行者が定める率」と規定しています。
+<b>競馬と違い、法律上の下限が75%</b>である点が形式的な違いです。</p>
+
+<h2>カジノのゲームと比べると</h2>
+<p>控除率は、同じ「1円賭けたときにいくら失うか」という物差しで比較できます。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th>ゲーム／券種</th><th>控除率</th><th>公営競技の何分の1か</th></tr></thead>
+<tbody>
+<tr><td>バカラ バンカー</td><td class="good">1.06%</td><td>3連単の約26分の1</td></tr>
+<tr><td>ヨーロピアンルーレット 赤/黒</td><td class="good">2.70%</td><td>3連単の約10分の1</td></tr>
+<tr><td>アメリカンルーレット 赤/黒</td><td>5.26%</td><td>3連単の約5分の1</td></tr>
+<tr><td>JRA 単勝・複勝</td><td class="bad">20.00%</td><td>—</td></tr>
+<tr><td>ボートレース</td><td class="bad">25.00%</td><td>—</td></tr>
+<tr><td>JRA 3連単</td><td class="bad">27.50%</td><td>—</td></tr>
+<tr><td>JRA WIN5</td><td class="bad">30.00%</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+<div class="warn">
+これは「だからカジノをやろう」という話ではありません。<b>オンラインカジノは日本国内から利用すると犯罪です</b>
+（警察庁：海外で合法的に運営されているものでも、日本国内から接続して賭博を行うことは犯罪）。
+2025年9月25日には、改正ギャンブル等依存症対策基本法により<b>違法オンラインギャンブルへ誘導する情報の発信自体が禁止</b>されました。
+当サイトはオンラインカジノの紹介・誘導を一切行いません。
+ここで比較しているのは<b>控除率という数字の大きさだけ</b>です。
+</div>
+
+<h2>控除率の壁：1回20%でも、回し続けると指数で消える</h2>
+<p>控除率20%を「5回に1回ぶん減る」と受け取ると、実際より軽く見えます。
+的中したお金をまた次のレースに入れる（＝資金を回転させる）と、残る額は掛け算で減っていきます。</p>
+<div class="eq">
+残る額 ＝ 元手 ×（払戻率）<sup>n</sup>
+<span class="small">n＝資金を賭け直した回数（回転数）</span>
+</div>
+<div class="tablebox">
+<table>
+<thead><tr><th>払戻率</th><th>1回転</th><th>5回転</th><th>10回転</th><th>20回転</th></tr></thead>
+<tbody>
+<tr><td>80.0%（単勝・複勝）</td><td>80,000</td><td>32,768</td><td class="bad">10,737</td><td class="bad">1,153</td></tr>
+<tr><td>77.5%（馬連・ワイド）</td><td>77,500</td><td>27,958</td><td class="bad">7,817</td><td class="bad">611</td></tr>
+<tr><td>75.0%（馬単・3連複・競艇）</td><td>75,000</td><td>23,730</td><td class="bad">5,631</td><td class="bad">317</td></tr>
+<tr><td>72.5%（3連単）</td><td>72,500</td><td>20,030</td><td class="bad">4,012</td><td class="bad">161</td></tr>
+<tr><td>70.0%（WIN5）</td><td>70,000</td><td>16,807</td><td class="bad">2,825</td><td class="bad">80</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。元手10万円の場合。</div>
+
+<p><b>10万円を10回転させると、単勝でも期待値は約1万円まで減ります。</b>
+「回収率80%」という数字は<b>1回あたり</b>の話であって、遊び続けたときの数字ではありません。
+資金管理法の話でよく出てくる「賭け金を増やして取り返す」は、この回転数を増やす行為でもあります。</p>
+
+<h3 id="wall-heading">控除率の壁 計算機</h3>
+<p>元手・払戻率・回転数を入れると、期待して残る額が出ます。数字はその場で更新され、勝手に消えません。</p>
+<div class="sim">
+  <div id="wall"></div>
+</div>
+
+<h2>回収率100%に必要な的中率</h2>
+<p>期待値がプラスマイナスゼロになる的中率は <code>1 ÷ オッズ</code> です。
+一方で平均的な購入者の的中率は <code>払戻率 ÷ オッズ</code>。この差が控除率のぶんです。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th>オッズ</th><th>平均的な購入者の的中率（払戻率80%）</th><th>回収率100%に必要な的中率</th><th>必要な上振れ</th></tr></thead>
+<tbody>
+<tr><td>1.5倍</td><td>53.33%</td><td>66.67%</td><td class="bad">+13.33ポイント</td></tr>
+<tr><td>2.0倍</td><td>40.00%</td><td>50.00%</td><td class="bad">+10.00ポイント</td></tr>
+<tr><td>3.0倍</td><td>26.67%</td><td>33.33%</td><td class="bad">+6.67ポイント</td></tr>
+<tr><td>7.5倍</td><td>10.67%</td><td>13.33%</td><td class="bad">+2.67ポイント</td></tr>
+<tr><td>15倍</td><td>5.33%</td><td>6.67%</td><td class="bad">+1.33ポイント</td></tr>
+</tbody>
+</table>
+</div>
+<p>どのオッズでも、必要なのは<b>「平均より25%だけ的中率が高い」こと</b>です（80% → 100% は1.25倍）。
+控除率は予想の巧拙に関係なくかかるので、<b>予想が平均どおりに上手いだけでは足りません</b>。
+これが「回収率100%の壁」の中身です。</p>
+
+<h2>この数字を使ってできること</h2>
+<p>控除率は「必ず負ける」という意味ではなく、<b>期待値の基準線がどこにあるか</b>を示す数字です。
+資金管理法のシミュレーターと合わせて読むと、次のことが確かめられます。</p>
+<ul>
+  <li>資金管理の方法を変えても、この基準線は動かない</li>
+  <li>賭け方が変えられるのは「どう負けるか」の形だけ</li>
+  <li>総ベット額が増えるほど、期待損失は基準線に沿って比例して増える</li>
+</ul>
+
+<div class="related">
+  <b>関連ページ</b><br>
+  <a href="/koei/">公営競技の資金管理法トップ</a>
+  <a href="/koei/martingale-keiba">マーチンゲール法 × 競馬</a>
+  <a href="/koei/cocomo-kyotei">ココモ法 × 競艇</a>
+  <a href="/betting/">ベッティングシステム検証室（カジノ）</a>
+</div>
+
+<h2>出典（一次情報）</h2>
+<ul>
+  <li>JRA公式「馬券のルール」＞勝馬投票法ごとの払戻率について【平成26年6月7日以降】 — <a href="https://www.jra.go.jp/kouza/baken/" target="_blank" rel="noopener">jra.go.jp/kouza/baken/</a></li>
+  <li>競馬法（昭和23年法律第158号）— 払戻対象総額は売得金の「百分の七十以上農林水産大臣が定める率以下の範囲内」</li>
+  <li>BOAT RACE公式 用語辞典「払戻金」 — <a href="https://www.boatrace.jp/owpc/pc/extra/enjoy/guide/jiten/26/y_213.html" target="_blank" rel="noopener">boatrace.jp</a></li>
+  <li>モーターボート競走法（昭和26年法律第242号）— 売上金の「百分の七十五以上国土交通大臣が定める率以下の範囲内」</li>
+  <li>オンラインカジノを利用した賭博は犯罪です！ — <a href="https://www.npa.go.jp/bureau/safetylife/hoan/onlinecasino/onlinecasino.html" target="_blank" rel="noopener">警察庁</a></li>
+</ul>
+
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+<script src="/koei/app.js"></script>
+</body>
+</html>
