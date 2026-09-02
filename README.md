@@ -37,3 +37,34 @@
 3. ポストフロップ: OSSの postflop-solver（Rust/WASM）をブラウザ内実行 ※商用時ライセンス要確認
 4. LLM解説（Claude Haiku）: 頻出スポットはキャッシュしてコスト圧縮
 5. 差別化方針: 判定ではなく「理由の日本語言語化」が主役（GTO Wizard/NTPoker/POKER Q'zとの差別化点）
+
+---
+
+## /betting/ — ベッティングシステム検証室（2026-09-02 追加）
+
+同じドメイン（shoubu-lab.com）配下のサブディレクトリに置いた、独立した静的セクション。
+**新規サブドメインは作らない**方針に従い `/betting/` に配置している（GTO Coach 本体のコードには一切触れていない。
+本体側の変更は index.html フッターへの1リンク追加と sitemap.xml のみ）。
+
+| URL | ファイル（＝正本。生成物ではない） |
+|---|---|
+| /betting/ | `betting/index.html`（ハブ・5種比較・全システム切替シミュレータ） |
+| /betting/martingale | `betting/martingale.html` |
+| /betting/montecarlo | `betting/montecarlo.html` |
+| /betting/dalembert | `betting/dalembert.html` |
+| /betting/paroli | `betting/paroli.html` |
+| /betting/cocomo | `betting/cocomo.html` |
+| （共通） | `betting/app.js`（エンジン＋UI）／`betting/app.css` |
+
+- **編集するのは上のHTML/JS/CSSそのもの**。ビルド工程もジェネレータも無い。
+- 各ページは `<div id="sim" data-system="..." data-game="...">` を置くだけでシミュレータが起動する。
+  `data-system` を省いた場合は5種を切り替えられるフル版になる（ハブがこれ）。
+- **自己テスト**：URLの末尾に `#selftest` を付けて開くと27件の不変条件テストが走る
+  （進行ルール／会計／再現性／期待値の同一性を8ゲーム全列挙で厳密検証／自動再生の世代ガード／表示と内部状態の一致）。
+  **JSを触ったら必ずこれを実行して PASS 27 / FAIL 0 を確認してから push すること。**
+- **非同期は自動再生の setTimeout 1本だけ**。`autoTimer`（ハンドル）と `autoToken`（世代番号）で管理し、
+  タブ切替・設定変更・リセットで必ず停止＋所有DOMの完全再描画を行う。部分更新はしない。
+- 解説ページに載せている実測値は、シミュレータに**乱数シード 20260902 ／ セッション数 5,000**を入れれば再現できる。
+  数字を書き換えるときは、必ず同じ手順で実測し直すこと。
+- 方針：「勝てる攻略法」としては絶対に書かない。射幸心を煽る表現を使わない。
+  全ページに「現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません」を明記している（削除禁止）。
