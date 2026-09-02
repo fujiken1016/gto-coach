@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>パーレー法（逆マーチンゲール）シミュレーション｜勝てない理由を数字で確かめる</title>
+<meta name="description" content="パーレー法（逆マーチンゲール法）を1ゲームずつ、または1,000セッション一括で試せる無料シミュレーター。何連勝で利確すべきか、連勝の確率、破綻しにくいのに資金が減っていく理由を、数式と実測データで確認できます。現金は一切扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/betting/paroli">
+<link rel="stylesheet" href="/betting/app.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2VF02QTTNV');</script>
+</head>
+<body>
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/betting/">ベッティングシステム検証室</a> ／ パーレー法</div>
+<h1>パーレー法（逆マーチンゲール）シミュレーション<br>— 破綻しないのに、なぜ資金が減るのか</h1>
+
+<div class="notice">
+<b>このページについて</b>：賭け方の数学的な性質を検証するための学習ツールです。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される「円」はすべてシミュレーション上の数値で、実際の金銭のやり取りは発生しません。
+オンラインカジノ等の紹介・誘導も行いません。
+</div>
+
+<div class="lead">
+パーレー法は、マーチンゲール法の逆です。<b>勝ったら賭け金を2倍</b>にし、<b>負けたら基準額に戻します</b>。
+決めた連勝数に届いたら利益を確保して仕切り直します。
+1サイクルで失うのは基準額1つ分だけなので、<b>破綻はほとんどしません</b>。
+それでも資金は減っていきます。その理由をここで確かめます。
+</div>
+
+<h2>仕組みと数式</h2>
+<p>基準額 <code>b</code>、目標連勝数 <code>t</code> とすると、成功したときの利益と成功確率はこうなります。</p>
+<div class="eq">
+成功時の利益 ＝ b ×(2<sup>t</sup> − 1)　／　成功確率 ＝ p<sup>t</sup>
+<span class="small">p はそのゲームの勝率（ヨーロピアンルーレット赤黒なら 18/37 ≒ 0.4865）</span>
+</div>
+<p>連勝の確率は掛け算なので、<b>目標を1つ増やすたびに成功率はおよそ半分になります</b>。
+一方で失敗したときの損失は、どの目標でも基準額1つ分のままです。
+「リスクは小さく、リターンは大きい」——ここまでは事実です。問題はその<b>釣り合い</b>です。</p>
+
+<div class="tablebox">
+<table>
+<thead><tr><th>目標連勝数</th><th>成功確率</th><th>成功時の利益</th><th>1サイクルの期待収支</th><th>1サイクルの期待総ベット額</th><th>−控除率×総ベット額</th></tr></thead>
+<tbody>
+<tr><td>2連勝</td><td>23.67%</td><td class="good">+3,000</td><td class="bad">−53.3</td><td>1,973</td><td class="bad">−53.3</td></tr>
+<tr><td>3連勝</td><td>11.51%</td><td class="good">+7,000</td><td class="bad">−78.9</td><td>2,920</td><td class="bad">−78.9</td></tr>
+<tr><td>4連勝</td><td>5.60%</td><td class="good">+15,000</td><td class="bad">−103.8</td><td>3,841</td><td class="bad">−103.8</td></tr>
+<tr><td>5連勝</td><td>2.72%</td><td class="good">+31,000</td><td class="bad">−128.0</td><td>4,737</td><td class="bad">−128.0</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。基準額1,000円・ヨーロピアンルーレット赤黒の場合。</div>
+
+<p>右の2列を見比べてください。<b>1サイクルの期待収支は、「−控除率 × そのサイクルで賭ける総額」と小数点以下まで一致します。</b>
+そして目標連勝数を上げるほど1サイクルで賭ける総額が増えるので、<b>期待損失も素直に増えます</b>。
+「大きく狙うほど期待値が良くなる」ということはありません。逆です。</p>
+
+<h2>破綻はしない。でも減る</h2>
+<p>次の数字は、下のシミュレーターで<b>乱数シードに 20260902、セッション数に 5,000</b> を入れれば同じ結果が再現できます
+（ヨーロピアンルーレット赤黒／初期資金100,000／基準額1,000／テーブル上限20,000／最大200ゲーム）。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th>目標</th><th>破綻率</th><th>プラスで終了</th><th>平均収支</th><th>収支の中央値</th><th>最良</th><th>平均総ベット額</th><th>理論値</th></tr></thead>
+<tbody>
+<tr><td>3連勝</td><td class="good">0.02%</td><td>35.3%</td><td class="bad">−9,226</td><td class="bad">−10,000</td><td>+106,000</td><td>338,021</td><td class="bad">−9,136</td></tr>
+<tr><td>4連勝</td><td class="good">0.64%</td><td>37.7%</td><td class="bad">−11,018</td><td class="bad">−12,000</td><td>+184,000</td><td>415,944</td><td class="bad">−11,242</td></tr>
+<tr><td>5連勝</td><td>6.00%</td><td>33.9%</td><td class="bad">−12,941</td><td class="bad">−13,000</td><td>+227,000</td><td>494,534</td><td class="bad">−13,366</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>破綻率は3連勝でわずか0.02%（5,000セッション中1件）。<b>ほぼ絶対に飛びません。</b>
+それでもプラスで終わるのは3分の1程度で、平均は約9,000円のマイナスです。
+5,000セッションの合計は <b>−4,613万円</b>。</p>
+
+<div class="warn">
+<b>マーチンゲール法とパーレー法は、損益の形が正反対です。</b><br>
+マーチンゲール法は「小さくたくさん勝って、たまに全部失う」。<br>
+パーレー法は「小さくたくさん負けて、たまに大きく勝つ」。<br>
+どちらも平均は「賭けた総額 × 控除率」ぶんのマイナスです。<b>ベッティングシステムが変えられるのは形だけで、平均は動きません。</b>
+一括試行のヒストグラムを両方見比べると、山の向きが左右で反転しているのが分かります。
+</div>
+
+<h2>「損失が限定されているから安全」は半分だけ正しい</h2>
+<p>1サイクルの最大損失が基準額1つ分なのは事実です。破綻しにくいのも事実です。
+ただし<b>「破綻しない」と「減らない」は別</b>です。
+上の実測では200ゲームで平均338,021円を賭けており、その2.70%＝約9,100円が期待損失になります。
+負け方が静かなだけで、削られる速さは他のシステムと同じ式に従います。</p>
+
+<h2 id="sim-heading">パーレー法 シミュレーター</h2>
+<p><b>1回プレイ</b>は1ゲームずつ手で進みます（自動再生は任意で、結果が勝手に流れることはありません）。
+<b>一括試行</b>は同じ設定を最大5,000セッション回します。乱数シードを入れれば同じ結果を何度でも再現できます。
+「何連勝で利確するか」も変えられます。</p>
+<div class="sim">
+  <div id="sim" data-system="paroli" data-game="euro"></div>
+</div>
+
+<h2>試してほしい設定</h2>
+<h3>1｜目標連勝数を 2 → 5 と上げてみる</h3>
+<p>1つ上げるごとに平均収支が悪化します。狙いを大きくすると、その分だけ多く賭けることになるからです。
+<b>「一撃を狙うほど期待値が良くなる」ということはありません。</b></p>
+
+<h3>2｜ヒストグラムの形を見る</h3>
+<p>一括試行の分布は<b>左に大きな山、右に長い裾</b>になります。
+マーチンゲール法の分布（右に山、左に長い裾）とちょうど鏡写しです。
+どちらも山の重心は0より左側にあります。</p>
+
+<h3>3｜控除率をゼロにする</h3>
+<p>ゲームを「公正なコイン（控除率0%）」に変えると、平均収支はほぼ0になります。
+<b>負ける原因はパーレー法ではなく控除率です。</b></p>
+
+<div class="related">
+  <b>他のベッティングシステム</b><br>
+  <a href="/betting/">検証室トップ</a>
+  <a href="/betting/martingale">マーチンゲール法</a>
+  <a href="/betting/montecarlo">モンテカルロ法</a>
+  <a href="/betting/dalembert">ダランベール法</a>
+  <a href="/betting/cocomo">ココモ法</a>
+</div>
+
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+<script src="/betting/app.js"></script>
+</body>
+</html>
