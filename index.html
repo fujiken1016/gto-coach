@@ -336,6 +336,15 @@
     text-decoration:none;font-weight:700;font-size:12.5px;padding:8px 15px;border-radius:9px;transition:background .15s,color .15s;}
   .book .bl:hover{background:var(--gold);color:#1a1400;}
   .books-disc{font-size:10px;color:var(--sub);opacity:.85;margin-top:13px;line-height:1.8;}
+  /* 姉妹ツール導線（サイクル27）。値は memory/design_guidelines.md のトークンに準拠 */
+  .sisters2{margin:32px 0 0;padding:16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;}
+  .sisters2 h2{font-size:26px;line-height:1.35;font-weight:700;color:var(--text);margin:0 0 8px;}
+  .sisters2>p{font-size:15px;line-height:1.85;color:#a9a9be;margin:0 0 12px;}
+  .sisters2 a{display:block;min-height:48px;padding:12px 16px;margin:0 0 8px;border:1px solid var(--border);
+    border-radius:8px;background:var(--bg1);color:var(--mint);font-size:17px;line-height:1.5;font-weight:600;text-decoration:none;}
+  .sisters2 a span{display:block;margin-top:4px;font-size:15px;line-height:1.85;font-weight:400;color:#a9a9be;}
+  .sisters2 a:hover,.sisters2 a:focus-visible{background:var(--panel2);}
+  .sisters2 a:focus-visible{outline:3px solid var(--mint);outline-offset:2px;}
   @media (max-width:560px){ .books{padding:14px 12px;} .book-grid{grid-template-columns:1fr;} }
 </style>
 <!-- Google tag (gtag.js) -->
@@ -465,6 +474,15 @@
     <!-- note導線プレースホルダ -->
     <div id="note-cta" hidden></div>
     <p class="books-disc">※ 本セクションは楽天アフィリエイトプログラムを利用しています。リンクから商品を購入されると、運営者に紹介料が支払われることがあります。価格・在庫は各販売ページをご確認ください。</p>
+  </section>
+
+  <!-- 姉妹ツールへの導線（サイクル27・2026-09-03）＝footer の注記の中にしか無く事実上見えていなかった -->
+  <section class="sisters2">
+    <h2>勝負ラボの他のツール</h2>
+    <p>どれも無料・登録不要。現金・賭け金は一切扱いません。</p>
+    <a href="/betting/">ベッティングシステム検証室<span>マーチンゲール・モンテカルロ法ほか5種を、破産確率と期待値で検証するシミュレータ</span></a>
+    <a href="/koei/">公営競技の資金管理法シミュレーター<span>競馬・競艇でオッズと払戻率を入れて、必要資金・破綻確率・回収率を出す</span></a>
+    <a href="/koei/koujoritsu">控除率・払戻率の比較<span>競馬・競艇・宝くじ・カジノの控除率を並べて、1レースあたりの目減りを実測する</span></a>
   </section>
 
   <footer>

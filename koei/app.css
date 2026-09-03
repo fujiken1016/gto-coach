@@ -7,6 +7,6 @@ td.bad{color:var(--red);font-weight:700;}
 table th{white-space:nowrap;}
 
 /* ---- 姉妹サイトへの導線 ---- */
-.sisters{margin:26px 0 0;padding:14px;background:var(--panel);border:1px solid var(--border);border-radius:12px;font-size:13px;}
+.sisters{margin:26px 0 0;padding:14px;background:var(--panel);border:1px solid var(--border);border-radius:12px;font-size:15px;}
 .sisters b{display:block;margin-bottom:6px;color:var(--mint);}
-.sisters a{display:inline-block;min-height:44px;line-height:44px;margin-right:14px;}
+.sisters a{display:inline-block;min-height:48px;line-height:48px;margin-right:14px;}
