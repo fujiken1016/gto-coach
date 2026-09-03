@@ -136,8 +136,8 @@ button.ghost{background:transparent;}
 footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--border);
   font-size:12px;color:var(--sub);line-height:1.9;text-align:center;}
 footer a{color:var(--sub);margin:0 6px;display:inline-block;min-height:30px;}
-.related{margin:26px 0 0;font-size:13.5px;}
-.related a{display:inline-block;min-height:44px;line-height:44px;margin-right:14px;}
+.related{margin:26px 0 0;font-size:15px;}
+.related a{display:inline-block;min-height:48px;line-height:48px;margin-right:14px;}
 
 #selftest{font-size:12.5px;white-space:pre-wrap;background:#050a1c;border:1px solid var(--border);
   border-radius:10px;padding:12px;margin:14px 0;color:#c6d0f2;font-family:ui-monospace,Menlo,monospace;line-height:1.7;}
