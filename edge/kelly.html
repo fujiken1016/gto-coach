@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#101018">
+<title>ケリー基準の計算機｜期待値がプラスでも「賭けすぎ」で資金が減る理由</title>
+<meta name="description" content="ケリー基準（Kelly criterion）の最適賭け金比率 f*＝(bp−q)/b を、対数成長率の式から導出して計算できるページ。控除率のあるゲームでは f* が負になり「最適な賭け金はゼロ」になることも、成長率がゼロになる賭け金比率も、その場で数値計算して確認できます。現金は一切扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/edge/kelly">
+<link rel="stylesheet" href="/edge/app.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2VF02QTTNV');</script>
+<script src="/oc.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/edge/">還元率ラボ</a> ／ ケリー基準</div>
+<h1>ケリー基準の計算機<br>— 期待値がプラスでも、賭けすぎれば資金は減る</h1>
+
+<div class="notice">
+<b>このページについて</b>：確率と期待値の学習ツールです。
+現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。
+画面の数値はすべてシミュレーション上のものです。賭博の勧誘やオンラインカジノ等への誘導は一切行いません。
+</div>
+
+<div class="warn">
+<b>先に結論。</b>ケリー基準は「勝てる賭け」を作る式ではありません。
+すでに期待値がプラスである賭けに対して、資金の何割を張るのが最も速いかだけを決める式です。
+期待値がマイナスなら、この式が返す答えは<b>「賭けない（f＝0）」</b>です。
+控除率のあるゲームはすべてここに該当します（→<a href="/edge/">還元率ラボ</a>）。
+</div>
+
+<div class="lead">
+「期待値がプラスなら、大きく張るほど速く増える」——これは間違いです。
+賭け金の比率を上げていくと、増える速さはある点で頭打ちになり、そこを越えると<b>マイナスに転じます</b>。
+このページでは、その折り返し点＝<b>ケリー比率 f*</b> を式から導出し、
+自分で入れた数字で「増える速さ」がどこでゼロになるかまで数値計算します。
+</div>
+
+<div class="lead toc" id="toc">
+<b>目次</b>
+<ol style="margin-bottom:0">
+<li><a href="#s1">なぜ「平均」ではなく「対数」で考えるのか</a></li>
+<li><a href="#s2">計算機</a></li>
+<li><a href="#s3">この式が言っている、3つのこと</a></li>
+<li><a href="#s4">前提にしていること（当てはまらない場合）</a></li>
+<li><a href="#s5">まとめと、次の1アクション</a></li>
+</ol>
+</div>
+
+<h2 id="s1">1. なぜ「平均」ではなく「対数」で考えるのか</h2>
+
+<p>1回の賭けで、確率 <code>p</code> で賭け金の <code>b</code> 倍を得て、確率 <code>q = 1 − p</code> で賭け金を失うとします。
+手持ち資金のうち比率 <code>f</code>（0以上1以下）を毎回張ると、資金は勝てば <code>1 + bf</code> 倍、負ければ <code>1 − f</code> 倍になります。</p>
+
+<p>ここで大事なのは、資金は足し算ではなく掛け算で動くということです。
+1回目に2倍になり2回目に半分になったら、平均すれば +25% ですが、実際の手持ちは元に戻っているだけです。
+掛け算で動くものの「長い目で見た速さ」を測るには、平均ではなく<b>対数の平均</b>を見る必要があります。</p>
+
+<div class="eq">
+g(f) ＝ p · ln(1 + b·f) ＋ q · ln(1 − f)
+<span class="small">1回あたりの対数成長率。n回続けたときの資金は、おおよそ e<sup>n·g(f)</sup> 倍になる</span>
+</div>
+
+
+<figure style="margin:18px 0">
+<svg viewBox="0 0 700 340" role="img" aria-labelledby="figTitle figDesc" style="width:100%;height:auto;background:#0b0b14;border:1px solid #2b2b3a;border-radius:12px">
+  <title id="figTitle">対数成長率 g(f) の形</title>
+  <desc id="figDesc">賭け金比率 f に対する成長率の曲線。f が 0 のとき 0、ケリー比率 f* で最大、そのおよそ2倍で再び 0 に戻り、その先はマイナスになる。</desc>
+  <line x1="70" y1="250" x2="660" y2="250" stroke="#606076" stroke-width="1.5"/>
+  <line x1="70" y1="40" x2="70" y2="310" stroke="#606076" stroke-width="1.5"/>
+  <path d="M70 250 C 150 120, 230 92, 290 92 C 370 92, 430 160, 490 250 C 530 310, 560 330, 600 336"
+        fill="none" stroke="#29e0ff" stroke-width="3"/>
+  <line x1="290" y1="92" x2="290" y2="250" stroke="#59f5c0" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <circle cx="290" cy="92" r="6" fill="#59f5c0"/>
+  <circle cx="490" cy="250" r="6" fill="#ffd23e"/>
+  <circle cx="70" cy="250" r="6" fill="#a9a9be"/>
+  <text x="290" y="78" fill="#59f5c0" font-size="17" text-anchor="middle">最大：f*</text>
+  <text x="497" y="238" fill="#ffd23e" font-size="17">g＝0（およそ 2·f*）</text>
+  <text x="560" y="300" fill="#ff8fa3" font-size="17">張りすぎ＝減る</text>
+  <text x="78" y="238" fill="#a9a9be" font-size="17">0</text>
+  <text x="360" y="288" fill="#a9a9be" font-size="17" text-anchor="middle">賭け金の比率 f →</text>
+  <text x="24" y="150" fill="#a9a9be" font-size="17" transform="rotate(-90 24 150)" text-anchor="middle">成長率 g</text>
+</svg>
+<figcaption class="small">図：成長率 g(f) は上に凸。0 から立ち上がり、ケリー比率 f* で最大、そのおよそ2倍で再び 0 に戻る。右側は「期待値はプラスなのに資金が減る」領域。（この図はページ内の式から作図したもので、外部出典はありません）</figcaption>
+</figure>
+
+<p>この <code>g(f)</code> を最大にする <code>f</code> が、ケリー基準の答えです。
+<code>g(f)</code> を <code>f</code> で微分してゼロと置くと、途中式は次のようになります。</p>
+
+<div class="eq">
+g′(f) ＝ p·b / (1 + b·f) − q / (1 − f) ＝ 0<br>
+⇒ p·b·(1 − f) ＝ q·(1 + b·f)<br>
+⇒ <b>f* ＝ (b·p − q) / b</b>
+<span class="small">分子 b·p − q は、賭け金1あたりの期待利益（＝エッジ）そのもの</span>
+</div>
+
+<p>分子がそのまま期待値になっているのが、この式のいちばん重要なところです。
+1を賭けたときの期待収支は <code>b·p − q</code> なので、これが0以下、つまり期待値がマイナスかトントンなら
+<code>f*</code> は0以下になります。<b>数式が「賭けるな」と答えている</b>状態です。</p>
+
+<h2 id="s2">2. 計算機</h2>
+
+<p>勝率と配当を入れると、ケリー比率・そのときの成長率・自分で決めた比率での成長率・
+成長率がちょうどゼロになる比率（ここを越えると長期では減る）を計算します。</p>
+
+<div class="calc">
+  <div class="row">
+    <div class="field">
+      <label for="p">勝つ確率 p（％）</label>
+      <input id="p" type="number" inputmode="decimal" value="55" min="0.1" max="99.9" step="0.1">
+    </div>
+    <div class="field">
+      <label for="b">勝ったときの配当 b（賭け金の何倍が返るか／1倍＝イーブンマネー）</label>
+      <input id="b" type="number" inputmode="decimal" value="1" min="0.01" max="1000" step="0.01">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="f">自分が張る比率 f（資金の％）</label>
+      <input id="f" type="number" inputmode="decimal" value="20" min="0" max="100" step="0.1">
+    </div>
+    <div class="field">
+      <label for="n">試行回数 n（回）</label>
+      <input id="n" type="number" inputmode="numeric" value="100" min="1" max="100000" step="1">
+    </div>
+  </div>
+  <div class="row"><div class="field"><button id="run" type="button">計算する</button></div></div>
+
+  <div class="out" id="out" hidden>
+    <div class="kv"><span>1賭けあたりの期待収支（エッジ）</span><b id="o-edge">—</b></div>
+    <div class="kv"><span>ケリー比率 f*</span><b id="o-fstar">—</b></div>
+    <div class="kv"><span>f* での成長率 g(f*)</span><b id="o-gstar">—</b></div>
+    <div class="kv"><span>あなたの f での成長率 g(f)</span><b id="o-gf">—</b></div>
+    <div class="kv"><span>成長率がゼロになる比率</span><b id="o-fzero">—</b></div>
+    <div class="kv"><span>n回後の資金（中央値の目安）</span><b id="o-mult">—</b></div>
+    <div class="bar"><i id="bar1" style="width:0%"></i></div>
+    <p class="small" id="o-note">—</p>
+  </div>
+</div>
+
+<p class="small">「n回後の資金（中央値の目安）」は <code>e<sup>n·g(f)</sup></code> です。
+平均値ではありません。平均は一部の極端に大きい結果に引っ張られるので、
+「自分に起きやすい結果」を見たいときは中央値側で見るほうが実態に近くなります。</p>
+
+<h2 id="s3">3. この式が言っている、3つのこと</h2>
+
+<h3>① 期待値がマイナスなら、最適な賭け金はゼロ</h3>
+<p>控除率のあるゲームでは <code>b·p − q</code> が必ずマイナスになります。
+たとえばヨーロピアンルーレットの赤に張ると <code>p = 18/37</code>、<code>b = 1</code> なので、
+エッジは <code>18/37 − 19/37 = −1/37 ≒ −2.70%</code>（※このページ内の数え上げによる実測値）。<code>f*</code> はマイナスになり、
+「最適な行動は張らないこと」以外の答えが出ません。
+賭け金の増やし方をどう工夫しても、この符号は変わりません（→<a href="/betting/">ベッティングシステム検証室</a>で5種類を実測しています）。</p>
+
+<h3>② 「2倍張る」と、増えるはずのものが増えなくなる</h3>
+<p>成長率 <code>g(f)</code> は上に凸の形をしていて、<code>f = 0</code> でゼロ、<code>f = f*</code> で最大、
+そしてその先でもう一度ゼロに戻ります。上の計算機の「成長率がゼロになる比率」がその点です。
+イーブンマネー（<code>b = 1</code>）のときは、この点がおよそ 2·f* になります。
+<b>ケリーの2倍を張ると、勝てる賭けなのに長期では増えない</b>ということです。
+それ以上張れば、期待値がプラスのまま資金は減っていきます。</p>
+
+<h3>③ だから実務では「半分」にする</h3>
+<p>成長率の曲線は <code>f*</code> の近くで平らです。<code>f*</code> の半分しか張らなくても、
+成長率は最大値の およそ4分の3 が残ります（計算機で <code>f</code> を半分にして確かめられます）。
+一方で、資金が途中で大きく凹む幅は目に見えて小さくなります。
+速さをわずかに手放して、揺れを大きく減らす——これがハーフケリーと呼ばれる運用です。</p>
+
+
+<h3>数字を1つ入れてみる</h3>
+<p>勝率55%・イーブンマネー（<code>b = 1</code>）で考えます。エッジは <code>1×0.55 − 0.45 = 0.10</code>、
+つまり1を賭けるたびに平均 0.10 だけ増える、はっきり有利な賭けです。ケリー比率は <code>0.10 / 1 = 10%</code>。
+このとき1回あたりの成長率は約 0.00501 で、100回続ければ資金はおよそ 1.65 倍です（※上の計算機で実測）。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th>張る比率 f</th><th>1回あたりの成長率 g(f)</th><th>最大値に対する割合</th><th>100回後の資金</th></tr></thead>
+<tbody>
+<tr><td>5%（ハーフケリー）</td><td class="hi">+0.00375</td><td>約75%</td><td>約1.45倍</td></tr>
+<tr><td>10%（ケリー f*）</td><td class="hi">+0.00501</td><td>100%（最大）</td><td>約1.65倍</td></tr>
+<tr><td>20%（ケリーの2倍）</td><td class="lo">−0.00014</td><td>0%</td><td>約0.99倍</td></tr>
+<tr><td>40%</td><td class="lo">−0.03200</td><td>—</td><td>約0.04倍</td></tr>
+</tbody>
+</table>
+</div>
+<p class="scrollhint small">※ 表の値は p＝55%・b＝1 を上の計算機に入れて得た実測値です（2026年9月時点のこのページの実装。小数第5位で丸め）。横にスクロールできます。</p>
+
+<figure style="margin:18px 0">
+<svg viewBox="0 0 700 260" role="img" aria-labelledby="fig2Title fig2Desc" style="width:100%;height:auto;background:#0b0b14;border:1px solid #2b2b3a;border-radius:12px">
+  <title id="fig2Title">張る比率ごとの成長率</title>
+  <desc id="fig2Desc">勝率55%・配当1倍のとき、資金の5%・10%・20%・40%を張った場合の1回あたり成長率を比べた棒グラフ。10%が最大で、20%はほぼゼロ、40%は大きくマイナス。</desc>
+  <line x1="70" y1="130" x2="660" y2="130" stroke="#606076" stroke-width="1.5"/>
+  <text x="34" y="136" fill="#a9a9be" font-size="17">0</text>
+  <rect x="110" y="86" width="80" height="44" fill="#59f5c0"/>
+  <rect x="250" y="72" width="80" height="58" fill="#29e0ff"/>
+  <rect x="390" y="130" width="80" height="4" fill="#ffd23e"/>
+  <rect x="530" y="130" width="80" height="96" fill="#ff8fa3"/>
+  <text x="150" y="76" fill="#59f5c0" font-size="17" text-anchor="middle">+0.0038</text>
+  <text x="290" y="62" fill="#29e0ff" font-size="17" text-anchor="middle">+0.0050</text>
+  <text x="430" y="122" fill="#ffd23e" font-size="17" text-anchor="middle">−0.0001</text>
+  <text x="570" y="246" fill="#ff8fa3" font-size="17" text-anchor="middle">−0.0320</text>
+  <text x="150" y="152" fill="#f2f2f7" font-size="17" text-anchor="middle">5%</text>
+  <text x="290" y="152" fill="#f2f2f7" font-size="17" text-anchor="middle">10%</text>
+  <text x="430" y="152" fill="#f2f2f7" font-size="17" text-anchor="middle">20%</text>
+  <text x="570" y="152" fill="#f2f2f7" font-size="17" text-anchor="middle">40%</text>
+</svg>
+<figcaption class="small">図2：張る比率だけを変えたときの成長率（p＝55%・b＝1）。勝率も配当も同じなのに、20%で頭打ち、40%では大きくマイナスになる。※上の計算機の出力から作図。</figcaption>
+</figure>
+<p>勝率も配当も一切変えていないのに、賭け金の比率を 10% から 40% に上げただけで、
+増える賭けが減る賭けに変わります。上の計算機に同じ数字を入れれば、この4行はそのまま再現できます。</p>
+
+<h2 id="s4">4. このページで前提にしていること（＝当てはまらない場合）</h2>
+
+<ul>
+<li>勝率 p と配当 b を正しく知っていること。実際にはここが最大の不確実性で、
+<code>p</code> を自分に都合よく見積もれば <code>f*</code> は簡単に過大になります。
+ケリー基準は「見積もりが正しければ」という条件つきの最適解です。</li>
+<li>資金は連続で分割できること。最低賭け金や単位の刻みがあると、比率どおりには張れません。</li>
+<li>同じ賭けを繰り返せること。1回きりの勝負に対数成長率を当てはめる意味はありません。</li>
+<li>破産しないこと。この式は <code>f &lt; 1</code> である限り資金がゼロにならないことを前提にしています。
+現実にはテーブル上限・資金の下限・回数の上限があります。</li>
+</ul>
+
+<p class="small">このページの数式はすべてこの画面内で導出しています（外部の出典に依存していません）。
+成長率がゼロになる比率は、閉じた式ではなく二分法による数値解として計算しています。</p>
+<h2 id="s5">5. まとめ</h2>
+<ul>
+<li>ケリー基準は勝てる賭けを作る式ではなく、勝てる賭けに<em>いくら張るか</em>だけを決める式です。</li>
+<li>最適比率は <code>f* = (b·p − q) / b</code>。分子は1を賭けたときの期待収支そのものなので、期待値がマイナスなら答えは「張らない」になります。</li>
+<li>成長率はケリー比率で最大になり、そのおよそ2倍でゼロに戻ります。それより上は、有利な賭けでも資金が減る領域です。</li>
+<li>ケリー比率の半分に落としても成長率は最大の約75%が残り、途中の落ち込みだけが小さくなります。</li>
+<li>いちばん危ういのは式ではなく、勝率 <code>p</code> の見積もりです。<code>p</code> を甘く見れば <code>f*</code> はいくらでも大きく出ます。</li>
+</ul>
+
+<h3>次の1アクション</h3>
+<p>上の計算機で、まず自分がふだん張っている比率を <code>f</code> に入れて試してみてください。
+成長率が0以下と出たら、勝率や配当ではなく<em>賭け金の大きさだけ</em>が原因です。
+控除率のあるゲームでそもそもエッジが取れるのかは、<a href="/edge/">還元率ラボ</a>で種目別に確認できます。</p>
+
+
+
+<div class="related">
+<h2>関連ツール</h2>
+<a href="/edge/">ギャンブル還元率ランキング — 控除率を条文と数式から並べる →</a>
+<a href="/edge/takarakuji">宝くじの還元率が50%を超えられない理由 →</a>
+<a href="/betting/">ベッティングシステム検証室 — マーチンゲール法ほか5種を実測する →</a>
+<a href="/koei/">公営競技の資金管理シミュレータ →</a>
+<a href="/">GTO Coach — ポーカーの意思決定トレーナー →</a>
+</div>
+
+<footer>
+<a href="/">勝負ラボ</a> ／ <a href="/about">運営者情報</a> ／ <a href="/disclaimer">免責事項</a> ／ <a href="/privacy">プライバシーポリシー</a><br>
+本ページは確率・期待値の学習を目的としたもので、賭博行為の勧誘を目的としたものではありません。
+</footer>
+
+</div>
+<script src="/edge/kelly.js" defer></script>
+</body>
+</html>
