@@ -80,4 +80,4 @@ button.ghost{background:transparent;color:var(--accent);}
   background:var(--d-surface);border:1px solid var(--d-line-strong);border-radius:12px;
   padding:12px 14px;margin:10px 0;font-size:16px;text-decoration:none;color:var(--accent);}
 footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--d-line);font-size:14px;color:var(--d-text-muted);}
-footer a{color:var(--d-text-muted);}
+footer a{color:var(--d-text-muted);display:inline-block;padding:11px 6px;}
