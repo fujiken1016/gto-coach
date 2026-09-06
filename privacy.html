@@ -21,6 +21,32 @@
   gtag('config', 'G-2VF02QTTNV');
 </script>
 <script src="/oc.js" defer></script>
+<style>
+/* === 勝負ラボ 共通ツールナビ (SL-TOOLS-NAV v1) === */
+.sl-tools{
+  --slt-ink:var(--text,var(--ink,var(--txt,var(--d-text,#eef2ff))));
+  --slt-sub:var(--sub,var(--ink-dim,var(--d-text-muted,#8b96c9)));
+  --slt-line:var(--border,var(--line,var(--d-line,#2a3566)));
+  --slt-acc:var(--gold,var(--warn,#ffd23e));
+  margin:32px 0 20px;padding:18px 0 2px;
+  border-top:1px solid var(--slt-line);
+}
+.sl-tools__lead{margin:0 0 12px;padding:0;font-size:16px;font-weight:700;line-height:1.3;color:var(--slt-acc);}
+.sl-tools__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.sl-tools__list li{margin:0;padding:0;}
+.sl-tools__list li::before{content:none;}
+.sl-tools a,.sl-tools .sl-tools__cur{
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  min-height:48px;padding:11px 14px;border-radius:12px;
+  border:1px solid var(--slt-line);background:rgba(255,255,255,.04);
+  color:var(--slt-ink);text-decoration:none;margin:0;
+}
+.sl-tools a:hover{border-color:var(--slt-acc);background:rgba(255,255,255,.08);}
+.sl-tools .sl-tools__cur{border-style:dashed;background:none;}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
+.sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
+@media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+</style>
 </head><body><div class="wrap">
 <a class="home" href="./">← GTO Coach に戻る</a>
 <h1>プライバシーポリシー</h1>
@@ -36,4 +62,24 @@
 <h2>5. ポリシーの変更</h2>
 <p>本ポリシーは、法令の変更やサービス内容の変更に応じて改定することがあります。</p>
 <p class="date">制定日: 2026年8月2日<br>運営者: 勝負ラボ（Shoubu Lab）</p>
+<!-- SL-TOOLS-NAV v1 -->
+<nav class="sl-tools" aria-label="勝負ラボのツール">
+  <p class="sl-tools__lead">勝負ラボのツール</p>
+  <ul class="sl-tools__list">
+  <li><a href="https://shoubu-lab.com/" data-sl="gto"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">ポーカーの正解手を全ストリートで練習</span></a></li>
+  <li><a href="https://rule.shoubu-lab.com/" data-sl="rules"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・進行・用語をゼロから対人デビューまで</span></a></li>
+  <li><a href="https://bj.shoubu-lab.com/" data-sl="bj"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">ベーシックストラテジー＆カウンティング</span></a></li>
+  <li><a href="https://shoubu-lab.com/betting/" data-sl="betting"><span class="sl-tools__t">ベッティングシステム</span><span class="sl-tools__d">マーチンゲール法ほか5法の破綻を実測</span></a></li>
+  <li><a href="https://shoubu-lab.com/edge/" data-sl="edge"><span class="sl-tools__t">還元率ランキング</span><span class="sl-tools__d">控除率・期待値・ケリー基準の計算機</span></a></li>
+  <li><a href="https://shoubu-lab.com/koei/" data-sl="koei"><span class="sl-tools__t">公営競技の資金管理</span><span class="sl-tools__d">競馬・競艇で同じ手法を検証する</span></a></li>
+  </ul>
+</nav>
+<script>
+/* SL-TOOLS-NAV v1: ツール間の回遊をGA4に送る */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('.sl-tools a[data-sl]'):null;
+  if(!a||typeof window.gtag!=='function')return;
+  window.gtag('event','tool_nav_click',{tool:a.getAttribute('data-sl'),from_host:location.hostname,link_url:a.href});
+},true);
+</script>
 <footer><a href="./">🏠 GTO Coach</a><a href="privacy.html">プライバシーポリシー</a><a href="disclaimer.html">免責事項</a><a href="about.html">運営者情報</a><a href="contact.html">お問い合わせ</a></footer></div></body></html>
