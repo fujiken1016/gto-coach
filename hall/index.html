@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#101018">
+<title>城南8店 当たり台率ラボ｜同じ基準で並べた実測値と、外れた検証記録</title>
+<meta name="description" content="東京・城南エリア（目黒／五反田／新橋／戸越／武蔵小山）のパチスロ8店について、当サイトが独自に集計した「1日で+2,000枚以上出た台の割合」を同じ基準で並べたページ。曜日別・日付末尾別の差と、その差が別期間でも続いたかの検証結果（外れた分も含む）を公開しています。掲載店舗とは一切関係がありません。">
+<link rel="canonical" href="https://shoubu-lab.com/hall/">
+<link rel="stylesheet" href="/hall/app.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2VF02QTTNV');</script>
+<script src="/oc.js" defer></script>
+<style>
+/* === 勝負ラボ 共通ツールナビ (SL-TOOLS-NAV v1) === */
+.sl-tools{
+  --slt-ink:var(--text,var(--ink,var(--txt,var(--d-text,#eef2ff))));
+  --slt-sub:var(--sub,var(--ink-dim,var(--d-text-muted,#8b96c9)));
+  --slt-line:var(--border,var(--line,var(--d-line,#2a3566)));
+  --slt-acc:var(--gold,var(--warn,#ffd23e));
+  margin:32px 0 20px;padding:18px 0 2px;
+  border-top:1px solid var(--slt-line);
+}
+.sl-tools__lead{margin:0 0 12px;padding:0;font-size:16px;font-weight:700;line-height:1.3;color:var(--slt-acc);}
+.sl-tools__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.sl-tools__list li{margin:0;padding:0;}
+.sl-tools__list li::before{content:none;}
+.sl-tools a,.sl-tools .sl-tools__cur{
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  min-height:48px;padding:11px 14px;border-radius:12px;
+  border:1px solid var(--slt-line);background:rgba(0,0,0,.28);
+  color:var(--slt-ink);text-decoration:none;margin:0;
+}
+.sl-tools a:hover{border-color:var(--slt-acc);background:rgba(0,0,0,.45);}
+.sl-tools .sl-tools__cur{border-style:dashed;}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
+.sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
+@media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ ホールデータラボ</div>
+<h1>城南8店 当たり台率ラボ<br>— 同じ基準で並べた実測値と、外れた検証記録</h1>
+
+<div class="warn" id="disclaimer">
+<b>このページについて（先に読んでください）</b><br>
+本ページの集計・分析は<b>当サイトが独自に行ったもので、<u>掲載店舗とは一切関係がございません</u></b>。
+店舗の運営方針・設定投入状況を示すものでも、示唆するものでもありません。
+掲載しているのは<b>過去の実測値の集計</b>であり、<b>将来の結果を保証しません</b>。
+特定の台・特定の日・特定の店舗を推奨するものではなく、来店を勧誘するものでもありません。
+店舗から金銭・情報提供・掲載依頼を受けておらず、広告・タイアップも一切受けていません。
+取材情報・来店予告のたぐいは<b>一切扱いません</b>。
+</div>
+
+<div class="notice">
+<b>ご利用にあたって</b>：パチンコ・パチスロ店は18歳未満の方の立入りが禁止されています。
+のめり込みにご注意ください。ギャンブル等依存が心配な場合は、各都道府県の精神保健福祉センター等の
+公的な相談窓口をご利用ください。当サイトはオンラインカジノ等への誘導・アフィリエイトを一切行いません。
+</div>
+
+<div class="lead">
+「あの店は出る」「この曜日は強い」は、<b>ほとんどが体感で語られています</b>。
+このページでやるのはひとつだけです——<b>8店ぶんの公開データを、まったく同じ物差しで並べる</b>。
+物差しは §1 に数値で書いてあります。物差しを固定すると、店ごとの差も、曜日ごとの差も、
+そして<b>その差が別の期間では消えてしまうこと</b>も、同時に見えます。
+最後の §5 では、<b>当サイトが外した分</b>をそのまま載せています。
+</div>
+
+<div class="lead toc">
+<b>目次</b>
+<ol style="margin-bottom:0">
+<li><a href="#s1">何を数えているか（評価基準の全部）</a></li>
+<li><a href="#s2">8店の基準値</a></li>
+<li><a href="#s3">曜日でどれだけ変わるか</a></li>
+<li><a href="#s4">日付の末尾でどれだけ変わるか</a></li>
+<li><a href="#s5">外れた記録（差が別期間で続いたかの検証）</a></li>
+<li><a href="#s6">この数字でやってはいけないこと</a></li>
+</ol>
+</div>
+
+<h2 id="s1">1. 何を数えているか（評価基準の全部）</h2>
+<p>
+評価の基準を公開していない「予想」は検証できません。ここに使った定義をすべて書きます。
+以下の数字は、この定義以外では作られていません。
+</p>
+<div class="eq">
+当たり台率 ＝ 当たり台の数 ÷ 台日数 × 100
+<span class="small">当たり台 ＝ その日その1台の差枚が <b>+2,000枚以上</b>（閾値は固定。店ごとに変えていません）<br>
+台日 ＝ 「1台 × 1営業日」を1件と数える単位</span>
+</div>
+<ul>
+<li><b>集計期間</b>：2026-01-01 〜 2026-09-05（当サイトが取得できた日のみ）</li>
+<li><b>母数</b>：8店あわせて <b>399,806 台日</b></li>
+<li><b>「差」の書き方</b>：表の大きい数字は <b>基準値からの差（ポイント）</b> です。
+   「+2.2」は、その店の全期間平均より当たり台率が2.2ポイント高かった、という意味です。</li>
+<li><b>色分け</b>：<span class="hi-t">+1.0pt以上</span>／<span class="lo-t">−1.0pt以下</span>。
+   色だけでなく符号と数値でも読めるようにしています。</li>
+<li><b>データの出どころ</b>：min-repo.com の各店・各日のページ。
+   §2 の表に、当サイトが参照した該当ページへのリンクを店舗ごとに載せています。</li>
+<li>🔴 <b>載せなかったもの</b>：出どころが上記と異なる行（別ソース由来の 3,844 行 ＝ 2026年の 11 日ぶん）は、
+   <b>出どころを揃えられないので集計から外しました</b>。取材・来店情報も同じ理由で一切扱いません（→ §6）。</li>
+</ul>
+<p class="src">最終更新 2026-09-06。数値は集計スクリプトの出力をそのまま載せており、手で書き換えていません。</p>
+
+<h2 id="s2">2. 8店の基準値</h2>
+<p>
+各店の「当たり台率」を全期間で出したものです。<b>店の優劣を評価するものではありません</b>。
+台数構成も機種構成も営業日数も違うため、この数字は<b>同じ店の中で日を比べるための基準線</b>として使います。
+</p>
+<div class="tablebox"><table>
+<thead><tr><th>店舗</th><th>当たり台率</th><th>台日数</th><th>取得日数</th><th>集計期間</th><th>出どころ</th></tr></thead>
+<tbody><tr><td>BIGディッパー新橋1号店<br><small>港区新橋</small></td><td>18.26%</td><td>138,241</td><td>246</td><td>2026-01-01〜2026-09-05</td><td><a href="https://min-repo.com/3332506/" rel="nofollow noopener" target="_blank">2026-09-05 の該当ページ</a></td></tr><tr><td>BIGディッパー戸越銀座店<br><small>品川区戸越</small></td><td>17.80%</td><td>72,306</td><td>247</td><td>2026-01-01〜2026-09-05</td><td><a href="https://min-repo.com/3332547/" rel="nofollow noopener" target="_blank">2026-09-05 の該当ページ</a></td></tr><tr><td>エンジェル本店（武蔵小山）<br><small>品川区小山</small></td><td>15.71%</td><td>10,528</td><td>47</td><td>2026-01-01〜2026-08-20</td><td><a href="https://min-repo.com/3302791/" rel="nofollow noopener" target="_blank">2026-08-21 の該当ページ</a></td></tr><tr><td>ジャラン五反田店<br><small>品川区西五反田</small></td><td>15.02%</td><td>78,812</td><td>244</td><td>2026-01-01〜2026-09-05</td><td><a href="https://min-repo.com/3332872/" rel="nofollow noopener" target="_blank">2026-09-05 の該当ページ</a></td></tr><tr><td>エンジェルV（武蔵小山）<br><small>品川区小山</small></td><td>14.75%</td><td>4,650</td><td>25</td><td>2026-01-05〜2026-08-25</td><td><a href="https://min-repo.com/3310654/" rel="nofollow noopener" target="_blank">2026-08-25 の該当ページ</a></td></tr><tr><td>エムディー目黒店<br><small>品川区上大崎</small></td><td>10.37%</td><td>53,382</td><td>246</td><td>2026-01-01〜2026-09-05</td><td><a href="https://min-repo.com/3332718/" rel="nofollow noopener" target="_blank">2026-09-05 の該当ページ</a></td></tr><tr><td>DAS小山店<br><small>品川区小山</small></td><td>8.26%</td><td>6,880</td><td>47</td><td>2026-01-05〜2026-08-30</td><td><a href="https://min-repo.com/3321123/" rel="nofollow noopener" target="_blank">2026-08-30 の該当ページ</a></td></tr><tr><td>フルハウス戸越公園店<br><small>品川区戸越</small></td><td>7.04%</td><td>35,007</td><td>237</td><td>2026-01-01〜2026-08-30</td><td><a href="https://min-repo.com/3320831/" rel="nofollow noopener" target="_blank">2026-08-30 の該当ページ</a></td></tr></tbody>
+</table></div>
+<p class="scrollhint">← 表は横にスクロールできます</p>
+<div class="notice">
+<b>「取得日数」は営業日数ではありません。</b>当サイトがデータを取得できた日数です。
+取得日数が少ない店（50日未満）は、数字が数日の結果に強く引っぱられます。
+<b>取得日数が少ない店の数値は、そのまま比較に使わないでください。</b>
+</div>
+
+<h2 id="s3">3. 曜日でどれだけ変わるか</h2>
+<p>各セルは <b>基準値からの差（pt）</b> と、その曜日の当たり台率・台日数です。</p>
+<div class="tablebox"><table><thead><tr><th>店舗</th><th>基準値</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th><th>日</th></tr></thead><tbody><tr><td>BIGディッパー新橋1号店</td><td>18.26%</td><td>+0.1<br><small>18.4% / 19,148台日</small></td><td>-0.7<br><small>17.6% / 19,709台日</small></td><td>-0.6<br><small>17.7% / 19,711台日</small></td><td class="lo">-1.7<br><small>16.5% / 20,272台日</small></td><td>-0.4<br><small>17.9% / 19,699台日</small></td><td class="hi">+2.2<br><small>20.5% / 20,266台日</small></td><td class="hi">+1.0<br><small>19.3% / 19,436台日</small></td></tr><tr><td>BIGディッパー戸越銀座店</td><td>17.80%</td><td>-0.6<br><small>17.2% / 10,249台日</small></td><td class="lo">-1.2<br><small>16.6% / 10,250台日</small></td><td>-0.3<br><small>17.5% / 10,248台日</small></td><td class="lo">-2.1<br><small>15.7% / 10,537台日</small></td><td>-0.8<br><small>17.0% / 10,244台日</small></td><td class="hi">+2.1<br><small>19.9% / 10,537台日</small></td><td class="hi">+2.9<br><small>20.7% / 10,241台日</small></td></tr><tr><td>ジャラン五反田店</td><td>15.02%</td><td>+0.6<br><small>15.6% / 10,982台日</small></td><td>-1.0<br><small>14.0% / 11,305台日</small></td><td class="lo">-1.5<br><small>13.5% / 11,305台日</small></td><td class="lo">-1.5<br><small>13.6% / 11,305台日</small></td><td>-0.4<br><small>14.7% / 10,982台日</small></td><td class="hi">+2.0<br><small>17.0% / 11,628台日</small></td><td class="hi">+1.7<br><small>16.7% / 11,305台日</small></td></tr><tr><td>エムディー目黒店</td><td>10.37%</td><td>-0.3<br><small>10.1% / 7,378台日</small></td><td>-0.7<br><small>9.6% / 7,595台日</small></td><td class="lo">-1.0<br><small>9.4% / 7,595台日</small></td><td class="lo">-1.1<br><small>9.3% / 7,812台日</small></td><td>-0.5<br><small>9.9% / 7,595台日</small></td><td class="hi">+2.2<br><small>12.6% / 7,812台日</small></td><td class="hi">+1.4<br><small>11.8% / 7,595台日</small></td></tr><tr><td>エンジェル本店（武蔵小山）</td><td>15.71%</td><td class="lo">-1.5<br><small>14.2% / 1,792台日</small></td><td class="lo">-1.1<br><small>14.6% / 1,568台日</small></td><td class="hi">+1.1<br><small>16.8% / 1,568台日</small></td><td>-0.8<br><small>15.0% / 1,344台日</small></td><td class="lo">-2.7<br><small>13.0% / 1,120台日</small></td><td class="hi">+2.1<br><small>17.9% / 1,792台日</small></td><td class="hi">+2.1<br><small>17.9% / 1,344台日</small></td></tr><tr><td>エンジェルV（武蔵小山）</td><td>14.75%</td><td>-0.6<br><small>14.2% / 558台日</small></td><td class="hi">+1.6<br><small>16.4% / 372台日</small></td><td class="lo">-1.6<br><small>13.1% / 930台日</small></td><td>-0.4<br><small>14.4% / 744台日</small></td><td class="lo">-3.5<br><small>11.3% / 372台日</small></td><td class="hi">+1.4<br><small>16.1% / 558台日</small></td><td class="hi">+1.8<br><small>16.6% / 1,116台日</small></td></tr><tr><td>DAS小山店</td><td>8.26%</td><td class="lo">-1.9<br><small>6.3% / 1,026台日</small></td><td>-0.1<br><small>8.2% / 879台日</small></td><td>-0.9<br><small>7.3% / 1,026台日</small></td><td>-0.1<br><small>8.2% / 1,026台日</small></td><td class="lo">-1.3<br><small>7.0% / 1,018台日</small></td><td class="hi">+1.2<br><small>9.4% / 879台日</small></td><td class="hi">+3.2<br><small>11.5% / 1,026台日</small></td></tr><tr><td>フルハウス戸越公園店</td><td>7.04%</td><td>-1.0<br><small>6.0% / 4,881台日</small></td><td class="lo">-1.6<br><small>5.4% / 5,031台日</small></td><td>-0.9<br><small>6.1% / 5,030台日</small></td><td class="lo">-1.8<br><small>5.2% / 4,883台日</small></td><td class="lo">-1.2<br><small>5.8% / 4,883台日</small></td><td class="hi">+2.7<br><small>9.8% / 5,178台日</small></td><td class="hi">+3.6<br><small>10.7% / 5,121台日</small></td></tr></tbody></table></div>
+<p class="scrollhint">← 表は横にスクロールできます</p>
+
+<h2 id="s4">4. 日付の末尾でどれだけ変わるか</h2>
+<p>日付の一の位（1日・11日・21日 → 末尾1）で切ったものです。読み方は §3 と同じです。</p>
+<div class="tablebox"><table><thead><tr><th>店舗</th><th>基準値</th><th>末尾0</th><th>末尾1</th><th>末尾2</th><th>末尾3</th><th>末尾4</th><th>末尾5</th><th>末尾6</th><th>末尾7</th><th>末尾8</th><th>末尾9</th></tr></thead><tbody><tr><td>BIGディッパー新橋1号店</td><td>18.26%</td><td>-0.5<br><small>17.8% / 12,957台日</small></td><td>-0.1<br><small>18.2% / 15,765台日</small></td><td>+0.6<br><small>18.9% / 14,080台日</small></td><td>-0.9<br><small>17.4% / 13,814台日</small></td><td>+0.8<br><small>19.0% / 14,079台日</small></td><td class="lo">-1.0<br><small>17.2% / 14,077台日</small></td><td>-0.7<br><small>17.6% / 13,513台日</small></td><td class="hi">+3.0<br><small>21.3% / 13,502台日</small></td><td>-0.1<br><small>18.2% / 13,507台日</small></td><td class="lo">-1.2<br><small>17.1% / 12,947台日</small></td></tr><tr><td>BIGディッパー戸越銀座店</td><td>17.80%</td><td>-0.1<br><small>17.7% / 6,730台日</small></td><td>+0.2<br><small>18.0% / 8,490台日</small></td><td>-0.0<br><small>17.8% / 7,318台日</small></td><td>+0.2<br><small>18.0% / 7,313台日</small></td><td>+0.4<br><small>18.2% / 7,319台日</small></td><td>+0.1<br><small>17.9% / 7,320台日</small></td><td>-0.8<br><small>17.0% / 7,030台日</small></td><td>+0.6<br><small>18.4% / 7,025台日</small></td><td class="lo">-1.1<br><small>16.7% / 7,028台日</small></td><td>+0.6<br><small>18.4% / 6,733台日</small></td></tr><tr><td>ジャラン五反田店</td><td>15.02%</td><td>-0.9<br><small>14.1% / 7,429台日</small></td><td class="lo">-1.6<br><small>13.5% / 9,367台日</small></td><td class="lo">-2.3<br><small>12.7% / 8,075台日</small></td><td class="hi">+6.5<br><small>21.5% / 8,075台日</small></td><td class="lo">-2.0<br><small>13.0% / 7,752台日</small></td><td class="lo">-1.5<br><small>13.5% / 8,075台日</small></td><td class="lo">-2.0<br><small>13.1% / 7,752台日</small></td><td>-1.0<br><small>14.0% / 7,429台日</small></td><td class="lo">-1.6<br><small>13.4% / 7,429台日</small></td><td class="hi">+6.8<br><small>21.8% / 7,429台日</small></td></tr><tr><td>エムディー目黒店</td><td>10.37%</td><td class="hi">+1.2<br><small>11.6% / 4,991台日</small></td><td>-0.7<br><small>9.7% / 6,076台日</small></td><td class="lo">-1.4<br><small>9.0% / 5,425台日</small></td><td class="hi">+3.3<br><small>13.7% / 5,425台日</small></td><td class="lo">-1.6<br><small>8.8% / 5,425台日</small></td><td>-0.6<br><small>9.8% / 5,425台日</small></td><td class="hi">+1.6<br><small>12.0% / 5,208台日</small></td><td class="lo">-1.4<br><small>8.9% / 5,208台日</small></td><td>-0.7<br><small>9.6% / 5,208台日</small></td><td>+0.4<br><small>10.8% / 4,991台日</small></td></tr><tr><td>エンジェル本店（武蔵小山）</td><td>15.71%</td><td class="lo">-1.8<br><small>14.0% / 3,360台日</small></td><td class="hi">+2.1<br><small>17.9% / 5,152台日</small></td><td class="lo">-3.2<br><small>12.6% / 1,792台日</small></td><td>—</td><td>—</td><td>—</td><td class="hi">+2.1<br><small>17.9% / 224台日</small></td><td>—</td><td>—</td><td>—</td></tr><tr><td>エンジェルV（武蔵小山）</td><td>14.75%</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="hi">+6.8<br><small>21.5% / 186台日</small></td><td>-0.3<br><small>14.5% / 4,464台日</small></td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>DAS小山店</td><td>8.26%</td><td>+0.2<br><small>8.5% / 3,365台日</small></td><td>—</td><td>—</td><td>—</td><td>—</td><td>-0.2<br><small>8.1% / 3,515台日</small></td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>フルハウス戸越公園店</td><td>7.04%</td><td>-0.2<br><small>6.8% / 3,254台日</small></td><td>+0.5<br><small>7.6% / 3,840台日</small></td><td>-0.0<br><small>7.0% / 3,551台日</small></td><td>-1.0<br><small>6.1% / 3,350台日</small></td><td>+0.6<br><small>7.7% / 3,551台日</small></td><td>-0.3<br><small>6.7% / 3,550台日</small></td><td>-0.1<br><small>7.0% / 3,552台日</small></td><td>-0.4<br><small>6.6% / 3,404台日</small></td><td class="hi">+1.4<br><small>8.5% / 3,552台日</small></td><td>-0.7<br><small>6.3% / 3,403台日</small></td></tr></tbody></table></div>
+<p class="scrollhint">← 表は横にスクロールできます</p>
+
+<h2 id="s5">5. 外れた記録</h2>
+<p>
+§3・§4 の差は、<b>全期間を後から振り返って出した数字</b>です。後から見れば、どの店にも必ず一番高いセルがあります。
+問題は<b>それが先に分かるのか</b>です。そこで、期間を前半と後半に割って検証しました。
+</p>
+<div class="eq">
+学習期間 2026-01-01 〜 2026-06-30 で「最も高いセル」を選ぶ<br>
+→ 検証期間 2026-07-01 〜 2026-09-05 で、そのセルがまだ基準値より高いかを見る
+<span class="small">セルは台日400件以上のものだけを候補にしています（少数の日で決まらないように）</span>
+</div>
+<div class="tablebox"><table>
+<thead><tr><th>店舗 / 選んだセル</th><th>学習期間の差</th><th>検証期間の差</th><th>結果</th></tr></thead>
+<tbody><tr><td>BIGディッパー新橋1号店<br><small>曜日：土曜</small></td><td>+1.9<br><small>19.6%</small></td><td class="hi">+2.9<br><small>22.7% / 5,650台日</small></td><td>○ 続いた</td></tr><tr><td>BIGディッパー新橋1号店<br><small>日付の末尾：末尾7</small></td><td>+3.8<br><small>21.5%</small></td><td class="hi">+0.8<br><small>20.7% / 3,390台日</small></td><td>○ 続いた</td></tr><tr><td>BIGディッパー戸越銀座店<br><small>曜日：日曜</small></td><td>+2.8<br><small>20.2%</small></td><td class="hi">+3.3<br><small>22.3% / 2,632台日</small></td><td>○ 続いた</td></tr><tr><td>BIGディッパー戸越銀座店<br><small>日付の末尾：末尾4</small></td><td>+1.2<br><small>18.6%</small></td><td class="lo">-1.6<br><small>17.3% / 2,047台日</small></td><td>× 消えた</td></tr><tr><td>ジャラン五反田店<br><small>曜日：土曜</small></td><td>+2.2<br><small>16.8%</small></td><td class="hi">+1.2<br><small>17.4% / 3,230台日</small></td><td>○ 続いた</td></tr><tr><td>ジャラン五反田店<br><small>日付の末尾：末尾9</small></td><td>+7.1<br><small>21.7%</small></td><td class="hi">+5.8<br><small>22.0% / 1,938台日</small></td><td>○ 続いた</td></tr><tr><td>エムディー目黒店<br><small>曜日：土曜</small></td><td>+2.6<br><small>12.8%</small></td><td class="hi">+1.2<br><small>12.1% / 2,170台日</small></td><td>○ 続いた</td></tr><tr><td>エムディー目黒店<br><small>日付の末尾：末尾3</small></td><td>+3.2<br><small>13.3%</small></td><td class="hi">+3.8<br><small>14.7% / 1,519台日</small></td><td>○ 続いた</td></tr><tr><td>エンジェル本店（武蔵小山）<br><small>曜日：日曜</small></td><td>+2.6<br><small>18.4%</small></td><td class="lo">-0.2<br><small>15.2% / 224台日</small></td><td>× 消えた</td></tr><tr><td>エンジェル本店（武蔵小山）<br><small>日付の末尾：末尾1</small></td><td>+2.4<br><small>18.2%</small></td><td class="hi">+1.3<br><small>16.7% / 1,120台日</small></td><td>○ 続いた</td></tr><tr><td>エンジェルV（武蔵小山）<br><small>曜日：日曜</small></td><td>+1.9<br><small>16.9%</small></td><td class="hi">+1.0<br><small>15.1% / 186台日</small></td><td>○ 続いた</td></tr><tr><td>DAS小山店<br><small>曜日：日曜</small></td><td>+2.7<br><small>10.7%</small></td><td class="hi">+4.5<br><small>13.4% / 291台日</small></td><td>○ 続いた</td></tr><tr><td>フルハウス戸越公園店<br><small>曜日：日曜</small></td><td>+3.7<br><small>10.5%</small></td><td class="hi">+3.4<br><small>11.2% / 1,281台日</small></td><td>○ 続いた</td></tr><tr><td>フルハウス戸越公園店<br><small>日付の末尾：末尾4</small></td><td>+1.1<br><small>7.9%</small></td><td class="lo">-0.8<br><small>7.0% / 887台日</small></td><td>× 消えた</td></tr></tbody>
+</table></div>
+<p class="scrollhint">← 表は横にスクロールできます</p>
+<div class="warn">
+<b>結果：14 件中 11 件しか続きませんでした。</b>外れたのは次の 3 件です。
+<ul style="margin-bottom:0"><li><b>BIGディッパー戸越銀座店 の「日付の末尾4」</b>：学習期間 +1.2pt → 検証期間 <b>-1.6pt</b>（17.3% / 2,047台日）。学習期間で見えた差が、検証期間では残らなかった。</li><li><b>エンジェル本店（武蔵小山） の「日曜」</b>：学習期間 +2.6pt → 検証期間 <b>-0.2pt</b>（15.2% / 224台日）。学習期間で見えた差が、検証期間では残らなかった。</li><li><b>フルハウス戸越公園店 の「日付の末尾4」</b>：学習期間 +1.1pt → 検証期間 <b>-0.8pt</b>（7.0% / 887台日）。学習期間で見えた差が、検証期間では残らなかった。</li></ul>
+</div>
+<div class="notice">
+<b>検証から外した組み合わせ</b>
+<ul style="margin:8px 0 0 22px"><li>エンジェルV（武蔵小山） の「日付の末尾」：学習期間に台日400件以上のセルが 1 個しか無く、「選ぶ」が成立しないため検証から外しました。</li><li>DAS小山店 の「日付の末尾」：学習期間に台日400件以上のセルが 2 個しか無く、「選ぶ」が成立しないため検証から外しました。</li></ul>
+</div>
+<p>
+つまり、<b>この手の「傾向」は4回に1回は消えます</b>。当たったほうだけを並べれば強く見えますが、
+それは選んだあとに選んだ結果を見せているだけです。当サイトはこの検証を残す形で公開します。
+</p>
+
+<h2 id="s6">6. この数字でやってはいけないこと</h2>
+<ul>
+<li><b>「この店は設定を入れる／入れない」と読まないでください。</b>
+    当サイトは店舗の内部事情を知りませんし、確認する手段も持っていません。
+    ここにあるのは公開されている結果の集計だけです。</li>
+<li><b>「この台が熱い」と読まないでください。</b>
+    台単位の予告・断定はこのページでは一切行いません。
+    §5 のとおり、期間を変えるだけで差は消えます。</li>
+<li><b>取材・来店予告の情報は扱いません。</b>
+    第三者が権利を持つ情報であること、そして<b>店舗が公表していない内容を店舗の発言として広げてしまう</b>ため、
+    当サイトの集計には入れていません。</li>
+<li><b>お金の使い方の話は、こちらが本題です。</b>
+    差が数ポイントある／ないより、資金管理のほうが結果を大きく左右します
+    （→ <a href="/edge/kelly">ケリー基準の計算機</a>／<a href="/betting/">ベッティングシステム検証室</a>）。</li>
+</ul>
+
+<div class="related">
+<a href="/edge/">還元率ラボ — 控除率と期待値をゲーム別に並べる</a>
+<a href="/betting/">ベッティングシステム検証室 — 5つの賭け方が壊れる場所</a>
+</div>
+
+<!-- SL-TOOLS-NAV v1 -->
+<nav class="sl-tools" aria-label="勝負ラボのツール">
+  <p class="sl-tools__lead">勝負ラボのツール</p>
+  <ul class="sl-tools__list">
+  <li><a href="https://shoubu-lab.com/" data-sl="gto"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">ポーカーの正解手を全ストリートで練習</span></a></li>
+  <li><a href="https://rule.shoubu-lab.com/" data-sl="rules"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・進行・用語をゼロから対人デビューまで</span></a></li>
+  <li><a href="https://bj.shoubu-lab.com/" data-sl="bj"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">ベーシックストラテジー＆カウンティング</span></a></li>
+  <li><a href="https://shoubu-lab.com/betting/" data-sl="betting"><span class="sl-tools__t">ベッティングシステム</span><span class="sl-tools__d">マーチンゲール法ほか5法の破綻を実測</span></a></li>
+  <li><a href="https://shoubu-lab.com/edge/" data-sl="edge"><span class="sl-tools__t">還元率ランキング</span><span class="sl-tools__d">控除率・期待値・ケリー基準の計算機</span></a></li>
+  <li><a href="https://shoubu-lab.com/koei/" data-sl="koei"><span class="sl-tools__t">公営競技の資金管理</span><span class="sl-tools__d">競馬・競艇で同じ手法を検証する</span></a></li>
+  <li><span class="sl-tools__cur" aria-current="page"><span class="sl-tools__t">ホールデータラボ</span><span class="sl-tools__d">城南8店の実測値と、外れた検証記録（いまここ）</span></span></li>
+  </ul>
+</nav>
+<script>
+/* SL-TOOLS-NAV v1: ツール間の回遊をGA4に送る */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('.sl-tools a[data-sl]'):null;
+  if(!a||typeof window.gtag!=='function')return;
+  window.gtag('event','tool_nav_click',{tool:a.getAttribute('data-sl'),from_host:location.hostname,link_url:a.href});
+},true);
+</script>
+<footer>
+<a href="/">勝負ラボ トップ</a>｜<a href="/about">運営者情報</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/privacy">プライバシー</a>｜<a href="/contact">お問い合わせ</a><br>
+勝負ラボ（Shoubu Lab）個人運営。掲載店舗とは一切関係がございません。
+</footer>
+
+</div>
+</body>
+</html>
