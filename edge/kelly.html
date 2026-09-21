@@ -90,26 +90,25 @@ g(f) ＝ p · ln(1 + b·f) ＋ q · ln(1 − f)
 </div>
 
 
-<figure style="margin:18px 0">
-<svg viewBox="0 0 700 340" role="img" aria-labelledby="figTitle figDesc" style="width:100%;height:auto;background:#0b0b14;border:1px solid #2b2b3a;border-radius:12px">
+<figure style="margin:18px 0;overflow-x:auto">
+<svg viewBox="0 0 343 260" width="343" role="img" aria-labelledby="figTitle figDesc" style="display:block;width:343px;max-width:none;height:auto;background:#0b0b14;border:1px solid #2b2b3a;border-radius:12px">
   <title id="figTitle">対数成長率 g(f) の形</title>
   <desc id="figDesc">賭け金比率 f に対する成長率の曲線。f が 0 のとき 0、ケリー比率 f* で最大、そのおよそ2倍で再び 0 に戻り、その先はマイナスになる。</desc>
-  <line x1="70" y1="250" x2="660" y2="250" stroke="#606076" stroke-width="1.5"/>
-  <line x1="70" y1="40" x2="70" y2="310" stroke="#606076" stroke-width="1.5"/>
-  <path d="M70 250 C 150 120, 230 92, 290 92 C 370 92, 430 160, 490 250 C 530 310, 560 330, 600 336"
+  <line x1="34" y1="160" x2="334" y2="160" stroke="#606076" stroke-width="1.5"/>
+  <line x1="34" y1="20" x2="34" y2="196" stroke="#606076" stroke-width="1.5"/>
+  <path d="M34 160 C 72 78, 100 52, 130 52 C 168 52, 200 100, 232 160 C 258 190, 290 202, 326 206"
         fill="none" stroke="#29e0ff" stroke-width="3"/>
-  <line x1="290" y1="92" x2="290" y2="250" stroke="#59f5c0" stroke-width="1.5" stroke-dasharray="5 5"/>
-  <circle cx="290" cy="92" r="6" fill="#59f5c0"/>
-  <circle cx="490" cy="250" r="6" fill="#ffd23e"/>
-  <circle cx="70" cy="250" r="6" fill="#a9a9be"/>
-  <text x="290" y="78" fill="#59f5c0" font-size="17" text-anchor="middle">最大：f*</text>
-  <text x="497" y="238" fill="#ffd23e" font-size="17">g＝0（およそ 2·f*）</text>
-  <text x="560" y="300" fill="#ff8fa3" font-size="17">張りすぎ＝減る</text>
-  <text x="78" y="238" fill="#a9a9be" font-size="17">0</text>
-  <text x="360" y="288" fill="#a9a9be" font-size="17" text-anchor="middle">賭け金の比率 f →</text>
-  <text x="24" y="150" fill="#a9a9be" font-size="17" transform="rotate(-90 24 150)" text-anchor="middle">成長率 g</text>
+  <line x1="130" y1="52" x2="130" y2="160" stroke="#59f5c0" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <circle cx="130" cy="52" r="5" fill="#59f5c0"/>
+  <circle cx="232" cy="160" r="5" fill="#ffd23e"/>
+  <circle cx="34" cy="160" r="5" fill="#a9a9be"/>
+  <text x="130" y="40" fill="#59f5c0" font-size="14" text-anchor="middle">最大：f*</text>
+  <text x="238" y="150" fill="#ffd23e" font-size="14">g＝0（≒2f*）</text>
+  <text x="250" y="232" fill="#ff8fa3" font-size="14" text-anchor="middle">張りすぎ＝減る</text>
+  <text x="22" y="176" fill="#a9a9be" font-size="14">0</text>
+  <text x="172" y="252" fill="#a9a9be" font-size="14" text-anchor="middle">賭け金の比率 f →</text>
+  <text x="13" y="100" fill="#a9a9be" font-size="14" transform="rotate(-90 13 100)" text-anchor="middle">成長率 g</text>
 </svg>
-<figcaption class="small">図：成長率 g(f) は上に凸。0 から立ち上がり、ケリー比率 f* で最大、そのおよそ2倍で再び 0 に戻る。右側は「期待値はプラスなのに資金が減る」領域。（この図はページ内の式から作図したもので、外部出典はありません）</figcaption>
 </figure>
 
 <p>この <code>g(f)</code> を最大にする <code>f</code> が、ケリー基準の答えです。
@@ -210,26 +209,25 @@ g′(f) ＝ p·b / (1 + b·f) − q / (1 − f) ＝ 0<br>
 </div>
 <p class="scrollhint small">※ 表の値は p＝55%・b＝1 を上の計算機に入れて得た実測値です（2026年9月時点のこのページの実装。小数第5位で丸め）。横にスクロールできます。</p>
 
-<figure style="margin:18px 0">
-<svg viewBox="0 0 700 260" role="img" aria-labelledby="fig2Title fig2Desc" style="width:100%;height:auto;background:#0b0b14;border:1px solid #2b2b3a;border-radius:12px">
+<figure style="margin:18px 0;overflow-x:auto">
+<svg viewBox="0 0 343 240" width="343" role="img" aria-labelledby="fig2Title fig2Desc" style="display:block;width:343px;max-width:none;height:auto;background:#0b0b14;border:1px solid #2b2b3a;border-radius:12px">
   <title id="fig2Title">張る比率ごとの成長率</title>
   <desc id="fig2Desc">勝率55%・配当1倍のとき、資金の5%・10%・20%・40%を張った場合の1回あたり成長率を比べた棒グラフ。10%が最大で、20%はほぼゼロ、40%は大きくマイナス。</desc>
-  <line x1="70" y1="130" x2="660" y2="130" stroke="#606076" stroke-width="1.5"/>
-  <text x="34" y="136" fill="#a9a9be" font-size="17">0</text>
-  <rect x="110" y="86" width="80" height="44" fill="#59f5c0"/>
-  <rect x="250" y="72" width="80" height="58" fill="#29e0ff"/>
-  <rect x="390" y="130" width="80" height="4" fill="#ffd23e"/>
-  <rect x="530" y="130" width="80" height="96" fill="#ff8fa3"/>
-  <text x="150" y="76" fill="#59f5c0" font-size="17" text-anchor="middle">+0.0038</text>
-  <text x="290" y="62" fill="#29e0ff" font-size="17" text-anchor="middle">+0.0050</text>
-  <text x="430" y="122" fill="#ffd23e" font-size="17" text-anchor="middle">−0.0001</text>
-  <text x="570" y="246" fill="#ff8fa3" font-size="17" text-anchor="middle">−0.0320</text>
-  <text x="150" y="152" fill="#f2f2f7" font-size="17" text-anchor="middle">5%</text>
-  <text x="290" y="152" fill="#f2f2f7" font-size="17" text-anchor="middle">10%</text>
-  <text x="430" y="152" fill="#f2f2f7" font-size="17" text-anchor="middle">20%</text>
-  <text x="570" y="152" fill="#f2f2f7" font-size="17" text-anchor="middle">40%</text>
+  <line x1="40" y1="110" x2="336" y2="110" stroke="#606076" stroke-width="1.5"/>
+  <text x="22" y="116" fill="#a9a9be" font-size="14">0</text>
+  <rect x="62" y="66" width="44" height="44" fill="#59f5c0"/>
+  <rect x="134" y="52" width="44" height="58" fill="#29e0ff"/>
+  <rect x="206" y="110" width="44" height="4" fill="#ffd23e"/>
+  <rect x="278" y="110" width="44" height="96" fill="#ff8fa3"/>
+  <text x="84" y="56" fill="#59f5c0" font-size="14" text-anchor="middle">+0.0038</text>
+  <text x="156" y="42" fill="#29e0ff" font-size="14" text-anchor="middle">+0.0050</text>
+  <text x="228" y="102" fill="#ffd23e" font-size="14" text-anchor="middle">−0.0001</text>
+  <text x="300" y="222" fill="#ff8fa3" font-size="14" text-anchor="middle">−0.0320</text>
+  <text x="84" y="132" fill="#f2f2f7" font-size="14" text-anchor="middle">5%</text>
+  <text x="156" y="132" fill="#f2f2f7" font-size="14" text-anchor="middle">10%</text>
+  <text x="228" y="132" fill="#f2f2f7" font-size="14" text-anchor="middle">20%</text>
+  <text x="300" y="132" fill="#0b0b14" font-size="14" text-anchor="middle">40%</text>
 </svg>
-<figcaption class="small">図2：張る比率だけを変えたときの成長率（p＝55%・b＝1）。勝率も配当も同じなのに、20%で頭打ち、40%では大きくマイナスになる。※上の計算機の出力から作図。</figcaption>
 </figure>
 <p>勝率も配当も一切変えていないのに、賭け金の比率を 10% から 40% に上げただけで、
 増える賭けが減る賭けに変わります。上の計算機に同じ数字を入れれば、この4行はそのまま再現できます。</p>
