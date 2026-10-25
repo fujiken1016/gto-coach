@@ -54,6 +54,9 @@
 | /betting/dalembert | `betting/dalembert.html` |
 | /betting/paroli | `betting/paroli.html` |
 | /betting/cocomo | `betting/cocomo.html` |
+| /betting/renpai | `betting/renpai.html`（連敗確率の計算機・2026-10-25 追加） |
+| /betting/hasan | `betting/hasan.html`（破産確率の計算機・2026-10-25 追加） |
+| （計算機共通） | `betting/calc.js`（確率エンジン＋UI。Node から require してテスト可。`#selftest` で自己テスト） |
 | （共通） | `betting/app.js`（エンジン＋UI）／`betting/app.css` |
 
 - **編集するのは上のHTML/JS/CSSそのもの**。ビルド工程もジェネレータも無い。

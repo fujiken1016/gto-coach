@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>破産確率の計算機｜資金を倍にできる確率と先に尽きる確率（ギャンブラーの破産問題）</title>
+<meta name="description" content="資金と目標を入れるだけで「目標に先に届く確率」「破産確率」「決着までの平均ゲーム数」を厳密に計算できる無料の計算機。ヨーロピアンルーレット赤黒で資金を2倍にできる確率の早見表つき。現金は一切扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/betting/hasan">
+<link rel="stylesheet" href="/betting/app.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2VF02QTTNV');</script>
+<script src="/oc.js" defer></script>
+<style>
+/* === 勝負ラボ 共通ツールナビ (SL-TOOLS-NAV v1) === */
+.sl-tools{
+  --slt-ink:var(--text,var(--ink,var(--txt,var(--d-text,#eef2ff))));
+  --slt-sub:var(--sub,var(--ink-dim,var(--d-text-muted,#8b96c9)));
+  --slt-line:var(--border,var(--line,var(--d-line,#2a3566)));
+  --slt-acc:var(--gold,var(--warn,#ffd23e));
+  margin:32px 0 20px;padding:18px 0 2px;
+  border-top:1px solid var(--slt-line);
+}
+.sl-tools__lead{margin:0 0 12px;padding:0;font-size:16px;font-weight:700;line-height:1.3;color:var(--slt-acc);}
+.sl-tools__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.sl-tools__list li{margin:0;padding:0;}
+.sl-tools__list li::before{content:none;}
+.sl-tools a,.sl-tools .sl-tools__cur{
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  min-height:48px;padding:11px 14px;border-radius:12px;
+  border:1px solid var(--slt-line);background:rgba(0,0,0,.28);
+  color:var(--slt-ink);text-decoration:none;margin:0;
+}
+.sl-tools a:hover{border-color:var(--slt-acc);background:rgba(0,0,0,.45);}
+.sl-tools .sl-tools__cur{border-style:dashed;}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
+.sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
+@media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+</style>
+</head>
+<body class="bt2">
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/betting/">ベッティングシステム検証室</a> ／ 破産確率の計算機</div>
+<h1>破産確率の計算機<br>— 資金を倍にできる確率と、先に尽きる確率</h1>
+<div class="notice">
+<b>このページについて</b>：確率の計算を確かめるための学習ツールです。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される数値はすべて計算上のもので、実際の金銭のやり取りは発生しません。
+オンラインカジノ等の紹介・誘導も行いません。賭けを勧めるページではありません。
+</div>
+<div class="lead">
+「資金が20回分ある。40回分まで増やしたい。その前に尽きる確率は？」——
+この問いに数式で答えるのが<b>ギャンブラーの破産問題</b>です。
+ゲームと「いまの資金」「目標」を入れると、<b>目標に先に届く確率・資金が先に尽きる確率・決着までの平均ゲーム数</b>を出します。
+</div>
+
+<h2 id="calc-heading">破産確率の計算機</h2>
+<p>金額ではなく<b>「毎回の賭け金の何回分か」</b>で入力します（毎回この1回分だけ賭け続ける前提）。
+目標に 0 を入れると「目標なしで資金が尽きるまで続ける」場合になります。</p>
+<div class="sim calc">
+  <div id="calc-hasan"></div>
+</div>
+
+<h2>ヨーロピアンルーレット 赤/黒：資金を2倍にできる確率</h2>
+<p>1回に勝つ確率は 18/37（約48.65%）。毎回1回分だけ賭け、<b>資金が2倍になるか、尽きるかのどちらかが起きた時点で終了</b>します。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">資金（賭け金の何回分）</th><th scope="col">2倍にできる確率</th><th scope="col">先に尽きる確率</th><th scope="col">決着までの平均ゲーム数</th></tr></thead>
+<tbody>
+<tr><td>5回分 → 10回分</td><td class="good">43.28%</td><td>56.72%</td><td>25</td></tr>
+<tr><td>10回分 → 20回分</td><td>36.80%</td><td>63.20%</td><td>98</td></tr>
+<tr><td>20回分 → 40回分</td><td>25.33%</td><td class="bad">74.67%</td><td>365</td></tr>
+<tr><td>50回分 → 100回分</td><td>6.28%</td><td class="bad">93.72%</td><td>1,618</td></tr>
+<tr><td>100回分 → 200回分</td><td class="bad">0.45%</td><td class="bad">99.55%</td><td>3,667</td></tr>
+<tr><td>200回分 → 400回分</td><td class="bad">0.0020%</td><td class="bad">ほぼ100%</td><td>7,400</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
+<p>同じ「倍にする」でも、<b>賭け金を細かく刻むほど倍にできる確率は急に下がります</b>。
+資金5回分なら43%、100回分なら0.45%、200回分ならほぼゼロです。
+公正なコイン（50%）なら、どの行も一律50%。差の原因は、細かく賭けるほどゲーム回数が増えて、
+<b>1回ごとの控除率（2.70%）が積み重なる</b>ことにあります。</p>
+
+<h2>目標が小さいほど届きやすい。でも期待値は変わらない</h2>
+<p>目標を「資金の+10%」に下げると、届く確率はこうなります（ヨーロピアン赤黒）。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">資金 → 目標</th><th scope="col">目標に届く確率</th><th scope="col">先に尽きる確率</th><th scope="col">決着までの平均ゲーム数</th></tr></thead>
+<tbody>
+<tr><td>10回分 → 11回分</td><td class="good">88.26%</td><td>11.74%</td><td>11</td></tr>
+<tr><td>20回分 → 22回分</td><td class="good">85.27%</td><td>14.73%</td><td>46</td></tr>
+<tr><td>50回分 → 55回分</td><td>75.04%</td><td>24.96%</td><td>323</td></tr>
+<tr><td>100回分 → 110回分</td><td>58.13%</td><td>41.87%</td><td>1,334</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
+<p>「勝ち逃げの目標を低くすれば高確率で勝てる」は、数字として正しい。ただし<b>負けるときは大きく負けます</b>。
+資金20回分・目標22回分なら、85.3%で+2回分、14.7%で−20回分。平均すると
+<code>0.8527×2 − 0.1473×20 ＝ −1.24</code> 回分で、これは「平均して賭ける総額 × 控除率2.70%」と一致します。
+<b>確率の形は変えられても、平均は動きません。</b>（詳しくは <a href="/betting/">検証室トップ</a> の1本の式を参照）</p>
+
+<div class="warn">
+<b>誤解しやすい点</b>：「賭け金を大きくするほど資金を倍にできる確率が高い」は、確率の事実としては正しいですが、
+これを「大きく賭けるのが得」と読んではいけません。賭ける総額が小さくなるぶん、期待される損失（＝総額×控除率）も小さくなっているだけです。
+<b>期待損失がいちばん小さいのは、賭けないこと</b>です。この計算機は賭け方を勧めるためのものではありません。
+</div>
+
+<h2>目標なしで続けると</h2>
+<p>1回に勝つ確率が50%以下のゲームを、目標を決めずに続けると、<b>資金が尽きる確率は100%</b>です。
+資金の大きさは「いつ尽きるか」を遅らせるだけで、結論を変えません。
+計算機で目標を 0 にして確かめられます。</p>
+
+<h2>計算式と方法論</h2>
+<p>1回に勝つ確率を p、負ける確率を q ＝ 1−p、いまの資金を i、目標を N、r ＝ q／p とします（賭け金は毎回1単位）。</p>
+<h3>目標に先に届く確率</h3>
+<div class="eq">
+P(届く) ＝ (1 − r<sup>i</sup>) ／ (1 − r<sup>N</sup>)　（p ≠ 1/2）
+<span class="small">p ＝ 1/2 のときは P(届く) ＝ i ／ N。先に尽きる確率は 1 − P(届く)</span>
+</div>
+<h3>決着までの平均ゲーム数</h3>
+<div class="eq">
+D ＝ i／(q−p) − N／(q−p) × P(届く)　（p ≠ 1/2）
+<span class="small">p ＝ 1/2 のときは D ＝ i × (N − i)</span>
+</div>
+<h3>実装上の注意と検証</h3>
+<ul>
+<li><b>桁あふれ対策</b>：r<sup>N</sup> は N が大きいと桁あふれするため、指数を負側にそろえた形で計算しています（資金1,000・目標100,000でも 0〜1 に収まることを自己テストで確認）。</li>
+<li><b>乱数との照合</b>：ヨーロピアン赤黒で 10→20、50→100、20→22、p＝0.55 の 10→30、公正な 5→25 の5条件を各30,000回シミュレーションし、確率は1ポイント以内、平均ゲーム数は2%以内で一致（2026-10-25・開発時の実測）。</li>
+<li><b>自己テスト</b>：このページに <code>#selftest</code> を付けて開くと、公正なゲームの解析解（i／N、i×(N−i)）と、勝ち＋破産＝100%の確認がその場で走ります。</li>
+<li><b>前提</b>：毎回の賭け金は一定で、各ゲームは独立。賭け金を変える方法（<a href="/betting/martingale">マーチンゲール法</a>など）は、それぞれのページのシミュレーターで扱っています。</li>
+</ul>
+
+<h2>よくある質問</h2>
+<h3>「破産確率」と「負ける確率」は違いますか？</h3>
+<p>違います。1回のゲームで負ける確率は約51%でも、「資金が尽きる確率」は、資金の大きさと目標しだいで1%にも99%にもなります。ここで出しているのは後者です。</p>
+<h3>バカラのコミッションやブラックジャックの特別配当は？</h3>
+<p>ここでは「勝てば+1単位、負ければ−1単位」の1:1ゲームだけを厳密に扱っています。配当が1:1でないゲームは、<a href="/betting/">シミュレーター</a>で再現できます。</p>
+<h3>この確率は実際の賭けに使えますか？</h3>
+<p>使わないでください。このツールは確率の構造を理解するための学習用で、賭けの勧誘や攻略法の紹介ではありません。オンラインカジノの利用は日本国内からでも賭博罪にあたる可能性があります。</p>
+
+<div class="related">
+  <b>ベッティングシステム検証室</b><br>
+  <a href="/betting/">検証室トップ</a>
+  <a href="/betting/martingale">マーチンゲール法</a>
+  <a href="/betting/renpai">連敗確率の計算機</a>
+  <a href="/betting/hasan">破産確率の計算機</a>
+  <a href="/edge/">還元率ランキング</a>
+</div>
+
+<!-- SL-TOOLS-NAV v1 -->
+<nav class="sl-tools" aria-label="勝負ラボのツール">
+  <p class="sl-tools__lead">勝負ラボのツール</p>
+  <ul class="sl-tools__list">
+  <li><a href="https://shoubu-lab.com/" data-sl="gto"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">ポーカーの正解手を全ストリートで練習</span></a></li>
+  <li><a href="https://rule.shoubu-lab.com/" data-sl="rules"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・進行・用語をゼロから対人デビューまで</span></a></li>
+  <li><a href="https://bj.shoubu-lab.com/" data-sl="bj"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">ベーシックストラテジー＆カウンティング</span></a></li>
+  <li><span class="sl-tools__cur" aria-current="page"><span class="sl-tools__t">ベッティングシステム</span><span class="sl-tools__d">マーチンゲール法ほか5法の破綻を実測（いまここ）</span></span></li>
+  <li><a href="https://shoubu-lab.com/edge/" data-sl="edge"><span class="sl-tools__t">還元率ランキング</span><span class="sl-tools__d">控除率・期待値・ケリー基準の計算機</span></a></li>
+  <li><a href="https://shoubu-lab.com/koei/" data-sl="koei"><span class="sl-tools__t">公営競技の資金管理</span><span class="sl-tools__d">競馬・競艇で同じ手法を検証する</span></a></li>
+  <li><a href="https://shoubu-lab.com/hall/" data-sl="hall"><span class="sl-tools__t">ホールデータラボ</span><span class="sl-tools__d">城南8店の実測値と、外れた検証記録</span></a></li>
+  </ul>
+</nav>
+<script>
+/* SL-TOOLS-NAV v1: ツール間の回遊をGA4に送る */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('.sl-tools a[data-sl]'):null;
+  if(!a||typeof window.gtag!=='function')return;
+  window.gtag('event','tool_nav_click',{tool:a.getAttribute('data-sl'),from_host:location.hostname,link_url:a.href});
+},true);
+</script>
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+<script src="/betting/calc.js"></script>
+</body>
+</html>

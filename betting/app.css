@@ -160,3 +160,23 @@ footer a{color:var(--sub);margin:0 6px;display:inline-block;min-height:30px;}
 .book .bl:hover{background:var(--gold);color:#1a1400;}
 .books-disc{font-size:10.5px;color:var(--sub);opacity:.9;margin-top:13px;line-height:1.8;}
 @media (max-width:560px){ .books{padding:14px 12px;} .book-grid{grid-template-columns:1fr;} }
+
+/* ---- 確率計算機（calc.js）---- */
+tr.hit td{background:#1b2754;}
+.stat .v small{font-size:13px;font-weight:600;color:var(--sub);}
+.calc .stats{grid-template-columns:repeat(2,1fr);}
+@media(min-width:560px){.calc .stats{grid-template-columns:repeat(4,1fr);}}
+/* 計算機ページ（<body class="bt2">）専用：長い見出し・ラベルの折り返しと文字サイズ */
+.bt2 h1,.bt2 h2,.bt2 h3{word-break:auto-phrase;text-wrap:balance;}
+.bt2 .calc .field label{font-size:14px;}
+.bt2 .calc .field .hint{font-size:13px;line-height:1.6;}
+.bt2 .calc .stat .l{font-size:13px;line-height:1.5;}
+.bt2 .calc .stat .v{font-size:20px;}
+.bt2 .calc th{font-size:13px;}
+.bt2 .calc .msg{font-size:14.5px;}
+.bt2 sup{font-size:.9em;line-height:0;}
+.bt2 .calc .field input,.bt2 .calc .field select{min-height:48px;}
+.bt2 .calc .stat .l,.bt2 .calc .stat .v{word-break:auto-phrase;text-wrap:balance;}
+@media(max-width:359px){.bt2 .calc .stats{grid-template-columns:1fr;}}
+.bt2 .sl-tools__d{word-break:auto-phrase;text-wrap:balance;}
+.field[hidden]{display:none;}

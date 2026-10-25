@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>連敗確率の計算機｜20連敗は何回に1回？ルーレット・バカラ・コインの連続確率を厳密に計算</title>
+<meta name="description" content="「n回の中でk連敗以上が一度でも起きる確率」を厳密に計算できる無料の計算機。ヨーロピアンルーレット赤黒で10連敗は1,000回で46%、20連敗は5,000回で0.39%。近似なしの計算式・検証方法つき。現金は一切扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/betting/renpai">
+<link rel="stylesheet" href="/betting/app.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2VF02QTTNV');</script>
+<script src="/oc.js" defer></script>
+<style>
+/* === 勝負ラボ 共通ツールナビ (SL-TOOLS-NAV v1) === */
+.sl-tools{
+  --slt-ink:var(--text,var(--ink,var(--txt,var(--d-text,#eef2ff))));
+  --slt-sub:var(--sub,var(--ink-dim,var(--d-text-muted,#8b96c9)));
+  --slt-line:var(--border,var(--line,var(--d-line,#2a3566)));
+  --slt-acc:var(--gold,var(--warn,#ffd23e));
+  margin:32px 0 20px;padding:18px 0 2px;
+  border-top:1px solid var(--slt-line);
+}
+.sl-tools__lead{margin:0 0 12px;padding:0;font-size:16px;font-weight:700;line-height:1.3;color:var(--slt-acc);}
+.sl-tools__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.sl-tools__list li{margin:0;padding:0;}
+.sl-tools__list li::before{content:none;}
+.sl-tools a,.sl-tools .sl-tools__cur{
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  min-height:48px;padding:11px 14px;border-radius:12px;
+  border:1px solid var(--slt-line);background:rgba(0,0,0,.28);
+  color:var(--slt-ink);text-decoration:none;margin:0;
+}
+.sl-tools a:hover{border-color:var(--slt-acc);background:rgba(0,0,0,.45);}
+.sl-tools .sl-tools__cur{border-style:dashed;}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
+.sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
+@media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+</style>
+</head>
+<body class="bt2">
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/betting/">ベッティングシステム検証室</a> ／ 連敗確率の計算機</div>
+<h1>連敗確率の計算機<br>— 20連敗は何回に1回起きる？</h1>
+<div class="notice">
+<b>このページについて</b>：確率の計算を確かめるための学習ツールです。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される数値はすべて計算上のもので、実際の金銭のやり取りは発生しません。
+オンラインカジノ等の紹介・誘導も行いません。賭けを勧めるページではありません。
+</div>
+<div class="lead">
+「ルーレットで赤が20回続く確率」と「1,000回回す間に20連敗が1度でも起きる確率」は、<b>まったく別の数字</b>です。
+ここではゲームと回数と連敗の長さを入れるだけで、<b>厳密な確率</b>を出します。
+近似式は使っていません（計算方法は下の「方法論」に書きました）。
+</div>
+
+<h2 id="calc-heading">連敗確率の計算機</h2>
+<p>ゲームを選び、回数と連敗の長さを入れて「計算する」を押してください。
+結果は自動では消えません。条件を変えて何度でも計算できます。</p>
+<div class="sim calc">
+  <div id="calc-renpai"></div>
+</div>
+
+<h2>3つの数字を取り違えない</h2>
+<p>「連敗の確率」と言ったとき、実際には3つの違う数字が混ざって語られます。この計算機は3つとも出します。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">数字</th><th scope="col">意味</th><th scope="col">ヨーロピアン赤黒で10連敗のとき</th></tr></thead>
+<tbody>
+<tr><td>① ある地点から数えて</td><td>次の10回が全部負けになる確率（q<sup>10</sup>）</td><td class="bad">0.1275%（約784回に1回）</td></tr>
+<tr><td>② 初めて起きるまでの平均</td><td>10連敗に初めて出会うまで平均何ゲームかかるか</td><td>約1,610ゲーム</td></tr>
+<tr><td>③ n回の中で一度でも</td><td>1,000ゲーム続ける間に10連敗が1度でも起きる確率</td><td class="bad">46.2%</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
+<p>①だけを見ると「0.13%なんてまず起きない」と感じます。しかし<b>ルーレットは1晩で何百回も回ります</b>。
+③で見ると、1,000ゲームの間に10連敗は<b>ほぼ半々の確率で起きる</b>。①の数字が小さいことと、③が大きいことは矛盾していません。
+「どの地点から数えるか」の候補が1,000か所あるからです。</p>
+
+<h2>ヨーロピアンルーレット 赤/黒：n回の中でk連敗以上が起きる確率</h2>
+<p>1回に負ける確率は 19/37（約51.35%。緑の0が出ても負け）。数字は上の計算機と同じ方法で出した厳密値です。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">ゲーム回数</th><th scope="col">5連敗以上</th><th scope="col">7連敗以上</th><th scope="col">10連敗以上</th><th scope="col">12連敗以上</th><th scope="col">15連敗以上</th><th scope="col">20連敗以上</th></tr></thead>
+<tbody>
+<tr><td>50回</td><td>59.48%</td><td>19.20%</td><td>2.59%</td><td>0.65%</td><td>0.08%</td><td>0.003%</td></tr>
+<tr><td>100回</td><td class="bad">84.58%</td><td>36.27%</td><td>5.58%</td><td>1.47%</td><td>0.19%</td><td>0.006%</td></tr>
+<tr><td>500回</td><td class="bad">99.99%</td><td class="bad">90.46%</td><td>26.45%</td><td>7.72%</td><td>1.07%</td><td>0.04%</td></tr>
+<tr><td>1,000回</td><td class="bad">ほぼ100%</td><td class="bad">99.11%</td><td>46.17%</td><td>14.98%</td><td>2.16%</td><td>0.08%</td></tr>
+<tr><td>5,000回</td><td class="bad">ほぼ100%</td><td class="bad">ほぼ100%</td><td class="bad">95.57%</td><td class="bad">55.86%</td><td>10.46%</td><td>0.39%</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
+
+<h3>読み取れること</h3>
+<ul>
+<li><b>5連敗は100回やれば、約85%の確率で出会います。</b>珍しい出来事ではありません。</li>
+<li><b>20連敗</b>は、ある地点から数えると約<b>615,124回に1回</b>（0.00016%）。それでも5,000ゲーム続けると<b>0.39%</b>、平均では約<b>126万ゲーム</b>に1度の頻度です。「ありえない」ほどではないが、1晩で出会うことはまず無い、という位置です。</li>
+<li>アメリカンルーレット（負ける確率 20/38＝52.63%）では、同じ条件で数字がさらに上がります。1,000回で10連敗以上は<b>53.8%</b>（ヨーロピアンは46.2%）。計算機でゲームを切り替えて確認できます。</li>
+<li>公正なコイン（50%）でも、1,000回の最長連敗は中央値で<b>9</b>。「連続は偏りの証拠」と感じるのは、人間の感覚のほうが連続を少なく見積もるためです。</li>
+</ul>
+
+<h2>マーチンゲール法との関係</h2>
+<p><a href="/betting/martingale">マーチンゲール法</a>は「連敗が続いたら賭け金を2倍にする」方法なので、
+<b>何連敗まで耐えられる資金か</b>がそのまま破綻条件になります。
+資金が「7連敗した時点で次の倍賭けを出せなくなる」設計なら、ヨーロピアン赤黒で100回続けたとき、<b>7連敗以上が一度でも起きる確率</b>
+（この計算機で k=7、n=100 と入れると 36.3% と出ます）が、そのまま「続行不能になる確率」です。勝ち負けの並びは賭け金と無関係に決まるので、この対応は近似ではなく一致します。
+「そんなに続かない」という感覚を、数字で置き換えるための道具です。</p>
+<div class="warn">
+<b>先に結論を書きます。</b>連敗がどれだけ珍しいかを正確に知っても、賭け方で期待値は変わりません。
+期待される損失は常に「賭けた総額 × 控除率」で、連敗確率の計算はその<b>ばらつきの大きさを知るためのもの</b>です。
+この計算機は「勝てる賭け方」を探すための道具ではありません。
+</div>
+
+<h2>計算式と方法論</h2>
+<h3>1｜ある地点から数えて k 連敗（①）</h3>
+<div class="eq">
+P ＝ q<sup>k</sup>　（q ＝ 1回に負ける確率）
+<span class="small">ヨーロピアン赤黒なら q ＝ 19/37。10連敗で (19/37)<sup>10</sup> ＝ 0.1275%</span>
+</div>
+<h3>2｜初めて k 連敗するまでの平均ゲーム数（②）</h3>
+<div class="eq">
+E ＝ (1 − q<sup>k</sup>) ／ ( (1 − q) × q<sup>k</sup> )
+<span class="small">q ＝ 0.5, k ＝ 3 のとき 14ゲーム。列挙で確かめられる既知値です</span>
+</div>
+<h3>3｜n回の中で一度でも k 連敗以上（③）</h3>
+<p>「いま何連敗中か」（0〜k−1）を状態にして、1ゲームずつ確率を更新します。
+負ければ状態が1つ進み、勝てば0に戻ります。状態が k に達した確率を足し込んでいくと、
+n回の中で一度でも k 連敗に達した確率が出ます。計算量は n × k で、近似はありません。</p>
+<h3>検証のしかた</h3>
+<ul>
+<li><b>列挙との照合</b>：公正なコインで、長さ2〜10の全パターンを数え上げた既知値（例：長さ5で3連以上は 8/32、長さ10で4連以上は 1−773/1024）と一致することを自己テストに固定しています。本ページの末尾に <code>#selftest</code> を付けて開くと、ブラウザ上でその場で再実行できます。</li>
+<li><b>乱数との照合</b>：ヨーロピアン・アメリカン・コインの4条件を各40,000セッション回し、厳密値と1ポイント以内で一致することを確認しました（2026-10-25・開発時の実測）。</li>
+<li><b>前提</b>：各ゲームは独立で、勝つ確率は一定。実際のルーレットが偏っていればこの前提は崩れますが、検査された正規のホイールでは成り立つと考えて差し支えありません。</li>
+</ul>
+
+<h2>よくある質問</h2>
+<h3>赤が10回続いたら、次は黒が出やすいのでは？</h3>
+<p>いいえ。ホイールに記憶はありません。10回続いたあとでも、次に黒が出る確率は 18/37 のままです（ギャンブラーの誤謬）。
+「10連続は珍しい」のは、<b>10回ぶんをまとめて予言した場合</b>の話で、すでに9回続いた後の1回は、ただの1回です。</p>
+<h3>連敗の確率が低いなら、安全な資金計画を立てられますか？</h3>
+<p>連敗の確率は「資金がどれくらいの確率で尽きるか」を知る材料になりますが、賭けを続けるほど期待値はマイナスのまま積み上がります。
+資金が尽きる確率そのものは <a href="/betting/hasan">破産確率の計算機</a> で出せます。</p>
+<h3>バカラの数字はどう扱っていますか？</h3>
+<p>引き分けは勝負が成立しない（賭け金が戻る）ので、引き分けを除いた勝負だけを数え、バンカーの勝つ確率を 0.4586／(0.4586＋0.4462)、プレイヤーを 0.4462／(0.4586＋0.4462) としています。コミッション（バンカー5%）は連敗の確率には影響しないので、ここでは扱っていません。</p>
+
+<div class="related">
+  <b>ベッティングシステム検証室</b><br>
+  <a href="/betting/">検証室トップ</a>
+  <a href="/betting/martingale">マーチンゲール法</a>
+  <a href="/betting/renpai">連敗確率の計算機</a>
+  <a href="/betting/hasan">破産確率の計算機</a>
+  <a href="/edge/">還元率ランキング</a>
+</div>
+
+<!-- SL-TOOLS-NAV v1 -->
+<nav class="sl-tools" aria-label="勝負ラボのツール">
+  <p class="sl-tools__lead">勝負ラボのツール</p>
+  <ul class="sl-tools__list">
+  <li><a href="https://shoubu-lab.com/" data-sl="gto"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">ポーカーの正解手を全ストリートで練習</span></a></li>
+  <li><a href="https://rule.shoubu-lab.com/" data-sl="rules"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・進行・用語をゼロから対人デビューまで</span></a></li>
+  <li><a href="https://bj.shoubu-lab.com/" data-sl="bj"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">ベーシックストラテジー＆カウンティング</span></a></li>
+  <li><span class="sl-tools__cur" aria-current="page"><span class="sl-tools__t">ベッティングシステム</span><span class="sl-tools__d">マーチンゲール法ほか5法の破綻を実測（いまここ）</span></span></li>
+  <li><a href="https://shoubu-lab.com/edge/" data-sl="edge"><span class="sl-tools__t">還元率ランキング</span><span class="sl-tools__d">控除率・期待値・ケリー基準の計算機</span></a></li>
+  <li><a href="https://shoubu-lab.com/koei/" data-sl="koei"><span class="sl-tools__t">公営競技の資金管理</span><span class="sl-tools__d">競馬・競艇で同じ手法を検証する</span></a></li>
+  <li><a href="https://shoubu-lab.com/hall/" data-sl="hall"><span class="sl-tools__t">ホールデータラボ</span><span class="sl-tools__d">城南8店の実測値と、外れた検証記録</span></a></li>
+  </ul>
+</nav>
+<script>
+/* SL-TOOLS-NAV v1: ツール間の回遊をGA4に送る */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('.sl-tools a[data-sl]'):null;
+  if(!a||typeof window.gtag!=='function')return;
+  window.gtag('event','tool_nav_click',{tool:a.getAttribute('data-sl'),from_host:location.hostname,link_url:a.href});
+},true);
+</script>
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+<script src="/betting/calc.js"></script>
+</body>
+</html>
