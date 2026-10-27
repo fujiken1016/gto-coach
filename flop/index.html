@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#101018">
+<title>フロップ早見盤｜板ごとの打つ頻度を一覧で見る｜勝負ラボ</title>
+<meta name="description" content="フロップの板ごとに、先に打つ側の頻度と受ける側の応手を13×13のグリッドで見られる早見盤の入口ページ。前提条件（人数・スタック・簡略木）を明記。GTO Coachで無料練習もできます。">
+<link rel="canonical" href="https://shoubu-lab.com/flop/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="勝負ラボ">
+<meta property="og:title" content="フロップ早見盤｜板ごとの打つ頻度を一覧で見る">
+<meta property="og:description" content="先に打つ側の頻度と受ける側の応手を13×13のグリッドで。前提条件を明記した、ポーカー学習ツールの入口ページ。">
+<meta property="og:url" content="https://shoubu-lab.com/flop/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-2VF02QTTNV');</script>
+<script src="/oc.js" defer></script>
+<style>
+/* 色・寸法は GTO Coach（shoubu-lab.com）の既存トークンをそのまま使う */
+:root{
+  --bg:#101018; --surface:#1a1a26; --surface2:#232333;
+  --text:#f2f2f7; --muted:#a9a9be; --line:#2b2b3a; --line-strong:#606076;
+  --primary:#3ddc97;  --gold:#ffd23e; --coral:#ff7a8a; --blue:#6aa8ff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+a{color:var(--primary)}
+:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+
+/* ヘッダー：右上にアプリへの常設ボタン（GTO Wizard「Go To App」・GTOBase「Go to app」） */
+.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:12px}
+.brand{font-size:16px;font-weight:700;color:var(--text);text-decoration:none;display:inline-flex;align-items:center;min-height:48px}
+.brand small{display:block;font-size:14px;font-weight:400;color:var(--muted);line-height:1.3}
+.nav{display:flex;align-items:center;gap:4px}
+.nav a.lnk{display:none;align-items:center;min-height:48px;padding:0 12px;color:var(--muted);text-decoration:none;font-size:16px}
+.nav a.lnk:hover{color:var(--text)}
+
+/* ボタン：主CTAは1色（GTO Wizard は #aafbb2 一色。うちは --primary 一色） */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:12px;font-size:16px;font-weight:700;text-decoration:none;border:1px solid transparent;line-height:1.3;text-align:center}
+.btn-primary{background:var(--primary);color:#0b1a12}
+.btn-primary:hover{background:#6ae9b5}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--line-strong)}
+.btn-ghost:hover{border-color:var(--text)}
+.btn-lg{min-height:56px;padding:0 32px}
+.btn-sm{padding:0 16px}
+
+/* ヒーロー：見出し→1文→主CTA→（副CTA）の順。375pxで主CTAが1画面目に入る */
+.hero{padding:32px 0 40px}
+.hero .wrap{display:grid;gap:24px;grid-template-columns:minmax(0,1fr)}
+.eyebrow{font-size:14px;color:var(--primary);font-weight:700;letter-spacing:.04em}
+h1{font-size:2rem;line-height:1.4;font-weight:700;margin:12px 0}
+.ph{display:inline-block}
+.lead{font-size:16px;color:var(--muted);max-width:34em}
+.cta-row{display:grid;gap:12px;margin-top:20px}
+.note{font-size:14px;color:var(--muted);margin-top:12px;line-height:1.7}
+
+/* ヒーロー右の図：板ごとの13×13のイメージ（実データではない・装飾） */
+.shot{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;max-width:440px;width:100%}
+.shot-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{display:inline-block;padding:4px 12px;border-radius:9999px;background:var(--surface2);font-size:14px;color:var(--muted)}
+.chip.on{background:var(--primary);color:#0b1a12;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(13,1fr);gap:2px}
+.grid i{display:block;aspect-ratio:1;border-radius:4px;background:var(--surface2)}
+.grid i.r{background:#e5344f}.grid i.c{background:#2f7ff7}.grid i.m{background:#d99b1d}.grid i.f{background:#39415f}
+.cap{font-size:14px;color:var(--muted);margin-top:8px}
+
+/* 日本語の改行：見出しは文節で割ってバランス、本文は孤立文字を避ける（単語途中では割らない） */
+h1,h2,h3,.cap,.note,.lead,.cond li,.sl-tools__d,.band p,.card p{word-break:auto-phrase;line-break:strict}
+h1,h2,h3,.cap,.sl-tools__d{text-wrap:balance}
+.note,.lead,.cond li,.band p,.card p{text-wrap:pretty}
+
+/* 節 */
+section{padding:40px 0;border-top:1px solid var(--line)}
+h2{font-size:1.5rem;line-height:1.4;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);margin-bottom:20px}
+.cards{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+.cards>*,.hero .wrap>*,.cond li{min-width:0;overflow-wrap:break-word}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card h3{font-size:1.25rem;line-height:1.4;font-weight:700;margin-bottom:4px}
+.card p{color:var(--muted);font-size:16px}
+a.card{display:block;text-decoration:none;color:var(--text)}
+a.card:hover{border-color:var(--primary)}
+.tag{display:block;font-size:14px;color:var(--muted);margin-bottom:12px}
+.go{display:inline-flex;align-items:center;min-height:48px;color:var(--primary);font-weight:700;margin-top:4px}
+
+/* 中盤・末尾のCTA帯：本文と色を変え、ボタンを1つだけ置く */
+.band{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:28px 20px;text-align:center}
+.band h2{margin-bottom:8px}
+.band p{color:var(--muted);margin:0 auto 20px;max-width:32em}
+
+/* 前提の明示（うちが手本から離れる所＝条件を隠さない） */
+.cond{display:grid;gap:8px;list-style:none}
+.cond li{background:var(--surface);border-radius:12px;padding:12px 16px;font-size:16px}
+.cond b{color:var(--gold)}
+
+/* 共通ツールナビ（SL-TOOLS-NAV v1 と同じ見た目） */
+.sl-tools{margin:0;padding:0}
+.sl-tools__list{list-style:none;display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
+.sl-tools a{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:48px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--text);text-decoration:none}
+.sl-tools a:hover{border-color:var(--gold)}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3}
+.sl-tools__d{font-size:14px;line-height:1.7;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding:32px 0 48px;font-size:14px;color:var(--muted);line-height:1.8}
+footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:48px;padding:0 8px}
+footer .links{margin:0 -8px}
+
+@media(min-width:720px){
+  .nav a.lnk{display:inline-flex}
+  .hero{padding:56px 0 64px}
+  .hero .wrap{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:40px}
+  h1{font-size:2.5rem}
+  .cta-row{display:flex;flex-wrap:wrap}
+  .cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .sl-tools__list{grid-template-columns:repeat(3,minmax(0,1fr))}
+  section{padding:56px 0}
+  .band{padding:40px 32px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><span>勝負ラボ<small>Shoubu Lab</small></span></a>
+    <nav class="nav" aria-label="メイン">
+      <a class="lnk" href="https://rule.shoubu-lab.com/">ルール入門</a>
+      <a class="btn btn-primary btn-sm" href="/?from=flop-header">GTO Coachを開く</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- 1. ヒーロー：見出し→1文→主CTA→副CTA -->
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">無料・登録不要</p>
+      <h1>フロップ早見盤<br><span class="ph">板ごとの打つ頻度を、</span><span class="ph">一覧で見る</span></h1>
+      <p class="lead">先に打つ側のベット頻度と、受ける側の降り・コール・レイズを、13×13のグリッドで確認できます。ソルバーの計算結果を、スマホで引ける形にしました。</p>
+      <div class="cta-row">
+        <a class="btn btn-primary btn-lg" href="/?from=flop-hero">GTO Coachで練習する</a>
+        <a class="btn btn-ghost btn-lg" href="#cond">前提条件を見る</a>
+      </div>
+      <p class="note">早見盤本体は公開準備中です。100bb・6人卓・レーキなし・ヘッズアップのポットが前提です（下の「条件」を参照）。</p>
+    </div>
+    <div class="shot" aria-hidden="true">
+      <div class="shot-bar"><span class="chip on">フロップ頻度</span><span class="chip">手の強さ別</span><span class="chip">ターン札別</span></div>
+      <div class="grid" id="g"></div>
+      <p class="cap">イメージ図です。実際の数値ではありません</p>
+    </div>
+  </div>
+</div>
+
+<!-- 2. できること：3つ並べる（GTO Wizard の Study / Practice / Analyze と同じ型） -->
+<section>
+  <div class="wrap">
+    <h2>早見盤でできること</h2>
+    <p class="sub">板を選ぶと、3つの見方で見られる作りです。公開準備中のため、いまは下の内容の紹介のみです。</p>
+    <div class="cards three">
+      <div class="card"><h3>フロップの打つ頻度</h3><p>板の型ごとに、先に打つ側がどのサイズをどれだけ使うかを見ます。</p></div>
+      <div class="card"><h3>手の強さ別</h3><p>ナッツ級からエアまで10区分に分けて、手ごとの動きを見ます。</p></div>
+      <div class="card"><h3>ターンの札別</h3><p>次のカードが変わると、頻度がどう動くかをヒートマップで見ます。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 読み方の記事3本（GTO Wizard の blog：用語ごとに独立記事・本文から相互リンク） -->
+<section>
+  <div class="wrap">
+    <h2>読み方の解説（順次公開）</h2>
+    <p class="sub">数字の意味を先に知っておくと、早見盤が速く読めます。3本を準備しています。</p>
+    <div class="cards three">
+      <div class="card">
+        <span class="tag">準備中 ・ 基礎 ・ 約6分</span>
+        <h3>cベットとは？打つ頻度は「板の型」で決まる</h3>
+        <p>ドライ・ペアド・ウェットの3分類で、フロップの打つ頻度の目安を押さえます。</p>
+      </div>
+      <div class="card">
+        <span class="tag">準備中 ・ 応用 ・ 約7分</span>
+        <h3>チェックレイズ率とMDF：受ける側はどれだけ守るか</h3>
+        <p>降りすぎ・守りすぎの境目を、MDFとソルバーの数字で並べて見ます。</p>
+      </div>
+      <div class="card">
+        <span class="tag">準備中 ・ 道具選び ・ 約5分</span>
+        <h3>GTOソルバーは無料で使える？できること・できないこと</h3>
+        <p>無料で触れる道具の範囲と、早見盤の使いどころを整理します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 中盤のCTA帯：練習へ -->
+<section>
+  <div class="wrap">
+    <div class="band">
+      <h2>見たあとは、手を動かす</h2>
+      <p>早見盤で見た頻度を、GTO Coachのクイズで確かめます。無料で、登録は要りません。</p>
+      <a class="btn btn-primary btn-lg" href="/?from=flop-mid">GTO Coachで練習する</a>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 条件：何を前提にした数字かを隠さない -->
+<section id="cond">
+  <div class="wrap">
+    <h2>条件</h2>
+    <p class="sub">数字は、次の前提で計算した結果です。</p>
+    <ul class="cond">
+      <li><b>人数</b>　ヘッズアップのポット（2人）。3人以上の局面は含みません。</li>
+      <li><b>スタック</b>　100bb。レーキなし。</li>
+      <li><b>ベットの木</b>　サイズを絞った簡略版。</li>
+      <li><b>板</b>　代表の板を解いたもの。未計算の板は、同じ型の平均を表示します。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 6. 同じサイトの他のツール（既存の共通ナビ） -->
+<section>
+  <div class="wrap">
+    <h2>ほかの練習ツール</h2>
+    <nav class="sl-tools" aria-label="ほかのツール">
+      <ul class="sl-tools__list">
+        <li><a href="/?from=flop-nav"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">プリフロップからリバーまで、頻度でクイズ</span></a></li>
+        <li><a href="https://rule.shoubu-lab.com/"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・流れ・マナーを1から</span></a></li>
+        <li><a href="https://bj.shoubu-lab.com/"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">基本戦略の練習</span></a></li>
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<!-- 7. 末尾のCTA（同じ文言を再掲） -->
+<section>
+  <div class="wrap">
+    <div class="band">
+      <h2>まず1問、解いてみる</h2>
+      <p>どれも無料・登録不要。現金・賭け金は一切扱いません。</p>
+      <a class="btn btn-primary btn-lg" href="/?from=flop-end">GTO Coachで練習する</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links"><a href="/privacy">プライバシーポリシー</a><a href="/disclaimer">免責事項</a><a href="/about">運営者情報</a><a href="/contact">お問い合わせ</a></div>
+    <p>運営：勝負ラボ（Shoubu Lab）個人運営</p>
+    <p>© 2026 勝負ラボ — 本サイトは戦略学習ツールであり、賭博行為を推奨するものではありません。</p>
+  </div>
+</footer>
+
+<script>
+/* 装飾の13×13（イメージ）。実データではない。 */
+(function(){var g=document.getElementById('g');if(!g)return;var h='';
+for(var y=0;y<13;y++)for(var x=0;x<13;x++){var s=(x*7+y*13+x*y)%11;var k=s<4?'r':s<6?'m':s<9?'c':'f';if(x+y<4)k='r';if(x+y>20)k='f';h+='<i class="'+k+'"></i>';}
+g.innerHTML=h;})();
+</script>
+</body>
+</html>
