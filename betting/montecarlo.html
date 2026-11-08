@@ -5,8 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0d1230">
 <title>モンテカルロ法（カジノ）シミュレーション｜数列の仕組みと期待値を実測する</title>
-<meta name="description" content="カジノのモンテカルロ法を1ゲームずつ、または1,000セッション一括で試せる無料シミュレーター。[1,2,3]の数列がどう伸び、いつ破綻するのか、配当によって削除ルールが変わる理由、期待値がマイナスのままである理由を実測データで確認できます。現金は一切扱いません。">
+<meta name="description" content="カジノのモンテカルロ法を、1ゲームずつ、または1,000セッション一括で試せる無料シミュレーター。[1,2,3]の数列の伸び方、破綻する条件、期待値がマイナスのままの理由を実測で確認。現金は一切扱いません。">
 <link rel="canonical" href="https://shoubu-lab.com/betting/montecarlo">
+<meta property="og:title" content="モンテカルロ法（カジノ）シミュレーション｜数列の仕組みと期待値を実測する">
+<meta property="og:description" content="カジノのモンテカルロ法を、1ゲームずつ、または1,000セッション一括で試せる無料シミュレーター。[1,2,3]の数列の伸び方、破綻する条件、期待値がマイナスのままの理由を実測で確認。現金は一切扱いません。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shoubu-lab.com/betting/montecarlo">
+<meta property="og:site_name" content="GTO Coach">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"モンテカルロ法（カジノ）シミュレーション｜数列の仕組みと期待値を実測する","description":"カジノのモンテカルロ法を、1ゲームずつ、または1,000セッション一括で試せる無料シミュレーター。[1,2,3]の数列の伸び方、破綻する条件、期待値がマイナスのままの理由を実測で確認。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/betting/montecarlo","inLanguage":"ja","datePublished":"2026-09-02T14:50:23+09:00","dateModified":"2026-09-03T17:14:49+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"ベッティングシステム検証室","item":"https://shoubu-lab.com/betting/"},{"@type":"ListItem","position":3,"name":"モンテカルロ法","item":"https://shoubu-lab.com/betting/montecarlo"}]}</script>
 <link rel="stylesheet" href="/betting/app.css">
 <!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
 <script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>

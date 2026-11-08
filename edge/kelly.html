@@ -5,8 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#101018">
 <title>ケリー基準の計算機｜期待値がプラスでも「賭けすぎ」で資金が減る理由</title>
-<meta name="description" content="ケリー基準（Kelly criterion）の最適賭け金比率 f*＝(bp−q)/b を、対数成長率の式から導出して計算できるページ。控除率のあるゲームでは f* が負になり「最適な賭け金はゼロ」になることも、成長率がゼロになる賭け金比率も、その場で数値計算して確認できます。現金は一切扱いません。">
+<meta name="description" content="ケリー基準の最適賭け金比率 f*＝(bp−q)/b を対数成長率の式から導出して計算。控除率のあるゲームでは f* が負になり「最適な賭け金はゼロ」になることも確認できます。現金は一切扱いません。">
 <link rel="canonical" href="https://shoubu-lab.com/edge/kelly">
+<meta property="og:title" content="ケリー基準の計算機｜期待値がプラスでも「賭けすぎ」で資金が減る理由">
+<meta property="og:description" content="ケリー基準の最適賭け金比率 f*＝(bp−q)/b を対数成長率の式から導出して計算。控除率のあるゲームでは f* が負になり「最適な賭け金はゼロ」になることも確認できます。現金は一切扱いません。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shoubu-lab.com/edge/kelly">
+<meta property="og:site_name" content="GTO Coach">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ケリー基準の計算機｜期待値がプラスでも「賭けすぎ」で資金が減る理由","description":"ケリー基準の最適賭け金比率 f*＝(bp−q)/b を対数成長率の式から導出して計算。控除率のあるゲームでは f* が負になり「最適な賭け金はゼロ」になることも確認できます。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/edge/kelly","inLanguage":"ja","datePublished":"2026-09-06T01:57:26+09:00","dateModified":"2026-09-20T22:54:16-07:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"還元率ラボ","item":"https://shoubu-lab.com/edge/"},{"@type":"ListItem","position":3,"name":"ケリー基準","item":"https://shoubu-lab.com/edge/kelly"}]}</script>
 <link rel="stylesheet" href="/edge/app.css">
 <!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
 <script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
