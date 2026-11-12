@@ -30,7 +30,7 @@ small{color:var(--sub);font-size:12.5px;}
 
 /* ---- ヘッダ / パンくず ---- */
 .crumb{font-size:12.5px;color:var(--sub);margin-bottom:4px;}
-.crumb a{color:var(--sub);}
+.crumb a{color:var(--sub);display:inline-block;min-height:48px;line-height:48px;margin:-14px 0;vertical-align:middle;}
 .lead{font-size:14.5px;color:#c6d0f2;background:var(--panel);border:1px solid var(--border);
   border-left:4px solid var(--mint);border-radius:10px;padding:12px 14px;margin:14px 0;}
 
@@ -135,7 +135,7 @@ button.ghost{background:transparent;}
 /* フッタ */
 footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--border);
   font-size:12px;color:var(--sub);line-height:1.9;text-align:center;}
-footer a{color:var(--sub);margin:0 6px;display:inline-block;min-height:30px;}
+footer a{color:var(--sub);margin:0 6px;display:inline-flex;align-items:center;min-height:48px;vertical-align:middle;}
 .related{margin:26px 0 0;font-size:15px;}
 .related a{display:inline-block;min-height:48px;line-height:48px;margin-right:14px;}
 
