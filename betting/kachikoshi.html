@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>勝ち越し確率 計算｜100回賭けてプラスで終わる確率と損益の幅を厳密に計算</title>
+<meta name="description" content="「n回賭けて収支がプラスで終わる確率」と損益の幅を二項分布で厳密に計算できる無料の計算機。ヨーロピアンルーレット赤黒は100回で35.5%、1,000回で18.8%、5,000回で2.7%。正規近似との差・計算式・検証方法つき。現金は一切扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/betting/kachikoshi">
+<meta property="og:title" content="勝ち越し確率 計算｜100回賭けてプラスで終わる確率と損益の幅を厳密に計算">
+<meta property="og:description" content="「n回賭けて収支がプラスで終わる確率」と損益の幅を二項分布で厳密に計算できる無料の計算機。ヨーロピアンルーレット赤黒は100回で35.5%、1,000回で18.8%、5,000回で2.7%。正規近似との差・計算式・検証方法つき。現金は一切扱いません。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shoubu-lab.com/betting/kachikoshi">
+<meta property="og:site_name" content="GTO Coach">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"勝ち越し確率 計算｜100回賭けてプラスで終わる確率と損益の幅を厳密に計算","description":"「n回賭けて収支がプラスで終わる確率」と損益の幅を二項分布で厳密に計算できる無料の計算機。ヨーロピアンルーレット赤黒は100回で35.5%、1,000回で18.8%、5,000回で2.7%。正規近似との差・計算式・検証方法つき。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/betting/kachikoshi","inLanguage":"ja","datePublished":"2026-11-12T16:00:00+09:00","dateModified":"2026-11-12T16:00:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"ベッティングシステム検証室","item":"https://shoubu-lab.com/betting/"},{"@type":"ListItem","position":3,"name":"勝ち越し確率の計算機","item":"https://shoubu-lab.com/betting/kachikoshi"}]}</script>
+<link rel="stylesheet" href="/betting/app.css">
+<!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
+<script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
+<script src="/oc.js" defer></script>
+<style>
+/* === 勝負ラボ 共通ツールナビ (SL-TOOLS-NAV v1) === */
+.sl-tools{
+  --slt-ink:var(--text,var(--ink,var(--txt,var(--d-text,#eef2ff))));
+  --slt-sub:var(--sub,var(--ink-dim,var(--d-text-muted,#8b96c9)));
+  --slt-line:var(--border,var(--line,var(--d-line,#2a3566)));
+  --slt-acc:var(--gold,var(--warn,#ffd23e));
+  margin:32px 0 20px;padding:18px 0 2px;
+  border-top:1px solid var(--slt-line);
+}
+.sl-tools__lead{margin:0 0 12px;padding:0;font-size:16px;font-weight:700;line-height:1.3;color:var(--slt-acc);}
+.sl-tools__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.sl-tools__list li{margin:0;padding:0;}
+.sl-tools__list li::before{content:none;}
+.sl-tools a,.sl-tools .sl-tools__cur{
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  min-height:48px;padding:11px 14px;border-radius:12px;
+  border:1px solid var(--slt-line);background:rgba(0,0,0,.28);
+  color:var(--slt-ink);text-decoration:none;margin:0;
+}
+.sl-tools a:hover{border-color:var(--slt-acc);background:rgba(0,0,0,.45);}
+.sl-tools .sl-tools__cur{border-style:dashed;}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
+.sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
+@media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+</style>
+</head>
+<body class="bt2">
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/betting/">ベッティングシステム検証室</a> ／ 勝ち越し確率の計算機</div>
+<h1>勝ち越し確率の計算機<br>— 100回賭けて、プラスで終わるのは何%？</h1>
+<div class="notice">
+<b>このページについて</b>：確率の計算を確かめるための学習ツールです。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される数値はすべて計算上のもので、実際の金銭のやり取りは発生しません。
+オンラインカジノ等の紹介・誘導も行いません。賭けを勧めるページではありません。
+</div>
+<div class="lead">
+「期待値はマイナス」と聞いても、「でも今日は勝つかもしれない」と思うのは自然です。その<b>「今日は勝つかもしれない」が、何回賭けたらどれくらいの確率なのか</b>を数字にします。
+ゲームと賭け方と回数を入れるだけで、<b>プラスで終わる確率</b>と<b>収支の幅</b>を厳密に出します（近似式は使っていません）。
+</div>
+
+<h2 id="calc-heading">勝ち越し確率の計算機</h2>
+<p>ゲームと回数を選び、「計算する」を押してください。金額ではなく「賭け金1回分」を単位にしているので、いくらで賭けても同じ数字になります。
+結果は自動では消えません。条件を変えて何度でも計算できます。</p>
+<div class="sim calc">
+  <div id="calc-kachikoshi"></div>
+</div>
+
+<h2>3つの数字を取り違えない</h2>
+<p>「勝てるか」を考えるとき、実際には3つの違う数字が混ざって語られます。この計算機は3つとも出します。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">数字</th><th scope="col">意味</th><th scope="col">ヨーロピアン赤黒を1,000回賭けたとき</th></tr></thead>
+<tbody>
+<tr><td>① 期待収支</td><td>何度も繰り返したときの平均。「賭けた総額 × 控除率」だけ減る</td><td class="bad">平均 −27.0回分（1回あたり −2.70%）</td></tr>
+<tr><td>② 勝ち越す確率</td><td>1回きりの結果が、プラスで終わる確率</td><td>18.76%</td></tr>
+<tr><td>③ 収支の幅</td><td>平均のまわりに、結果がどれくらい散らばるか（標準偏差）</td><td>± 31.6回分（90%は −80〜＋24回分）</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
+<p>②が約19%あるので「5回に1回くらいは勝って帰れる」とも言えますが、①は同時にマイナスのままです。
+②は<b>「結果が散らばる」ことが生む数字</b>で、①は<b>「平均」の数字</b>です。散らばりが大きい短い回数ほど②は大きく見え、回数が増えて散らばりが平均に吸い込まれるほど②は小さくなります。</p>
+
+<h2>ヨーロピアンルーレット 赤/黒：回数ごとの勝ち越し確率</h2>
+<p>1回に勝つ確率は 18/37（約48.65%、緑の0が出たら負け）。毎回、賭け金1回分を赤か黒に賭けるとします。数字は上の計算機と同じ方法で出した厳密値です。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">賭ける回数</th><th scope="col">勝ち越す確率<br>（収支＞0）</th><th scope="col">収支が0以上</th><th scope="col">期待収支</th><th scope="col">90%が収まる範囲</th></tr></thead>
+<tbody>
+<tr><td>10回</td><td>34.42%</td><td>58.94%</td><td>−0.27回分</td><td>−6 〜 ＋4</td></tr>
+<tr><td>11回</td><td>46.35%</td><td>46.35%</td><td>−0.30回分</td><td>−5 〜 ＋5</td></tr>
+<tr><td>50回</td><td>36.95%</td><td>47.97%</td><td>−1.4回分</td><td>−12 〜 ＋10</td></tr>
+<tr><td>100回</td><td>35.53%</td><td>43.21%</td><td>−2.7回分</td><td>−20 〜 ＋14</td></tr>
+<tr><td>500回</td><td>25.80%</td><td>28.77%</td><td>−13.5回分</td><td>−50 〜 ＋24</td></tr>
+<tr><td>1,000回</td><td class="bad">18.76%</td><td>20.51%</td><td>−27.0回分</td><td>−80 〜 ＋24</td></tr>
+<tr><td>5,000回</td><td class="bad">2.71%</td><td>2.89%</td><td>−135.1回分</td><td>−252 〜 −18</td></tr>
+<tr><td>10,000回</td><td class="bad">0.33%</td><td>0.35%</td><td>−270.3回分</td><td>−434 〜 −106</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
+
+<h3>読み取れること</h3>
+<ul>
+<li><b>10回と11回で数字がガクッと違うのは誤りではありません。</b>赤黒は勝つと＋1、負けると−1なので、<b>偶数回だと「ちょうど収支0」で終わる</b>ことがあり、それは「勝ち越し（＞0）」に数えません。10回は収支0が24.5%もあります（「収支が0以上」の列で見ると58.94%）。</li>
+<li>勝ち越す確率が<b>20%を割るのは約894回、10%を割るのは約2,174回、1%を割るのは約7,332回</b>です。「回数を重ねるほど、勝って帰れる確率は静かに沈んでいく」のが、控除率2.70%の正体です。</li>
+<li>アメリカンルーレット（控除率5.26%）では沈み方が速く、<b>約554回で10%を割ります</b>（1,000回なら4.48%）。</li>
+<li>公正なコイン（控除率0）でも、勝ち越す確率はちょうど半分にはなりません。同じ「収支0」が出るため、100回で46.02%です。</li>
+</ul>
+
+<h2>賭け方でどう変わるか — 同じ控除率で、数字は大きく違う</h2>
+<p>ヨーロピアンルーレットは、赤黒でも、ダース（12個の数字・配当2:1）でも、1点賭け（配当35:1）でも、<b>控除率は同じ 2.70%</b> です。期待収支は同じなのに、勝ち越す確率と収支の幅は大きく変わります。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">賭け方</th><th scope="col">回数</th><th scope="col">勝ち越す確率</th><th scope="col">期待収支</th><th scope="col">90%が収まる範囲</th></tr></thead>
+<tbody>
+<tr><td>赤/黒（1:1）</td><td>100回</td><td>35.53%</td><td>−2.7回分</td><td>−20 〜 ＋14</td></tr>
+<tr><td>ダース（2:1）</td><td>100回</td><td>40.53%</td><td>−2.7回分</td><td>−25 〜 ＋20</td></tr>
+<tr><td>1点賭け（35:1）</td><td>100回</td><td>50.94%</td><td>−2.7回分</td><td>−100 〜 ＋116</td></tr>
+<tr><td>赤/黒（1:1）</td><td>1,000回</td><td>18.76%</td><td>−27.0回分</td><td>−80 〜 ＋24</td></tr>
+<tr><td>ダース（2:1）</td><td>1,000回</td><td>26.69%</td><td>−27.0回分</td><td>−100 〜 ＋47</td></tr>
+<tr><td>1点賭け（35:1）</td><td>1,000回</td><td>45.11%</td><td>−27.0回分</td><td>−316 〜 ＋296</td></tr>
+</tbody>
+</table>
+</div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
+<ul>
+<li><b>1点賭けを100回続けて勝ち越す確率は約51%と、赤黒よりずっと高い</b>です。ところが期待収支はどちらも −2.7回分で、変わりません。たまに大きく当たって、ほとんどの回で負ける形のため、<b>「勝ち越す確率」が高く見えるだけ</b>です。</li>
+<li>その代わり、1点賭けは <b>100回のうち約6.5%は1回も当たらず、収支が−100回分</b>になります（(36/37)<sup>100</sup>）。90%が収まる範囲が −100〜＋116 と広いのは、そのためです。</li>
+<li>つまり「勝ち越す確率が高い賭け方」は「得な賭け方」ではありません。<b>勝ち越す確率は、期待値の良し悪しを測る数字ではない</b>ことが、この表の結論です。</li>
+</ul>
+
+<h2>連敗・破産の計算機との使い分け</h2>
+<p>この計算機は「<b>最後に</b>プラスで終わっているか」を見ます。途中で資金が尽きる（破産する）かどうかは別の問題で、
+<a href="/betting/hasan">破産確率の計算機</a>で出せます。「何連敗まで耐えられるか」を知りたいなら
+<a href="/betting/renpai">連敗確率の計算機</a>です。倍々に賭ける<a href="/betting/martingale">マーチンゲール法</a>のように賭け金が変わる方法は、この計算機の前提（毎回同じ賭け金）には当てはまりません。</p>
+<div class="warn">
+<b>先に結論を書きます。</b>勝ち越す確率が何%であっても、賭け方や回数の選び方で期待値は変わりません。
+期待される損失は常に「賭けた総額 × 控除率」で、勝ち越す確率の計算は<b>結果のばらつきを知るためのもの</b>です。
+この計算機は「勝てる条件」を探すための道具ではありません。
+</div>
+
+<h2>計算式と方法論</h2>
+<h3>1｜モデル</h3>
+<p>1回の賭けは、確率 <i>p</i> で賭け金の <i>b</i> 倍を得る（配当 b:1）、確率 1−<i>p</i> で賭け金1回分を失う、の2通りだけとします。
+n回賭けたとき、勝った回数 W は二項分布に従い、収支（賭け金何回分か）は次の式です。</p>
+<div class="eq">
+収支 ＝ (b＋1) × W − n
+<span class="small">赤黒（b＝1）なら 収支 ＝ 2W − n。100回で W＝51 なら ＋2回分、W＝50 なら ちょうど 0</span>
+</div>
+<h3>2｜期待収支と標準偏差</h3>
+<div class="eq">
+期待収支 ＝ n × ( p × (b＋1) − 1 )　　標準偏差 ＝ (b＋1) × √( n × p × (1−p) )
+<span class="small">ヨーロピアン赤黒なら 1回あたり 18/37 × 2 − 1 ＝ −1/37（−2.70%）</span>
+</div>
+<h3>3｜勝ち越す確率（厳密値）</h3>
+<p>「収支＞0」を満たす最小の W 以上の確率を、二項分布の確率の足し合わせで出します。
+n = 100,000 回でも桁あふれしないよう、最頻値から両側へ漸化式で伸ばして最後に合計1へそろえています。近似はありません。</p>
+<h3>正規分布の近似とはどれくらい違うか</h3>
+<p>解説サイトの多くは、二項分布を正規分布で近似して「約◯%」と書きます。赤黒のように何度も当たる賭け方なら、近似はよく合います
+（赤黒1,000回で厳密 18.76%・正規近似 18.76%）。ところが<b>1点賭けのように当たりにくい賭け方では、近似が外れます</b>。
+ヨーロピアン1点賭け100回の勝ち越し確率は、厳密値 50.94%、正規近似 54.97% です。計算機の下には、いつも両方を並べて表示します。</p>
+<h3>検証のしかた</h3>
+<ul>
+<li><b>列挙との照合</b>：公正なコイン・配当2:1・ヨーロピアン1点賭けなどで、少ない回数の全パターンを数え上げた既知値（例：公正なコイン10回で勝ち越しは 386/1024、収支0以上は 638/1024）と一致することを自己テストに固定しています。本ページの末尾に <code>#selftest</code> を付けて開くと、ブラウザ上でその場で再実行できます。</li>
+<li><b>乱数との照合</b>：ヨーロピアン赤黒（100回・1,000回）、1点賭け（100回・370回）、ダース（200回）、アメリカン赤黒（5,000回）の6条件を各40,000セッション回し、勝ち越し・目標達成・損失の3つの確率が厳密値と1ポイント以内で一致することを確認しました（2026-11-12・開発時の実測）。</li>
+<li><b>前提</b>：各回は独立で、勝つ確率と配当は一定、毎回同じ賭け金。バカラは引き分けで賭け金が戻る（収支0）ため、この2通りモデルに当てはまらず、計算機の選択肢に入れていません。</li>
+</ul>
+
+<h2>よくある質問</h2>
+<h3>勝ち越す確率が50%に近い賭け方なら、期待値も悪くないのでは？</h3>
+<p>いいえ。上の表のとおり、ヨーロピアン1点賭けは100回で勝ち越す確率が約51%ですが、期待収支は赤黒と同じ −2.7回分です。
+勝ち越す確率は「大きく当たる回がどれだけ混ざるか」で動くので、期待値の良し悪しとは別の数字です。</p>
+<h3>10回や20回なら勝って帰れる、と言えますか？</h3>
+<p>確率の上では、勝つ日も普通にあります。ヨーロピアン赤黒10回で収支が0以上は約59%、50回でも約48%です。
+ただし、それは<b>期待値が良いからではなく、回数が少なくて結果が散らばっているから</b>です。回数が増えるほど、平均（マイナス）に引き寄せられます。</p>
+<h3>「収支が＋◯回分以上になる確率」は何に使えますか？</h3>
+<p>「目標」に届く確率を知る材料になります。たとえば赤黒100回で＋10回分以上は約12%です。
+ただし、途中で資金が尽きる可能性は含まれません。資金が尽きる確率は <a href="/betting/hasan">破産確率の計算機</a> で出せます。</p>
+
+<div class="related">
+  <b>ベッティングシステム検証室</b><br>
+  <a href="/betting/">検証室トップ</a>
+  <a href="/betting/martingale">マーチンゲール法</a>
+  <a href="/betting/renpai">連敗確率の計算機</a>
+  <a href="/betting/hasan">破産確率の計算機</a>
+  <a href="/betting/kachikoshi">勝ち越し確率の計算機</a>
+  <a href="/edge/">還元率ランキング</a>
+</div>
+
+<!-- SL-TOOLS-NAV v1 -->
+<nav class="sl-tools" aria-label="勝負ラボのツール">
+  <p class="sl-tools__lead">勝負ラボのツール</p>
+  <ul class="sl-tools__list">
+  <li><a href="https://shoubu-lab.com/" data-sl="gto"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">ポーカーの正解手を全ストリートで練習</span></a></li>
+  <li><a href="https://rule.shoubu-lab.com/" data-sl="rules"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・進行・用語をゼロから対人デビューまで</span></a></li>
+  <li><a href="https://bj.shoubu-lab.com/" data-sl="bj"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">ベーシックストラテジー＆カウンティング</span></a></li>
+  <li><span class="sl-tools__cur" aria-current="page"><span class="sl-tools__t">ベッティングシステム</span><span class="sl-tools__d">マーチンゲール法ほか5法の破綻を実測（いまここ）</span></span></li>
+  <li><a href="https://shoubu-lab.com/edge/" data-sl="edge"><span class="sl-tools__t">還元率ランキング</span><span class="sl-tools__d">控除率・期待値・ケリー基準の計算機</span></a></li>
+  <li><a href="https://shoubu-lab.com/koei/" data-sl="koei"><span class="sl-tools__t">公営競技の資金管理</span><span class="sl-tools__d">競馬・競艇で同じ手法を検証する</span></a></li>
+  <li><a href="https://shoubu-lab.com/hall/" data-sl="hall"><span class="sl-tools__t">ホールデータラボ</span><span class="sl-tools__d">城南8店の実測値と、外れた検証記録</span></a></li>
+  </ul>
+</nav>
+<script>
+/* SL-TOOLS-NAV v1: ツール間の回遊をGA4に送る */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('.sl-tools a[data-sl]'):null;
+  if(!a||typeof window.gtag!=='function')return;
+  window.gtag('event','tool_nav_click',{tool:a.getAttribute('data-sl'),from_host:location.hostname,link_url:a.href});
+},true);
+</script>
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+<script src="/betting/kachikoshi.js"></script>
+</body>
+</html>
