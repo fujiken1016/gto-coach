@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>ルーレットの偏りは何回で見抜ける？公正でも1,000回で最多の数字は約38回</title>
+<meta name="description" content="公正なルーレット（37ポケット）を1,000回回すと、平均27.0回のはずの数字が最多で約38回、最少で約17回になる。偏りを見抜くのに必要な回数（損益ゼロの偏りで約697,000回）を厳密に計算。現金は一切扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/betting/bias">
+<meta property="og:title" content="ルーレットの偏りは何回で見抜ける？公正でも1,000回で最多の数字は約38回">
+<meta property="og:description" content="公正なルーレット（37ポケット）を1,000回回すと、平均27.0回のはずの数字が最多で約38回、最少で約17回になる。偏りを見抜くのに必要な回数（損益ゼロの偏りで約697,000回）を厳密に計算。現金は一切扱いません。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shoubu-lab.com/betting/bias">
+<meta property="og:site_name" content="GTO Coach">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ルーレットの偏りは何回で見抜ける？公正でも1,000回で最多の数字は約38回","description":"公正なルーレット（37ポケット）を1,000回回すと、平均27.0回のはずの数字が最多で約38回、最少で約17回になる。偏りを見抜くのに必要な回数（損益ゼロの偏りで約697,000回）を厳密に計算。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/betting/bias","inLanguage":"ja","datePublished":"2026-11-13T16:40:00+09:00","dateModified":"2026-11-13T16:40:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"ベッティングシステム検証室","item":"https://shoubu-lab.com/betting/"},{"@type":"ListItem","position":3,"name":"ルーレットの偏りの検出","item":"https://shoubu-lab.com/betting/bias"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"公正なルーレットでも、特定の数字が多く出ることはありますか？","acceptedAnswer":{"@type":"Answer","text":"あります。37ポケットの公正なホイールを1,000回回すと、平均は27.0回です。ところが、最も多く出た数字は中央値で38回（90%の範囲で35〜44回）、最も少ない数字は中央値で17回（13〜20回）でした。"}},{"@type":"Question","name":"ホイールの偏りを見抜くには、何回のデータが必要ですか？","acceptedAnswer":{"@type":"Answer","text":"偏りの大きさしだいです。ある1つの数字が2倍出るほどの偏りでも約755回、+50%で約2,540回、+10%で約55,600回かかります（検出力80%・有意水準5%・37個のどれかを見つける設定）。"}},{"@type":"Question","name":"35:1の1点賭けが損益ゼロになる偏りは、何回で見抜けますか？","acceptedAnswer":{"@type":"Answer","text":"その数字が出る確率が1/37から1/36（約+2.78%）に増えた場合、見抜くのに約697,000回が必要です。1回転を1分と仮定すると約11,600時間です。"}},{"@type":"Question","name":"ルーレットの全部の数字が出るまで、何回かかりますか？","acceptedAnswer":{"@type":"Answer","text":"ヨーロピアン（37ポケット）なら、平均で約155回です（37×(1＋1/2＋…＋1/37)）。乱数での実測では、中央値147回、10%〜90%の範囲で107〜215回でした。"}}]}</script>
+<link rel="stylesheet" href="/betting/app.css">
+<!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
+<script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
+<script src="/oc.js" defer></script>
+<style>
+/* === 勝負ラボ 共通ツールナビ (SL-TOOLS-NAV v1) === */
+.sl-tools{
+  --slt-ink:var(--text,var(--ink,var(--txt,var(--d-text,#eef2ff))));
+  --slt-sub:var(--sub,var(--ink-dim,var(--d-text-muted,#8b96c9)));
+  --slt-line:var(--border,var(--line,var(--d-line,#2a3566)));
+  --slt-acc:var(--gold,var(--warn,#ffd23e));
+  margin:32px 0 20px;padding:18px 0 2px;
+  border-top:1px solid var(--slt-line);
+}
+.sl-tools__lead{margin:0 0 12px;padding:0;font-size:16px;font-weight:700;line-height:1.3;color:var(--slt-acc);}
+.sl-tools__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.sl-tools__list li{margin:0;padding:0;}
+.sl-tools__list li::before{content:none;}
+.sl-tools a,.sl-tools .sl-tools__cur{
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  min-height:48px;padding:11px 14px;border-radius:12px;
+  border:1px solid var(--slt-line);background:rgba(0,0,0,.28);
+  color:var(--slt-ink);text-decoration:none;margin:0;
+}
+.sl-tools a:hover{border-color:var(--slt-acc);background:rgba(0,0,0,.45);}
+.sl-tools .sl-tools__cur{border-style:dashed;}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
+.sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
+@media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+</style>
+<style>
+/* /betting/bias 専用（共通の app.css は変更しない） */
+.bt2 .notice,.bt2 .notice b,.bt2 .lead{font-size:14px}
+.bt2 .tablebox th{white-space:normal;vertical-align:bottom}
+.bt2 .tablebox td:first-child{white-space:normal;min-width:6.5em;max-width:11em}
+.bt2 .tablebox table{min-width:480px}
+.bt2 .tablebox table{font-size:14px}.bt2 .tablebox th{font-size:14px}
+.bt2 .scrollhint{font-size:14px}
+.fg{margin:14px 0 18px}.bg2{margin:0 0 12px}.bn2{margin:0 0 2px;font-weight:700;font-size:14.5px;color:#fff}
+.br2{display:flex;align-items:center;gap:8px;font-size:14px;line-height:1.7;color:#d6ddfa}
+.bl2{flex:0 0 4.6em;color:var(--sub)}.bt2x{flex:1;display:block;background:var(--panel2);border-radius:9999px;height:10px;overflow:hidden}
+.bt2x i{display:block;height:10px;border-radius:9999px;background:var(--cyan)}.bv2{flex:0 0 5.8em;text-align:right;font-variant-numeric:tabular-nums}
+.fg figcaption{color:var(--sub);font-size:14px;margin-top:6px;line-height:1.7}
+.bt2 h2,.bt2 h3,.bt2 .toc a{word-break:auto-phrase;text-wrap:pretty}
+.toc{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin:14px 0}
+.tocT{font-weight:700;margin:0 0 2px;color:#fff;font-size:14.5px}
+.toc ol{margin:0 0 0 20px}.toc li{margin:0}.toc a{display:inline-block;padding:13px 0;line-height:1.6;font-size:14.5px}
+.bt2 .crumb,.bt2 footer,.bt2 footer div,.bt2 .eq .small{font-size:14px}
+.bt2 .tablebox::before{content:"表は横にスクロールできます →";display:block;font-size:14px;line-height:1.8;color:var(--sub);padding:6px 10px 0}
+@media(min-width:640px){.bt2 .tablebox::before{display:none}}
+.bt2 .tnote{font-size:14px;color:var(--sub);margin:-4px 0 12px}
+.bt2 .tablebox th[scope=row]{text-align:left}
+</style>
+</head>
+<body class="bt2">
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/betting/">ベッティングシステム検証室</a> ／ ルーレットの偏りの検出</div>
+<h1>ルーレットの出目の偏りは、何回で見抜ける？<br>— 公正なホイールでも、1,000回で最多の数字は約38回</h1>
+<div class="notice">
+<b>このページについて</b>：確率の計算を確かめるための学習用の解説です。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される数値はすべて計算上のもので、オンラインカジノ等の紹介・誘導も行いません。賭けを勧めるページでも、偏りを探して勝つ方法を案内するページでもありません。
+</div>
+<div class="lead">
+ルーレットを何十回か眺めると、同じ数字が何度も出たり、まったく出ない数字があったりします。<b>それは「ホイールに偏りがある証拠」なのか、公正でも起こる散らばりなのか</b>を、数字で確かめます。
+公正な37ポケットのホイールで出目がどれくらい散らばるかと、本当に偏りがあるとき見抜くのに何回必要かを、厳密な確率と乱数で出しました。
+</div>
+
+<nav class="toc" aria-label="目次"><p class="tocT">目次</p><ol>
+<li><a href="#h-concl">先に結論です。</a></li>
+<li><a href="#h-fair">公正なホイールの出目は、どれくらい散らばるか</a></li>
+<li><a href="#h-hot">「ホットな数字」は、必ずどこかに現れる</a></li>
+<li><a href="#h-need">本当に偏っているとき、見抜くのに何回かかるか</a></li>
+<li><a href="#h-brk">損益ゼロになる偏りを見抜くには、約697,000回</a></li>
+<li><a href="#h-coupon">全部の数字が出るまで、何回かかるか</a></li>
+<li><a href="#h-how">計算式と方法論</a></li>
+<li><a href="#h-faq">よくある質問</a></li>
+<li><a href="#h-end">まとめと次の一歩</a></li>
+</ol></nav>
+
+<h2 id="h-concl">先に結論です。</h2>
+<ul>
+<li><b>公正でも、偏って見えます。</b>1,000回回すと、どの数字も平均27.0回のはずですが、最も多く出た数字は中央値で<b>38回</b>（90%の範囲で35〜44回）、最も少ない数字は<b>17回</b>（13〜20回）です。</li>
+<li>どれかの数字が、平均より標準偏差2つ分以上多く出る確率は、1,000回で約<b>64%</b>。回数を増やしても、約6割のまま下がりません。</li>
+<li>本当に偏った数字を見抜くのに必要な回数は、<b>その数字が2倍出るなら約755回、+50%なら約2,540回、+10%なら約55,600回</b>です。</li>
+<li>35:1の1点賭けが損益ゼロになる偏り（1/37→1/36、＋2.78%）を見抜くには、<b>約697,000回</b>。1回転を1分と仮定すると、約11,600時間です。</li>
+</ul>
+<p>※上の数字はすべて、乱数での実測と厳密な二項分布で出したものです。条件は、各回が独立・公正なヨーロピアン（37ポケット）、検出力80%・有意水準5%です。</p>
+
+<h2 id="h-fair">公正なホイールの出目は、どれくらい散らばるか</h2>
+<p>ヨーロピアンルーレットは0〜36の37ポケットです。公正なら、1回に1つの数字が出る確率は1/37（約2.70%）で、n回回すとどの数字も平均 n÷37 回出ます。ただし、実際の回数は平均のまわりに散らばります。公正なホイールを乱数で何万セットも回して、「最も多く出た数字」と「最も少ない数字」を数えました。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">回転数</th><th scope="col">1数字<br>平均</th><th scope="col">最多の数字<br>中央値（90%範囲）</th><th scope="col">最少の数字<br>中央値（90%範囲）</th><th scope="col">0回の数字<br>（平均）</th></tr></thead>
+<tbody><tr><td>37回</td><td>1.0回</td><td>4回（3〜5）</td><td>0回（0〜0）</td><td>13.43個</td></tr><tr><td>100回</td><td>2.7回</td><td>7回（5〜9）</td><td>0回（0〜1）</td><td>2.39個</td></tr><tr><td>370回</td><td>10.0回</td><td>17回（15〜20）</td><td>4回（2〜6）</td><td>0.00個</td></tr><tr><td>1,000回</td><td>27.0回</td><td>38回（35〜44）</td><td>17回（13〜20）</td><td>0.00個</td></tr><tr><td>3,700回</td><td>100.0回</td><td>121回（115〜131）</td><td>80回（72〜85）</td><td>0.00個</td></tr><tr><td>10,000回</td><td>270.3回</td><td>305回（295〜320）</td><td>237回（223〜246）</td><td>0.00個</td></tr><tr><td>100,000回</td><td>2702.7回</td><td>2811回（2780〜2858）</td><td>2595回（2550〜2626）</td><td>0.00個</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※ 公正なホイール（37ポケット）を乱数で回した実測。「1回も出ない数字」は 37×(36/37)<sup>n</sup> の厳密値です。</p>
+<ul>
+<li><b>100回では、1回も出ない数字が平均2.4個あります。</b>少なくとも1つの数字がまだ出ていない確率は93.6%（厳密値）です。</li>
+<li><b>370回（平均10回）でも、最多は17回、最少は4回。</b>最多の数字は、平均より70%多く出ます。</li>
+<li>回転数が増えると、平均に対する割合のずれは小さくなります。ただし、回数のずれ（最多−最少）は広がります。1,000回では最多と最少で21回、10,000回では68回の差です。</li>
+</ul>
+<figure class="fg"><div class="bg2"><p class="bn2">370回</p><div class="br2"><span class="bl2">最多</span><span class="bt2x"><i style="width:70.00%"></i></span><span class="bv2">+70.0%</span></div></div><div class="bg2"><p class="bn2">1,000回</p><div class="br2"><span class="bl2">最多</span><span class="bt2x"><i style="width:40.60%"></i></span><span class="bv2">+40.6%</span></div></div><div class="bg2"><p class="bn2">3,700回</p><div class="br2"><span class="bl2">最多</span><span class="bt2x"><i style="width:21.00%"></i></span><span class="bv2">+21.0%</span></div></div><div class="bg2"><p class="bn2">10,000回</p><div class="br2"><span class="bl2">最多</span><span class="bt2x"><i style="width:12.85%"></i></span><span class="bv2">+12.9%</span></div></div><div class="bg2"><p class="bn2">37,000回</p><div class="br2"><span class="bl2">最多</span><span class="bt2x"><i style="width:6.60%"></i></span><span class="bv2">+6.6%</span></div></div><div class="bg2"><p class="bn2">100,000回</p><div class="br2"><span class="bl2">最多</span><span class="bt2x"><i style="width:4.01%"></i></span><span class="bv2">+4.0%</span></div></div><figcaption>※公正なホイール（37ポケット）で、最も多く出た数字が平均より何%多いか（中央値）。バーは0〜100%（100%＝平均の2倍）。</figcaption></figure>
+<p>最多の数字は、1,000回で平均より約41%、10,000回でも約13%多く出ます。「出方が偏って見える」こと自体は、公正なホイールの普通の姿です。</p>
+
+<h2 id="h-hot">「ホットな数字」は、必ずどこかに現れる</h2>
+<p>37個の数字のうち、1つでも平均から大きく外れる確率を考えます。1つの数字の回数の標準偏差は √(n×(1/37)×(36/37)) です。1,000回なら約5.1回なので、平均より2σ多いのは約37回以上の数字です。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">回転数</th><th scope="col">どれかが<br>＋2σ以上</th><th scope="col">どれかが<br>＋3σ以上</th><th scope="col">χ²検定で<br>「偏りあり」</th></tr></thead>
+<tbody><tr><td>370回</td><td>64.7%</td><td>10.7%</td><td>5.0%</td></tr><tr><td>1,000回</td><td>64.1%</td><td>8.6%</td><td>4.9%</td></tr><tr><td>3,700回</td><td>66.1%</td><td>7.1%</td><td>5.0%</td></tr><tr><td>10,000回</td><td>63.4%</td><td>6.6%</td><td>5.1%</td></tr><tr><td>37,000回</td><td>60.9%</td><td>5.6%</td><td>5.0%</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※ 公正なホイールを乱数で回した実測（各2万〜10万セット）。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">370回</p><div class="br2"><span class="bl2">2σ以上</span><span class="bt2x"><i style="width:64.68%"></i></span><span class="bv2">64.7%</span></div></div><div class="bg2"><p class="bn2">1,000回</p><div class="br2"><span class="bl2">2σ以上</span><span class="bt2x"><i style="width:64.07%"></i></span><span class="bv2">64.1%</span></div></div><div class="bg2"><p class="bn2">3,700回</p><div class="br2"><span class="bl2">2σ以上</span><span class="bt2x"><i style="width:66.12%"></i></span><span class="bv2">66.1%</span></div></div><div class="bg2"><p class="bn2">10,000回</p><div class="br2"><span class="bl2">2σ以上</span><span class="bt2x"><i style="width:63.43%"></i></span><span class="bv2">63.4%</span></div></div><div class="bg2"><p class="bn2">37,000回</p><div class="br2"><span class="bl2">2σ以上</span><span class="bt2x"><i style="width:60.91%"></i></span><span class="bv2">60.9%</span></div></div><div class="bg2"><p class="bn2">100,000回</p><div class="br2"><span class="bl2">2σ以上</span><span class="bt2x"><i style="width:60.20%"></i></span><span class="bv2">60.2%</span></div></div><figcaption>※どれかの数字が、平均より標準偏差2つ分以上多く出る確率。公正なホイールでも回数を増やして変わらない。バーは0〜100%。</figcaption></figure>
+<ul>
+<li><b>「どれかの数字が＋2σ」は、公正でも約6割で起きます。</b>37個もあるので、1つくらいは外れるのが普通です。1,000回なら約64%、＋3σでも約9%です。</li>
+<li>全体を1回で判定するχ²検定は、公正なホイールで「偏りあり」と出る確率が、設計どおり約5%（実測で4.8〜5.4%）です。1つの数字だけを見る判定と、37個全部を見る判定は、別物です。</li>
+<li>「直近の数十回で、この数字が多い」だけでは、偏りの証拠になりません。公正でも、よく起きます。</li>
+</ul>
+
+<h2 id="h-need">本当に偏っているとき、見抜くのに何回かかるか</h2>
+<p>逆に、ホイールのある1つの数字だけが、本当に出やすいとします。その数字が出る確率を1/37の（1＋d）倍にしたとき、「見抜ける」確率（検出力）が80%になるのに必要な回転数を計算しました。見抜く基準は、公正なホイールで間違って偏りと判定する確率を5%以内にする設定です。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">偏りの<br>大きさ</th><th scope="col">その数字が<br>出る確率</th><th scope="col">必要な回転数<br>（37個から探す）</th><th scope="col">必要な回転数<br>（χ²検定）</th></tr></thead>
+<tbody><tr><td>＋100%</td><td>1/18.5</td><td>755回</td><td>951回</td></tr><tr><td>＋50%</td><td>1/24.7</td><td>2,539回</td><td>3,803回</td></tr><tr><td>＋20%</td><td>1/30.8</td><td>14,477回</td><td>23,775回</td></tr><tr><td>＋10%</td><td>1/33.6</td><td>55,589回</td><td>95,077回</td></tr><tr><td>＋5%</td><td>1/35.2</td><td>217,207回</td><td>380,285回</td></tr><tr><td>＋2.78%（35:1の1点賭けが損益ゼロになる値）</td><td>1/36.0</td><td class="bad">697,144回</td><td>1,232,155回</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※ 条件：偏った数字は1つだけ・他の36個は均等・各回は独立。検出力80%・有意水準5%。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">＋100%（出る確率 5.41%）</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:46.60%"></i></span><span class="bv2">755回</span></div></div><div class="bg2"><p class="bn2">＋50%（出る確率 4.05%）</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:55.13%"></i></span><span class="bv2">2,539回</span></div></div><div class="bg2"><p class="bn2">＋20%（出る確率 3.24%）</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:67.37%"></i></span><span class="bv2">14,477回</span></div></div><div class="bg2"><p class="bn2">＋10%（出る確率 2.97%）</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:76.83%"></i></span><span class="bv2">55,589回</span></div></div><div class="bg2"><p class="bn2">＋5%（出る確率 2.84%）</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:86.41%"></i></span><span class="bv2">217,207回</span></div></div><div class="bg2"><p class="bn2">＋2.78%（出る確率 2.78%）</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:94.61%"></i></span><span class="bv2">697,144回</span></div></div><figcaption>※偏った数字を見抜くのに必要な回転数（検出力80%・37個のどれかを見つける設定）。バーの長さは対数目盛り（右ほど桁が大きい）。</figcaption></figure>
+<ul>
+<li><b>数字が2倍出る（確率1/18.5）ほどの大きな偏りでも、約755回</b>の観察が要ります。</li>
+<li><b>偏りが半分になるごとに、必要な回数は3.4〜3.9倍</b>になります（＋100%→＋50%が3.4倍、＋20%→＋10%が3.8倍、＋10%→＋5%が3.9倍）。</li>
+<li>どの数字が偏っているか事前に分からず、37個のどれかを探すと、1つに決めて調べるより回数が増えます（37回の検定のぶん、基準を厳しくするため）。</li>
+</ul>
+
+<h2 id="h-brk">損益ゼロになる偏りを見抜くには、約697,000回</h2>
+<p>ヨーロピアンの1点賭けは、当たると賭け金の35倍が儲けとして加わり（賭け金は戻る）、外れると賭け金を失います（配当35:1）。1回あたりの期待収支は、当たる確率を p として 36×p − 1 です。p＝1/37なら −1/37（−2.70%）、p＝1/36なら、ちょうど0になります。つまり、その数字が出る確率が<b>1/37から1/36へ、約＋2.78%</b>増えて、ようやく損益ゼロです。</p>
+<div class="eq">
+損益ゼロの確率 ＝ 1／36　（公正は 1／37）
+<span class="small">増えた割合 ＝ 37／36 − 1 ＝ ＋2.78%　／　期待収支 ＝ 36×p − 1</span>
+</div>
+<p>この偏りを、見抜く確率80%で見つけるのに必要な回数が、約<b>697,000回</b>です（全体のχ²検定なら約1,230,000回）。乱数で実際にこの偏りのホイールを697,144回ずつ600セット回すと、見抜けたのは80%で、計算どおりでした。</p>
+<ul>
+<li><b>1回転を1分と仮定すると、697,000回は約11,600時間</b>、24時間回し続けても約1.3年です（1分は筆者の仮定で、実測値ではありません）。</li>
+<li>見抜いただけでは、ようやく損益ゼロです。控除率2.70%を逆転させるには、これより大きな偏りが必要です。</li>
+<li>理想のモデル（各回が独立で、確率が一定）での計算です。実際のホイールの癖や、オンラインの乱数の作り方は、この計算の外にあります。</li>
+</ul>
+
+<h2 id="h-coupon">全部の数字が出るまで、何回かかるか</h2>
+<p>「37個の数字が1回ずつは出るまで」の回数は、平均で 37×(1＋1/2＋…＋1/37) ＝ 約<b>155.5回</b>です。乱数で2万回数えると、中央値147回、10%〜90%の範囲は107〜215回でした。</p>
+<ul>
+<li><b>37回回しても、全部は出ません。</b>37回で出ない数字の平均は13.4個です。</li>
+<li>370回回しても、まだ出ていない数字がある確率は約0.15%（厳密値）あります。</li>
+<li>アメリカン（38ポケット）は、最多の数字が1,000回で中央値38回、最少が16回（乱数5万セット）と、ヨーロピアンとほぼ同じ形です。</li>
+</ul>
+
+<h2 id="h-how">計算式と方法論</h2>
+<h3>1｜モデル</h3>
+<p>各回の出目は、37通りが等確率（1/37）で、互いに独立とします。n回での各数字の回数は、多項分布に従います。1つの数字の回数 X は二項分布 B(n, 1/37) で、平均 n/37、標準偏差 √(n×(1/37)×(36/37)) です。</p>
+<h3>2｜公正なホイールの散らばり</h3>
+<p>乱数（NumPyの多項分布、固定シード）で、各回転数ごとに2万〜10万セットを回し、最多・最少の回数と、＋2σ以上の数字の有無、χ²統計量（自由度36）を数えました。「1回も出ない数字」の平均と、「少なくとも1つ出ていない確率」は、式で出した厳密値です（包除原理）。</p>
+<h3>3｜偏りの検出に必要な回数</h3>
+<p>偏った数字の確率を (1＋d)/37、他の36個を均等とします。「37個のどれかを見つける」判定は、事前にどの数字か決めずに探すので、有意水準5%を37で割った0.135%の二項検定（片側・厳密）を使います。検出力が80%以上になる最小の回転数は、二分探索で求めました。全体のχ²検定は、非心カイ二乗分布で見積もっています（近似式）。</p>
+<h3>検証のしかた</h3>
+<ul>
+<li><b>乱数との照合（二項検定）</b>：計算した必要回数で、偏りのあるホイールを乱数で2,000セット回しました。見抜けた割合は81%（＋100%）・82%（＋50%）・80%（＋20%）・81%（＋10%）でした（目標80%）。損益ゼロの偏りは600セットで80%です。</li>
+<li><b>乱数との照合（χ²検定）</b>：同じく見抜けた割合は74〜80%で、近似式の想定（80%）よりやや低く、回数が少ないほど差が出ます。表のχ²の回数は目安として読んでください。</li>
+<li><b>偏りのないホイール</b>：χ²検定で「偏りあり」と出る確率は、全回転数で約5%（4.8〜5.4%）で、設計どおりでした。</li>
+<li><b>別シードでの再現</b>：最多の数字の中央値は、370回で17回・1,000回で38回・3,700回で121回で、本表と一致しました。</li>
+</ul>
+<p>他の記事との違い：ルーレットの勝ち越し確率の解説（Flying Colours Maths、2026年11月13日に確認）は、赤に賭け続けた損益が主題で、出目の偏りの検出は扱っていません。カイ二乗検定の解説（MetricGate、同日確認）は、サイコロなどが例で、ルーレットの回数の目安はありません。日本語で、公正なホイールの出目の散らばりと、偏りの検出に必要な回数を数字で出した記事は、検索した範囲では見つかりませんでした（網羅的な調査ではありません）。取得できなかった資料：NCC Group の調査記事（HTTP 403）。</p>
+
+<h2 id="h-faq">よくある質問</h2>
+<h3>公正なルーレットでも、特定の数字が多く出ることはありますか？</h3>
+<p>あります。37ポケットの公正なホイールを1,000回回すと、平均は27.0回です。ところが、最も多く出た数字は中央値で38回（90%の範囲で35〜44回）、最も少ない数字は中央値で17回（13〜20回）でした。</p>
+<h3>ホイールの偏りを見抜くには、何回のデータが必要ですか？</h3>
+<p>偏りの大きさしだいです。ある1つの数字が2倍出るほどの偏りでも約755回、+50%で約2,540回、+10%で約55,600回かかります（検出力80%・有意水準5%・37個のどれかを見つける設定）。</p>
+<h3>35:1の1点賭けが損益ゼロになる偏りは、何回で見抜けますか？</h3>
+<p>その数字が出る確率が1/37から1/36（約+2.78%）に増えた場合、見抜くのに約697,000回が必要です。1回転を1分と仮定すると約11,600時間です。</p>
+<h3>ルーレットの全部の数字が出るまで、何回かかりますか？</h3>
+<p>ヨーロピアン（37ポケット）なら、平均で約155回です（37×(1＋1/2＋…＋1/37)）。乱数での実測では、中央値147回、10%〜90%の範囲で107〜215回でした。</p>
+
+<h2 id="h-end">まとめと次の一歩</h2>
+<ul>
+<li>公正なホイールでも、1,000回で最多の数字は約38回、最少は約17回（平均27回）と、散らばります。</li>
+<li>本当の偏りを見抜くには、数字が2倍出るほどでも約755回。損益ゼロの偏りなら約697,000回です。</li>
+<li>数十〜数百回の「偏り」は、偏りの証拠になりません。</li>
+</ul>
+<p>次の1アクションは、<a href="/betting/kachikoshi">勝ち越し確率の計算機</a>で、同じ回数（100回・1,000回）のときの勝ち越し確率と収支の幅を見て、「たまたま勝つ」が何回までありうるかを確かめることです。</p>
+
+<div class="related">
+  <b>ベッティングシステム検証室</b><br>
+  <a href="/betting/">検証室トップ</a>
+  <a href="/betting/kachikoshi">勝ち越し確率の計算機</a>
+  <a href="/betting/renpai">連敗確率の計算機</a>
+  <a href="/betting/hasan">破産確率の計算機</a>
+  <a href="/betting/martingale">マーチンゲール法</a>
+  <a href="/edge/">還元率ランキング</a>
+</div>
+
+<!-- SL-TOOLS-NAV v1 -->
+<nav class="sl-tools" aria-label="勝負ラボのツール">
+  <p class="sl-tools__lead">勝負ラボのツール</p>
+  <ul class="sl-tools__list">
+  <li><a href="https://shoubu-lab.com/" data-sl="gto"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">ポーカーの正解手を全ストリートで練習</span></a></li>
+  <li><a href="https://rule.shoubu-lab.com/" data-sl="rules"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・進行・用語をゼロから対人デビューまで</span></a></li>
+  <li><a href="https://bj.shoubu-lab.com/" data-sl="bj"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">ベーシックストラテジー＆カウンティング</span></a></li>
+  <li><span class="sl-tools__cur" aria-current="page"><span class="sl-tools__t">ベッティングシステム</span><span class="sl-tools__d">マーチンゲール法ほか5法の破綻を実測（いまここ）</span></span></li>
+  <li><a href="https://shoubu-lab.com/edge/" data-sl="edge"><span class="sl-tools__t">還元率ランキング</span><span class="sl-tools__d">控除率・期待値・ケリー基準の計算機</span></a></li>
+  <li><a href="https://shoubu-lab.com/koei/" data-sl="koei"><span class="sl-tools__t">公営競技の資金管理</span><span class="sl-tools__d">競馬・競艇で同じ手法を検証する</span></a></li>
+  <li><a href="https://shoubu-lab.com/hall/" data-sl="hall"><span class="sl-tools__t">ホールデータラボ</span><span class="sl-tools__d">城南8店の実測値と、外れた検証記録</span></a></li>
+  </ul>
+</nav>
+<script>
+/* SL-TOOLS-NAV v1: ツール間の回遊をGA4に送る */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('.sl-tools a[data-sl]'):null;
+  if(!a||typeof window.gtag!=='function')return;
+  window.gtag('event','tool_nav_click',{tool:a.getAttribute('data-sl'),from_host:location.hostname,link_url:a.href});
+},true);
+</script>
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

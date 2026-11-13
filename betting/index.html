@@ -76,7 +76,7 @@
 <ul>
 <li><b>マーチンゲール法の計算・シミュレーション</b>：下の表で賭け金の増え方を確認し、<a href="/betting/martingale">マーチンゲール法シミュレーションのページ</a>で破産確率・必要資金を出せます。</li>
 <li><b>5つの賭け方を並べて試す</b>：<a href="#sim-heading">このページ下のシミュレーター</a>（モンテカルロ・ダランベール・パーレー・ココモも切り替え可）。</li>
-<li><b>連敗・破産・勝ち越しの確率だけ知りたい</b>：<a href="/betting/renpai">連敗確率の計算機</a>／<a href="/betting/hasan">破産確率の計算機</a>／<a href="/betting/kachikoshi">勝ち越し確率の計算機</a>。</li>
+<li><b>連敗・破産・勝ち越しの確率だけ知りたい</b>：<a href="/betting/renpai">連敗確率の計算機</a>／<a href="/betting/hasan">破産確率の計算機</a>／<a href="/betting/kachikoshi">勝ち越し確率の計算機</a>／<a href="/betting/bias">ルーレットの偏りは何回で見抜けるか</a>。</li>
 </ul>
 <p><b>マーチンゲール法の賭け金の計算</b>：基本賭け金を1として、k回連敗した次の賭け金は 2<sup>k</sup>、そこまでの累計損失は 2<sup>k</sup>−1 です。k回負けたあとに勝てば、いつも利益は基本賭け金1つ分だけです。</p>
 <div class="tablebox">
@@ -190,6 +190,12 @@ E[収支] ＝ −（控除率） × E[総ベット額]
     <span class="tag mid">「今日は勝てるかも」を数字に</span><span class="tag">厳密計算</span>
     <p>「n回賭けてプラスで終わる確率」と損益の幅を出します。ヨーロピアン赤黒は100回で35.5%、1,000回で18.8%。</p>
     <a class="go" href="/betting/kachikoshi">勝ち越し確率を計算する ▸</a>
+  </div>
+  <div class="card">
+    <h3>ルーレットの偏りは何回で見抜ける？</h3>
+    <span class="tag mid">「出目が偏っている」は本当か</span><span class="tag">厳密計算</span>
+    <p>公正なホイールでも、1,000回で最多の数字は約38回（平均27回）。偏りを見抜くのに必要な回数を、偏りの大きさ別に出します。</p>
+    <a class="go" href="/betting/bias">偏りの検出を読む ▸</a>
   </div>
 </div>
 
