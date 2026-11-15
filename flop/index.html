@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#101018">
-<title>フロップ早見盤｜板ごとの打つ頻度を一覧で見る｜勝負ラボ</title>
-<meta name="description" content="フロップの板ごとに、先に打つ側の頻度と受ける側の応手を13×13のグリッドで見られる早見盤の入口ページ。前提条件（人数・スタック・簡略木）を明記。GTO Coachで無料練習もできます。">
+<title>フロップのCベット頻度早見表｜BTN対BBの代表7枚をソルバーで解いた結果｜勝負ラボ</title>
+<meta name="description" content="BTN対BB（シングルレイズドポット・100bb）の代表フロップ7枚を、ソルバーで解いたCベット頻度・サイズ・チェックレイズ率の表。乾いた板とつながった板で何が変わるか、MDFより降りてよい理由まで。前提条件を明記。">
 <link rel="canonical" href="https://shoubu-lab.com/flop/">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="勝負ラボ">
-<meta property="og:title" content="フロップ早見盤｜板ごとの打つ頻度を一覧で見る">
-<meta property="og:description" content="先に打つ側の頻度と受ける側の応手を13×13のグリッドで。前提条件を明記した、ポーカー学習ツールの入口ページ。">
+<meta property="og:title" content="フロップのCベット頻度早見表｜BTN対BBの代表7枚">
+<meta property="og:description" content="代表フロップ7枚をソルバーで解いた、Cベット頻度・サイズ・チェックレイズ率の表。前提条件を明記。">
 <meta property="og:url" content="https://shoubu-lab.com/flop/">
 <!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
 <script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
@@ -64,10 +64,24 @@ h1{font-size:2rem;line-height:1.4;font-weight:700;margin:12px 0}
 .shot-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .chip{display:inline-block;padding:4px 12px;border-radius:9999px;background:var(--surface2);font-size:14px;color:var(--muted)}
 .chip.on{background:var(--primary);color:#0b1a12;font-weight:700}
-.grid{display:grid;grid-template-columns:repeat(13,1fr);gap:2px}
-.grid i{display:block;aspect-ratio:1;border-radius:4px;background:var(--surface2)}
-.grid i.r{background:#e5344f}.grid i.c{background:#2f7ff7}.grid i.m{background:#d99b1d}.grid i.f{background:#39415f}
 .cap{font-size:14px;color:var(--muted);margin-top:8px}
+/* 実データの横棒（ヒーロー右）と表。スートは4色（GTO Wizard・PokerStars の4カラーデッキ） */
+.shot-h{font-size:14px;font-weight:700;color:var(--muted);margin-bottom:8px}
+.bars{list-style:none;display:grid;gap:8px}
+.bars li{display:grid;grid-template-columns:5.2em minmax(0,1fr) 3.6em;align-items:center;gap:8px}
+.bd{font-weight:700;font-size:16px;letter-spacing:.02em;white-space:nowrap}
+.bar{display:block;height:14px;border-radius:7px;background:var(--surface2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--primary);border-radius:7px}
+.v{font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
+b.s{color:#e6e6ef}b.h{color:#ff6b7d}b.d{color:#6aa8ff}b.c{color:#3ddc97}
+b.s,b.h,b.d,b.c{font-weight:700}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+.tbl th,.tbl td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.tbl thead th{color:var(--muted);font-weight:700;background:var(--surface);line-height:1.4;vertical-align:bottom}
+.tbl th[scope=row],.tbl thead th:first-child{text-align:left;font-size:16px}
+.tbl tbody tr:last-child>*{border-bottom:0}
+.tbl em{font-style:normal;color:var(--gold);font-weight:700}
 
 /* 日本語の改行：見出しは文節で割ってバランス、本文は孤立文字を避ける（単語途中では割らない） */
 h1,h2,h3,.cap,.note,.lead,.cond li,.sl-tools__d,.band p,.card p{word-break:auto-phrase;line-break:strict}
@@ -141,55 +155,72 @@ footer .links{margin:0 -8px}
   <div class="wrap">
     <div>
       <p class="eyebrow">無料・登録不要</p>
-      <h1>フロップ早見盤<br><span class="ph">板ごとの打つ頻度を、</span><span class="ph">一覧で見る</span></h1>
-      <p class="lead">先に打つ側のベット頻度と、受ける側の降り・コール・レイズを、13×13のグリッドで確認できます。ソルバーの計算結果を、スマホで引ける形にしました。</p>
+      <h1>フロップ早見盤<br><span class="ph">Cベットの頻度を、</span><span class="ph">板ごとに見る</span></h1>
+      <p class="lead">BTNのオープンにBBがコールしたポット（100bb）で、代表的なフロップ7枚をソルバーで解きました。BTNが何%打つか・どのサイズか・BBがどれだけ降りてチェックレイズするかを、そのまま表にしています。</p>
       <div class="cta-row">
-        <a class="btn btn-primary btn-lg" href="/?from=flop-hero">GTO Coachで練習する</a>
+        <a class="btn btn-primary btn-lg" href="#table">7枚の表を見る</a>
         <a class="btn btn-ghost btn-lg" href="#cond">前提条件を見る</a>
       </div>
-      <p class="note">早見盤本体は公開準備中です。100bb・6人卓・レーキなし・ヘッズアップのポットが前提です（下の「条件」を参照）。</p>
+      <p class="note">100bb・6人卓・レーキなし・2人のポットが前提です（下の「条件」を参照）。全フロップを引ける版は準備中です。</p>
     </div>
-    <div class="shot" aria-hidden="true">
-      <div class="shot-bar"><span class="chip on">フロップ頻度</span><span class="chip">手の強さ別</span><span class="chip">ターン札別</span></div>
-      <div class="grid" id="g"></div>
-      <p class="cap">イメージ図です。実際の数値ではありません</p>
+    <div class="shot">
+      <p class="shot-h">BTNのCベット（合計）</p>
+      <ul class="bars" aria-label="板ごとのBTNのCベット頻度">
+        <li><span class="bd">K<b class="s">♠</b>7<b class="d">♦</b>2<b class="c">♣</b></span><span class="bar"><i style="width:79.5%"></i></span><span class="v">79.5%</span></li>
+        <li><span class="bd">8<b class="h">♥</b>6<b class="d">♦</b>2<b class="c">♣</b></span><span class="bar"><i style="width:74.3%"></i></span><span class="v">74.3%</span></li>
+        <li><span class="bd">Q<b class="s">♠</b>J<b class="h">♥</b>4<b class="s">♠</b></span><span class="bar"><i style="width:70.9%"></i></span><span class="v">70.9%</span></li>
+        <li><span class="bd">5<b class="s">♠</b>5<b class="h">♥</b>3<b class="d">♦</b></span><span class="bar"><i style="width:60.9%"></i></span><span class="v">60.9%</span></li>
+        <li><span class="bd">A<b class="s">♠</b>8<b class="d">♦</b>3<b class="c">♣</b></span><span class="bar"><i style="width:60.5%"></i></span><span class="v">60.5%</span></li>
+        <li><span class="bd">T<b class="s">♠</b>9<b class="h">♥</b>7<b class="s">♠</b></span><span class="bar"><i style="width:52.5%"></i></span><span class="v">52.5%</span></li>
+        <li><span class="bd">J<b class="s">♠</b>7<b class="s">♠</b>3<b class="s">♠</b></span><span class="bar"><i style="width:51.1%"></i></span><span class="v">51.1%</span></li>
+      </ul>
+      <p class="cap">ソルバーで解いた実際の数値です（BTN対BB・100bb）。</p>
     </div>
   </div>
 </div>
 
-<!-- 2. できること：3つ並べる（GTO Wizard の Study / Practice / Analyze と同じ型） -->
-<section>
+<!-- 2. 実データの表（GTO Wizard の Aggregated Reports と同じ「板ごとの頻度を1枚で」の型） -->
+<section id="table">
   <div class="wrap">
-    <h2>早見盤でできること</h2>
-    <p class="sub">板を選ぶと、3つの見方で見られる作りです。公開準備中のため、いまは下の内容の紹介のみです。</p>
-    <div class="cards three">
-      <div class="card"><h3>フロップの打つ頻度</h3><p>板の型ごとに、先に打つ側がどのサイズをどれだけ使うかを見ます。</p></div>
-      <div class="card"><h3>手の強さ別</h3><p>ナッツ級からエアまで10区分に分けて、手ごとの動きを見ます。</p></div>
-      <div class="card"><h3>ターンの札別</h3><p>次のカードが変わると、頻度がどう動くかをヒートマップで見ます。</p></div>
+    <h2>代表7枚の表：BTNのCベットとBBの応手</h2>
+    <p class="sub">BTNが2.5bbでオープンし、BBがコールしたポット（5.5bb）。BTNのベットは33%と75%の2サイズです。</p>
+    <div class="tbl-wrap" role="region" aria-label="代表7枚の表" tabindex="0">
+      <table class="tbl">
+        <thead><tr><th scope="col">板</th><th scope="col">Cベット<br>合計</th><th scope="col">33%<br>／75%</th><th scope="col">33%に対するBB<br>降り／コール／CR</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">K<b class="s">♠</b>7<b class="d">♦</b>2<b class="c">♣</b></th><td>79.5%</td><td>79.2／0.3</td><td>34.1／46.5／<em>19.4</em></td></tr>
+          <tr><th scope="row">8<b class="h">♥</b>6<b class="d">♦</b>2<b class="c">♣</b></th><td>74.3%</td><td>36.1／38.2</td><td>30.5／54.8／14.7</td></tr>
+          <tr><th scope="row">Q<b class="s">♠</b>J<b class="h">♥</b>4<b class="s">♠</b></th><td>70.9%</td><td>53.0／17.9</td><td>40.9／46.3／12.8</td></tr>
+          <tr><th scope="row">5<b class="s">♠</b>5<b class="h">♥</b>3<b class="d">♦</b></th><td>60.9%</td><td>34.2／26.7</td><td>36.6／41.9／<em>21.5</em></td></tr>
+          <tr><th scope="row">A<b class="s">♠</b>8<b class="d">♦</b>3<b class="c">♣</b></th><td>60.5%</td><td>57.5／3.0</td><td>39.0／48.1／12.9</td></tr>
+          <tr><th scope="row">T<b class="s">♠</b>9<b class="h">♥</b>7<b class="s">♠</b></th><td>52.5%</td><td>9.7／42.8</td><td>35.0／50.7／14.3</td></tr>
+          <tr><th scope="row">J<b class="s">♠</b>7<b class="s">♠</b>3<b class="s">♠</b></th><td>51.1%</td><td>17.7／33.4</td><td>34.5／55.3／10.2</td></tr>
+        </tbody>
+      </table>
     </div>
+    <p class="cap">CR＝チェックレイズ。BBが先にベットする（ドンク）のは5♠5♥3♦の4.7%だけで、ほかはほぼ0%でした。</p>
   </div>
 </section>
 
-<!-- 3. 読み方の記事3本（GTO Wizard の blog：用語ごとに独立記事・本文から相互リンク） -->
+<!-- 3. 読み方（準備中だった記事3本の結論を、先にこのページで出す） -->
 <section>
   <div class="wrap">
-    <h2>読み方の解説（順次公開）</h2>
-    <p class="sub">数字の意味を先に知っておくと、早見盤が速く読めます。3本を準備しています。</p>
+    <h2>この表から分かる3つのこと</h2>
     <div class="cards three">
       <div class="card">
-        <span class="tag">準備中 ・ 基礎 ・ 約6分</span>
-        <h3>cベットとは？打つ頻度は「板の型」で決まる</h3>
-        <p>ドライ・ペアド・ウェットの3分類で、フロップの打つ頻度の目安を押さえます。</p>
+        <span class="tag">Cベットのサイズ</span>
+        <h3>乾いた高い板は小さく、つながった板は大きく</h3>
+        <p>K72・A83・QJ4は33%が中心。T97は75%が中心で、862は2サイズが半々でした。Cベット全体は51〜80%で、どの板でも「毎回打つ」にはなりません。</p>
       </div>
       <div class="card">
-        <span class="tag">準備中 ・ 応用 ・ 約7分</span>
-        <h3>チェックレイズ率とMDF：受ける側はどれだけ守るか</h3>
-        <p>降りすぎ・守りすぎの境目を、MDFとソルバーの数字で並べて見ます。</p>
+        <span class="tag">チェックレイズとMDF</span>
+        <h3>BBはMDFより多く降りてよい</h3>
+        <p>33%のベットに対するMDF（最低限守る割合）から出る降りは25%ですが、ソルバーのBBは30〜41%降りています。BTNのベットする手にも勝ち目があるためです。チェックレイズは10〜22%（中央値14%）。</p>
       </div>
       <div class="card">
-        <span class="tag">準備中 ・ 道具選び ・ 約5分</span>
-        <h3>GTOソルバーは無料で使える？できること・できないこと</h3>
-        <p>無料で触れる道具の範囲と、早見盤の使いどころを整理します。</p>
+        <span class="tag">数字の使い方</span>
+        <h3>小数点まで覚えなくていい</h3>
+        <p>覚えるのは「板の型でサイズが変わる」「乾いた板ほどよく打つ」の2つで十分です。ターンとリバーにレイズの無い簡略な木で解いたので、チェックレイズは実際より少し多めに出ています。</p>
       </div>
     </div>
   </div>
@@ -213,9 +244,10 @@ footer .links{margin:0 -8px}
     <p class="sub">数字は、次の前提で計算した結果です。</p>
     <ul class="cond">
       <li><b>人数</b>　ヘッズアップのポット（2人）。3人以上の局面は含みません。</li>
-      <li><b>スタック</b>　100bb。レーキなし。</li>
-      <li><b>ベットの木</b>　サイズを絞った簡略版。</li>
-      <li><b>板</b>　代表の板を解いたもの。未計算の板は、同じ型の平均を表示します。</li>
+      <li><b>局面</b>　6人卓キャッシュ。BTNが2.5bbでオープン、BBがコール。ポット5.5bb・残り97.5bb。</li>
+      <li><b>スタック</b>　100bb。レーキなし（レーキ5%ではK72のCベットが3.5ポイント下がりました）。</li>
+      <li><b>ベットの木</b>　フロップはBTN 33%・75%、レイズ3倍。ターン66%・リバー75%で、ターン以降のレイズは無しの簡略版。</li>
+      <li><b>道具とレンジ</b>　オープンソースのソルバー（postflop-solver）で、誤差0.3%ポットまで計算。レンジは当サイトのプリフロップ表（BTNオープン44.8%・BBコール39.8%）。</li>
     </ul>
   </div>
 </section>
@@ -254,11 +286,5 @@ footer .links{margin:0 -8px}
   </div>
 </footer>
 
-<script>
-/* 装飾の13×13（イメージ）。実データではない。 */
-(function(){var g=document.getElementById('g');if(!g)return;var h='';
-for(var y=0;y<13;y++)for(var x=0;x<13;x++){var s=(x*7+y*13+x*y)%11;var k=s<4?'r':s<6?'m':s<9?'c':'f';if(x+y<4)k='r';if(x+y>20)k='f';h+='<i class="'+k+'"></i>';}
-g.innerHTML=h;})();
-</script>
 </body>
 </html>

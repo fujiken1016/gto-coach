@@ -420,6 +420,9 @@ header.hero p{font-size:1rem;line-height:1.7;color:var(--y-muted);letter-spacing
 .mode:hover,.tab:hover,.sp:hover{color:var(--y-text);border:0}
 .mode.active,.tab.active,.sp.active{background:var(--y-primary);color:#08241a;box-shadow:none;border:0;font-weight:700}
 .mode.active>span::before,.tab.active .lv::before,.sp.active::before{content:"✓ "}
+/* J517: 音・分析は「モード」ではなく道具。選択中の緑＋✓を付けず、モード3つだけが選択状態に見えるようにする（GTO Wizard はモード切替と設定アイコンを分けている） */
+.mode.util,.mode.util.active{background:transparent;color:var(--y-muted,#a9a9be);border:1px solid var(--y-line,#2b2b3a);font-weight:600}
+.mode.util.active>span::before{content:none}
 .tab{border-radius:24px;text-align:center;line-height:1.4}
 .tab .lv{font-size:.875rem;opacity:1}
 .sp{font-size:.875rem;min-height:48px}
@@ -564,12 +567,12 @@ nav.sl-tools .sl-tools__d,nav.sl-tools .sl-tools__t{overflow-wrap:anywhere;word-
   </header>
 
   <div class="modebar" id="modebar">
-    <button class="mode active" data-mode="quiz"><span>📝 1問1答クイズ</span></button>
-    <button class="mode" data-mode="cash"><span>💵 キャッシュ</span></button>
-    <button class="mode" data-mode="tour"><span>🏆 トーナメント</span></button>
-    <button class="mode" id="sndBtn" title="効果音のON/OFF"><span>🔊</span></button>
-    <button class="mode" id="bgmBtn" title="BGMのON/OFF"><span>🎵</span></button>
-    <button class="mode" id="statsBtn" title="弱点分析"><span>📈 分析</span></button>
+    <button class="mode active" data-mode="quiz"><span>1問1答クイズ</span></button>
+    <button class="mode" data-mode="cash"><span>キャッシュ</span></button>
+    <button class="mode" data-mode="tour"><span>トーナメント</span></button>
+    <button class="mode util" id="sndBtn" title="効果音のON/OFF" aria-label="効果音のON/OFF"><span>🔊</span></button>
+    <button class="mode util" id="bgmBtn" title="BGMのON/OFF" aria-label="BGMのON/OFF"><span>🎵</span></button>
+    <button class="mode util" id="statsBtn" title="弱点分析"><span>弱点分析</span></button>
   </div>
 
   <!-- ============ クイズモード ============ -->
@@ -2844,9 +2847,9 @@ function startGame(mode){
 document.getElementById("depth100").onclick = () => { G.cashDepth = 100; localStorage.setItem("pfc_depth", "100"); if (G.mode === "cash") startGame("cash"); };
 document.getElementById("depth300").onclick = () => { G.cashDepth = 300; localStorage.setItem("pfc_depth", "300"); if (G.mode === "cash") startGame("cash"); };
 document.getElementById("modebar").addEventListener("click", e => {
-  const m = e.target.closest(".mode");
+  const m = e.target.closest(".mode[data-mode]");  /* J517: 音・BGM・分析ボタンはモード切替に含めない（以前は押すとクイズが消えた） */
   if (!m) return;
-  document.querySelectorAll(".mode").forEach(x => x.classList.remove("active"));
+  document.querySelectorAll(".mode[data-mode]").forEach(x => x.classList.remove("active"));
   m.classList.add("active");
   const mode = m.dataset.mode;
   const quiz = mode === "quiz";
