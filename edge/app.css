@@ -81,3 +81,16 @@ button.ghost{background:transparent;color:var(--accent);}
   padding:12px 14px;margin:10px 0;font-size:16px;text-decoration:none;color:var(--accent);}
 footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--d-line);font-size:14px;color:var(--d-text-muted);}
 footer a{color:var(--d-text-muted);display:inline-block;padding:11px 6px;}
+
+/* J540 (2026-11-16): 375px で「根拠」列が横スクロールの先に隠れていた。
+   本文が「右端の根拠を必ず見て」と言っているので、スマホでは冗長な控除率列（=100−還元率）を畳み、根拠を画面内に出す */
+@media (max-width:560px){
+  table{min-width:0;font-size:15px;}
+  th,td{padding:10px 8px;}
+  th:nth-child(3),td:nth-child(3){display:none;}
+  td:first-child,th:first-child{min-width:0;width:40%;}
+  td:nth-child(4),th:nth-child(4){white-space:normal;text-align:left;font-size:14px;min-width:100px;line-height:1.45;}
+  td .src{display:block;font-size:14px;}
+  .scrollhint{display:none;}
+}
+.nb{display:inline-block;}

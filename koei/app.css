@@ -10,3 +10,12 @@ table th{white-space:nowrap;}
 .sisters{margin:26px 0 0;padding:14px;background:var(--panel);border:1px solid var(--border);border-radius:12px;font-size:15px;}
 .sisters b{display:block;margin-bottom:6px;color:var(--mint);}
 .sisters a{display:inline-block;min-height:48px;line-height:48px;margin-right:14px;}
+
+/* J540 (2026-11-16): 14px 未満の文字（パンくず・注記・表）を 14px に */
+.crumb,.crumb a,.notice,.notice b,.small{font-size:14px;}
+table th,table td{font-size:14px;}
+.nb{display:inline-block;}
+body .eq .small,body .field label,body .field .hint,body .scrollhint,body code,body .crumb,body .crumb a{font-size:14px;}
+body .books-lead,body .books-lead b,body .ba,body .bd,body .bl,body .pr-badge{font-size:14px;}
+body .book .ba,body .book .bd,body .book .bl{font-size:14px;}
+body .books-disc,body footer,body footer *{font-size:14px;}
