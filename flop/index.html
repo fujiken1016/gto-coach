@@ -82,6 +82,7 @@ b.s,b.h,b.d,b.c{font-weight:700}
 .tbl th[scope=row],.tbl thead th:first-child{text-align:left;font-size:16px}
 .tbl tbody tr:last-child>*{border-bottom:0}
 .tbl em{font-style:normal;color:var(--gold);font-weight:700}
+@media(max-width:479px){.tbl-wrap{margin:0 -16px;border-radius:0;border-left:0;border-right:0}.tbl th,.tbl td{padding:10px 4px}.tbl th[scope=row]{padding-left:10px;font-size:15px}.tbl td:last-child,.tbl thead th:last-child{padding-right:10px}.tbl td{letter-spacing:-.02em}}
 
 /* 日本語の改行：見出しは文節で割ってバランス、本文は孤立文字を避ける（単語途中では割らない） */
 h1,h2,h3,.cap,.note,.lead,.cond li,.sl-tools__d,.band p,.card p{word-break:auto-phrase;line-break:strict}
