@@ -1,0 +1,4 @@
+https://github.com/AHTOOOXA/poker-charts (MIT License) main branch
+src/data/ranges/greenline.ts sha256 ce651bc7e93126580df0ebe0349ee3048000895cbcdaa53c9241d2230004b14e
+src/data/ranges/pekarstas.ts sha256 96da5ea08cac6aefe244709d8dd688e60544766980e707eb04cfd8aa45418489
+取得日 2026-11-16（J542）

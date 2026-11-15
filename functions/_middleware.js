@@ -9,13 +9,14 @@
 // ⚠️ `.md` は「配信する意図のあるURLが1本も無い」ため拡張子で一括遮断。
 //    robots.txt / ads.txt / sitemap.xml / manifest.json を巻き込まないよう、他は明示リストのみ。
 
+// /tools/ は検査スクリプトと出典データの控え（J542）。配信しない。
 const DENY = new Set([
   "/.gitignore",
 ]);
 
 export async function onRequest(context) {
   const path = new URL(context.request.url).pathname;
-  if (path.toLowerCase().endsWith(".md") || DENY.has(path)) {
+  if (path.toLowerCase().endsWith(".md") || DENY.has(path) || path.startsWith("/tools/")) {
     return new Response("Not Found", {
       status: 404,
       headers: { "content-type": "text/plain; charset=utf-8", "x-robots-tag": "noindex" },

@@ -3,3 +3,4 @@ notice/.vercel/
 .vercel/
 .DS_Store
 redirect/
+tools/__pycache__/
