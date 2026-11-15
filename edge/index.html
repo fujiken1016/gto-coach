@@ -14,6 +14,7 @@
 <meta property="og:site_name" content="GTO Coach">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ギャンブル還元率ランキング｜控除率を法律の条文と数式から横断比較","description":"公営競技・宝くじ・カジノの還元率（控除率）を1枚で比較。競馬・競輪・オートは法律で下限70%、競艇は75%、宝くじは上限50%。カジノ側は全列挙で導出。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/edge/","inLanguage":"ja","datePublished":"2026-09-06T01:57:26+09:00","dateModified":"2026-11-16T09:00:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"還元率ラボ","item":"https://shoubu-lab.com/edge/"}]}</script>
 <link rel="stylesheet" href="/edge/app.css">
 <!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
@@ -74,20 +75,20 @@
 <thead><tr><th>種目・賭け方</th><th>還元率</th><th>控除率</th><th>根拠</th></tr></thead>
 <tbody>
 <tr><td>ブラックジャック（ベーシック戦略）</td><td class="hi">約 99.5%</td><td class="hi">約 0.5%</td><td>参考値・ルール依存</td></tr>
-<tr><td>バカラ　バンカー</td><td class="hi">98.94%</td><td class="hi">1.06%</td><td>文献値</td></tr>
-<tr><td>バカラ　プレイヤー</td><td class="hi">98.77%</td><td class="hi">1.23%</td><td>文献値</td></tr>
-<tr><td>クラップス　パスライン</td><td class="hi">98.59%</td><td class="hi">1.41%</td><td>全列挙で導出</td></tr>
+<tr><td>バカラ　バンカー（5%コミッション）</td><td class="hi">98.94%</td><td class="hi">1.06%</td><td>8デッキ全列挙で確認</td></tr>
+<tr><td>バカラ　プレイヤー</td><td class="hi">98.76%</td><td class="hi">1.24%</td><td>8デッキ全列挙で確認</td></tr>
 <tr><td>ルーレット　0のみ＋ラ・パルタージュ</td><td class="hi">98.65%</td><td class="hi">1.35%</td><td>数式で導出</td></tr>
+<tr><td>クラップス　パスライン</td><td class="hi">98.59%</td><td class="hi">1.41%</td><td>全列挙で導出</td></tr>
 <tr><td>ルーレット　0のみ（37マス）</td><td>97.30%</td><td>2.70%</td><td>数式で導出</td></tr>
 <tr><td>シックボー　大／小</td><td>97.22%</td><td>2.78%</td><td>全列挙で導出</td></tr>
 <tr><td>ルーレット　0と00（38マス）</td><td>94.74%</td><td>5.26%</td><td>数式で導出</td></tr>
+<tr><td>バカラ　タイ（8倍配当）</td><td class="lo">85.6%</td><td class="lo">14.4%</td><td>8デッキ全列挙で確認</td></tr>
 <tr><td>中央競馬（JRA）単勝・複勝</td><td>80.0%</td><td>20.0%</td><td>JRA公表値</td></tr>
-<tr><td>競艇（ボートレース）</td><td>75%<span class="src">（法定下限）</span></td><td>25%<span class="src">まで</span></td><td>モーターボート競走法</td></tr>
+<tr><td>競艇（ボートレース）</td><td>75%<span class="src">（公式の説明。法定下限と同じ）</span></td><td>25%</td><td>BOAT RACE公式・モーターボート競走法</td></tr>
 <tr><td>中央競馬（JRA）3連単</td><td>72.5%</td><td>27.5%</td><td>JRA公表値</td></tr>
 <tr><td>競輪</td><td>70%<span class="src">（法定下限）</span></td><td>30%<span class="src">まで</span></td><td>自転車競技法</td></tr>
 <tr><td>オートレース</td><td>70%<span class="src">（法定下限）</span></td><td>30%<span class="src">まで</span></td><td>小型自動車競走法</td></tr>
-<tr><td>バカラ　タイ（8倍配当）</td><td class="lo">85.6%</td><td class="lo">14.4%</td><td>文献値</td></tr>
-<tr><td>宝くじ</td><td class="lo">50%<span class="src">（法定上限）</span></td><td class="lo">50%<span class="src">以上</span></td><td>当せん金付証票法</td></tr>
+<tr><td>宝くじ</td><td class="lo">50%以下<span class="src">（法定上限。令和6年度の実績は46.5%）</span></td><td class="lo">50%<span class="src">以上（実績53.5%）</span></td><td>当せん金付証票法・宝くじ公式サイト</td></tr>
 </tbody>
 </table>
 </div>
@@ -108,7 +109,7 @@ E[収支] ＝ −（控除率）×（賭けた総額）
 </div>
 
 <p>この式が意味するのは、<b>還元率の表は「1回あたりの損失率」ではなく「回転させた総額に対する目減り率」の表</b>だということです。
-だから同じ1万円でも、<b>1回だけ賭けるのか、1,000円ずつ100回に分けるのかで、期待損失は10倍以上変わります</b>。
+だから同じ1万円でも、<b>1回だけ賭けるのか、1,000円ずつ100回に分けるのかで、期待損失は10倍変わります</b>。
 下の計算機はそこを確かめるためのものです。</p>
 
 <h2>計算機：同じ資金が、何回で半分になるか</h2>
@@ -152,16 +153,16 @@ E[収支] ＝ −（控除率）×（賭けた総額）
 <h3>競馬 — 下限 70%（競馬法 第8条）</h3>
 <div class="quote">「…売得金…の額に<b>百分の七十以上</b>農林水産大臣が定める率以下の範囲内で日本中央競馬会が定める率を乗じて得た額に相当する金額…を…払戻金として交付しなければならない」</div>
 <p>つまり<b>法律は「70%は必ず返せ」としか言っていない</b>ので、実際の還元率は券種ごとにJRAが決めています。
-実測値（単勝80%〜WIN5 70%）は
+JRAが公表している設定値（単勝・複勝80%〜WIN5 70%）は
 <a href="/koei/koujoritsu">券種別の払戻率一覧</a>にまとめてあります。</p>
 
-<h3>競艇 — 下限 75%（モーターボート競走法 第12条）</h3>
+<h3>競艇 — 下限 75%（モーターボート競走法 第15条）</h3>
 <div class="quote">「…舟券の売上金…の額の<b>百分の七十五以上</b>国土交通大臣が定める率以下の範囲内で施行者が定める率に相当する金額を…払戻金として交付しなければならない」</div>
 <p>公営競技の中で<b>法定下限がいちばん高いのは競艇</b>です。この1条文が、還元率の比較記事で競艇が上位に来る理由です。</p>
 
 <h3>競輪・オートレース — 下限 70%</h3>
-<div class="quote">競輪（自転車競技法 第9条）「…車券の売上金…の額に<b>百分の七十以上</b>経済産業大臣が定める率以下の範囲内で競輪施行者が定める率を乗じて得た額…」</div>
-<div class="quote">オートレース（小型自動車競走法 第13条）「…勝車投票券の売上金…の額に<b>百分の七十以上</b>経済産業大臣が定める率以下の範囲内で…」</div>
+<div class="quote">競輪（自転車競技法 第12条）「…車券の売上金…の額に<b>百分の七十以上</b>経済産業大臣が定める率以下の範囲内で競輪施行者が定める率を乗じて得た額…」</div>
+<div class="quote">オートレース（小型自動車競走法 第16条）「…勝車投票券の売上金…の額に<b>百分の七十以上</b>経済産業大臣が定める率以下の範囲内で…」</div>
 
 <h3>宝くじ — 上限 50%（当せん金付証票法 第5条）</h3>
 <div class="quote">「当せん金付証票の当せん金品の金額又は価格の総額は、その<b>発売総額の五割に相当する額</b>（加算型当せん金付証票にあつては、その額に加算金の額を加えた額）を<b>こえてはならない</b>」</div>
@@ -213,12 +214,11 @@ E[収支] ＝ −（控除率）×（賭けた総額）
 「還元率」として横に並べられる公表値を一次情報で確定できませんでした。<b>数字を書きません。</b></li>
 <li><b>スポーツくじ（toto・BIG）</b>：スポーツ振興投票の実施等に関する法律の条文からは、
 払戻率の下限・上限に相当する規定を取得できませんでした（政令側にある可能性あり・未確認）。</li>
-<li><b>ブラックジャックとバカラの控除率</b>：一般に流通している値を載せていますが、
-このページでは数え上げをしていません（ブラックジャックはルール差の影響が大きく、
-バカラは8デッキのドロー規則を含む全列挙が必要なため）。<b>「文献値」「参考値」と明記しています。</b></li>
+<li><b>ブラックジャックの控除率</b>：ルール差（ディーラーのソフト17、ダブルダウンの可否、デッキ数など）の影響が大きく、このページでは数え上げていません。<b>「参考値」と明記しています。</b>
+<b>バカラ</b>は2026年11月16日に、8デッキ・標準のドロー規則・バンカーの5%コミッション・タイ8倍の条件で全列挙し直し、バンカー1.0579%・プレイヤー1.2351%・タイ14.3596%（8倍配当）になることを確認しました。表の値はこの再計算に合わせています。</li>
 </ul>
 
-<p class="small">条文の取得日：2026年9月5日（e-Gov 法令検索 API・現行法令）。
+<p class="small">条文の取得日：2026年9月5日（e-Gov 法令検索 API・現行法令）。条番号は2026年11月16日に現行法令で再確認しました。競艇の払戻率75%はBOAT RACE公式の用語辞典、バカラは上記の全列挙でそれぞれ確認しています。
 JRAの券種別払戻率は <a href="/koei/koujoritsu">控除率一覧ページ</a>に出典つきで掲載しています。</p>
 
 <div class="related">

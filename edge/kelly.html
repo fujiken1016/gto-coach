@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="GTO Coach">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ケリー基準の計算機｜期待値がプラスでも「賭けすぎ」で資金が減る理由","description":"ケリー基準の最適賭け金比率 f*＝(bp−q)/b を対数成長率の式から導出して計算。控除率のあるゲームでは f* が負になり「最適な賭け金はゼロ」になることも確認できます。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/edge/kelly","inLanguage":"ja","datePublished":"2026-09-06T01:57:26+09:00","dateModified":"2026-09-20T22:54:16-07:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ケリー基準の計算機｜期待値がプラスでも「賭けすぎ」で資金が減る理由","description":"ケリー基準の最適賭け金比率 f*＝(bp−q)/b を対数成長率の式から導出して計算。控除率のあるゲームでは f* が負になり「最適な賭け金はゼロ」になることも確認できます。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/edge/kelly","inLanguage":"ja","datePublished":"2026-09-06T01:57:26+09:00","dateModified":"2026-11-16T09:00:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"還元率ラボ","item":"https://shoubu-lab.com/edge/"},{"@type":"ListItem","position":3,"name":"ケリー基準","item":"https://shoubu-lab.com/edge/kelly"}]}</script>
 <link rel="stylesheet" href="/edge/app.css">
 <!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
@@ -211,17 +211,17 @@ g′(f) ＝ p·b / (1 + b·f) − q / (1 − f) ＝ 0<br>
 <tbody>
 <tr><td>5%（ハーフケリー）</td><td class="hi">+0.00375</td><td>約75%</td><td>約1.45倍</td></tr>
 <tr><td>10%（ケリー f*）</td><td class="hi">+0.00501</td><td>100%（最大）</td><td>約1.65倍</td></tr>
-<tr><td>20%（ケリーの2倍）</td><td class="lo">−0.00014</td><td>0%</td><td>約0.99倍</td></tr>
-<tr><td>40%</td><td class="lo">−0.03200</td><td>—</td><td>約0.04倍</td></tr>
+<tr><td>20%（ケリーの2倍）</td><td class="lo">−0.00014</td><td>0%以下（ほぼゼロ）</td><td>約0.99倍</td></tr>
+<tr><td>40%</td><td class="lo">−0.04481</td><td>—</td><td>約0.01倍</td></tr>
 </tbody>
 </table>
 </div>
-<p class="scrollhint small">※ 表の値は p＝55%・b＝1 を上の計算機に入れて得た実測値です（2026年9月時点のこのページの実装。小数第5位で丸め）。横にスクロールできます。</p>
+<p class="scrollhint small">※ 表の値は p＝55%・b＝1 の g(f) ＝ 0.55·ln(1＋f) ＋ 0.45·ln(1−f) を、2026年11月16日にPythonで再計算した値です（小数第5位で丸め。上の計算機の出力と一致します）。100回後の資金は e の（100×g(f)）乗です。横にスクロールできます。</p>
 
 <figure style="margin:18px 0;overflow-x:auto">
 <svg viewBox="0 0 343 240" width="343" role="img" aria-labelledby="fig2Title fig2Desc" style="display:block;width:343px;max-width:none;height:auto;background:#0b0b14;border:1px solid #2b2b3a;border-radius:12px">
   <title id="fig2Title">張る比率ごとの成長率</title>
-  <desc id="fig2Desc">勝率55%・配当1倍のとき、資金の5%・10%・20%・40%を張った場合の1回あたり成長率を比べた棒グラフ。10%が最大で、20%はほぼゼロ、40%は大きくマイナス。</desc>
+  <desc id="fig2Desc">勝率55%・配当1倍のとき、資金の5%・10%・20%・40%を張った場合の1回あたり成長率を比べた棒グラフ。10%が最大で、20%はほぼゼロ、40%は大きくマイナス（棒は長さを切り詰めて描いています）。</desc>
   <line x1="40" y1="110" x2="336" y2="110" stroke="#606076" stroke-width="1.5"/>
   <text x="22" y="116" fill="#a9a9be" font-size="14">0</text>
   <rect x="62" y="66" width="44" height="44" fill="#59f5c0"/>
@@ -231,7 +231,7 @@ g′(f) ＝ p·b / (1 + b·f) − q / (1 − f) ＝ 0<br>
   <text x="84" y="56" fill="#59f5c0" font-size="14" text-anchor="middle">+0.0038</text>
   <text x="156" y="42" fill="#29e0ff" font-size="14" text-anchor="middle">+0.0050</text>
   <text x="228" y="102" fill="#ffd23e" font-size="14" text-anchor="middle">−0.0001</text>
-  <text x="300" y="222" fill="#ff8fa3" font-size="14" text-anchor="middle">−0.0320</text>
+  <text x="300" y="222" fill="#ff8fa3" font-size="14" text-anchor="middle">−0.0448</text>
   <text x="84" y="132" fill="#f2f2f7" font-size="14" text-anchor="middle">5%</text>
   <text x="156" y="132" fill="#f2f2f7" font-size="14" text-anchor="middle">10%</text>
   <text x="228" y="132" fill="#f2f2f7" font-size="14" text-anchor="middle">20%</text>
@@ -239,7 +239,22 @@ g′(f) ＝ p·b / (1 + b·f) − q / (1 − f) ＝ 0<br>
 </svg>
 </figure>
 <p>勝率も配当も一切変えていないのに、賭け金の比率を 10% から 40% に上げただけで、
-増える賭けが減る賭けに変わります。上の計算機に同じ数字を入れれば、この4行はそのまま再現できます。</p>
+増える賭けが減る賭けに変わります。上の計算機に同じ数字を入れれば、この4行はそのまま再現できます（図の40%の棒は、紙面に収めるため実際より短く描いています）。</p>
+
+<h3>勝率の見積もりが外れると、ケリーでも減る</h3>
+<p>上の表は、勝率55%が本当に正しい場合の話です。実際には勝率は自分で見積もるしかなく、ここがいちばん外れます。
+<b>真の勝率が見積もりより低かったとき</b>、同じ比率を張り続けるとどうなるかを、g(f) をそのまま計算して並べました（b＝1・100回後の資金は中央値の目安）。</p>
+<div class="tablebox"><table>
+<thead><tr><th>本当の勝率</th><th>10%張る（55%と信じたケリー）</th><th>5%張る（その半分）</th></tr></thead>
+<tbody>
+<tr><td>55%（見積もり通り）</td><td>約1.65倍</td><td>約1.46倍</td></tr>
+<tr><td>53%</td><td>約1.11倍</td><td>約1.19倍</td></tr>
+<tr><td>52%</td><td class="lo">約0.90倍</td><td>約1.08倍</td></tr>
+<tr><td>50%（エッジなし）</td><td class="lo">約0.61倍</td><td class="lo">約0.88倍</td></tr>
+<tr><td>48%</td><td class="lo">約0.41倍</td><td class="lo">約0.72倍</td></tr>
+</tbody></table></div>
+<p class="scrollhint small">※ 2026年11月16日にPythonで再計算した値です（1回あたりの成長率 g(f) から e の（100×g）乗を計算）。横にスクロールできます。</p>
+<p>勝率を3ポイント高く見積もっただけで、フルケリーは「増える賭け」から「減る賭け」に変わります。半分に落としておくと、同じ見積もりミスでも減り方が小さく、52%なら増えたままです。ハーフケリーが実務で選ばれるのは、速さを少し手放す代わりに、この見積もり誤差への余裕を買うためです。</p>
 
 <h2 id="s4">4. このページで前提にしていること（＝当てはまらない場合）</h2>
 

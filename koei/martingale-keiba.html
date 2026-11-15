@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="GTO Coach">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"マーチンゲール法 競馬 シミュレーション｜複勝・ワイドの必要資金と回収率を実測する","description":"マーチンゲール法を競馬（複勝・ワイド・単勝）で回せる無料シミュレーター。オッズ2.0倍未満では倍賭けで損失を取り返せないこと、必要資金と回収率を実測で確認。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/koei/martingale-keiba","inLanguage":"ja","datePublished":"2026-09-02T15:45:53+09:00","dateModified":"2026-09-02T15:45:53+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"マーチンゲール法 競馬 シミュレーション｜複勝・ワイドの必要資金と回収率を実測する","description":"マーチンゲール法を競馬（複勝・ワイド・単勝）で回せる無料シミュレーター。オッズ2.0倍未満では倍賭けで損失を取り返せないこと、必要資金と回収率を実測で確認。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/koei/martingale-keiba","inLanguage":"ja","datePublished":"2026-09-02T15:45:53+09:00","dateModified":"2026-11-16T09:00:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"公営競技の資金管理法","item":"https://shoubu-lab.com/koei/"},{"@type":"ListItem","position":3,"name":"マーチンゲール法 × 競馬","item":"https://shoubu-lab.com/koei/martingale-keiba"}]}</script>
 <link rel="stylesheet" href="/betting/app.css">
 <link rel="stylesheet" href="/koei/app.css">
@@ -68,7 +68,7 @@
 ③それでも期待値が動かない理由 の3つを、数式と実測で確認します。
 </div>
 
-<h2>まず前提：競馬の控除率は20〜27.5%</h2>
+<h2>まず前提：競馬の控除率は20〜30%</h2>
 <p>JRA公式が公開している<b>券種ごとの設定払戻率</b>（平成26年6月7日以降）です。
 控除率＝100% − 払戻率。<b>ヨーロピアンルーレットの控除率2.70%と比べると、7〜10倍不利</b>な数字です。</p>
 <div class="tablebox">
@@ -123,7 +123,7 @@
 「当たりやすい馬券を選べば安全」という直感の、ちょうど逆です。</p>
 <div class="tablebox">
 <table>
-<thead><tr><th>オッズ</th><th>増え方</th><th>的中率※</th><th>5連敗目の賭け金</th><th>5連敗までの累計投入</th><th>8連敗目の賭け金</th></tr></thead>
+<thead><tr><th>オッズ</th><th>増え方</th><th>的中率※</th><th>5回目の賭け金（4連敗後）</th><th>5回目までの累計投入</th><th>8回目の賭け金（7連敗後）</th></tr></thead>
 <tbody>
 <tr><td>1.2倍</td><td class="bad">6.00倍</td><td>66.7%</td><td class="bad">6,609,600</td><td class="bad">7,930,500</td><td class="bad">1,427,673,600</td></tr>
 <tr><td>1.5倍</td><td class="bad">3.00倍</td><td>53.3%</td><td class="bad">162,000</td><td>242,000</td><td class="bad">4,374,000</td></tr>
@@ -134,7 +134,7 @@
 </tbody>
 </table>
 </div>
-<div class="scrollhint">※ 表は横にスクロールできます。基準額1,000円・100円単位に切り上げ。<br>
+<div class="scrollhint">※ 表は横にスクロールできます。基準額（的中したときに残したい利益）は1,000円で、1回目の賭け金は「基準額 ÷（オッズ − 1）」（1.5倍なら2,000円）。賭け金は毎回100円単位に切り上げています。<br>
 ※的中率は「単勝の平均的な購入者」の値（払戻率80% ÷ オッズ）。予想が平均より上手ければこれより高くなります。</div>
 
 <h3>連敗はどれくらい起きるのか</h3>
@@ -150,9 +150,10 @@
 </table>
 </div>
 <p><b>この2つの表を並べて読むのがポイントです。</b>
-複勝1.5倍の5連敗は2.21%——45回に1回です。そのとき必要な賭け金は<b>162,000円</b>。
-「めったに起きない」ではなく「<b>45回に1回、16万円を張れなければ終わる</b>」というのが実際の姿です。
-1日12レース買うなら4日で48レース。この長さなら、平均して1回はここに来る計算になります。</p>
+複勝1.5倍で4連敗する確率は4.74%——約21回に1回です。そのとき次の5回目に必要な賭け金は<b>162,000円</b>。
+5連敗（2.21%＝45回に1回）まで進むと、6回目は486,000円になります。
+「めったに起きない」ではなく「<b>21回に1回、16万円を張れなければ終わる</b>」というのが実際の姿です。
+1日12レース買うなら4日で48レース。この長さのうちに4連敗が1回以上起きる確率は73%（Pythonで再計算）です。</p>
 
 <h2>問題3：それでも期待値は1円も動いていない</h2>
 <p>ここまでは「破綻の仕方」の話でした。もっと重要なのは、<b>どんな増やし方をしても期待値は変わらない</b>ことです。</p>

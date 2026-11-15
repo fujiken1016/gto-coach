@@ -682,11 +682,11 @@ nav.sl-tools .sl-tools__d,nav.sl-tools .sl-tools__t{overflow-wrap:anywhere;word-
   <section class="sisters2">
     <h2>勝負ラボの他のツール</h2>
     <p>どれも無料・登録不要。現金・賭け金は一切扱いません。</p>
-    <a href="/flop/?from=gtocoach-sisters">フロップ早見盤<span>板ごとの打つ頻度を13×13のグリッドで見る入口ページ。前提条件（人数・スタック・簡略木）を明記</span></a>
+    <a href="/flop/?from=gtocoach-sisters">フロップ早見盤<span>代表フロップ7枚の打つ頻度・サイズ・BBの応手を表で見るページ。前提条件（人数・スタック・簡略木）を明記</span></a>
     <a href="/betting/">ベッティングシステム検証室<span>マーチンゲール・モンテカルロ法ほか5種を、破産確率と期待値で検証するシミュレータ</span></a>
     <a href="/koei/">公営競技の資金管理法シミュレーター<span>競馬・競艇でオッズと払戻率を入れて、必要資金・破綻確率・回収率を出す</span></a>
     <a href="/edge/">ギャンブル還元率ランキング<span>公営競技・宝くじ・カジノの控除率を、法律の条文と数え上げで確定させて横断比較する</span></a>
-    <a href="/koei/koujoritsu">控除率・払戻率の比較<span>競馬・競艇・宝くじ・カジノの控除率を並べて、1レースあたりの目減りを実測する</span></a>
+    <a href="/koei/koujoritsu">控除率・払戻率の比較<span>JRAの券種別払戻率と競艇75%を、ルーレット・バカラの控除率と並べて、資金を回し続けたときの目減りを計算する</span></a>
     <a href="/edge/kelly">ケリー基準の計算機<span>最適な賭け金比率 f*＝(bp−q)/b を対数成長率から導出。期待値がプラスでも賭けすぎると資金が減る理由まで出す</span></a>
     <a href="/hall/">城南8店 当たり台率ラボ<span>東京・城南エリアのパチスロ8店を同じ基準で並べた独自集計。傾向が別期間で消えた分（外れた検証）も公開。掲載店舗とは一切関係がありません</span></a>
   </section>
@@ -714,7 +714,7 @@ document.addEventListener('click',function(e){
 },true);
 </script>
   <footer>
-    プリフロップ根拠: 自作ソルバー（実現率モデル）の出力を外部の公開値で校正したチャート55種＝相手ポジション別に全マッチアップ網羅（100bb 6-max、頻度は5%刻み）。ただしオープン後の参加（ISO）5種とBTN・SBのオープン2種は <a href="https://github.com/AHTOOOXA/poker-charts" target="_blank">poker-charts (MIT)</a> 収録の Greenline / pekarstas 2ソースを頻度統合した値です。SBがオープンに対応する場面はコール頻度が公開値より多めに出る傾向があります。<br>
+    プリフロップ根拠: 自作ソルバー（実現率モデル）の出力を外部の公開値と見比べて調整したチャート55種＝相手ポジション別に全マッチアップ網羅（100bb 6-max、頻度は5%刻み）。ただしオープン後の参加（ISO）5種とBTN・SBのオープン2種は <a href="https://github.com/AHTOOOXA/poker-charts" target="_blank">poker-charts (MIT)</a> 収録の Greenline / pekarstas 2ソースを頻度統合した値です。<strong>相手のオープン・3ベット・4ベットに答える表（vsオープン／vs3ベット／vs4ベット）は、公開チャートとの突き合わせ（2026-11-16）で、手ごとの主なアクションが食い違うセルが約3〜6割ありました</strong>（例：BBがBTNのオープンに答える表で22・33を3ベット100%としていますが、公開チャートはコールです）。これらの表は「正解の断定」ではなく目安として使ってください。SBがオープンに対応する場面はコール頻度が公開値より多めに出る傾向があります。<br>
     ポストフロップ: 相手の推定レンジ（ブラフ含むGTO想定）へのモンテカルロ勝率＋ポットオッズ/MDF/SPR判定に加え、集計ソルバーレポート由来のCB頻度・チェックレイズ/プローブ頻度・バリュー:ブラフ均衡比、書籍理論（ジオメトリックサイジング/マルチウェイ防御/コミットメント）とプロの定石（対人エクスプロイト）で講評。トーナメント15bb以下はナッシュ押し引きチャート（Beasts of Poker転載・アンティあり基準）。300BBモードのチャートは100bb基準の近似。学習用であり完全な最適解ではありません。<br>
     <span style="display:inline-block;margin-top:8px">
       <a href="/betting/" style="color:var(--mint);margin:0 6px;font-weight:700">ベッティングシステム検証室</a>

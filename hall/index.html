@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="GTO Coach">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"城南8店 当たり台率ラボ｜同じ基準で並べた実測値と、外れた検証記録","description":"東京・城南エリアのパチスロ8店について、当サイト独自集計の「1日で+2,000枚以上出た台の割合」を同じ基準で比較。曜日別・日付末尾別の差と検証結果（外れた分も含む）を公開。掲載店舗とは無関係です。","mainEntityOfPage":"https://shoubu-lab.com/hall/","inLanguage":"ja","datePublished":"2026-09-06T17:48:13+09:00","dateModified":"2026-09-06T17:48:13+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"城南8店 当たり台率ラボ｜同じ基準で並べた実測値と、外れた検証記録","description":"東京・城南エリアのパチスロ8店について、当サイト独自集計の「1日で+2,000枚以上出た台の割合」を同じ基準で比較。曜日別・日付末尾別の差と検証結果（外れた分も含む）を公開。掲載店舗とは無関係です。","mainEntityOfPage":"https://shoubu-lab.com/hall/","inLanguage":"ja","datePublished":"2026-09-06T17:48:13+09:00","dateModified":"2026-11-16T09:00:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"ホールデータラボ","item":"https://shoubu-lab.com/hall/"}]}</script>
 <link rel="stylesheet" href="/hall/app.css">
 <!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
@@ -73,7 +73,10 @@
 「あの店は出る」「この曜日は強い」は、<b>ほとんどが体感で語られています</b>。
 このページでやるのはひとつだけです——<b>8店ぶんの公開データを、まったく同じ物差しで並べる</b>。
 物差しは §1 に数値で書いてあります。物差しを固定すると、店ごとの差も、曜日ごとの差も、
-そして<b>その差が別の期間では消えてしまうこと</b>も、同時に見えます。
+そして<b>その差が別の期間では消えてしまうこと</b>も、同時に見えます。<br>
+<b>先に結論</b>（2026-09-05までの集計）：8店すべてで、土曜と日曜の当たり台率が店の基準値を上回っていました（差は +1.0〜+3.6 ポイント）。
+前半で選んだ曜日・日付末尾の差が後半でも続いたのは、曜日が8件中7件、日付の末尾が6件中4件です（§5）。
+ただし、これは過去の集計であり、店の設定や今後の結果を示すものではありません。
 最後の §5 では、<b>当サイトが外した分</b>をそのまま載せています。
 </div>
 
@@ -111,7 +114,7 @@
 <li>🔴 <b>載せなかったもの</b>：出どころが上記と異なる行（別ソース由来の 3,844 行 ＝ 2026年の 11 日ぶん）は、
    <b>出どころを揃えられないので集計から外しました</b>。取材・来店情報も同じ理由で一切扱いません（→ §6）。</li>
 </ul>
-<p class="src">最終更新 2026-09-06。数値は集計スクリプトの出力をそのまま載せており、手で書き換えていません。</p>
+<p class="src">最終更新 2026-09-06。数値は集計スクリプトの出力をそのまま載せており、手で書き換えていません。2026-09-05 より後の日は集計に入っていません（2026年11月16日の時点で、この集計は更新していません）。</p>
 
 <h2 id="s2">2. 8店の基準値</h2>
 <p>
@@ -155,7 +158,7 @@
 </table></div>
 <p class="scrollhint">← 表は横にスクロールできます</p>
 <div class="warn">
-<b>結果：14 件中 11 件しか続きませんでした。</b>外れたのは次の 3 件です。
+<b>結果：14 件中 11 件が続き、3 件が消えました。</b>消えたのは次の 3 件です。なお「続いた」は、検証期間の差が基準値より高いままだった、という意味で、学習期間と同じ大きさが残ったという意味ではありません（例：新橋の末尾7は +3.8 → +0.8）。
 <ul style="margin-bottom:0"><li><b>BIGディッパー戸越銀座店 の「日付の末尾4」</b>：学習期間 +1.2pt → 検証期間 <b>-1.6pt</b>（17.3% / 2,047台日）。学習期間で見えた差が、検証期間では残らなかった。</li><li><b>エンジェル本店（武蔵小山） の「日曜」</b>：学習期間 +2.6pt → 検証期間 <b>-0.2pt</b>（15.2% / 224台日）。学習期間で見えた差が、検証期間では残らなかった。</li><li><b>フルハウス戸越公園店 の「日付の末尾4」</b>：学習期間 +1.1pt → 検証期間 <b>-0.8pt</b>（7.0% / 887台日）。学習期間で見えた差が、検証期間では残らなかった。</li></ul>
 </div>
 <div class="notice">
@@ -163,7 +166,7 @@
 <ul style="margin:8px 0 0 22px"><li>エンジェルV（武蔵小山） の「日付の末尾」：学習期間に台日400件以上のセルが 1 個しか無く、「選ぶ」が成立しないため検証から外しました。</li><li>DAS小山店 の「日付の末尾」：学習期間に台日400件以上のセルが 2 個しか無く、「選ぶ」が成立しないため検証から外しました。</li></ul>
 </div>
 <p>
-つまり、<b>この手の「傾向」は4回に1回は消えます</b>。当たったほうだけを並べれば強く見えますが、
+つまり、<b>14件のうち3件（約2割）で、先に選んだ「傾向」が消えました</b>。14件では「2割」という割合そのものも大きくぶれるので、割合より「選んだあとでも外れる」という事実のほうを読んでください。当たったほうだけを並べれば強く見えますが、
 それは選んだあとに選んだ結果を見せているだけです。当サイトはこの検証を残す形で公開します。
 </p>
 
