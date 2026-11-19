@@ -1,0 +1,6 @@
+https://github.com/a-hanamoto/leakproof-preflop-ranges (Leakproof) CC BY 4.0
+game 6max-100bb-norake / version 1.0.0 (2026-10-31)  data/6max-100bb-norake/1.0.0/nodes.json
+nodes.json sha256 f6197db69b36869ce9cc0ab6991da02c1e1434f64b6883232b3ba4ffdb27a266
+取得日 2026-11-19（J552）。LICENSE（CC BY 4.0 法的全文）・README の利用条件（出典・ゲーム・版・ライセンス・改変の明記／商用可）を同日に開いて確認。
+使用するのは3スポットのみ（nodes.json の index 34=CO vs HJ open / 47=BTN vs 4bet(HJ) / 51=CO vs 4bet(HJ)）。
+改変: レイズ=raise+allin の合計、コール=call、%の整数丸め（ペアの1/6刻みは四捨五入）、到達しないハンドは省略（=フォールド扱い）。

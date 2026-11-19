@@ -9,9 +9,19 @@ m=re.search(r'const PRE_OFF = new Set\((\[.*?\])\)',s)
 OFF=set(json.loads(m.group(1))) if m else set()
 G,P=g.ref_tables(os.path.join(HERE,'ref_poker_charts'))
 ALL=json.load(open(os.path.join(HERE,'ref_poker_charts','keys55.json')))
+sys.path.insert(0,os.path.join(HERE,'ref_leakproof'))
+import build_pre3
+LP=build_pre3.build()  # Leakproof 6max-100bb-norake 1.0.0（CC BY 4.0）から変換した3キー
 tot=mis=0; rows=[]; nosrc=[]
 for k in ALL:
   ref=G.get(k) or P.get(k); src='greenline' if k in G else ('pekarstas' if k in P else None)
+  if not src and k in LP:
+    # 3キーはLeakproofと全セル値まで完全一致（r,c とも）を要求する
+    n=x=0
+    for h in g.HANDS:
+      n+=1
+      if PRE.get(k,{}).get(h,[0,0])!=LP[k].get(h,[0,0]): x+=1
+    tot+=n; mis+=x; rows.append((k,'leakproof','live' if k in PRE and k not in OFF else 'NOT LIVE',x,n)); continue
   if not src: nosrc.append((k, 'OFF' if k in OFF else ('LIVE' if k in PRE else 'absent'))); continue
   if k in OFF or k not in PRE: rows.append((k,src,'NOT LIVE',0,0)); continue
   n=x=0
