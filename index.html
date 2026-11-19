@@ -761,8 +761,9 @@ const SYNTH = new Set([]); // v9 は 55 キー全部が値を持つため補間�
 const PRE_OFF = new Set([]);
 // 別出典（Leakproof 6max-100bb-norake 1.0.0・CC BY 4.0）の3キー。計算条件が他と違うので画面で明示する
 const LP_KEYS = new Set(["CO-vs-open-MP","BTN-vs-4bet-MP","CO-vs-4bet-MP"]);
-const LP_NOTE = "（このスポットは別出典 Leakproof のノーレーキ前提の表です。ほかのスポットと比べ、COはHJのオープンにコールせず3ベットかフォールドのみ、という単純な形になります）";
-function lpNote(key){ return LP_KEYS.has(key) ? LP_NOTE : ""; }
+const LP_NOTE = "（このスポットは別出典 Leakproof のノーレーキ前提の表です。ほかのスポットとは計算条件が違います）";
+const LP_NOTE_CO = "（このスポットは別出典 Leakproof のノーレーキ前提の表です。COはHJのオープンにコールせず、3ベットかフォールドだけの単純な形です。ほかのスポットとは計算条件が違います）";
+function lpNote(key){ return key === "CO-vs-open-MP" ? LP_NOTE_CO : LP_KEYS.has(key) ? LP_NOTE : ""; }
 function chartOff(kind, hero, villain){
   return PRE_OFF.has(cpos(hero) + "-" + kind + "-" + (villain ? cpos(villain) : ""));
 }
@@ -995,7 +996,7 @@ function answerQuiz(key){
   (jd.cls === "ok" ? SFX.good : jd.cls === "mx" ? SFX.click : SFX.bad)();
   document.getElementById("correctLine").innerHTML =
     `ハンド: <b>${curHand}</b> ／ あなた: <b>${key === "r" ? raiseJa : ACT_JA[key]}（GTO頻度 ${jd.pct}%）</b> — ${jd.tag}<br>` +
-    `公開チャート: <b>${raiseJa} ${fr.r}% ／ コール ${fr.c}% ／ フォールド ${fr.f}%</b>` + (LP_KEYS.has(sc.key) ? `<br><small>${LP_NOTE}</small>` : "");
+    `公開チャート: <b>${raiseJa} ${fr.r}% ／ コール ${fr.c}% ／ フォールド ${fr.f}%</b>` + (LP_KEYS.has(sc.key) ? `<br><small>${lpNote(sc.key)}</small>` : "");
   document.getElementById("freqBar").innerHTML = freqBarHTML(fr, raiseJa);
   document.getElementById("reasonText").textContent = quizReason(sc, curHand, fr, jd, raiseJa);
   document.getElementById("feedback").classList.add("show");
