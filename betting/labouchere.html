@@ -4,23 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0d1230">
-<title>キャンセレーション法（ラブシェール法）の必要資金｜数列1,2,3で失敗を5%以内にするには174単位</title>
-<meta name="description" content="キャンセレーション法（ラブシェール法）を、ヨーロピアンルーレットの赤黒で計算。数列1,2,3（目標+6単位）で、資金40単位の失敗は17.2%、失敗を5%以内にするには174単位。資金別の失敗確率、必要資金、数列による違いを厳密解と乱数で確認。現金は一切扱いません。">
+<title>ラブシェール法の必要資金｜失敗5%以内は174単位（数列1,2,3）</title>
+<meta name="description" content="キャンセレーション法（ラブシェール法）を、ヨーロピアンの赤黒で計算。数列1,2,3（目標+6単位）で、資金40単位の失敗は17.2%、失敗を5%以内にするには174単位。資金別の失敗確率と必要資金を厳密解と乱数で確認。現金は扱いません。">
 <link rel="canonical" href="https://shoubu-lab.com/betting/labouchere">
-<meta property="og:title" content="キャンセレーション法（ラブシェール法）の必要資金｜数列1,2,3で失敗を5%以内にするには174単位">
+<meta property="og:title" content="ラブシェール法の必要資金｜失敗5%以内は174単位（数列1,2,3）">
 <meta property="og:image" content="https://shoubu-lab.com/og_labouchere.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:image" content="https://shoubu-lab.com/og_gto.jpg">
-<meta property="og:description" content="キャンセレーション法（ラブシェール法）を、ヨーロピアンルーレットの赤黒で計算。数列1,2,3（目標+6単位）で、資金40単位の失敗は17.2%、失敗を5%以内にするには174単位。資金別の失敗確率、必要資金、数列による違いを厳密解と乱数で確認。現金は一切扱いません。">
+<meta property="og:description" content="キャンセレーション法（ラブシェール法）を、ヨーロピアンの赤黒で計算。数列1,2,3（目標+6単位）で、資金40単位の失敗は17.2%、失敗を5%以内にするには174単位。資金別の失敗確率と必要資金を厳密解と乱数で確認。現金は扱いません。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://shoubu-lab.com/betting/labouchere">
 <meta property="og:site_name" content="GTO Coach">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"キャンセレーション法（ラブシェール法）の必要資金｜数列1,2,3で失敗を5%以内にするには174単位","description":"キャンセレーション法（ラブシェール法）を、ヨーロピアンルーレットの赤黒で計算。数列1,2,3（目標+6単位）で、資金40単位の失敗は17.2%、失敗を5%以内にするには174単位。資金別の失敗確率、必要資金、数列による違いを厳密解と乱数で確認。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/betting/labouchere","inLanguage":"ja","datePublished":"2026-11-23T20:30:00+09:00","dateModified":"2026-11-23T20:30:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"ラブシェール法の必要資金｜失敗5%以内は174単位（数列1,2,3）","description":"キャンセレーション法（ラブシェール法）を、ヨーロピアンの赤黒で計算。数列1,2,3（目標+6単位）で、資金40単位の失敗は17.2%、失敗を5%以内にするには174単位。資金別の失敗確率と必要資金を厳密解と乱数で確認。現金は扱いません。","mainEntityOfPage":"https://shoubu-lab.com/betting/labouchere","inLanguage":"ja","datePublished":"2026-11-23T20:30:00+09:00","dateModified":"2026-11-23T20:30:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"ベッティングシステム検証室","item":"https://shoubu-lab.com/betting/"},{"@type":"ListItem","position":3,"name":"キャンセレーション法","item":"https://shoubu-lab.com/betting/labouchere"}]}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"キャンセレーション法（ラブシェール法）とは、どんな賭け方ですか？","acceptedAnswer":{"@type":"Answer","text":"まず数列を決めます（例：1,2,3）。賭け額は、数列の両端の数の和です（例：1＋3＝4）。勝てば両端を消し、負ければ賭けた額を数列の右端に足します。数列がすべて消えたら終了で、そのとき収支は最初の数列の合計（例：+6）になります。"}},{"@type":"Question","name":"ラブシェール法とキャンセレーション法は、同じものですか？","acceptedAnswer":{"@type":"Answer","text":"同じ賭け方を指します。数列を消していくのでキャンセレーション法、考案者とされる人物の名前でラブシェール（Labouchère）法とも呼ばれます。勝ちを数列に足す「逆ラブシェール」は別の賭け方で、この記事では扱いません。"}},{"@type":"Question","name":"キャンセレーション法で、資金が足りなくなる確率は何%ですか？","acceptedAnswer":{"@type":"Answer","text":"ヨーロピアンルーレットの赤黒・数列1,2,3（目標+6単位）で、資金40単位なら失敗は17.2%、100単位なら8.1%、1,000単位でも1.05%です。資金40単位までは厳密計算、それ以上は乱数2億回の実測です。"}},{"@type":"Question","name":"キャンセレーション法には、資金がいくら必要ですか？","acceptedAnswer":{"@type":"Answer","text":"数列1,2,3（目標+6単位）で、失敗を10%以内にするには78単位、5%以内には174単位、1%以内には1,053単位が必要です（ヨーロピアン赤黒）。目標の13倍・29倍・176倍です。"}},{"@type":"Question","name":"キャンセレーション法は、勝率が何%あれば終わりますか？","acceptedAnswer":{"@type":"Answer","text":"赤黒のような配当1:1の賭けでは、勝率が1/3（約33.3%）を超えると、数列がいずれ消えます。勝つと数が2つ減り、負けると1つ増えるためです。ヨーロピアンの勝率は48.6%で超えていますが、数列が消える前に必要な資金が膨らむことがあります。"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"キャンセレーション法（ラブシェール法）とは、どんな賭け方ですか？","acceptedAnswer":{"@type":"Answer","text":"まず数列を決めます（例：1,2,3）。賭け額は、数列の両端の数の和です（例：1＋3＝4）。勝てば両端を消し、負ければ賭けた額を数列の右端に足します。数列がすべて消えたら終了で、そのとき収支は最初の数列の合計（例：+6）になります。"}},{"@type":"Question","name":"ラブシェール法とキャンセレーション法は、同じものですか？","acceptedAnswer":{"@type":"Answer","text":"同じ賭け方を指します。数列を消していくのでキャンセレーション法、考案者とされる人物の名前でラブシェール（Labouchère）法とも呼ばれます。勝ちを数列に足す「逆ラブシェール」は別の賭け方で、この記事では扱いません。"}},{"@type":"Question","name":"キャンセレーション法で、資金が足りなくなる確率は何%ですか？","acceptedAnswer":{"@type":"Answer","text":"ヨーロピアンルーレットの赤黒・数列1,2,3（目標+6単位）で、資金40単位なら失敗は17.2%、100単位なら8.1%、1,000単位でも1.05%です。資金40単位までは厳密計算、それ以上は乱数2億回の実測です。"}},{"@type":"Question","name":"キャンセレーション法には、資金がいくら必要ですか？","acceptedAnswer":{"@type":"Answer","text":"数列1,2,3（目標+6単位）で、失敗を10%以内にするには78単位、5%以内には174単位、1%以内には1,053単位が必要です（ヨーロピアン赤黒）。目標の13倍・29倍・176倍です。"}},{"@type":"Question","name":"キャンセレーション法は、勝率が何%あれば終わりますか？","acceptedAnswer":{"@type":"Answer","text":"赤黒のような配当1:1の賭けでは、勝率が1/3（約33.3%）を超えると、数列がいずれ消えます。数が2つ以上あるとき、勝つと数が2つ減り、負けると1つ増えるためです。ヨーロピアンの勝率は48.6%で超えていますが、数列が消える前に必要な資金が膨らむことがあります。"}}]}</script>
 <link rel="stylesheet" href="/betting/app.css">
 <!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
 <script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
@@ -117,13 +117,15 @@
 <h2 id="h-rule">ルールと1セッションの流れ</h2>
 <p>この記事では、次のルールで計算しました。</p>
 <ul>
-<li>最初に数列を決めます（例：1,2,3）。数列の合計が、目標の利益です（例：+6単位）。</li>
+<li>最初に数列を決めます（例：1,2,3）。数列の合計が、目標の利益です（例：+6単位）。<b>1単位は、数列の「1」にあたる賭け額（最小の賭け額）</b>で、この記事の資金・収支は、すべてこの単位で表します。</li>
 <li>賭け額は、<b>数列の両端の数の和</b>です。数が1つだけのときは、その数です。</li>
 <li><b>勝てば</b>、両端の数を消します。</li>
-<li><b>負ければ</b>、賭けた額を数列の右端に足します。</li>
+<li><b>負ければ</b>、賭けた額を数列の<span style="white-space:nowrap">右端に足します。</span></li>
 <li>数列がすべて消えたら、1セッション終了です。次の賭け額が残りの資金を超えたら、失敗として止めます。</li>
 </ul>
-<p>このルールは、Wikipedia の Labouchère system の説明（2026年11月23日に確認）と同じです。数列の足し方を変えた別の流儀もあるため、この記事の数字は、上のルールの場合だけです。</p>
+<p>このルールは、Wikipedia の Labouchère system の説明（2026年11月23日に確認）と同じです。出典は、次のURLです。</p>
+<ul><li><span style="overflow-wrap:anywhere">https://en.wikipedia.org/wiki/Labouch%C3%A8re_system</span></li></ul>
+<p>数列の足し方を変えた別の流儀もあるため、この記事の数字は、上のルールの場合だけです。</p>
 <p>数列1,2,3での、1セッションの例です（結果の並びを決めて、数列を実際に動かしました）。</p>
 <div class="tablebox"><table><thead><tr><th scope="col">回</th><th scope="col">数列（賭ける前）</th><th scope="col">賭け額（両端の和）</th><th scope="col">結果</th><th scope="col">数列（結果のあと）</th><th scope="col">合計の収支</th></tr></thead><tbody><tr><th scope="row">1</th><td>1,2,3</td><td>4</td><td>負け</td><td>1,2,3,4</td><td>−4</td></tr><tr><th scope="row">2</th><td>1,2,3,4</td><td>5</td><td>負け</td><td>1,2,3,4,5</td><td>−9</td></tr><tr><th scope="row">3</th><td>1,2,3,4,5</td><td>6</td><td>勝ち</td><td>2,3,4</td><td>−3</td></tr><tr><th scope="row">4</th><td>2,3,4</td><td>6</td><td>勝ち</td><td>3</td><td>+3</td></tr><tr><th scope="row">5</th><td>3</td><td>3</td><td>負け</td><td>3,3</td><td>0</td></tr><tr><th scope="row">6</th><td>3,3</td><td>6</td><td>勝ち</td><td>（空）</td><td>+6</td></tr></tbody></table></div>
 <p>この例では、6回の賭けで数列が消えました。賭け額の最大は6単位、賭け総額は30単位、途中で最も沈んだ収支は−9単位です。<b>最初の2連敗のあと、数列は「1,2,3,4,5」と長くなりました。</b>負けが続くと、数列が伸びて、賭け額も増えます。</p>
@@ -202,7 +204,7 @@
 <li>どの数列・どのホイールでも、収支÷賭け総額は理論値と0.02ポイント以内で一致しました。数列の組み方では、控除率は変えられません。</li>
 </ul>
 <h3>勝率が1/3を超えれば、数列はいずれ消える</h3>
-<p>赤黒（配当1:1）では、勝つと数が2つ減り、負けると1つ増えます。数列の長さは、勝率をpとすると、1回あたり平均して「−2p＋(1−p)」だけ動きます。<b>この値が0になるのは、p＝1/3（約33.3%）のときです。</b>勝率がそれより高いと、数列は平均して短くなり、いずれ消えます。ヨーロピアンの勝率は48.6%で、境目の1/3を超えています。</p>
+<p>赤黒（配当1:1）では、数が2つ以上あるとき、勝つと数が2つ減り、負けると1つ増えます。数列の長さは、勝率をpとすると、1回あたり平均して「−2p＋(1−p)」だけ動きます。<b>この値が0になるのは、p＝1/3（約33.3%）のときです。</b>勝率がそれより高いと、数列は平均して短くなり、いずれ消えます。ヨーロピアンの勝率は48.6%で、境目の1/3を超えています。</p>
 <p>ただし、「いずれ消える」と「資金が足りる」は別です。数列が消えるまでの途中で、必要な資金が大きく膨らむことがあります。この記事の表は、その膨らみを数えたものです。</p>
 
 <h2 id="h-how">計算式と方法論</h2>
@@ -218,7 +220,9 @@
 <li><b>控除率の恒等式</b>：9条件すべてで、収支÷賭け総額が−控除率と0.02ポイント以内で一致しました。</li>
 </ul>
 <h3>他の記事との違い</h3>
-<p>2026年11月23日に、検索の上位の解説を開きました。casino-winnersclub.com の解説は、数列の作り方と損切りの考え方が中心です。シミュレーションは、数列を1セット動かした1回の流れの例で、資金別の失敗確率はありません。hakoniwa.cc の記事は、ベットシステム9種の仕組みを短く説明し、ラブシェールについて、連敗で数列が伸びると賭け額が大きくなりすぎる点を指摘していますが、ラブシェール法の破産確率の数字はありません。Wikipedia は、勝率が約33.3%以上で数列が消えるという理論を載せていますが、必要資金の数字はありません。roulettedojo.com は、各システムを2,000セッションで検証していますが、本文を一部しか取得できず、ラブシェール法の数字を確認できていません。日本語で、資金別の失敗確率と必要資金を、厳密解つきで出している記事は、確認した範囲では見つかりませんでした。</p>
+<p>2026年11月23日に、検索の上位の解説を開きました。casino-winnersclub.com の解説は、数列の作り方と損切りの考え方が中心です。シミュレーションは、数列を1セット動かした1回の流れの例で、資金別の失敗確率はありません。hakoniwa.cc の記事は、ベットシステム9種の仕組みを短く説明し、ラブシェールについて、連敗で数列が伸びると賭け額が大きくなりすぎる点を指摘していますが、ラブシェール法の破産確率の数字はありません。Wikipedia は、勝率が約33.3%以上で数列が消えるという理論を載せていますが、必要資金の数字はありません。roulettedojo.comは、各システムを2,000セッションで検証していますが、本文を一部しか取得できず、ラブシェール法の数字を確認できていません。日本語で、資金別の失敗確率と必要資金を、厳密解つきで出している記事は、確認した範囲では見つかりませんでした。</p>
+<p>開いたページは、次の4つです。</p>
+<ul><li><span style="overflow-wrap:anywhere">https://casino-winnersclub.com/ja/betting-system/cancellation/</span></li><li><span style="overflow-wrap:anywhere">https://hakoniwa.cc/roulette/guide/betting-systems</span></li><li><span style="overflow-wrap:anywhere">https://en.wikipedia.org/wiki/Labouch%C3%A8re_system</span></li><li><span style="overflow-wrap:anywhere">https://roulettedojo.com/ja/strategies/</span></li></ul>
 
 <h2 id="h-limit">この計算の限界</h2>
 <ul>
@@ -240,7 +244,7 @@
 <h3>キャンセレーション法には、資金がいくら必要ですか？</h3>
 <p>数列1,2,3（目標+6単位）で、失敗を10%以内にするには78単位、5%以内には174単位、1%以内には1,053単位が必要です（ヨーロピアン赤黒）。目標の13倍・29倍・176倍です。</p>
 <h3>キャンセレーション法は、勝率が何%あれば終わりますか？</h3>
-<p>赤黒のような配当1:1の賭けでは、勝率が1/3（約33.3%）を超えると、数列がいずれ消えます。勝つと数が2つ減り、負けると1つ増えるためです。ヨーロピアンの勝率は48.6%で超えていますが、数列が消える前に必要な資金が膨らむことがあります。</p>
+<p>赤黒のような配当1:1の賭けでは、勝率が1/3（約33.3%）を超えると、数列がいずれ消えます。数が2つ以上あるとき、勝つと数が2つ減り、負けると1つ増えるためです。ヨーロピアンの勝率は48.6%で超えていますが、数列が消える前に必要な資金が膨らむことがあります。</p>
 
 <h2 id="h-end">まとめと次の一歩</h2>
 <ul>
