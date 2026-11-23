@@ -85,7 +85,7 @@
 <ul>
 <li><b>マーチンゲール法の計算・シミュレーション</b>：下の表で賭け金の増え方を確認し、<a href="/betting/martingale">マーチンゲール法シミュレーションのページ</a>で破産確率・必要資金を出せます。</li>
 <li><b>5つの賭け方を並べて試す</b>：<a href="#sim-heading">このページ下のシミュレーター</a>（モンテカルロ・ダランベール・パーレー・ココモも切り替え可）。</li>
-<li><b>連敗・破産・勝ち越しの確率だけ知りたい</b>：<a href="/betting/renpai">連敗確率の計算機</a>／<a href="/betting/hasan">破産確率の計算機</a>／<a href="/betting/kachikoshi">勝ち越し確率の計算機</a>／<a href="/betting/bias">ルーレットの偏りは何回で見抜けるか</a>／<a href="/betting/oscar">オスカーグラインド法の成功確率</a>／<a href="/betting/fibonacci">フィボナッチ法の破産確率と必要資金</a>。</li>
+<li><b>連敗・破産・勝ち越しの確率だけ知りたい</b>：<a href="/betting/renpai">連敗確率の計算機</a>／<a href="/betting/hasan">破産確率の計算機</a>／<a href="/betting/kachikoshi">勝ち越し確率の計算機</a>／<a href="/betting/bias">ルーレットの偏りは何回で見抜けるか</a>／<a href="/betting/oscar">オスカーグラインド法の成功確率</a>／<a href="/betting/fibonacci">フィボナッチ法の破産確率と必要資金</a>／<a href="/betting/labouchere">キャンセレーション法（ラブシェール法）の必要資金</a>。</li>
 </ul>
 <p><b>マーチンゲール法の賭け金の計算</b>：基本賭け金を1として、k回連敗した次の賭け金は 2<sup>k</sup>、そこまでの累計損失は 2<sup>k</sup>−1 です。k回負けたあとに勝てば、いつも利益は基本賭け金1つ分だけです。</p>
 <div class="tablebox">
@@ -217,6 +217,12 @@ E[収支] ＝ −（控除率） × E[総ベット額]
     <span class="tag mid">「資金はいくら要る？」に数字で答える</span><span class="tag">厳密計算</span>
     <p>目標+10単位で、資金100単位なら失敗は12.7%。失敗を1%以内にするには1,798単位。資金別・目標別の厳密値と、他の賭け方との比較。</p>
     <a class="go" href="/betting/fibonacci">フィボナッチ法を読む ▸</a>
+  </div>
+  <div class="card">
+    <h3>キャンセレーション法の必要資金</h3>
+    <span class="tag mid">「数列が消えれば勝ち」の資金は？</span><span class="tag">厳密計算＋乱数2億回</span>
+    <p>数列1,2,3（目標+6）で、資金40単位の失敗は17.2%。失敗を5%以内にするには174単位。成功の利益は小さく、失敗の損は大きい。</p>
+    <a class="go" href="/betting/labouchere">キャンセレーション法を読む ▸</a>
   </div>
 </div>
 

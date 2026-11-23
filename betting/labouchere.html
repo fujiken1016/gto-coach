@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>キャンセレーション法（ラブシェール法）の必要資金｜数列1,2,3で失敗を5%以内にするには174単位</title>
+<meta name="description" content="キャンセレーション法（ラブシェール法）を、ヨーロピアンルーレットの赤黒で計算。数列1,2,3（目標+6単位）で、資金40単位の失敗は17.2%、失敗を5%以内にするには174単位。資金別の失敗確率、必要資金、数列による違いを厳密解と乱数で確認。現金は一切扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/betting/labouchere">
+<meta property="og:title" content="キャンセレーション法（ラブシェール法）の必要資金｜数列1,2,3で失敗を5%以内にするには174単位">
+<meta property="og:image" content="https://shoubu-lab.com/og_labouchere.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://shoubu-lab.com/og_gto.jpg">
+<meta property="og:description" content="キャンセレーション法（ラブシェール法）を、ヨーロピアンルーレットの赤黒で計算。数列1,2,3（目標+6単位）で、資金40単位の失敗は17.2%、失敗を5%以内にするには174単位。資金別の失敗確率、必要資金、数列による違いを厳密解と乱数で確認。現金は一切扱いません。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shoubu-lab.com/betting/labouchere">
+<meta property="og:site_name" content="GTO Coach">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"キャンセレーション法（ラブシェール法）の必要資金｜数列1,2,3で失敗を5%以内にするには174単位","description":"キャンセレーション法（ラブシェール法）を、ヨーロピアンルーレットの赤黒で計算。数列1,2,3（目標+6単位）で、資金40単位の失敗は17.2%、失敗を5%以内にするには174単位。資金別の失敗確率、必要資金、数列による違いを厳密解と乱数で確認。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/betting/labouchere","inLanguage":"ja","datePublished":"2026-11-23T20:30:00+09:00","dateModified":"2026-11-23T20:30:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"ベッティングシステム検証室","item":"https://shoubu-lab.com/betting/"},{"@type":"ListItem","position":3,"name":"キャンセレーション法","item":"https://shoubu-lab.com/betting/labouchere"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"キャンセレーション法（ラブシェール法）とは、どんな賭け方ですか？","acceptedAnswer":{"@type":"Answer","text":"まず数列を決めます（例：1,2,3）。賭け額は、数列の両端の数の和です（例：1＋3＝4）。勝てば両端を消し、負ければ賭けた額を数列の右端に足します。数列がすべて消えたら終了で、そのとき収支は最初の数列の合計（例：+6）になります。"}},{"@type":"Question","name":"ラブシェール法とキャンセレーション法は、同じものですか？","acceptedAnswer":{"@type":"Answer","text":"同じ賭け方を指します。数列を消していくのでキャンセレーション法、考案者とされる人物の名前でラブシェール（Labouchère）法とも呼ばれます。勝ちを数列に足す「逆ラブシェール」は別の賭け方で、この記事では扱いません。"}},{"@type":"Question","name":"キャンセレーション法で、資金が足りなくなる確率は何%ですか？","acceptedAnswer":{"@type":"Answer","text":"ヨーロピアンルーレットの赤黒・数列1,2,3（目標+6単位）で、資金40単位なら失敗は17.2%、100単位なら8.1%、1,000単位でも1.05%です。資金40単位までは厳密計算、それ以上は乱数2億回の実測です。"}},{"@type":"Question","name":"キャンセレーション法には、資金がいくら必要ですか？","acceptedAnswer":{"@type":"Answer","text":"数列1,2,3（目標+6単位）で、失敗を10%以内にするには78単位、5%以内には174単位、1%以内には1,053単位が必要です（ヨーロピアン赤黒）。目標の13倍・29倍・176倍です。"}},{"@type":"Question","name":"キャンセレーション法は、勝率が何%あれば終わりますか？","acceptedAnswer":{"@type":"Answer","text":"赤黒のような配当1:1の賭けでは、勝率が1/3（約33.3%）を超えると、数列がいずれ消えます。勝つと数が2つ減り、負けると1つ増えるためです。ヨーロピアンの勝率は48.6%で超えていますが、数列が消える前に必要な資金が膨らむことがあります。"}}]}</script>
+<link rel="stylesheet" href="/betting/app.css">
+<!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
+<script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
+<script src="/oc.js" defer></script>
+<style>
+/* === 勝負ラボ 共通ツールナビ (SL-TOOLS-NAV v1) === */
+.sl-tools{
+  --slt-ink:var(--text,var(--ink,var(--txt,var(--d-text,#eef2ff))));
+  --slt-sub:var(--sub,var(--ink-dim,var(--d-text-muted,#8b96c9)));
+  --slt-line:var(--border,var(--line,var(--d-line,#2a3566)));
+  --slt-acc:var(--gold,var(--warn,#ffd23e));
+  margin:32px 0 20px;padding:18px 0 2px;
+  border-top:1px solid var(--slt-line);
+}
+.sl-tools__lead{margin:0 0 12px;padding:0;font-size:16px;font-weight:700;line-height:1.3;color:var(--slt-acc);}
+.sl-tools__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.sl-tools__list li{margin:0;padding:0;}
+.sl-tools__list li::before{content:none;}
+.sl-tools a,.sl-tools .sl-tools__cur{
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  min-height:48px;padding:11px 14px;border-radius:12px;
+  border:1px solid var(--slt-line);background:rgba(0,0,0,.28);
+  color:var(--slt-ink);text-decoration:none;margin:0;
+}
+.sl-tools a:hover{border-color:var(--slt-acc);background:rgba(0,0,0,.45);}
+.sl-tools .sl-tools__cur{border-style:dashed;}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
+.sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
+@media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+</style>
+<style>
+/* /betting/labouchere 専用（共通の app.css は変更しない） */
+.bt2 .notice,.bt2 .notice b,.bt2 .lead{font-size:14px}
+.bt2 .tablebox th{white-space:nowrap;vertical-align:bottom}
+.bt2 .tablebox th[scope=row]{text-align:left;white-space:nowrap}
+.bt2 .tablebox td{white-space:nowrap}
+.bt2 .tablebox table{min-width:420px;font-size:14px}.bt2 .tablebox th{font-size:14px}
+.bt2 .tablebox caption{white-space:normal;text-align:left;font-size:14px;color:var(--sub);padding:6px 10px}
+.fg{margin:14px 0 18px}.bg2{margin:0 0 12px}.bn2{margin:0 0 2px;font-weight:700;font-size:14.5px;color:#fff}
+.br2{display:flex;align-items:center;gap:8px;font-size:14px;line-height:1.7;color:#d6ddfa}
+.bl2{flex:0 0 5.4em;color:var(--sub)}.bt2x{flex:1;display:block;background:var(--panel2);border-radius:9999px;height:10px;overflow:hidden}
+.bt2x i{display:block;height:10px;border-radius:9999px;background:var(--cyan)}.bv2{flex:0 0 5.8em;text-align:right;font-variant-numeric:tabular-nums}
+.fg figcaption{color:var(--sub);font-size:14px;margin-top:6px;line-height:1.7}
+.bt2 h2,.bt2 h3,.bt2 .toc a{word-break:auto-phrase;text-wrap:pretty}
+.toc{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin:14px 0}
+.tocT{font-weight:700;margin:0 0 2px;color:#fff;font-size:14.5px}
+.toc ol{margin:0 0 0 20px}.toc li{margin:0}.toc a{display:inline-block;padding:13px 0;line-height:1.6;font-size:14.5px}
+.bt2 .crumb,.bt2 footer,.bt2 footer div,.bt2 .eq .small{font-size:14px}
+.bt2 .tablebox::before{content:"表は横にスクロールできます →";display:block;font-size:14px;line-height:1.8;color:var(--sub);padding:6px 10px 0}
+@media(min-width:640px){.bt2 .tablebox::before{display:none}}
+.bt2 .tnote{font-size:14px;color:var(--sub);margin:-4px 0 12px}
+.bt2 article li>a:first-child:last-child{display:inline-block;padding:11px 0}
+</style>
+</head>
+<body class="bt2">
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/betting/">ベッティングシステム検証室</a> ／ キャンセレーション法</div>
+<h1>キャンセレーション法（ラブシェール法）に、資金はいくら必要？<br>— 失敗確率と必要資金を、厳密計算と乱数2億回で</h1>
+<div class="notice">
+<b>このページについて</b>：確率の計算を確かめるための学習用の解説です。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される数値はすべて計算上のもので、オンラインカジノ等の紹介・誘導も行いません。賭けを勧めるページでも、勝つ方法を案内するページでもありません。
+</div>
+<div class="lead">
+キャンセレーション法（ラブシェール法）は、「目標の利益を数列に分けて、1つずつ消していく」賭け方です。数列が全部消えれば、必ず目標の利益で終わると説明されることがあります。
+では<b>消えるまでに、どれだけの資金が要るのか</b>。ヨーロピアンルーレットの赤黒で、厳密計算と2億回の乱数で確かめます。
+</div>
+
+<nav class="toc" aria-label="目次"><p class="tocT">目次</p><ol>
+<li><a href="#h-concl">先に結論です。</a></li>
+<li><a href="#h-rule">ルールと1セッションの流れ</a></li>
+<li><a href="#h-id">終わったときの収支は決まっている</a></li>
+<li><a href="#h-prob">資金別の失敗確率</a></li>
+<li><a href="#h-need">必要な資金はいくらか</a></li>
+<li><a href="#h-list">数列を変えると</a></li>
+<li><a href="#h-ev">平均の収支と、勝率の境目</a></li>
+<li><a href="#h-how">計算式と方法論</a></li>
+<li><a href="#h-limit">計算の限界</a></li>
+<li><a href="#h-faq">よくある質問</a></li>
+<li><a href="#h-end">まとめと次の一歩</a></li>
+</ol></nav>
+
+<h2 id="h-concl">先に結論です。</h2>
+<ul>
+<li><b>数列1,2,3（目標+6単位）で、資金40単位でも失敗は17.2%です。</b>ヨーロピアン赤黒（勝つ確率18/37）で、資金10単位なら46.8%、100単位で8.1%、1,000単位でも1.05%です（資金40単位まで厳密解、それ以上は乱数2億回）。</li>
+<li><b>必要な資金は、目標の何十倍にもなります。</b>失敗を10%以内にするには78単位、5%以内には174単位、1%以内には1,053単位です。目標の13倍・29倍・176倍にあたります。</li>
+<li><b>終わったときの収支は、成功すればちょうど目標（+6単位）です。</b>数列が消えれば、収支は「最初の数列の合計」になります。1回あたりの利益は小さく、失敗したときの損は資金の大半です。</li>
+<li>目標が大きい数列ほど、同じ資金での失敗が増えます。資金40単位の失敗は、数列1,2,3（目標+6）で17.2%、1,2,3,4（目標+10）で25.9%です。</li>
+<li>平均の収支は、賭け方によらず「−控除率×賭け総額」です。乱数の実測で、ヨーロピアンは−2.70%（理論値−2.70%）、アメリカンは−5.26%（理論値−5.26%）でした。</li>
+</ul>
+<p>※上の数字は、特記のない限り、各回が独立のルーレット赤黒（配当1:1）の計算です。「失敗」は、次に賭ける額が残りの資金を超えて、続けられなくなることです。</p>
+
+<h2 id="h-rule">ルールと1セッションの流れ</h2>
+<p>この記事では、次のルールで計算しました。</p>
+<ul>
+<li>最初に数列を決めます（例：1,2,3）。数列の合計が、目標の利益です（例：+6単位）。</li>
+<li>賭け額は、<b>数列の両端の数の和</b>です。数が1つだけのときは、その数です。</li>
+<li><b>勝てば</b>、両端の数を消します。</li>
+<li><b>負ければ</b>、賭けた額を数列の右端に足します。</li>
+<li>数列がすべて消えたら、1セッション終了です。次の賭け額が残りの資金を超えたら、失敗として止めます。</li>
+</ul>
+<p>このルールは、Wikipedia の Labouchère system の説明（2026年11月23日に確認）と同じです。数列の足し方を変えた別の流儀もあるため、この記事の数字は、上のルールの場合だけです。</p>
+<p>数列1,2,3での、1セッションの例です（結果の並びを決めて、数列を実際に動かしました）。</p>
+<div class="tablebox"><table><thead><tr><th scope="col">回</th><th scope="col">数列（賭ける前）</th><th scope="col">賭け額（両端の和）</th><th scope="col">結果</th><th scope="col">数列（結果のあと）</th><th scope="col">合計の収支</th></tr></thead><tbody><tr><th scope="row">1</th><td>1,2,3</td><td>4</td><td>負け</td><td>1,2,3,4</td><td>−4</td></tr><tr><th scope="row">2</th><td>1,2,3,4</td><td>5</td><td>負け</td><td>1,2,3,4,5</td><td>−9</td></tr><tr><th scope="row">3</th><td>1,2,3,4,5</td><td>6</td><td>勝ち</td><td>2,3,4</td><td>−3</td></tr><tr><th scope="row">4</th><td>2,3,4</td><td>6</td><td>勝ち</td><td>3</td><td>+3</td></tr><tr><th scope="row">5</th><td>3</td><td>3</td><td>負け</td><td>3,3</td><td>0</td></tr><tr><th scope="row">6</th><td>3,3</td><td>6</td><td>勝ち</td><td>（空）</td><td>+6</td></tr></tbody></table></div>
+<p>この例では、6回の賭けで数列が消えました。賭け額の最大は6単位、賭け総額は30単位、途中で最も沈んだ収支は−9単位です。<b>最初の2連敗のあと、数列は「1,2,3,4,5」と長くなりました。</b>負けが続くと、数列が伸びて、賭け額も増えます。</p>
+
+<h2 id="h-id">終わったときの収支は決まっている</h2>
+<p>キャンセレーション法には、1つの関係があります。<b>合計の収支は、いつでも「最初の数列の合計 − いまの数列の合計」に等しい</b>です。</p>
+<ul>
+<li>勝つと、数列から賭け額と同じだけが消えます。収支は賭け額だけ増え、数列の合計は賭け額だけ減ります。</li>
+<li>負けると、賭け額と同じだけが数列に足されます。収支は賭け額だけ減り、数列の合計は賭け額だけ増えます。</li>
+<li>数列が空になれば、いまの数列の合計は0です。<b>収支は、ちょうど最初の数列の合計になります。</b></li>
+</ul>
+<p>上の例の表で、全ての行について確かめました（収支＝6−いまの数列の合計）。つまり、成功したときの利益は、いつも同じ小さな額です。<b>一方、失敗の損は、数列が伸びるほど大きくなります。</b>利益が小さく、損が大きい形は、ほかの負けたら増やす賭け方（<a href="/betting/martingale">マーチンゲール法</a>・<a href="/betting/fibonacci">フィボナッチ法</a>）と同じです。</p>
+
+<h2 id="h-prob">資金別の失敗確率</h2>
+<p>数列は1,2,3（目標+6単位）、最初の賭け額は4単位です。資金は「単位」の数で表します。1回の賭けで、残りの資金より大きい額が必要になったときを「失敗」とします。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">資金</th><th scope="col">公平（50%）</th><th scope="col">ヨーロピアン（18/37）</th><th scope="col">アメリカン（18/38）</th><th scope="col">求め方</th></tr></thead>
+<tbody><tr><th scope="row">6単位</th><td>62.5%</td><td><b>64.2%</b></td><td>65.8%</td><td>厳密解</td></tr><tr><th scope="row">10単位</th><td>44.6%</td><td><b>46.8%</b></td><td>48.8%</td><td>厳密解</td></tr><tr><th scope="row">15単位</th><td>33.9%</td><td><b>36.2%</b></td><td>38.4%</td><td>厳密解</td></tr><tr><th scope="row">20単位</th><td>27.8%</td><td><b>30.0%</b></td><td>32.3%</td><td>厳密解</td></tr><tr><th scope="row">30単位</th><td>19.9%</td><td><b>22.0%</b></td><td>24.2%</td><td>厳密解</td></tr><tr><th scope="row">40単位</th><td>15.2%</td><td><b>17.2%</b></td><td>19.3%</td><td>厳密解</td></tr><tr><th scope="row">60単位</th><td>10.5%</td><td><b>12.3%</b></td><td>14.2%</td><td>乱数（2億回）</td></tr><tr><th scope="row">100単位</th><td>6.6%</td><td><b>8.1%</b></td><td>9.6%</td><td>乱数（2億回）</td></tr><tr><th scope="row">200単位</th><td>3.4%</td><td><b>4.4%</b></td><td>5.6%</td><td>乱数（2億回）</td></tr><tr><th scope="row">500単位</th><td>1.4%</td><td><b>1.9%</b></td><td>2.7%</td><td>乱数（2億回）</td></tr><tr><th scope="row">1,000単位</th><td>0.7%</td><td><b>1.0%</b></td><td>1.5%</td><td>乱数（2億回）</td></tr><tr><th scope="row">2,000単位</th><td>0.3%</td><td><b>0.6%</b></td><td>0.9%</td><td>乱数（2億回）</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※失敗する確率。厳密解は、数列の全ての状態を連立方程式で解いた値です。乱数は、各2億回の実測です（標準誤差は0.004ポイント以下）。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">資金6単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:64.18%"></i></span><span class="bv2">64.2%</span></div></div><div class="bg2"><p class="bn2">資金10単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:46.76%"></i></span><span class="bv2">46.8%</span></div></div><div class="bg2"><p class="bn2">資金20単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:30.04%"></i></span><span class="bv2">30.0%</span></div></div><div class="bg2"><p class="bn2">資金40単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:17.24%"></i></span><span class="bv2">17.2%</span></div></div><div class="bg2"><p class="bn2">資金100単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:8.08%"></i></span><span class="bv2">8.1%</span></div></div><div class="bg2"><p class="bn2">資金500単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:1.94%"></i></span><span class="bv2">1.9%</span></div></div><div class="bg2"><p class="bn2">資金2,000単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:0.56%"></i></span><span class="bv2">0.6%</span></div></div><figcaption>※数列1,2,3・ヨーロピアン赤黒で、必要な資金が足りなくなる（失敗する）確率。バーは0〜100%。資金40単位まで厳密解、60単位以上は乱数。</figcaption></figure>
+<ul>
+<li><b>資金を増やしても、失敗はゆっくりしか減りません。</b>ヨーロピアンで、資金を40単位から100単位へ2.5倍にしても、失敗は17.2%から8.1%と、半分に減るだけです。</li>
+<li>公平な賭け（勝つ確率50%）では、失敗確率に資金をかけた値が、資金が1,000〜2,000単位でほぼ一定（約6.9）です。失敗確率は、資金にほぼ反比例して減ります。資金を10倍にすると、失敗は約1/10です。</li>
+<li>控除率がある実際のホイールでは、もっとゆっくりです。ヨーロピアンの資金2,000単位でも、失敗は0.56%残ります。</li>
+</ul>
+<figure class="fg"><div class="bg2"><p class="bn2">資金6単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:62.50%"></i></span><span class="bv2">62.5%</span></div></div><div class="bg2"><p class="bn2">資金10単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:44.64%"></i></span><span class="bv2">44.6%</span></div></div><div class="bg2"><p class="bn2">資金20単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:27.76%"></i></span><span class="bv2">27.8%</span></div></div><div class="bg2"><p class="bn2">資金40単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:15.21%"></i></span><span class="bv2">15.2%</span></div></div><div class="bg2"><p class="bn2">資金200単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:3.40%"></i></span><span class="bv2">3.40%</span></div></div><div class="bg2"><p class="bn2">資金1,000単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:0.69%"></i></span><span class="bv2">0.69%</span></div></div><div class="bg2"><p class="bn2">資金2,000単位</p><div class="br2"><span class="bl2">失敗</span><span class="bt2x"><i style="width:0.35%"></i></span><span class="bv2">0.35%</span></div></div><figcaption>※公平な賭け（勝つ確率50%）・数列1,2,3での失敗確率。資金を2倍にすると、失敗はおよそ半分になるだけ。バーは0〜100%。</figcaption></figure>
+
+<h2 id="h-need">必要な資金はいくらか</h2>
+<p>失敗する確率を指定の値以下にするために、最低いくらの資金が要るかを、乱数2億回の分布から求めました。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">失敗の許容</th><th scope="col">公平（50%）</th><th scope="col">ヨーロピアン</th><th scope="col">アメリカン</th><th scope="col">ヨーロピアンの目標比</th></tr></thead>
+<tbody><tr><th scope="row">失敗を10%以内</th><td>65単位</td><td>78単位</td><td>95単位</td><td>13倍</td></tr><tr><th scope="row">失敗を5%以内</th><td>135単位</td><td>174単位</td><td>228単位</td><td>29倍</td></tr><tr><th scope="row">失敗を1%以内</th><td>690単位</td><td>1,053単位</td><td>1,696単位</td><td>176倍</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※数列1,2,3・目標+6単位。乱数2億回の実測。目標比は、必要資金÷6。アメリカンはダブルゼロ（00）ありのホイール。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">失敗を10%以内にする資金</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:7.09%"></i></span><span class="bv2">78単位</span></div></div><div class="bg2"><p class="bn2">失敗を5%以内にする資金</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:15.82%"></i></span><span class="bv2">174単位</span></div></div><div class="bg2"><p class="bn2">失敗を1%以内にする資金</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:95.73%"></i></span><span class="bv2">1,053単位</span></div></div><figcaption>※数列1,2,3・ヨーロピアン赤黒で、失敗確率が指定の値以下になる最小の資金（乱数2億回）。バーは1,100単位を100%とした長さ。</figcaption></figure>
+<ul>
+<li><b>失敗を5%以内に抑えるだけで、174単位の資金が要ります。</b>目標の利益は6単位なので、利益の29倍の資金です。</li>
+<li>失敗を1%以内にするには1,053単位で、アメリカンでは1,696単位です。</li>
+<li>失敗の許容を0.1%にすると、必要資金は5,000単位を超えます（5,000単位までの乱数では、足りない）。</li>
+</ul>
+
+<h2 id="h-list">数列を変えると</h2>
+<p>数列を変えると、資金の必要量が変わります。ヨーロピアン赤黒で、3つの数列を比べました。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">数列</th><th scope="col">最初の賭け額</th><th scope="col">資金40の失敗</th><th scope="col">資金100の失敗</th><th scope="col">失敗5%以内の資金</th><th scope="col">平均の賭け回数</th><th scope="col">平均賭け総額</th></tr></thead>
+<tbody><tr><th scope="row">1,2,3（目標+6）</th><td>4単位</td><td>17.2%</td><td>8.1%</td><td>174単位</td><td>7.5回</td><td>178</td></tr><tr><th scope="row">1×6個（目標+6）</th><td>2単位</td><td>17.9%</td><td>8.4%</td><td>185単位</td><td>13.8回</td><td>212</td></tr><tr><th scope="row">1,2,3,4（目標+10）</th><td>5単位</td><td>25.9%</td><td>12.7%</td><td>295単位</td><td>9.3回</td><td>280</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※資金40単位は厳密解、それ以外は乱数2億回の実測。平均賭け回数と平均賭け総額は、必要資金5,000単位まで耐えられるとして打ち切った場合の値（単位は「単位」）。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">1,2,3（目標+6）</p><div class="br2"><span class="bl2">資金40</span><span class="bt2x"><i style="width:17.24%"></i></span><span class="bv2">17.2%</span></div></div><div class="bg2"><p class="bn2">1×6個（目標+6）</p><div class="br2"><span class="bl2">資金40</span><span class="bt2x"><i style="width:17.85%"></i></span><span class="bv2">17.9%</span></div></div><div class="bg2"><p class="bn2">1,2,3,4（目標+10）</p><div class="br2"><span class="bl2">資金40</span><span class="bt2x"><i style="width:25.92%"></i></span><span class="bv2">25.9%</span></div></div><figcaption>※ヨーロピアン赤黒で、資金40単位のとき失敗する確率（厳密解）。目標の大きい数列ほど、同じ資金での失敗が多い。バーは0〜100%。</figcaption></figure>
+<ul>
+<li><b>数列の合計（目標）が大きいほど、同じ資金での失敗が増えます。</b>1,2,3,4（目標+10）は、1,2,3（目標+6）より、資金40単位で失敗が8.7ポイント高いです。</li>
+<li>1を6個並べた数列（目標+6）は、最初の賭け額が2単位と小さく、資金が小さいうちは有利です。資金6単位の失敗は、1,2,3が64.2%、1×6個が60.3%です。</li>
+<li>資金が大きくなると、差は縮み、逆転します。資金100単位の失敗は、1,2,3が8.1%、1×6個が8.4%です。数列の形を変えても、失敗確率を大きくは下げられません。</li>
+</ul>
+
+<h2 id="h-ev">平均の収支と、勝率の境目</h2>
+<p>平均の収支は、どの賭け方でも「−控除率×賭け総額」です。乱数の実測で、この関係を確かめました。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">数列・ホイール</th><th scope="col">平均の賭け総額</th><th scope="col">平均の収支</th><th scope="col">収支÷賭け総額</th><th scope="col">理論値（−控除率）</th></tr></thead>
+<tbody><tr><th scope="row">1,2,3（目標+6）・公平（50%）</th><td>134.2</td><td>−0.01</td><td>−0.00%</td><td>−0.00%</td></tr><tr><th scope="row">1,2,3（目標+6）・ヨーロピアン（18/37）</th><td>178.1</td><td>−4.82</td><td>−2.70%</td><td>−2.70%</td></tr><tr><th scope="row">1,2,3（目標+6）・アメリカン（18/38）</th><td>235.0</td><td>−12.38</td><td>−5.27%</td><td>−5.26%</td></tr><tr><th scope="row">1×6個（目標+6）・公平（50%）</th><td>152.7</td><td>−0.00</td><td>−0.00%</td><td>−0.00%</td></tr><tr><th scope="row">1×6個（目標+6）・ヨーロピアン（18/37）</th><td>211.7</td><td>−5.72</td><td>−2.70%</td><td>−2.70%</td></tr><tr><th scope="row">1×6個（目標+6）・アメリカン（18/38）</th><td>292.0</td><td>−15.35</td><td>−5.26%</td><td>−5.26%</td></tr><tr><th scope="row">1,2,3,4（目標+10）・公平（50%）</th><td>214.0</td><td>−0.01</td><td>−0.00%</td><td>−0.00%</td></tr><tr><th scope="row">1,2,3,4（目標+10）・ヨーロピアン（18/37）</th><td>279.9</td><td>−7.57</td><td>−2.71%</td><td>−2.70%</td></tr><tr><th scope="row">1,2,3,4（目標+10）・アメリカン（18/38）</th><td>363.7</td><td>−19.16</td><td>−5.27%</td><td>−5.26%</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※乱数2億回の実測。必要資金が5,000単位を超えたら打ち切った条件の平均（単位は「単位」）。収支÷賭け総額が理論値に近いほど、乱数が正しく動いている。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">公平（50%）</p><div class="br2"><span class="bl2">平均収支</span><span class="bt2x"><i style="width:0.03%"></i></span><span class="bv2">−0.01単位</span></div></div><div class="bg2"><p class="bn2">ヨーロピアン</p><div class="br2"><span class="bl2">平均収支</span><span class="bt2x"><i style="width:24.08%"></i></span><span class="bv2">−4.82単位</span></div></div><div class="bg2"><p class="bn2">アメリカン</p><div class="br2"><span class="bl2">平均収支</span><span class="bt2x"><i style="width:61.90%"></i></span><span class="bv2">−12.38単位</span></div></div><figcaption>※数列1,2,3・目標+6の1回の挑戦で、必要資金が5,000単位まで耐えられるとしたときの平均収支（乱数2億回）。バーは−20単位を100%とした長さ。</figcaption></figure>
+<ul>
+<li><b>公平な賭けでは平均の収支はほぼ0、ヨーロピアンでは数列1,2,3で−4.82単位です。</b>目標は+6単位ですが、平均はマイナスです。</li>
+<li>6単位を狙った1回の挑戦で、平均の賭け総額は178単位です。目標の30倍もの額を賭けています。</li>
+<li>どの数列・どのホイールでも、収支÷賭け総額は理論値と0.02ポイント以内で一致しました。数列の組み方では、控除率は変えられません。</li>
+</ul>
+<h3>勝率が1/3を超えれば、数列はいずれ消える</h3>
+<p>赤黒（配当1:1）では、勝つと数が2つ減り、負けると1つ増えます。数列の長さは、勝率をpとすると、1回あたり平均して「−2p＋(1−p)」だけ動きます。<b>この値が0になるのは、p＝1/3（約33.3%）のときです。</b>勝率がそれより高いと、数列は平均して短くなり、いずれ消えます。ヨーロピアンの勝率は48.6%で、境目の1/3を超えています。</p>
+<p>ただし、「いずれ消える」と「資金が足りる」は別です。数列が消えるまでの途中で、必要な資金が大きく膨らむことがあります。この記事の表は、その膨らみを数えたものです。</p>
+
+<h2 id="h-how">計算式と方法論</h2>
+<h3>1｜モデル</h3>
+<p>状態は「いまの数列」です。勝てば両端を消した数列へ、負ければ賭け額を右端に足した数列へ移ります。累積の損失 D（収支のマイナス分）に、次の賭け額 b を足した D＋b が資金を超えたら失敗です。1回の挑戦で、この D＋b の最大値（必要資金）を記録すると、<b>必要資金が資金以下かどうかで、全ての資金の成否を同時に判定できます</b>。</p>
+<h3>2｜厳密な計算</h3>
+<p>状態の遷移には、同じ数列に戻る輪があります（例：1,1 → 負け → 1,1,2 → 勝ち → 1 → 負け → 1,1）。そのため、再帰ではなく、成功確率の連立方程式として、誤差1e−14以下まで反復して解きました。資金6〜40単位・3つの数列・3つの勝率の全54条件を計算しています。</p>
+<h3>検証のしかた</h3>
+<ul>
+<li><b>手計算との一致</b>：公平な賭け・数列1,2,3・資金6単位の失敗確率は、手で数えた5/8＝0.625と、厳密解が一致しました。</li>
+<li><b>収支の恒等式</b>：1セッションの例の全ての行で、収支＝最初の数列の合計−いまの数列の合計が成り立つことを確かめました。</li>
+<li><b>乱数との照合</b>：別の言語（C）・別の方式（1回ずつ乱数で賭けを進める）で、各2億回を回しました。厳密解と比べた54条件のうち、標準誤差の2倍を超えたのは0条件、最も離れたのは標準誤差の1.9倍（差0.0059ポイント）でした。乱数の揺れの範囲です。</li>
+<li><b>控除率の恒等式</b>：9条件すべてで、収支÷賭け総額が−控除率と0.02ポイント以内で一致しました。</li>
+</ul>
+<h3>他の記事との違い</h3>
+<p>2026年11月23日に、検索の上位の解説を開きました。casino-winnersclub.com の解説は、数列の作り方と損切りの考え方が中心です。シミュレーションは、数列を1セット動かした1回の流れの例で、資金別の失敗確率はありません。hakoniwa.cc の記事は、ベットシステム9種の仕組みを短く説明し、ラブシェールについて、連敗で数列が伸びると賭け額が大きくなりすぎる点を指摘していますが、ラブシェール法の破産確率の数字はありません。Wikipedia は、勝率が約33.3%以上で数列が消えるという理論を載せていますが、必要資金の数字はありません。roulettedojo.com は、各システムを2,000セッションで検証していますが、本文を一部しか取得できず、ラブシェール法の数字を確認できていません。日本語で、資金別の失敗確率と必要資金を、厳密解つきで出している記事は、確認した範囲では見つかりませんでした。</p>
+
+<h2 id="h-limit">この計算の限界</h2>
+<ul>
+<li>各回が独立で、勝つ確率が一定のモデルです。実際のホイールやオンラインの乱数の癖は、この計算の外です。</li>
+<li>失敗の扱いが、フィボナッチ法の記事と違います。この記事は、賭け額が残りの資金を超えたら、残りを全部賭けずに止めます。残りを全部賭ける場合、失敗の損は資金の全額になります。</li>
+<li>テーブルの最低・最高賭け額は入っていません。賭け額の上限がある場所では、失敗確率はこの表より上がります。</li>
+<li>数列の流儀で数字が変わります。負けたとき足す数、勝ったとき消す数を変えると、この記事の数字とは一致しません。</li>
+<li>必要資金が5,000単位を超える挑戦は、打ち切って「失敗」に数えています。平均の賭け総額と平均収支は、この打ち切りの条件の値です。</li>
+<li><b>これは、確率の仕組みを知るための解説で、賭けを勧めるものではありません。</b>賭け方で、控除率は変えられません。</li>
+</ul>
+
+<h2 id="h-faq">よくある質問</h2>
+<h3>キャンセレーション法（ラブシェール法）とは、どんな賭け方ですか？</h3>
+<p>まず数列を決めます（例：1,2,3）。賭け額は、数列の両端の数の和です（例：1＋3＝4）。勝てば両端を消し、負ければ賭けた額を数列の右端に足します。数列がすべて消えたら終了で、そのとき収支は最初の数列の合計（例：+6）になります。</p>
+<h3>ラブシェール法とキャンセレーション法は、同じものですか？</h3>
+<p>同じ賭け方を指します。数列を消していくのでキャンセレーション法、考案者とされる人物の名前でラブシェール（Labouchère）法とも呼ばれます。勝ちを数列に足す「逆ラブシェール」は別の賭け方で、この記事では扱いません。</p>
+<h3>キャンセレーション法で、資金が足りなくなる確率は何%ですか？</h3>
+<p>ヨーロピアンルーレットの赤黒・数列1,2,3（目標+6単位）で、資金40単位なら失敗は17.2%、100単位なら8.1%、1,000単位でも1.05%です。資金40単位までは厳密計算、それ以上は乱数2億回の実測です。</p>
+<h3>キャンセレーション法には、資金がいくら必要ですか？</h3>
+<p>数列1,2,3（目標+6単位）で、失敗を10%以内にするには78単位、5%以内には174単位、1%以内には1,053単位が必要です（ヨーロピアン赤黒）。目標の13倍・29倍・176倍です。</p>
+<h3>キャンセレーション法は、勝率が何%あれば終わりますか？</h3>
+<p>赤黒のような配当1:1の賭けでは、勝率が1/3（約33.3%）を超えると、数列がいずれ消えます。勝つと数が2つ減り、負けると1つ増えるためです。ヨーロピアンの勝率は48.6%で超えていますが、数列が消える前に必要な資金が膨らむことがあります。</p>
+
+<h2 id="h-end">まとめと次の一歩</h2>
+<ul>
+<li>数列1,2,3（目標+6単位）の失敗は、資金40単位で17.2%、資金100単位で8.1%です（ヨーロピアン赤黒）。</li>
+<li>失敗を5%以内にするには174単位、1%以内には1,053単位の資金が要ります。目標の29倍・176倍です。</li>
+<li>成功すれば収支はちょうど目標ですが、平均の収支は「−控除率×賭け総額」で、マイナスです。</li>
+</ul>
+<p>次の1アクションは、<a href="/betting/hasan">破産確率の計算機</a>で、勝つ確率を48.6%、1回の賭け額を資金の4%にして、この記事の「資金100単位・最初の賭け4単位」の設定と見比べることです。計算機は固定額の賭けを前提にするため、数字は一致しません。賭け額が増える賭け方の失敗が、固定額よりずっと多いことを、確かめられます。</p>
+
+<div class="related">
+  <b>ベッティングシステム検証室</b><br>
+  <a href="/betting/">検証室トップ</a>
+  <a href="/betting/martingale">マーチンゲール法</a>
+  <a href="/betting/fibonacci">フィボナッチ法の破産確率</a>
+  <a href="/betting/cocomo">ココモ法</a>
+  <a href="/betting/oscar">オスカーグラインド法</a>
+  <a href="/betting/hasan">破産確率の計算機</a>
+  <a href="/betting/renpai">連敗確率の計算機</a>
+  <a href="/betting/bias">ルーレットの偏りの検出</a>
+  <a href="/edge/">還元率ランキング</a>
+</div>
+
+<!-- SL-TOOLS-NAV v1 -->
+<nav class="sl-tools" aria-label="勝負ラボのツール">
+  <p class="sl-tools__lead">勝負ラボのツール</p>
+  <ul class="sl-tools__list">
+  <li><a href="https://shoubu-lab.com/" data-sl="gto"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">ポーカーの正解手を全ストリートで練習</span></a></li>
+  <li><a href="https://rule.shoubu-lab.com/" data-sl="rules"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・進行・用語をゼロから対人デビューまで</span></a></li>
+  <li><a href="https://bj.shoubu-lab.com/" data-sl="bj"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">ベーシックストラテジー＆カウンティング</span></a></li>
+  <li><span class="sl-tools__cur" aria-current="page"><span class="sl-tools__t">ベッティングシステム</span><span class="sl-tools__d">マーチンゲール法ほか5法の破綻を実測（いまここ）</span></span></li>
+  <li><a href="https://shoubu-lab.com/edge/" data-sl="edge"><span class="sl-tools__t">還元率ランキング</span><span class="sl-tools__d">控除率・期待値・ケリー基準の計算機</span></a></li>
+  <li><a href="https://shoubu-lab.com/koei/" data-sl="koei"><span class="sl-tools__t">公営競技の資金管理</span><span class="sl-tools__d">競馬・競艇で同じ手法を検証する</span></a></li>
+  <li><a href="https://shoubu-lab.com/hall/" data-sl="hall"><span class="sl-tools__t">ホールデータラボ</span><span class="sl-tools__d">城南8店の実測値と、外れた検証記録</span></a></li>
+  </ul>
+</nav>
+<script>
+/* SL-TOOLS-NAV v1: ツール間の回遊をGA4に送る */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('.sl-tools a[data-sl]'):null;
+  if(!a||typeof window.gtag!=='function')return;
+  window.gtag('event','tool_nav_click',{tool:a.getAttribute('data-sl'),from_host:location.hostname,link_url:a.href});
+},true);
+</script>
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
