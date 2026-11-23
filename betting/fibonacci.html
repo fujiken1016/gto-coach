@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>フィボナッチ法の破産確率と必要資金｜資金100単位で+10に届くのは87.3%、外れれば全額</title>
+<meta name="description" content="フィボナッチ法（負けたら数列を1つ進め、勝ったら2つ戻す）を、ヨーロピアンルーレットの赤黒で厳密に計算。資金100単位で+10に届く確率は87.3%、外れれば−100単位。資金別の失敗確率、失敗を5%以内にする必要資金、マーチンゲール・オスカー・ココモとの比較。現金は一切扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/betting/fibonacci">
+<meta property="og:title" content="フィボナッチ法の破産確率と必要資金｜資金100単位で+10に届くのは87.3%、外れれば全額">
+<meta property="og:description" content="フィボナッチ法（負けたら数列を1つ進め、勝ったら2つ戻す）を、ヨーロピアンルーレットの赤黒で厳密に計算。資金100単位で+10に届く確率は87.3%、外れれば−100単位。資金別の失敗確率、失敗を5%以内にする必要資金、マーチンゲール・オスカー・ココモとの比較。現金は一切扱いません。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shoubu-lab.com/betting/fibonacci">
+<meta property="og:site_name" content="GTO Coach">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"フィボナッチ法の破産確率と必要資金｜資金100単位で+10に届くのは87.3%、外れれば全額","description":"フィボナッチ法（負けたら数列を1つ進め、勝ったら2つ戻す）を、ヨーロピアンルーレットの赤黒で厳密に計算。資金100単位で+10に届く確率は87.3%、外れれば−100単位。資金別の失敗確率、失敗を5%以内にする必要資金、マーチンゲール・オスカー・ココモとの比較。現金は一切扱いません。","mainEntityOfPage":"https://shoubu-lab.com/betting/fibonacci","inLanguage":"ja","datePublished":"2026-11-23T17:00:00+09:00","dateModified":"2026-11-23T17:00:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"ベッティングシステム検証室","item":"https://shoubu-lab.com/betting/"},{"@type":"ListItem","position":3,"name":"フィボナッチ法","item":"https://shoubu-lab.com/betting/fibonacci"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"フィボナッチ法とは、どんな賭け方ですか？","acceptedAnswer":{"@type":"Answer","text":"1,1,2,3,5,8…というフィボナッチ数列の数だけ賭けます。負けたら数列を1つ進め（賭け額が増える）、勝ったら数列を2つ戻します（最初より前には戻りません）。この記事では、合計の収支が目標に届くか、資金がなくなるまで続ける形で計算しています。"}},{"@type":"Question","name":"フィボナッチ法の破産確率は、何%ですか？","acceptedAnswer":{"@type":"Answer","text":"ヨーロピアンルーレットの赤黒で、目標を+10単位とすると、資金が尽きる確率は資金10単位で56.5%、50単位で21.5%、100単位で12.7%、200単位で7.1%、1,000単位で1.6%です（厳密計算）。"}},{"@type":"Question","name":"フィボナッチ法には、資金がいくら必要ですか？","acceptedAnswer":{"@type":"Answer","text":"目標を+10単位として、資金が尽きる確率を10%以内にするには132単位、5%以内には300単位、1%以内には1,798単位が必要です（ヨーロピアン赤黒）。アメリカン（00あり）では、それぞれ204単位、499単位、3,630単位です。0%にできる資金はありません。"}},{"@type":"Question","name":"フィボナッチ法とマーチンゲール法は、どちらが安全ですか？","acceptedAnswer":{"@type":"Answer","text":"同じ資金・同じ目標では、成功する確率はマーチンゲール法のほうがわずかに高く、資金100単位・目標+10で88.9%と87.3%です。ただし賭け総額の平均は82.4単位と147.0単位で、フィボナッチ法のほうが大きく、控除率が同じなので平均の収支もマイナスが大きくなります（-2.23と-3.97）。1回の賭け額の増え方は、フィボナッチ法のほうがゆるやかです。"}},{"@type":"Question","name":"フィボナッチ法を続けると、収支はプラスになりますか？","acceptedAnswer":{"@type":"Answer","text":"資金100単位・目標+10で毎回やり直して続けると、10セッション後にプラスで終わるのは、1回も失敗しない25.7%だけです。100セッションでは16.8%、平均の収支は-397単位です。"}}]}</script>
+<link rel="stylesheet" href="/betting/app.css">
+<!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
+<script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
+<script src="/oc.js" defer></script>
+<style>
+/* === 勝負ラボ 共通ツールナビ (SL-TOOLS-NAV v1) === */
+.sl-tools{
+  --slt-ink:var(--text,var(--ink,var(--txt,var(--d-text,#eef2ff))));
+  --slt-sub:var(--sub,var(--ink-dim,var(--d-text-muted,#8b96c9)));
+  --slt-line:var(--border,var(--line,var(--d-line,#2a3566)));
+  --slt-acc:var(--gold,var(--warn,#ffd23e));
+  margin:32px 0 20px;padding:18px 0 2px;
+  border-top:1px solid var(--slt-line);
+}
+.sl-tools__lead{margin:0 0 12px;padding:0;font-size:16px;font-weight:700;line-height:1.3;color:var(--slt-acc);}
+.sl-tools__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.sl-tools__list li{margin:0;padding:0;}
+.sl-tools__list li::before{content:none;}
+.sl-tools a,.sl-tools .sl-tools__cur{
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  min-height:48px;padding:11px 14px;border-radius:12px;
+  border:1px solid var(--slt-line);background:rgba(0,0,0,.28);
+  color:var(--slt-ink);text-decoration:none;margin:0;
+}
+.sl-tools a:hover{border-color:var(--slt-acc);background:rgba(0,0,0,.45);}
+.sl-tools .sl-tools__cur{border-style:dashed;}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
+.sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
+@media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+</style>
+<style>
+/* /betting/fibonacci 専用（共通の app.css は変更しない） */
+.bt2 .notice,.bt2 .notice b,.bt2 .lead{font-size:14px}
+.bt2 .tablebox th{white-space:nowrap;vertical-align:bottom}
+.bt2 .tablebox th[scope=row]{text-align:left;white-space:nowrap}
+.bt2 .tablebox td{white-space:nowrap}
+.bt2 .tablebox table{min-width:420px;font-size:14px}.bt2 .tablebox th{font-size:14px}
+.bt2 .tablebox caption{white-space:normal;text-align:left;font-size:14px;color:var(--sub);padding:6px 10px}
+.fg{margin:14px 0 18px}.bg2{margin:0 0 12px}.bn2{margin:0 0 2px;font-weight:700;font-size:14.5px;color:#fff}
+.br2{display:flex;align-items:center;gap:8px;font-size:14px;line-height:1.7;color:#d6ddfa}
+.bl2{flex:0 0 5.4em;color:var(--sub)}.bt2x{flex:1;display:block;background:var(--panel2);border-radius:9999px;height:10px;overflow:hidden}
+.bt2x i{display:block;height:10px;border-radius:9999px;background:var(--cyan)}.bv2{flex:0 0 5.8em;text-align:right;font-variant-numeric:tabular-nums}
+.fg figcaption{color:var(--sub);font-size:14px;margin-top:6px;line-height:1.7}
+.bt2 h2,.bt2 h3,.bt2 .toc a{word-break:auto-phrase;text-wrap:pretty}
+.toc{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin:14px 0}
+.tocT{font-weight:700;margin:0 0 2px;color:#fff;font-size:14.5px}
+.toc ol{margin:0 0 0 20px}.toc li{margin:0}.toc a{display:inline-block;padding:13px 0;line-height:1.6;font-size:14.5px}
+.bt2 .crumb,.bt2 footer,.bt2 footer div,.bt2 .eq .small{font-size:14px}
+.bt2 .tablebox::before{content:"表は横にスクロールできます →";display:block;font-size:14px;line-height:1.8;color:var(--sub);padding:6px 10px 0}
+@media(min-width:640px){.bt2 .tablebox::before{display:none}}
+.bt2 .tnote{font-size:14px;color:var(--sub);margin:-4px 0 12px}
+.bt2 article li>a:first-child:last-child{display:inline-block;padding:11px 0}
+</style>
+</head>
+<body class="bt2">
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/betting/">ベッティングシステム検証室</a> ／ フィボナッチ法</div>
+<h1>フィボナッチ法で、資金が尽きる確率は？<br>— 資金別・目標別の厳密な計算と、必要な資金</h1>
+<div class="notice">
+<b>このページについて</b>：確率の計算を確かめるための学習用の解説です。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される数値はすべて計算上のもので、オンラインカジノ等の紹介・誘導も行いません。賭けを勧めるページでも、勝つ方法を案内するページでもありません。
+</div>
+<div class="lead">
+フィボナッチ法は、「負けたら賭け額を数列の次の数へ、勝ったら2つ前の数へ」動かす賭け方です。<b>賭け額の増え方がマーチンゲール法（2倍）より緩やかなので、少ない資金でも長く粘れる</b>と説明されることがあります。
+その「粘れる」がどれくらいで、<b>資金が尽きる確率は何%なのか</b>を、ヨーロピアンルーレットの赤黒で厳密に計算して確かめます。
+</div>
+
+<nav class="toc" aria-label="目次"><p class="tocT">目次</p><ol>
+<li><a href="#h-concl">先に結論です。</a></li>
+<li><a href="#h-rule">ルールと1セッションの流れ</a></li>
+<li><a href="#h-streak">連敗時の賭け額と、取り返せる範囲</a></li>
+<li><a href="#h-prob">資金別の失敗確率</a></li>
+<li><a href="#h-wheel">ホイールと目標を変えたとき</a></li>
+<li><a href="#h-need">必要な資金はいくらか</a></li>
+<li><a href="#h-cmp">他の賭け方との比較</a></li>
+<li><a href="#h-need2">失敗確率を揃えたときの必要資金</a></li>
+<li><a href="#h-chain">続けるとどうなるか</a></li>
+<li><a href="#h-timed">回数を区切った場合と、外部の数字との照合</a></li>
+<li><a href="#h-how">計算式と方法論</a></li>
+<li><a href="#h-limit">計算の限界</a></li>
+<li><a href="#h-faq">よくある質問</a></li>
+<li><a href="#h-end">まとめと次の一歩</a></li>
+</ol></nav>
+
+<h2 id="h-concl">先に結論です。</h2>
+<ul>
+<li><b>目標を+10単位とすると、資金100単位で資金が尽きる確率は12.7%です。</b>ヨーロピアン赤黒（勝つ確率18/37）で、資金10単位なら56.5%、50単位で21.5%、200単位で7.1%、1,000単位でも1.6%です。外れれば、その資金の全額を失います。</li>
+<li><b>必要な資金は、思ったより大きいです。</b>資金が尽きる確率を10%以内にするには132単位、5%以内には300単位、1%以内には1,798単位です。ダブルゼロのアメリカンなら、204・499・3,630単位です。</li>
+<li>期待収支は、資金100単位・目標+10の1セッションあたり<b>−3.97単位</b>で、マイナスです。これは「−控除率（1/37＝2.70%）×平均賭け総額（147.0単位）」と、10億分の1以内で一致します。賭け方を変えても、控除率は変わりません。</li>
+<li>同じ資金・同じ目標で比べると、成功する確率はマーチンゲール法（88.9%）やココモ法（88.3%）のほうがわずかに高く、フィボナッチ法は87.3%、オスカーグラインド法は86.7%です（資金100単位）。差は小さく、<b>平均の損は、賭け総額が少ない賭け方ほど小さい</b>という並びになります。</li>
+<li>厳密解は、第三者が公開している乱数シミュレーション（資金1,000単位・1,000回・10万人）の結果とも合いました。資金が尽きた割合は、厳密解で21.5%、外部の数字は21.4%です。</li>
+<li>資金100単位・目標+10で毎回やり直して続けると、10セッション後にプラスで終わるのは、1回も失敗しない<b>25.7%</b>だけです。</li>
+</ul>
+<p>※上の数字は、特記のない限り厳密計算（連立方程式）の値です。条件は、各回が独立のヨーロピアン赤黒（勝つ確率18/37・配当1:1）、手元の資金より大きい賭け額になったら残りを全部賭ける、資金が尽きたら終了、です。乱数による照合の結果は「計算式と方法論」に書きました。</p>
+
+<h2 id="h-rule">ルールと1セッションの流れ</h2>
+<p>この記事では、次のルールで計算しました。</p>
+<ul>
+<li>賭け額は、数列 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, … の数（単位）です。最初は1です。</li>
+<li><b>負けたら</b>、数列を1つ進めます。</li>
+<li><b>勝ったら</b>、数列を2つ戻します。最初の1より前には戻りません（最初の1に留まります）。</li>
+<li>合計の収支が<b>目標（+T単位）以上</b>になったら、そこで終了します。</li>
+<li>次の賭け額が手元の資金より大きいときは、残りを全部賭けます。それに負けると資金切れで、失敗です。</li>
+</ul>
+<p>このルールは、海外の解説の1つ（casino.org、2026年11月23日に確認）の「負けたら1つ進む・勝ったら2つ戻る」と同じです。戻し方や終わり方を変えた別のルールもあるため、この記事の数字は、上のルールの場合だけです。</p>
+<p>流れの例です。収支は、その時点までの合計の利益です。</p>
+<div class="tablebox"><table><caption>例A：負け5回のあと、勝ち4回</caption><thead><tr><th scope="col">回</th><th scope="col">賭け額</th><th scope="col">結果</th><th scope="col">収支</th><th scope="col">次の賭け額</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>負け</td><td>−1</td><td>1</td></tr><tr><td>2</td><td>1</td><td>負け</td><td>−2</td><td>2</td></tr><tr><td>3</td><td>2</td><td>負け</td><td>−4</td><td>3</td></tr><tr><td>4</td><td>3</td><td>負け</td><td>−7</td><td>5</td></tr><tr><td>5</td><td>5</td><td>負け</td><td>−12</td><td>8</td></tr><tr><td>6</td><td>8</td><td>勝ち</td><td>−4</td><td>3</td></tr><tr><td>7</td><td>3</td><td>勝ち</td><td>−1</td><td>1</td></tr><tr><td>8</td><td>1</td><td>勝ち</td><td>0</td><td>1</td></tr><tr><td>9</td><td>1</td><td>勝ち</td><td>+1</td><td>1</td></tr></tbody></table></div><div class="tablebox"><table><caption>例B：負け・負け・勝ち・負け・勝ち・勝ち</caption><thead><tr><th scope="col">回</th><th scope="col">賭け額</th><th scope="col">結果</th><th scope="col">収支</th><th scope="col">次の賭け額</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>負け</td><td>−1</td><td>1</td></tr><tr><td>2</td><td>1</td><td>負け</td><td>−2</td><td>2</td></tr><tr><td>3</td><td>2</td><td>勝ち</td><td>0</td><td>1</td></tr><tr><td>4</td><td>1</td><td>負け</td><td>−1</td><td>1</td></tr><tr><td>5</td><td>1</td><td>勝ち</td><td>0</td><td>1</td></tr><tr><td>6</td><td>1</td><td>勝ち</td><td>+1</td><td>1</td></tr></tbody></table></div>
+<p>例Aは、負けが5回続いたあと、賭け額8の勝ちで−4まで戻し、3、1、1と勝って、+1になったところまでの流れです（目標が+10なら、ここからさらに続きます）。<b>負けが続いたあとは、1回勝っても元に戻りません。</b>数列を2つずつ戻りながら、4回勝ってようやく+1です。</p>
+<h2 id="h-streak">連敗時の賭け額と、取り返せる範囲</h2>
+<p>連敗が続いたときの賭け額と、その賭けに勝ったあとの収支です（数列の最初から連敗した場合）。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">連敗の回</th><th scope="col">賭け額</th><th scope="col">累計の賭け額（負けた分）</th><th scope="col">その賭けに勝った直後の収支</th><th scope="col">そこまで連敗する確率</th></tr></thead>
+<tbody><tr><th scope="row">1回目</th><td>1</td><td>1</td><td>+1</td><td>51.4%</td></tr><tr><th scope="row">2回目</th><td>1</td><td>2</td><td>0</td><td>26.4%</td></tr><tr><th scope="row">3回目</th><td>2</td><td>4</td><td>0</td><td>13.5%</td></tr><tr><th scope="row">4回目</th><td>3</td><td>7</td><td>−1</td><td>6.95%</td></tr><tr><th scope="row">5回目</th><td>5</td><td>12</td><td>−2</td><td>3.57%</td></tr><tr><th scope="row">6回目</th><td>8</td><td>20</td><td>−4</td><td>1.83%</td></tr><tr><th scope="row">7回目</th><td>13</td><td>33</td><td>−7</td><td>0.94%</td></tr><tr><th scope="row">8回目</th><td>21</td><td>54</td><td>−12</td><td>0.48%</td></tr><tr><th scope="row">9回目</th><td>34</td><td>88</td><td>−20</td><td>0.25%</td></tr><tr><th scope="row">10回目</th><td>55</td><td>143</td><td>−33</td><td>0.13%</td></tr><tr><th scope="row">11回目</th><td>89</td><td>232</td><td>−54</td><td>0.07%</td></tr><tr><th scope="row">12回目</th><td>144</td><td>376</td><td>−88</td><td>0.03%</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※単位は「単位」。収支は、連敗の開始時点を0としたとき。連敗する確率はヨーロピアン赤黒で、(19/37)のn乗。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">6連敗した時点：フィボナッチ法</p><div class="br2"><span class="bl2">負け累計</span><span class="bt2x"><i style="width:0.49%"></i></span><span class="bv2">20単位</span></div></div><div class="bg2"><p class="bn2">6連敗した時点：マーチンゲール法</p><div class="br2"><span class="bl2">負け累計</span><span class="bt2x"><i style="width:1.54%"></i></span><span class="bv2">63単位</span></div></div><div class="bg2"><p class="bn2">9連敗した時点：フィボナッチ法</p><div class="br2"><span class="bl2">負け累計</span><span class="bt2x"><i style="width:2.15%"></i></span><span class="bv2">88単位</span></div></div><div class="bg2"><p class="bn2">9連敗した時点：マーチンゲール法</p><div class="br2"><span class="bl2">負け累計</span><span class="bt2x"><i style="width:12.48%"></i></span><span class="bv2">511単位</span></div></div><div class="bg2"><p class="bn2">12連敗した時点：フィボナッチ法</p><div class="br2"><span class="bl2">負け累計</span><span class="bt2x"><i style="width:9.18%"></i></span><span class="bv2">376単位</span></div></div><div class="bg2"><p class="bn2">12連敗した時点：マーチンゲール法</p><div class="br2"><span class="bl2">負け累計</span><span class="bt2x"><i style="width:100.00%"></i></span><span class="bv2">4,095単位</span></div></div><figcaption>※最初から連敗したときの、負けた額の累計。バーは4,095単位（マーチンゲール法の12連敗）を100%とした長さ。</figcaption></figure>
+<ul>
+<li><b>賭けに勝って収支が0以上に戻るのは、連敗が3回目までです。</b>2回目と3回目は0で、プラスにはなりません。4回目以降は、勝っても収支がマイナスのままで、数列を戻しながら勝ち続ける必要があります。</li>
+<li>賭け額の増え方は約1.618倍ずつで、10連敗目でも55単位です（マーチンゲール法の10連敗目は512単位）。<a href="/betting/martingale">マーチンゲール法のページ</a>や<a href="/betting/cocomo">ココモ法のページ</a>にも、同じように数列の表があります。</li>
+<li>連敗が起きる確率は、ヨーロピアン赤黒で、5連敗が3.6%、10連敗が0.13%です。<a href="/betting/renpai">連敗確率の計算機</a>で、回数を変えて確かめられます。</li>
+</ul>
+
+<h2 id="h-prob">資金別の失敗確率</h2>
+<p>「成功」は、資金が尽きる前に合計の収支が+10単位に届くことです。資金は、最初の賭け額（1単位）の何倍かで表します。1単位を資金の1%にするなら、資金は100単位です。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">資金</th><th scope="col">+10に届く</th><th scope="col">資金切れ</th><th scope="col">平均回数</th><th scope="col">平均賭け総額</th><th scope="col">平均収支</th><th scope="col">全額を失うまで</th></tr></thead>
+<tbody><tr><th scope="row">10単位</th><td><b>43.5%</b></td><td>56.54%</td><td>32.0回</td><td>48.4</td><td>−1.31</td><td>2回</td></tr><tr><th scope="row">20単位</th><td><b>60.1%</b></td><td>39.90%</td><td>41.5回</td><td>72.9</td><td>−1.97</td><td>3回</td></tr><tr><th scope="row">50単位</th><td><b>78.5%</b></td><td>21.50%</td><td>49.0回</td><td>107.2</td><td>−2.90</td><td>5回</td></tr><tr><th scope="row">100単位</th><td><b>87.3%</b></td><td>12.70%</td><td>57.3回</td><td>147.0</td><td>−3.97</td><td>8回</td></tr><tr><th scope="row">200単位</th><td><b>92.9%</b></td><td>7.09%</td><td>59.7回</td><td>180.6</td><td>−4.88</td><td>14回</td></tr><tr><th scope="row">500単位</th><td><b>96.8%</b></td><td>3.19%</td><td>63.0回</td><td>231.9</td><td>−6.27</td><td>31回</td></tr><tr><th scope="row">1000単位</th><td><b>98.4%</b></td><td>1.65%</td><td>58.3回</td><td>246.6</td><td>−6.66</td><td>61回</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※ヨーロピアン赤黒の厳密計算。賭け総額と平均収支の単位は「単位」。「全額を失うまで」は、1÷資金切れの確率。毎回同じ資金を用意して続けたとき、平均で何セッション目に資金切れが来るかの目安です。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">資金10単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:43.46%"></i></span><span class="bv2">43.5%</span></div></div><div class="bg2"><p class="bn2">資金20単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:60.10%"></i></span><span class="bv2">60.1%</span></div></div><div class="bg2"><p class="bn2">資金50単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:78.50%"></i></span><span class="bv2">78.5%</span></div></div><div class="bg2"><p class="bn2">資金100単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:87.30%"></i></span><span class="bv2">87.3%</span></div></div><div class="bg2"><p class="bn2">資金200単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:92.91%"></i></span><span class="bv2">92.9%</span></div></div><div class="bg2"><p class="bn2">資金500単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:96.81%"></i></span><span class="bv2">96.8%</span></div></div><div class="bg2"><p class="bn2">資金1000単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:98.35%"></i></span><span class="bv2">98.4%</span></div></div><figcaption>※ヨーロピアン赤黒で、資金が尽きる前に+10単位に届く確率（厳密値）。バーは0〜100%。</figcaption></figure>
+<ul>
+<li><b>資金が増えるほど、失敗確率は下がります。ただし、ゆっくりです。</b>資金10単位で56.5%、50単位で21.5%、100単位で12.7%、500単位で3.2%。資金を2倍にしても、資金切れの確率は半分にはなりません（50→100単位で21.50%→12.70%）。</li>
+<li><b>平均の収支は、どの資金でもマイナスです。</b>資金100単位で−3.97、1,000単位で−6.66単位です。+10の利益を、小さな確率の全額損失が上回ります。資金が増えるほど賭け総額も増え、損失の平均はむしろ大きくなります。</li>
+<li>1セッションの平均ベット回数は、資金を100倍にしても32.0回（10単位）から58.3回（1,000単位）にしかなりません。短い勝負がほとんどです。</li>
+</ul>
+<h2 id="h-wheel">ホイールと目標を変えたとき</h2>
+<h3>ホイールの違いと、目標を飛び越えない性質</h3>
+<p>ホイールをダブルゼロのアメリカン（勝つ確率18/38）にすると、成功確率はさらに下がります。控除率ゼロの公平な賭け（50%）と並べました。</p>
+<div class="tablebox">
+<table style="min-width:0">
+<thead><tr><th scope="col">資金</th><th scope="col">ヨーロピアン</th><th scope="col">アメリカン</th><th scope="col">公平（50%）</th></tr></thead>
+<tbody><tr><th scope="row">10単位</th><td>43.5%</td><td>37.3%</td><td>50.0%</td></tr><tr><th scope="row">20単位</th><td>60.1%</td><td>53.4%</td><td>66.7%</td></tr><tr><th scope="row">50単位</th><td>78.5%</td><td>73.1%</td><td>83.3%</td></tr><tr><th scope="row">100単位</th><td>87.3%</td><td>82.9%</td><td>90.9%</td></tr><tr><th scope="row">200単位</th><td>92.9%</td><td>89.8%</td><td>95.2%</td></tr><tr><th scope="row">500単位</th><td>96.8%</td><td>95.0%</td><td>98.0%</td></tr><tr><th scope="row">1000単位</th><td>98.4%</td><td>97.4%</td><td>99.0%</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※厳密計算。目標は+10単位。公平な賭けでは、成功確率が B÷（B＋10）にぴったり一致します（資金100単位で100/110＝90.9%）。控除率の分だけ下がり、資金100単位の差はヨーロピアンで約3.6ポイント、アメリカンで約8.0ポイントです。</p>
+<p>成功したときの収支は、すべての条件でちょうど+10単位でした（目標を飛び越えない）。理由は、数列の和の性質（1から始めたn個の和は、n＋2番目の数−1）によるものと考えられますが、証明まではしていません。計算上は、成功したときの平均の収支が、39の条件すべてで目標に10億分の1以内で一致しています。</p>
+
+<h3 id="h-tgt">目標別の成功確率</h3>
+<p>「+10単位」は、資金の1割にあたる目標です。目標を変えると、成功確率はどう動くでしょうか。資金を100単位に固定して、目標を+1から+100まで動かしました。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">目標</th><th scope="col">ヨーロピアン</th><th scope="col">アメリカン</th><th scope="col">公平（50%）</th><th scope="col">平均賭け総額（欧）</th><th scope="col">平均収支（欧）</th></tr></thead>
+<tbody><tr><th scope="row">+1</th><td>98.6%</td><td>98.1%</td><td>99.0%</td><td>15</td><td>−0.41</td></tr><tr><th scope="row">+5</th><td>93.3%</td><td>90.9%</td><td>95.2%</td><td>75</td><td>−2.03</td></tr><tr><th scope="row">+10</th><td>87.3%</td><td>82.9%</td><td>90.9%</td><td>147</td><td>−3.97</td></tr><tr><th scope="row">+20</th><td>77.0%</td><td>69.6%</td><td>83.3%</td><td>280</td><td>−7.56</td></tr><tr><th scope="row">+50</th><td>55.9%</td><td>44.5%</td><td>66.7%</td><td>596</td><td>−16.12</td></tr><tr><th scope="row">+100</th><td>36.5%</td><td>24.1%</td><td>50.0%</td><td>1000</td><td>−27.03</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※資金100単位の厳密計算。賭け総額と平均収支の単位は「単位」。公平な賭けの成功確率は、100÷（100＋目標）に一致します。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">目標+1単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:98.60%"></i></span><span class="bv2">98.6%</span></div></div><div class="bg2"><p class="bn2">目標+5単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:93.31%"></i></span><span class="bv2">93.3%</span></div></div><div class="bg2"><p class="bn2">目標+10単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:87.30%"></i></span><span class="bv2">87.3%</span></div></div><div class="bg2"><p class="bn2">目標+20単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:77.04%"></i></span><span class="bv2">77.0%</span></div></div><div class="bg2"><p class="bn2">目標+50単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:55.92%"></i></span><span class="bv2">55.9%</span></div></div><div class="bg2"><p class="bn2">目標+100単位</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:36.48%"></i></span><span class="bv2">36.5%</span></div></div><figcaption>※資金100単位・ヨーロピアン赤黒で、目標の利益に先に届く確率（厳密値）。バーは0〜100%。</figcaption></figure>
+<ul>
+<li><b>目標が大きいほど、成功確率は下がります。</b>目標+1なら98.6%、+10なら87.3%、+50なら55.9%です。</li>
+<li><b>目標が資金と同じ+100単位（資金を2倍にする）だと、ヨーロピアンでは36.5%です。</b>公平な賭けなら50%（コイン投げと同じ）で、控除率の分だけ下がります。資金を倍にする確率は、<a href="/betting/hasan">破産確率の計算機</a>でも確かめられます。</li>
+<li>平均の収支は、すべての目標でマイナスです。目標を大きくするほど、賭け総額が増え、損失の平均も大きくなります。</li>
+</ul>
+
+<h2 id="h-need">必要な資金はいくらか</h2>
+<p>「失敗の確率をどこまで下げたいか」を決めると、必要な資金が決まります。目標を+10単位として、資金が尽きる確率が指定の値以下になる、最小の資金を探しました（資金を1単位ずつ変えて計算）。</p>
+<div class="tablebox">
+<table style="min-width:0">
+<thead><tr><th scope="col">資金が尽きる確率</th><th scope="col">ヨーロピアン</th><th scope="col">アメリカン</th><th scope="col">公平（50%）</th></tr></thead>
+<tbody><tr><th scope="row">10%以内</th><td>132単位</td><td>204単位</td><td>91単位</td></tr><tr><th scope="row">5%以内</th><td>300単位</td><td>499単位</td><td>191単位</td></tr><tr><th scope="row">1%以内</th><td>1,798単位</td><td>3,630単位</td><td>990単位</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※厳密計算。目標+10単位。資金を増やすと失敗確率が必ず下がる（単調）ことは、資金10〜400単位で確認しました。それより大きい範囲は、単調と仮定して探しています。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">失敗を10%以内にする資金</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:7.34%"></i></span><span class="bv2">132単位</span></div></div><div class="bg2"><p class="bn2">失敗を5%以内にする資金</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:16.69%"></i></span><span class="bv2">300単位</span></div></div><div class="bg2"><p class="bn2">失敗を1%以内にする資金</p><div class="br2"><span class="bl2">必要</span><span class="bt2x"><i style="width:100.00%"></i></span><span class="bv2">1,798単位</span></div></div><figcaption>※ヨーロピアン赤黒・目標+10で、失敗確率が指定の値以下になる最小の資金。バーは1,798単位を100%とした長さ。</figcaption></figure>
+<ul>
+<li><b>失敗を1%以内にするには、ヨーロピアンで1,798単位が必要です。</b>目標の+10単位の約180倍です。1単位を資金の1%にする（資金100単位）のは、失敗13%の水準です。</li>
+<li><b>控除率の影響は、資金が大きくなるほど目立ちます。</b>1%以内にする資金は、公平な賭けなら990単位、ヨーロピアンで1,798単位、アメリカンで3,630単位です。</li>
+<li>賭け額の上限があるテーブルでは、この表より失敗確率が上がります（賭け額の上限はこの計算に入っていません）。</li>
+</ul>
+
+<h2 id="h-cmp">他の賭け方との比較</h2>
+<p>同じ資金・同じ目標（+10単位）・ヨーロピアンで、5つの賭け方を比べました。賭け方のルールは、次のとおりです。</p>
+<ul>
+<li><b>1単位固定</b>：毎回1単位。</li>
+<li><b>マーチンゲール法</b>：負けたら2倍、勝ったら1単位に戻す（<a href="/betting/martingale">詳しくは</a>）。</li>
+<li><b>フィボナッチ法</b>：この記事のルール。</li>
+<li><b>オスカーグラインド法</b>：負けたら同額、勝ったら+1単位。1セッションで+1単位になったら、次のセッションを1単位から始める。合計+10単位まで続ける（<a href="/betting/oscar">詳しくは</a>）。</li>
+<li><b>ココモ法</b>：直前2回の賭け額の和（1,1,2,3,5…）。<b>配当2:1のダズン（勝つ確率12/37）</b>で、勝ったら最初に戻す（<a href="/betting/cocomo">詳しくは</a>）。控除率は同じ1/37です。</li>
+</ul>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">資金と賭け方</th><th scope="col">+10に届く</th><th scope="col">資金切れ</th><th scope="col">平均回数</th><th scope="col">平均賭け総額</th><th scope="col">平均収支</th></tr></thead>
+<tbody><tr><th scope="row">100単位：1単位固定</th><td>58.1%</td><td>41.9%</td><td>1334.3回</td><td>1334.3</td><td>−36.06</td></tr><tr><th scope="row">100単位：マーチンゲール法</th><td>88.9%</td><td>11.1%</td><td>23.6回</td><td>82.4</td><td>−2.23</td></tr><tr><th scope="row">100単位：フィボナッチ法</th><td>87.3%</td><td>12.7%</td><td>57.3回</td><td>147.0</td><td>−3.97</td></tr><tr><th scope="row">100単位：オスカーグラインド法</th><td>86.7%</td><td>13.3%</td><td>50.9回</td><td>170.1</td><td>−4.60</td></tr><tr><th scope="row">100単位：ココモ法</th><td>88.3%</td><td>11.7%</td><td>16.2回</td><td>53.6</td><td>−1.45</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※厳密計算。ヨーロピアン（ココモ法のみダズン2:1）。賭け総額と平均収支の単位は「単位」。5つとも、平均収支＝−（1/37）×平均賭け総額が10億分の1以内で成り立ちます。資金50単位・200単位でも、成功確率の順位は同じです（厳密値）。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">資金100単位・マーチンゲール法</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:88.88%"></i></span><span class="bv2">88.9%</span></div></div><div class="bg2"><p class="bn2">資金100単位・ココモ法</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:88.34%"></i></span><span class="bv2">88.3%</span></div></div><div class="bg2"><p class="bn2">資金100単位・フィボナッチ法</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:87.30%"></i></span><span class="bv2">87.3%</span></div></div><div class="bg2"><p class="bn2">資金100単位・オスカーグラインド法</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:86.73%"></i></span><span class="bv2">86.7%</span></div></div><div class="bg2"><p class="bn2">資金100単位・1単位固定</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:58.13%"></i></span><span class="bv2">58.1%</span></div></div><figcaption>※資金100単位・目標+10・ヨーロピアンで、目標に先に届く確率（厳密値）。バーは0〜100%。</figcaption></figure>
+<figure class="fg"><div class="bg2"><p class="bn2">ココモ法：賭け総額の平均</p><div class="br2"><span class="bl2">資金100</span><span class="bt2x"><i style="width:35.74%"></i></span><span class="bv2">53.6</span></div></div><div class="bg2"><p class="bn2">マーチンゲール法：賭け総額の平均</p><div class="br2"><span class="bl2">資金100</span><span class="bt2x"><i style="width:54.94%"></i></span><span class="bv2">82.4</span></div></div><div class="bg2"><p class="bn2">フィボナッチ法：賭け総額の平均</p><div class="br2"><span class="bl2">資金100</span><span class="bt2x"><i style="width:98.01%"></i></span><span class="bv2">147.0</span></div></div><div class="bg2"><p class="bn2">オスカーグラインド法：賭け総額の平均</p><div class="br2"><span class="bl2">資金100</span><span class="bt2x"><i style="width:100.00%"></i></span><span class="bv2">170.1</span></div></div><figcaption>※資金100単位・目標+10で終わるまでの、平均の賭け総額（単位）。バーは150単位を100%とした長さ（1単位固定は1,334単位のため省略）。</figcaption></figure>
+<ul>
+<li><b>成功する確率は、資金100単位で、マーチンゲール法88.9%、ココモ法88.3%、フィボナッチ法87.3%、オスカーグラインド法86.7%、1単位固定58.1%の順です。</b>差は約2ポイントで、賭け方で成功率を大きく変えることはできません。</li>
+<li><b>平均の損は、賭け総額に比例します。</b>資金100単位の平均賭け総額は、ココモ法53.6、マーチンゲール法82.4、フィボナッチ法147.0、オスカーグラインド法170.1、1単位固定1,334単位で、平均収支も−1.45、−2.23、−3.97、−4.60、−36.1です。損が小さい賭け方があるのではなく、賭け総額が小さい賭け方があるだけです。</li>
+<li><b>1回の賭け額の大きさは別の話です。</b>マーチンゲール法は連敗のたびに2倍になるので、資金100単位だと6連敗目に32単位、7連敗目に64単位が必要です。フィボナッチ法の6連敗目は8単位、7連敗目は13単位です。</li>
+</ul>
+<h2 id="h-need2">失敗確率を揃えたときの必要資金</h2>
+<p>失敗の確率を揃えたときの必要資金も並べます。目標+10単位・ヨーロピアンで、資金が尽きる確率が指定の値以下になる最小の資金です（ココモ法はダズン2:1）。</p>
+<div class="tablebox">
+<table style="min-width:0">
+<thead><tr><th scope="col">賭け方</th><th scope="col">10%以内</th><th scope="col">5%以内</th><th scope="col">1%以内</th></tr></thead>
+<tbody><tr><th scope="row">1単位固定</th><td>届かない</td><td>届かない</td><td>届かない</td></tr><tr><th scope="row">マーチンゲール法</th><td>112単位</td><td>239単位</td><td>1,401単位</td></tr><tr><th scope="row">ココモ法</th><td>119単位</td><td>288単位</td><td>2,083単位</td></tr><tr><th scope="row">フィボナッチ法</th><td>132単位</td><td>300単位</td><td>1,798単位</td></tr><tr><th scope="row">オスカーグラインド法</th><td>146単位</td><td>362単位</td><td>—</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※厳密計算。「届かない」は、資金をどれだけ増やしても、その確率以下にならないという意味です（1単位固定は、資金を無限にしても+10に届く確率が(18/19)の10乗＝58.2%で止まります）。「—」は、今回は計算していない条件です（オスカーグラインド法の1%以内は、状態の数が大きくなるため）。</p>
+<p>マーチンゲール法・ココモ法・フィボナッチ法の必要資金は、10%以内で112〜132単位、5%以内で239〜300単位、1%以内で1,401〜2,083単位です。<b>賭け方で変わる幅は、失敗確率を下げるほど大きくなりますが、どの賭け方でも、失敗を1%にするには、目標の100倍以上の資金が要ります。</b>ココモ法は、賭け額の増え方は緩やかでも、勝つ確率が約32%と低いぶん、1%以内の必要資金が最も大きくなりました。</p>
+
+<h2 id="h-chain">続けるとどうなるか</h2>
+<p>1セッションの成功確率が87.3%でも、何セッションも続けると、1回は失敗する確率が積み上がります。毎回、資金100単位を用意し直して続ける前提で、「N回やって、合計の収支がプラスで終わる確率」を計算しました（成功は+10単位、失敗は−100単位）。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">続ける回数</th><th scope="col">全部成功</th><th scope="col">プラスで終わる</th><th scope="col">平均の収支（単位）</th></tr></thead>
+<tbody><tr><th scope="row">1セッション</th><td>87.3%</td><td>87.3%</td><td>−4.0</td></tr><tr><th scope="row">5セッション</th><td>50.7%</td><td>50.7%</td><td>−19.9</td></tr><tr><th scope="row">10セッション</th><td>25.7%</td><td>25.7%</td><td>−39.7</td></tr><tr><th scope="row">20セッション</th><td>6.6%</td><td>25.8%</td><td>−79.5</td></tr><tr><th scope="row">50セッション</th><td>0.11%</td><td>22.2%</td><td>−198.7</td></tr><tr><th scope="row">100セッション</th><td>0.0001%</td><td>16.8%</td><td>−397.3</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※厳密計算（二項分布）。プラスで終わる＝失敗の回数 k が N×10÷110 より小さい。収支ゼロは数えません。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">1セッション</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:87.30%"></i></span><span class="bv2">87.3%</span></div></div><div class="bg2"><p class="bn2">5セッション</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:50.70%"></i></span><span class="bv2">50.7%</span></div></div><div class="bg2"><p class="bn2">10セッション</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:25.70%"></i></span><span class="bv2">25.7%</span></div></div><div class="bg2"><p class="bn2">20セッション</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:25.83%"></i></span><span class="bv2">25.8%</span></div></div><div class="bg2"><p class="bn2">50セッション</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:22.20%"></i></span><span class="bv2">22.2%</span></div></div><div class="bg2"><p class="bn2">100セッション</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:16.84%"></i></span><span class="bv2">16.8%</span></div></div><figcaption>※毎回資金100単位・目標+10で続けたとき、合計の収支がプラスで終わる確率（厳密値）。バーは0〜100%。</figcaption></figure>
+<ul>
+<li><b>10セッションまでは、1回でも失敗するとマイナスで終わります</b>（9回成功して1回失敗すると、9×10−100＝−10）。10セッションでプラスで終わる25.7%は、「全部成功」と同じ数字です。</li>
+<li>20セッションになると、失敗が1回までなら、プラスで終われます（19×10−100＝+90）。プラスで終わるのは25.8%、全部成功は6.6%です。失敗が何回まで許されるかは、N÷11（資金100単位・目標+10のとき）より小さい回数です。</li>
+<li>100セッションでは、失敗が9回まで許されますが、プラスで終わるのは16.8%で、平均の収支は−397単位です。</li>
+<li>「毎回+10単位ずつ積み上がる」のは、失敗しなかった間だけの姿です。失敗は、すでに計算に含まれていて、避けられません。</li>
+</ul>
+
+<h2 id="h-timed">回数を区切った場合と、外部の数字との照合</h2>
+<p>ここまでは「目標に届くか、資金が尽きるまで」続ける計算でした。ある解説（VIP Grinders）は、「1,000回賭けたあとの結果」を乱数で出しています。同じ条件で厳密に計算して、外部の数字と照らし合わせました。</p>
+<p>条件は、ヨーロピアン赤黒、資金1,000単位、1単位から、フィボナッチ数列で、<b>目標なし・1,000回で打ち切り</b>、資金が足りなければ残りを全部賭ける、です。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">項目</th><th scope="col">この記事（厳密計算）</th><th scope="col">外部の乱数シミュレーション</th></tr></thead>
+<tbody>
+<tr><th scope="row">資金が尽きた割合</th><td>21.55%</td><td>21.4%</td></tr>
+<tr><th scope="row">プラスで終わった割合</th><td>74.55%</td><td>74.6%</td></tr>
+<tr><th scope="row">収支の中央値</th><td>+164単位</td><td>+164単位</td></tr>
+<tr><th scope="row">収支の平均</th><td>−102.5単位</td><td>−101単位</td></tr>
+</tbody>
+</table>
+</div>
+<figure class="fg"><div class="bg2"><p class="bn2">資金が尽きた（全額を失った）</p><div class="br2"><span class="bl2">割合</span><span class="bt2x"><i style="width:21.55%"></i></span><span class="bv2">21.5%</span></div></div><div class="bg2"><p class="bn2">資金は残ったがマイナス</p><div class="br2"><span class="bl2">割合</span><span class="bt2x"><i style="width:3.90%"></i></span><span class="bv2">3.9%</span></div></div><div class="bg2"><p class="bn2">プラスで終わった</p><div class="br2"><span class="bl2">割合</span><span class="bt2x"><i style="width:74.55%"></i></span><span class="bv2">74.6%</span></div></div><figcaption>※資金1,000単位・目標なし・1,000回で打ち切り・ヨーロピアン赤黒の、結果の内訳（厳密値）。バーは0〜100%。</figcaption></figure>
+<p class="tnote">※外部の数字は、VIP Grinders の記事（https://www.vip-grinders.com/?p=150852 ・2026年11月23日に確認）で、10万人を乱数で回した結果です。この記事の列は厳密解で、10万人を乱数で回した結果の揺れ（資金が尽きた割合でおよそ±0.13ポイント）は入っていません。</p>
+<ul>
+<li><b>4項目とも、近い値です。</b>資金が尽きた割合の差は0.15ポイントで、10万人の乱数の揺れの範囲です。厳密解は、外部の数字を裏づけています。</li>
+<li><b>この条件の平均収支は、「−控除率×平均賭け総額」に一致します。</b>平均賭け総額は3,790.7単位で、÷37＝102.5。平均収支は−102.5単位です。1,000回の間に、3.9%は、資金が尽きずにマイナスのまま終わりました。</li>
+<li><b>「74.6%がプラスで終わる」と「平均は−102単位」は、両立します。</b>多数の小さな勝ちと、22%の全額損失（−1,000単位）が混ざるためです。</li>
+</ul>
+
+<h2 id="h-how">計算式と方法論</h2>
+<h3>1｜モデル</h3>
+<p>状態を「合計の収支 p」と「数列の何番目か i」の組で表します。勝つ確率を w とすると、次に実際に賭ける額は min(F(i)、資金＋p) です。勝てば p が賭け額だけ増えて i は2つ戻り（最初より前には戻らない）、負ければ p が賭け額だけ減って i は1つ進みます。p が目標に届けば成功、資金＋p が0になれば資金切れです。</p>
+<h3>2｜厳密な計算</h3>
+<p>状態の遷移は同じ状態に戻ることがあります。そこで、成功確率・平均賭け総額・平均ベット回数・成功か失敗かで終わったときの収支の平均を、状態ごとの連立一次方程式として立てて、数値で解きました（資金1,000単位・目標+10で12,567状態）。回数を区切った場合は、1回ごとに状態の確率を更新する計算（動的計画法）を、1,000回分行いました。</p>
+<h3>検証のしかた</h3>
+<ul>
+<li><b>公平な賭け（勝つ確率50%）</b>：成功確率が B÷（B＋目標）にぴったり一致しました（資金10〜1,000単位、目標1〜100単位の全部）。賭け方によらず成り立つ理論値です。</li>
+<li><b>期待収支の恒等式</b>：全ての条件で、成功と失敗の収支の平均が「−控除率×平均賭け総額」と10億分の1以内で一致しました（フィボナッチ法の39条件、5つの賭け方の比較15条件、回数を区切った計算1条件）。</li>
+<li><b>外部の数字との一致</b>：同じ計算の仕組みでマーチンゲール法（資金63単位・目標+1）を計算すると、成功確率が0.981664で、Wizard of Oddsのマーチンゲール法のページの表（シングルゼロ・ルーレット、最大6ベットで0.981664）と小数第6位まで一致しました（2026年11月23日に確認）。回数を区切った計算は、前の節のとおり、外部の乱数シミュレーションと近い値でした。</li>
+<li><b>乱数との照合</b>：別の言語（C）・別の方式（1回ずつ実際に乱数で賭けを進める）で、51条件を各2,000,000セッション回しました。成功確率が厳密値と最も離れたのは標準誤差の2.6倍、標準誤差の2倍を超えたのは4条件、差の最大は0.081ポイントでした（乱数の揺れの範囲です）。例：資金100単位・目標+10のヨーロピアンは、乱数で87.30%（厳密値は87.30%）、平均賭け総額は乱数で147.0、厳密値で147.0単位でした。</li>
+</ul>
+<h3>他の記事との違い</h3>
+<p>2026年11月23日に、検索の上位に出てくる解説を開きました。casino.org とPokerNewsの解説は、ルールと数列の例の説明が中心で、資金別の失敗確率や必要資金の数字はありません。VIP Grinders の記事は、資金1,000単位・1,000回の乱数シミュレーション1本の結果（資金が尽きた割合21.4%）を載せていますが、資金別の表や厳密な計算はありません。stake.com・gameshub・gentosha の3件は、取得に失敗しました（HTTP 451・403・404で本文を読めず、検索結果の説明文にも資金別の数字はありませんでした）。日本語で、資金別の失敗確率と必要資金を厳密解で示した記事は、確認できた範囲では見つかりませんでした。同じ条件に見える本記事の数字が外部の数字と一致したのは、前の節のとおりです。</p>
+
+<h2 id="h-limit">この計算の限界</h2>
+<ul>
+<li><b>各回が独立で、勝つ確率が一定のモデルです。</b>実際のホイールやオンラインの乱数の癖は、この計算の外です。</li>
+<li><b>テーブルの最低・最高賭け額は入っていません。</b>賭け額の上限がある場所では、失敗確率はこの表より上がります。</li>
+<li><b>ルールの細部で数字が変わります。</b>勝ったあとに戻す数列の数、終わり方、資金が足りないときの扱いを変えると、この記事の数字とは一致しません。</li>
+<li><b>資金は「単位の数」だけで表しています。</b>現金に換算した金額は、この記事には載せません。</li>
+<li><b>これは、確率の仕組みを知るための解説で、賭けを勧めるものではありません。</b>賭け方で、控除率は変えられません。</li>
+</ul>
+
+<h2 id="h-faq">よくある質問</h2>
+<h3>フィボナッチ法とは、どんな賭け方ですか？</h3>
+<p>1,1,2,3,5,8…というフィボナッチ数列の数だけ賭けます。負けたら数列を1つ進め（賭け額が増える）、勝ったら数列を2つ戻します（最初より前には戻りません）。この記事では、合計の収支が目標に届くか、資金がなくなるまで続ける形で計算しています。</p>
+<h3>フィボナッチ法の破産確率は、何%ですか？</h3>
+<p>ヨーロピアンルーレットの赤黒で、目標を+10単位とすると、資金が尽きる確率は資金10単位で56.5%、50単位で21.5%、100単位で12.7%、200単位で7.1%、1,000単位で1.6%です（厳密計算）。</p>
+<h3>フィボナッチ法には、資金がいくら必要ですか？</h3>
+<p>目標を+10単位として、資金が尽きる確率を10%以内にするには132単位、5%以内には300単位、1%以内には1,798単位が必要です（ヨーロピアン赤黒）。アメリカン（00あり）では、それぞれ204単位、499単位、3,630単位です。0%にできる資金はありません。</p>
+<h3>フィボナッチ法とマーチンゲール法は、どちらが安全ですか？</h3>
+<p>同じ資金・同じ目標では、成功する確率はマーチンゲール法のほうがわずかに高く、資金100単位・目標+10で88.9%と87.3%です。ただし賭け総額の平均は82.4単位と147.0単位で、フィボナッチ法のほうが大きく、控除率が同じなので平均の収支もマイナスが大きくなります（−2.23と−3.97）。1回の賭け額の増え方は、フィボナッチ法のほうがゆるやかです。</p>
+<h3>フィボナッチ法を続けると、収支はプラスになりますか？</h3>
+<p>資金100単位・目標+10で毎回やり直して続けると、10セッション後にプラスで終わるのは、1回も失敗しない25.7%だけです。100セッションでは16.8%、平均の収支は−397単位です。</p>
+
+<h2 id="h-end">まとめと次の一歩</h2>
+<ul>
+<li>フィボナッチ法で、目標+10単位に届く確率は、資金100単位で87.3%、資金10単位で43.5%です。外れると、その資金の全額です。</li>
+<li>失敗を5%以内にするには300単位、1%以内には1,798単位の資金が必要です（ヨーロピアン赤黒）。</li>
+<li>平均の収支は、賭け方によらず「−控除率×賭け総額」です。続けて、プラスで終わるのは、1回も失敗しない場合だけです（資金100単位・10セッションで25.7%）。</li>
+</ul>
+<p>次の1アクションは、<a href="/betting/#sim-heading">ベッティングシステム検証室のシミュレーター</a>で、マーチンゲール法を選び、ゲームを「ヨーロピアン赤黒」、最大ゲーム数を多め（5,000）、利益目標を資金の1割に設定して、1,000セッションを一括で回し、「破綻」の割合を、この記事のマーチンゲール法の行（資金100単位で11.1%）と見比べることです。シミュレーターは、次の賭け額が手元の資金を超えたら残りを賭けずに終了するなど、この記事のルールと細部が違うため、数字は一致しません。</p>
+
+<div class="related">
+  <b>ベッティングシステム検証室</b><br>
+  <a href="/betting/">検証室トップ</a>
+  <a href="/betting/martingale">マーチンゲール法</a>
+  <a href="/betting/cocomo">ココモ法</a>
+  <a href="/betting/oscar">オスカーグラインド法</a>
+  <a href="/betting/hasan">破産確率の計算機</a>
+  <a href="/betting/renpai">連敗確率の計算機</a>
+  <a href="/betting/kachikoshi">勝ち越し確率の計算機</a>
+  <a href="/betting/bias">ルーレットの偏りの検出</a>
+  <a href="/edge/">還元率ランキング</a>
+</div>
+
+<!-- SL-TOOLS-NAV v1 -->
+<nav class="sl-tools" aria-label="勝負ラボのツール">
+  <p class="sl-tools__lead">勝負ラボのツール</p>
+  <ul class="sl-tools__list">
+  <li><a href="https://shoubu-lab.com/" data-sl="gto"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">ポーカーの正解手を全ストリートで練習</span></a></li>
+  <li><a href="https://rule.shoubu-lab.com/" data-sl="rules"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・進行・用語をゼロから対人デビューまで</span></a></li>
+  <li><a href="https://bj.shoubu-lab.com/" data-sl="bj"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">ベーシックストラテジー＆カウンティング</span></a></li>
+  <li><span class="sl-tools__cur" aria-current="page"><span class="sl-tools__t">ベッティングシステム</span><span class="sl-tools__d">マーチンゲール法ほか5法の破綻を実測（いまここ）</span></span></li>
+  <li><a href="https://shoubu-lab.com/edge/" data-sl="edge"><span class="sl-tools__t">還元率ランキング</span><span class="sl-tools__d">控除率・期待値・ケリー基準の計算機</span></a></li>
+  <li><a href="https://shoubu-lab.com/koei/" data-sl="koei"><span class="sl-tools__t">公営競技の資金管理</span><span class="sl-tools__d">競馬・競艇で同じ手法を検証する</span></a></li>
+  <li><a href="https://shoubu-lab.com/hall/" data-sl="hall"><span class="sl-tools__t">ホールデータラボ</span><span class="sl-tools__d">城南8店の実測値と、外れた検証記録</span></a></li>
+  </ul>
+</nav>
+<script>
+/* SL-TOOLS-NAV v1: ツール間の回遊をGA4に送る */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('.sl-tools a[data-sl]'):null;
+  if(!a||typeof window.gtag!=='function')return;
+  window.gtag('event','tool_nav_click',{tool:a.getAttribute('data-sl'),from_host:location.hostname,link_url:a.href});
+},true);
+</script>
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
