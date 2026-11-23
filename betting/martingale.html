@@ -84,7 +84,7 @@
 確率はヨーロピアンルーレットの赤／黒（勝率 18/37 ≒ 48.65%）で計算しています。</p>
 <div class="tablebox">
 <table>
-<thead><tr><th>何回目</th><th>その回の賭け金</th><th>そこまでの累計投入</th><th>直前までの累計損失</th><th>そこまで全敗する確率</th></tr></thead>
+<thead><tr><th scope="col">何回目</th><th scope="col">その回の賭け金</th><th scope="col">そこまでの累計投入</th><th scope="col">直前までの累計損失</th><th scope="col">そこまで全敗する確率</th></tr></thead>
 <tbody>
 <tr><td>1回目</td><td>1,000</td><td>1,000</td><td>0</td><td>100%</td></tr>
 <tr><td>2回目</td><td>2,000</td><td>3,000</td><td>1,000</td><td>51.35%</td></tr>
@@ -111,7 +111,7 @@
 <h3>連敗の起きやすさ（ヨーロピアンルーレット 赤／黒）</h3>
 <div class="tablebox">
 <table>
-<thead><tr><th>連敗数</th><th>確率</th><th>おおよその頻度</th></tr></thead>
+<thead><tr><th scope="col">連敗数</th><th scope="col">確率</th><th scope="col">おおよその頻度</th></tr></thead>
 <tbody>
 <tr><td>5連敗</td><td>3.571%</td><td>28サイクルに1回</td></tr>
 <tr><td>6連敗</td><td>1.834%</td><td>55サイクルに1回</td></tr>
@@ -123,6 +123,7 @@
 </tbody>
 </table>
 </div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
 
 <h2>破綻条件：現実のテーブルで何が起きるか</h2>
 <p>具体的な設定で見ます。<b>初期資金10万円・基準額1,000円・テーブル上限20,000円</b>。
@@ -141,6 +142,7 @@
 </tbody>
 </table>
 </div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
 
 <p><b>1サイクルの96.4%は「+1,000円」で終わります。</b>だから体感としては「ほぼ勝てる」。
 しかし残り3.6%で31,000円を失うので、平均すると1サイクルあたり142.6円のマイナスです。
@@ -161,7 +163,7 @@ n連敗後に勝ったときの純益を計算すると、こうなります。<
 </div>
 <div class="tablebox">
 <table>
-<thead><tr><th>状況</th><th>勝ったときの純益（基準額1,000円）</th></tr></thead>
+<thead><tr><th scope="col">状況</th><th scope="col">勝ったときの純益（基準額1,000円）</th></tr></thead>
 <tbody>
 <tr><td>連敗なしで勝つ</td><td class="good">+950 円</td></tr>
 <tr><td>2連敗後に勝つ</td><td class="good">+800 円</td></tr>
@@ -172,6 +174,7 @@ n連敗後に勝ったときの純益を計算すると、こうなります。<
 </tbody>
 </table>
 </div>
+<div class="scrollhint">※ 表は横にスクロールできます。</div>
 <p><b>5連敗以上のあとでは、勝っても損失が残ります。</b>（損益分岐は 2ⁿ＝20 となる約4.3連敗で、整数では4連敗後まで黒字、5連敗後から赤字です。）
 「1回勝てば取り返せる」という前提そのものが、コミッションのあるゲームでは成立していません。
 下のシミュレーターでゲームを「バカラ バンカー」に変えると、この挙動をそのまま観察できます。</p>
