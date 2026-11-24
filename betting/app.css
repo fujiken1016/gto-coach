@@ -199,3 +199,7 @@ p,li,.lead,.notice,.warn{overflow-wrap:break-word;word-break:auto-phrase;text-wr
 .jump a{display:inline-flex;align-items:center;min-height:48px;padding:0 14px;border-radius:12px;border:1px solid var(--line,#2a3350);color:var(--text,#e8ecff);text-decoration:none;font-size:15px}
 .jump a.jump-main{flex:1 1 100%;justify-content:center;font-weight:700;background:linear-gradient(95deg,var(--cyan),#3d7bff);color:#031024;border-color:transparent;font-size:16px}
 @media(min-width:720px){.jump a.jump-main{flex:0 1 auto}}
+
+/* 若者向け 冒頭アイキャッチ J-K26 2026-11-24 */
+.eye{margin:0 0 20px}
+.eye img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:16px;background:#10162e}

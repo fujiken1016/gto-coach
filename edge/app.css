@@ -94,3 +94,7 @@ footer a{color:var(--d-text-muted);display:inline-block;padding:11px 6px;}
   .scrollhint{display:none;}
 }
 .nb{display:inline-block;}
+
+/* 若者向け 冒頭アイキャッチ J-K26 2026-11-24 */
+.eye{margin:0 0 20px}
+.eye img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:16px;background:#10162e}
