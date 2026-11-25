@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>1-3-2-6法の成功確率｜4連勝は5.6%、資金100単位で+10に届くのは78%</title>
+<meta name="description" content="1-3-2-6法を、ヨーロピアンの赤黒で厳密計算。4連勝（+12単位）は5.6%、サイクルの76%は−1か−2。資金100単位で+10単位に届くのは78.4%、500回続けてプラスは30%。現金は扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/betting/1326">
+<meta property="og:title" content="1-3-2-6法の成功確率｜4連勝は5.6%、資金100単位で+10に届くのは78%">
+<meta property="og:image" content="https://shoubu-lab.com/og_1326.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://shoubu-lab.com/og_1326.jpg">
+<meta property="og:description" content="1-3-2-6法を、ヨーロピアンの赤黒で厳密計算。4連勝（+12単位）は5.6%、サイクルの76%は−1か−2。資金100単位で+10単位に届くのは78.4%、500回続けてプラスは30%。現金は扱いません。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shoubu-lab.com/betting/1326">
+<meta property="og:site_name" content="GTO Coach">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"1-3-2-6法の成功確率｜4連勝は5.6%、資金100単位で+10に届くのは78%","description":"1-3-2-6法を、ヨーロピアンの赤黒で厳密計算。4連勝（+12単位）は5.6%、サイクルの76%は−1か−2。資金100単位で+10単位に届くのは78.4%、500回続けてプラスは30%。現金は扱いません。","mainEntityOfPage":"https://shoubu-lab.com/betting/1326","inLanguage":"ja","datePublished":"2026-11-25T11:30:00+09:00","dateModified":"2026-11-25T11:30:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"ベッティングシステム検証室","item":"https://shoubu-lab.com/betting/"},{"@type":"ListItem","position":3,"name":"1-3-2-6法","item":"https://shoubu-lab.com/betting/1326"}]}</script>
+<link rel="stylesheet" href="/betting/app.css">
+<!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
+<script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
+<script src="/oc.js" defer></script>
+<style>
+/* === 勝負ラボ 共通ツールナビ (SL-TOOLS-NAV v1) === */
+.sl-tools{
+  --slt-ink:var(--text,var(--ink,var(--txt,var(--d-text,#eef2ff))));
+  --slt-sub:var(--sub,var(--ink-dim,var(--d-text-muted,#8b96c9)));
+  --slt-line:var(--border,var(--line,var(--d-line,#2a3566)));
+  --slt-acc:var(--gold,var(--warn,#ffd23e));
+  margin:32px 0 20px;padding:18px 0 2px;
+  border-top:1px solid var(--slt-line);
+}
+.sl-tools__lead{margin:0 0 12px;padding:0;font-size:16px;font-weight:700;line-height:1.3;color:var(--slt-acc);}
+.sl-tools__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.sl-tools__list li{margin:0;padding:0;}
+.sl-tools__list li::before{content:none;}
+.sl-tools a,.sl-tools .sl-tools__cur{
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  min-height:48px;padding:11px 14px;border-radius:12px;
+  border:1px solid var(--slt-line);background:rgba(0,0,0,.28);
+  color:var(--slt-ink);text-decoration:none;margin:0;
+}
+.sl-tools a:hover{border-color:var(--slt-acc);background:rgba(0,0,0,.45);}
+.sl-tools .sl-tools__cur{border-style:dashed;}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
+.sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
+@media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+</style>
+<style>
+/* /betting/1326 専用（共通の app.css は変更しない） */
+.bt2 .notice,.bt2 .notice b,.bt2 .lead{font-size:14px}
+.bt2 .tablebox th{white-space:nowrap;vertical-align:bottom}
+.bt2 .tablebox th[scope=row]{text-align:left;white-space:nowrap}
+.bt2 .tablebox td{white-space:nowrap}
+.bt2 .tablebox table{min-width:420px;font-size:14px}.bt2 .tablebox th{font-size:14px}
+.bt2 .tablebox caption{white-space:normal;text-align:left;font-size:14px;color:var(--sub);padding:6px 10px}
+.fg{margin:14px 0 18px}.bg2{margin:0 0 12px}.bn2{margin:0 0 2px;font-weight:700;font-size:14.5px;color:#fff}
+.br2{display:flex;align-items:center;gap:8px;font-size:14px;line-height:1.7;color:#d6ddfa}
+.bl2{flex:0 0 5.4em;color:var(--sub)}.bt2x{flex:1;display:block;background:var(--panel2);border-radius:9999px;height:10px;overflow:hidden}
+.bt2x i{display:block;height:10px;border-radius:9999px;background:var(--cyan)}.bv2{flex:0 0 5.8em;text-align:right;font-variant-numeric:tabular-nums}
+.fg figcaption{color:var(--sub);font-size:14px;margin-top:6px;line-height:1.7}
+.bt2 h2,.bt2 h3,.bt2 .toc a{word-break:auto-phrase;text-wrap:pretty}
+.toc{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin:14px 0}
+.tocT{font-weight:700;margin:0 0 2px;color:#fff;font-size:14.5px}
+.toc ol{margin:0 0 0 20px}.toc li{margin:0}.toc a{display:inline-block;padding:13px 0;line-height:1.6;font-size:14.5px}
+.bt2 .crumb,.bt2 footer,.bt2 footer div,.bt2 .eq .small{font-size:14px}
+.bt2 .tablebox::before{content:"表は横にスクロールできます →";display:block;font-size:14px;line-height:1.8;color:var(--sub);padding:6px 10px 0}
+@media(min-width:640px){.bt2 .tablebox::before{display:none}}
+.bt2 .tnote{font-size:14px;color:var(--sub);margin:-4px 0 12px}
+.bt2 article li>a:first-child:last-child{display:inline-block;padding:11px 0}
+</style>
+</head>
+<body class="bt2">
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/betting/">ベッティングシステム検証室</a> ／ 1-3-2-6法</div>
+<h1>1-3-2-6法は、どれくらい勝てる？<br>— 1サイクルの確率と、資金別の成功確率を厳密計算で</h1>
+<div class="notice">
+<b>このページについて</b>：確率の計算を確かめるための学習用の解説です。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される数値はすべて計算上のもので、オンラインカジノ等の紹介・誘導も行いません。賭けを勧めるページでも、勝つ方法を案内するページでもありません。
+</div>
+<div class="lead">
+1-3-2-6法は、勝つたびに賭け額を1→3→2→6と変えていく賭け方です。「4回続けて勝てば+12単位、途中で負けても損は小さい」と説明されます。
+では<b>4連勝はどれくらいの確率で、資金はどれだけ持つのか</b>。ヨーロピアンルーレットの赤黒で、厳密計算で確かめます。
+</div>
+
+<nav class="toc" aria-label="目次"><p class="tocT">目次</p><ol>
+<li><a href="#h-concl">先に結論です。</a></li>
+<li><a href="#h-rule">ルールと1セッションの流れ</a></li>
+<li><a href="#h-cycle">1サイクルの結果は5通り</a></li>
+<li><a href="#h-prob">資金別・目標別の成功確率</a></li>
+<li><a href="#h-flat">1単位の固定額と比べる</a></li>
+<li><a href="#h-timed">回数を決めて続けたら</a></li>
+<li><a href="#h-how">計算方法と、確かめたこと</a></li>
+<li><a href="#h-limit">この計算の限界</a></li>
+<li><a href="#h-faq">よくある質問</a></li>
+<li><a href="#h-end">まとめと次の一歩</a></li>
+</ol></nav>
+
+<h2 id="h-concl">先に結論です。</h2>
+<ul>
+<li><b>4連勝（+12単位）は、ヨーロピアン赤黒で5.6%、約18サイクルに1回です。</b>サイクルの76.3%は、1回目か2回目で負けて、−1か−2単位で終わります。</li>
+<li><b>1サイクルの損は、最大でも2単位です。</b>4回目（賭け額6）で負けても、収支は0です。ただし、平均の収支は1サイクルあたり−0.098単位で、マイナスです。</li>
+<li><b>資金100単位から+10単位に先に届く確率は、78.4%です。</b>残りの21.6%は、資金が尽きます。目標を+50単位にすると、34.9%まで下がります。</li>
+<li>1単位の固定額で同じ+10単位を狙うと、58.1%です。1-3-2-6法のほうが目標に届きやすいのは、同じ目標に、少ない回数で届くからです。ただし、届かなかったときの損は、どちらも資金の全額です。</li>
+<li>回数を決めて続けると、資金100単位・500回で、終わりにプラスなのは29.9%、資金切れは13.0%です。1,000回では、プラスが23.1%、資金切れが40.2%になります。</li>
+</ul>
+<p>※上の数字は、特記のない限り、各回が独立のルーレット赤黒（配当1:1）の厳密計算です。「資金が尽きる」は、手元の資金が0になることです。</p>
+
+<h2 id="h-rule">ルールと1セッションの流れ</h2>
+<p>この記事では、次のルールで計算しました。</p>
+<ul>
+<li>賭け額は、1→3→2→6単位の順です。<b>1単位は、いちばん小さい賭け額</b>で、資金・目標・収支は、すべてこの単位で表します。</li>
+<li>勝てば、次の段へ進みます（1→3、3→2、2→6）。</li>
+<li>負ければ、1に戻ります。</li>
+<li>6単位の賭けに勝つと、1サイクルが終わって1に戻ります。</li>
+<li>次の賭け額が手元の資金を超えるときは、手元の資金を全部賭けます。資金が0になったら終了です。</li>
+</ul>
+<p>1-3-2-6法の賭け額の並びは、casinos.com の解説（2026年11月25日に確認）と同じです。出典は、次のURLです。</p>
+<ul><li><span style="overflow-wrap:anywhere">https://www.casinos.com/guides/1-3-2-6-betting-system</span></li></ul>
+<p>結果の並びを決めて、実際に動かした例です。</p>
+<div class="tablebox"><table><thead><tr><th scope="col">回</th><th scope="col">賭け額</th><th scope="col">結果</th><th scope="col">合計の収支</th><th scope="col">そのサイクルの収支</th></tr></thead><tbody><tr><th scope="row">1</th><td>1</td><td>負け</td><td>−1</td><td>−1</td></tr><tr><th scope="row">2</th><td>1</td><td>勝ち</td><td>+0</td><td>―</td></tr><tr><th scope="row">3</th><td>3</td><td>勝ち</td><td>+3</td><td>―</td></tr><tr><th scope="row">4</th><td>2</td><td>負け</td><td>+1</td><td>+2</td></tr><tr><th scope="row">5</th><td>1</td><td>勝ち</td><td>+2</td><td>―</td></tr><tr><th scope="row">6</th><td>3</td><td>勝ち</td><td>+5</td><td>―</td></tr><tr><th scope="row">7</th><td>2</td><td>勝ち</td><td>+7</td><td>―</td></tr><tr><th scope="row">8</th><td>6</td><td>勝ち</td><td>+13</td><td>+12</td></tr></tbody></table></div>
+<p>この例では、1つ目のサイクルが−1、2つ目が+2、3つ目が4連勝の+12で、<b>8回の賭けで収支は+13単位</b>になりました。4連勝したサイクルが1つあれば、ほかの負けを取り返せます。ただし、その4連勝が来る確率が低いことは、次の節で計算します。</p>
+
+<h2 id="h-cycle">1サイクルの結果は5通り</h2>
+<p><b>1サイクルの終わり方は5通りで、収支は−1・−2・+2・0・+12単位のどれかです。</b>勝つ確率をpとすると、−1は1−p、−2は(1−p)p、+2は(1−p)p²、0は(1−p)p³、+12はp⁴です。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">サイクルの終わり方</th><th scope="col">収支</th><th scope="col">公平（50%）</th><th scope="col">ヨーロピアン（18/37）</th><th scope="col">アメリカン（18/38）</th></tr></thead>
+<tbody><tr><th scope="row">1回目で負け</th><td>−1単位</td><td>50.0%</td><td><b>51.4%</b></td><td>52.6%</td></tr><tr><th scope="row">1回目勝ち→2回目で負け</th><td>−2単位</td><td>25.0%</td><td><b>25.0%</b></td><td>24.9%</td></tr><tr><th scope="row">2回目まで勝ち→3回目で負け</th><td>+2単位</td><td>12.5%</td><td><b>12.2%</b></td><td>11.8%</td></tr><tr><th scope="row">3回目まで勝ち→4回目で負け</th><td>0単位</td><td>6.2%</td><td><b>5.9%</b></td><td>5.6%</td></tr><tr><th scope="row">4回とも勝ち</th><td>+12単位</td><td>6.2%</td><td><b>5.6%</b></td><td>5.0%</td></tr><tr><th scope="row">平均の収支（1サイクル）</th><td>―</td><td>+0.000</td><td><b>−0.098</b></td><td>−0.185</td></tr><tr><th scope="row">平均の賭け総額（1サイクル）</th><td>―</td><td>3.75</td><td><b>3.62</b></td><td>3.51</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※厳密計算。収支の単位は「単位」。賭け総額は、1サイクルで賭ける額の合計の平均です。割合は四捨五入のため、足しても100%にならないことがあります。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">1回目で負け</p><div class="br2"><span class="bl2">−1</span><span class="bt2x"><i style="width:51.35%"></i></span><span class="bv2">51.4%</span></div></div><div class="bg2"><p class="bn2">1回目勝ち→2回目で負け</p><div class="br2"><span class="bl2">−2</span><span class="bt2x"><i style="width:24.98%"></i></span><span class="bv2">25.0%</span></div></div><div class="bg2"><p class="bn2">2回目まで勝ち→3回目で負け</p><div class="br2"><span class="bl2">+2</span><span class="bt2x"><i style="width:12.15%"></i></span><span class="bv2">12.2%</span></div></div><div class="bg2"><p class="bn2">3回目まで勝ち→4回目で負け</p><div class="br2"><span class="bl2">0</span><span class="bt2x"><i style="width:5.91%"></i></span><span class="bv2">5.9%</span></div></div><div class="bg2"><p class="bn2">4回とも勝ち</p><div class="br2"><span class="bl2">+12</span><span class="bt2x"><i style="width:5.60%"></i></span><span class="bv2">5.6%</span></div></div><figcaption>※ヨーロピアン赤黒（勝つ確率18/37）での、1サイクルの結果の確率。バーは0〜100%。</figcaption></figure>
+<ul>
+<li><b>半分以上のサイクルが、1回目の負け（−1）で終わります。</b>ヨーロピアンで51.4%です。</li>
+<li>収支がプラスで終わるサイクルは、+2と+12を合わせて17.8%です。残りの82.2%は、−1・−2・0のどれかです。</li>
+<li>平均の収支は、ヨーロピアンで1サイクルあたり−0.098単位、賭け総額の−2.70%です。これは−控除率（−1/37＝−2.70%）と一致します。</li>
+<li>公平な賭け（50%）の平均は0です。賭け方を変えても、勝つ確率が50%なら、平均の収支は0のままです。</li>
+</ul>
+
+<h2 id="h-prob">資金別・目標別の成功確率</h2>
+<p><b>資金100単位から+10単位に先に届く確率は、ヨーロピアンで78.4%です。</b>目標を大きくすると、確率は下がります。資金を目標より先に失う確率は、そのまま「失敗」です。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">資金</th><th scope="col">目標+10単位</th><th scope="col">目標+20単位</th><th scope="col">目標+50単位</th><th scope="col">目標+100単位</th></tr></thead>
+<tbody><tr><th scope="row">資金10単位</th><td>42.0%</td><td>25.8%</td><td>9.7%</td><td>3.0%</td></tr><tr><th scope="row">資金20単位</th><td>57.0%</td><td>38.9%</td><td>16.4%</td><td>5.4%</td></tr><tr><th scope="row">資金50単位</th><td>72.1%</td><td>55.5%</td><td>27.7%</td><td>10.0%</td></tr><tr><th scope="row">資金100単位</th><td>78.4%</td><td>63.6%</td><td>34.9%</td><td>13.4%</td></tr><tr><th scope="row">資金200単位</th><td>80.8%</td><td>66.9%</td><td>38.3%</td><td>15.2%</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※ヨーロピアン赤黒で、目標の収支に先に届く確率（厳密解）。目標を超えて勝った分は、目標に届いた扱いにします。賭け額が手元の資金を超えるときは、手元の全額を賭けます。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">資金10単位・目標+10</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:42.03%"></i></span><span class="bv2">42.0%</span></div></div><div class="bg2"><p class="bn2">資金20単位・目標+10</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:56.97%"></i></span><span class="bv2">57.0%</span></div></div><div class="bg2"><p class="bn2">資金50単位・目標+10</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:72.12%"></i></span><span class="bv2">72.1%</span></div></div><div class="bg2"><p class="bn2">資金100単位・目標+10</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:78.35%"></i></span><span class="bv2">78.4%</span></div></div><div class="bg2"><p class="bn2">資金200単位・目標+10</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:80.76%"></i></span><span class="bv2">80.8%</span></div></div><figcaption>※1-3-2-6法・ヨーロピアン赤黒で、目標+10単位に先に届く確率（厳密解）。バーは0〜100%。</figcaption></figure>
+<ul>
+<li>資金が小さいと、確率は低くなります。資金10単位・目標+10単位は42.0%です。</li>
+<li>資金が大きくても、目標が大きいと低いままです。資金200単位・目標+100単位は15.2%です。</li>
+<li>失敗の損は、資金の全額です。資金100単位・目標+10単位なら、21.6%の確率で100単位を失います。</li>
+</ul>
+
+<h2 id="h-flat">1単位の固定額と比べる</h2>
+<p><b>資金100単位・目標+10単位の成功確率は、1-3-2-6法が78.4%、1単位の固定額が58.1%です。</b>1-3-2-6法のほうが、目標に届きやすい結果になりました。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">目標（資金100単位）</th><th scope="col">1-3-2-6法の成功</th><th scope="col">固定額の成功</th><th scope="col">1-3-2-6法の平均収支</th><th scope="col">固定額の平均収支</th><th scope="col">1-3-2-6法の賭け総額</th><th scope="col">固定額の賭け総額</th></tr></thead>
+<tbody><tr><th scope="row">目標+10単位</th><td><b>78.4%</b></td><td>58.1%</td><td>−12.8</td><td>−36.1</td><td>473</td><td>1,334</td></tr><tr><th scope="row">目標+20単位</th><td><b>63.6%</b></td><td>33.8%</td><td>−22.9</td><td>−59.4</td><td>845</td><td>2,199</td></tr><tr><th scope="row">目標+50単位</th><td><b>34.9%</b></td><td>6.7%</td><td>−47.2</td><td>−90.0</td><td>1,746</td><td>3,330</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※ヨーロピアン赤黒・厳密解。平均収支と賭け総額の単位は「単位」で、目標か資金切れで終わるまでの平均です。固定額は、毎回1単位を賭ける場合で、ギャンブラーの破産問題の閉形式の値と一致しました。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">1-3-2-6法</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:78.35%"></i></span><span class="bv2">78.4%</span></div></div><div class="bg2"><p class="bn2">1単位の固定額</p><div class="br2"><span class="bl2">成功</span><span class="bt2x"><i style="width:58.13%"></i></span><span class="bv2">58.1%</span></div></div><figcaption>※資金100単位・目標+10単位・ヨーロピアン赤黒で、目標に先に届く確率（厳密解）。</figcaption></figure>
+<ul>
+<li>平均の収支は、どちらもマイナスです。目標+10単位なら、1-3-2-6法は−12.8単位、固定額は−36.1単位です。</li>
+<li>差が出るのは、賭け総額です。1-3-2-6法は473単位、固定額は1,334単位です。損は「−控除率×賭け総額」なので、少なく賭けるほど、平均の損は小さくなります。</li>
+<li>公平な賭け（50%）では、成功確率の差はほとんどありません。資金100単位・目標+10単位で、1-3-2-6法が89.8%、固定額が90.9%です。</li>
+<li>賭け方で、「目標に届く確率」は変わります。変わらないのは、平均の損が賭け総額に比例することです。</li>
+</ul>
+
+<h2 id="h-timed">回数を決めて続けたら</h2>
+<p><b>資金100単位で500回賭けた終わりに、プラスなのは29.9%、資金切れが13.0%、中央値は−28単位です。</b>目標を決めずに、回数だけ決めて続けたときの結果です。</p>
+<div class="tablebox">
+<table>
+<thead><tr><th scope="col">資金と回数</th><th scope="col">資金切れ</th><th scope="col">プラスで終了</th><th scope="col">収支の中央値</th><th scope="col">収支の平均</th></tr></thead>
+<tbody><tr><th scope="row">資金50単位・100回</th><td>3.3%</td><td>38.8%</td><td>−6</td><td>−5.3</td></tr><tr><th scope="row">資金50単位・500回</th><td>52.1%</td><td>27.7%</td><td>−50</td><td>−19.9</td></tr><tr><th scope="row">資金50単位・1,000回</th><td>73.7%</td><td>18.0%</td><td>−50</td><td>−29.3</td></tr><tr><th scope="row">資金100単位・100回</th><td>0.0%</td><td>38.8%</td><td>−6</td><td>−5.3</td></tr><tr><th scope="row">資金100単位・500回</th><td>13.0%</td><td>29.9%</td><td>−28</td><td>−25.8</td></tr><tr><th scope="row">資金100単位・1,000回</th><td>40.2%</td><td>23.1%</td><td>−61</td><td>−45.1</td></tr><tr><th scope="row">資金200単位・100回</th><td>0.0%</td><td>38.8%</td><td>−6</td><td>−5.3</td></tr><tr><th scope="row">資金200単位・500回</th><td>0.0%</td><td>29.9%</td><td>−28</td><td>−26.6</td></tr><tr><th scope="row">資金200単位・1,000回</th><td>3.6%</td><td>23.4%</td><td>−54</td><td>−52.9</td></tr></tbody>
+</table>
+</div>
+<p class="tnote">※ヨーロピアン赤黒・厳密解。資金切れの収支は−資金で数えます。プラスで終了は、資金が残ったまま収支が0より大きい確率です。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">100回</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:38.79%"></i></span><span class="bv2">38.8%</span></div></div><div class="bg2"><p class="bn2">500回</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:29.90%"></i></span><span class="bv2">29.9%</span></div></div><div class="bg2"><p class="bn2">1,000回</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:23.14%"></i></span><span class="bv2">23.1%</span></div></div><figcaption>※資金100単位・ヨーロピアン赤黒で、N回賭けた終わりにプラスで終わっている確率（厳密解）。バーは0〜100%。</figcaption></figure>
+<ul>
+<li>回数が増えるほど、プラスで終わる確率は下がります。資金100単位では、100回から1,000回まで、回数が増えるほど、資金切れが増えます。</li>
+<li>収支の中央値は、いつもマイナスです。500回・資金100単位で−28単位、1,000回で−61単位です。</li>
+<li>収支の平均は、500回・資金100単位で−25.8単位で、中央値より2.2単位ほど上です。理由は検証していません。</li>
+</ul>
+
+<h2 id="h-how">計算方法と、確かめたこと</h2>
+<h3>1｜モデル</h3>
+<p>状態は「累計の収支」と「いま何段目か」です。勝つと次の段へ、負けると1段目に戻ります。目標か資金切れに届いた状態を、行き止まりとして、連立一次方程式で成功確率を解きました。回数を決める場合は、1回ごとの確率の分布を、回数ぶん順に更新しました。</p>
+<h3>2｜検証のしかた</h3>
+<ul>
+<li>平均収支の恒等式：全60条件（3つの勝率×資金5種×目標4種）で、平均の収支が「−控除率×賭け総額」と一致しました。</li>
+<li>固定額の厳密値：同じ連立方程式で、賭け額を1に固定した場合が、ギャンブラーの破産問題の閉形式と、全60条件で1e−9以内で一致しました。</li>
+<li>乱数との照合：別の方式（1回ずつ乱数で進める）で、各100万回を回しました。厳密解と比べた11条件で、最も離れたのは標準誤差の2.1倍でした。乱数の揺れの範囲です。</li>
+<li>サイクルの確率：5通りの確率の合計が1で、4連勝がpの4乗、1回目の負けが1−pと一致しました。</li>
+</ul>
+<h3>他の記事との違い</h3>
+<p>2026年11月25日に、検索で上位の解説を開きました（casinos.com／gambling.com の1-3-2-6解説）。賭け額の並びと、「4連勝で+12単位」の説明が中心で、サイクルの結果の確率や、資金別の成功確率の表は、開いた範囲では見つかりませんでした。日本語で、同じ数字を載せたページも、検索の範囲では見つかりませんでした（網羅的な調査ではありません）。</p>
+
+<h2 id="h-limit">この計算の限界</h2>
+<ul>
+<li>各回が独立で、勝つ確率が一定のモデルです。実際のホイールやオンラインの乱数の癖は、この計算の外です。</li>
+<li>目標の判定は、累計の収支がちょうど目標を超えた時点です。サイクルの途中で目標を超えても、そこで終了します。</li>
+<li>テーブルの最低・最高賭け額は入っていません。</li>
+<li>1-3-2-6法の賭け額は、1→3→2→6で固定です。資金の増減に合わせて1単位の大きさを変える流儀は、この計算の外です。</li>
+<li><b>これは、確率の仕組みを知るための解説で、賭けを勧めるものではありません。</b>賭け方で、控除率は変えられません。</li>
+</ul>
+
+<h2 id="h-faq">よくある質問</h2>
+<h3>1-3-2-6法とは、どんな賭け方ですか？</h3>
+<p>赤黒のように配当1:1の賭けで、賭け額を1→3→2→6（単位）の順に変える方法です。勝ったら次の段へ進み、負けたら1に戻ります。4回続けて勝つと、1サイクルが終わって1に戻ります。</p>
+<h3>1-3-2-6法で、1サイクルを4連勝できる確率は？</h3>
+<p>ヨーロピアン赤黒（勝つ確率18/37）で5.6%、18サイクルに約1回です（0.4865の4乗）。アメリカンでは5.0%です。4連勝したときの収支は+12単位で、1回の賭けの12倍です。</p>
+<h3>1-3-2-6法は、負けても損が小さいというのは本当ですか？</h3>
+<p>1サイクルでの損は最大2単位です。4回目（賭け額6）で負けても、収支は0です。ただし、サイクルの76.3%が−1か−2で終わるので、小さな負けが積み重なります。平均の収支は、ヨーロピアンで1サイクルあたり−0.098単位です。</p>
+<h3>1-3-2-6法で、資金100単位から+10単位に届く確率は？</h3>
+<p>ヨーロピアン赤黒で78.4%です（厳密解）。残りの21.6%は、資金が尽きて終わります。1単位の固定額なら58.1%です。ただし、平均の収支は、どちらもマイナスです。</p>
+<h3>1-3-2-6法を続けると、最後はプラスになりますか？</h3>
+<p>ならない確率のほうが大きいです。資金100単位・ヨーロピアン赤黒で500回賭けた終わりに、プラスで終わるのは29.9%、資金が尽きているのは13.0%です。1,000回では、プラスは23.1%で、資金切れは40.2%に増えます。</p>
+
+<h2 id="h-end">まとめと次の一歩</h2>
+<ul>
+<li>4連勝（+12単位）は、ヨーロピアン赤黒で5.6%です。サイクルの76.3%は、−1か−2で終わります。</li>
+<li>資金100単位から+10単位に届くのは78.4%、失敗は資金の全額です。500回続けると、プラスで終わるのは29.9%です。</li>
+<li>平均の収支は、賭け方によらず「−控除率×賭け総額」で、マイナスです。</li>
+</ul>
+<p>次の1アクションは、<a href="/betting/hasan">破産確率の計算機</a>で、勝つ確率を48.6%にして、資金と目標を入れて、固定額の場合の確率を、この記事の「固定額」の列と見比べることです。続きは、同じ検証室の<a href="/betting/paroli">パーレー法（逆マーチンゲール）</a>です。勝つたびに賭け額を増やす点で、1-3-2-6法の仲間にあたります。</p>
+
+<div class="related">
+  <b>ベッティングシステム検証室</b><br>
+  <a href="/betting/">検証室トップ</a>
+  <a href="/betting/paroli">パーレー法</a>
+  <a href="/betting/martingale">マーチンゲール法</a>
+  <a href="/betting/fibonacci">フィボナッチ法の破産確率</a>
+  <a href="/betting/labouchere">ラブシェール法の必要資金</a>
+  <a href="/betting/oscar">オスカーグラインド法</a>
+  <a href="/betting/hasan">破産確率の計算機</a>
+  <a href="/betting/renpai">連敗確率の計算機</a>
+  <a href="/edge/">還元率ランキング</a>
+</div>
+
+<!-- SL-TOOLS-NAV v1 -->
+<nav class="sl-tools" aria-label="勝負ラボのツール">
+  <p class="sl-tools__lead">勝負ラボのツール</p>
+  <ul class="sl-tools__list">
+  <li><a href="https://shoubu-lab.com/" data-sl="gto"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">ポーカーの正解手を全ストリートで練習</span></a></li>
+  <li><a href="https://rule.shoubu-lab.com/" data-sl="rules"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・進行・用語をゼロから対人デビューまで</span></a></li>
+  <li><a href="https://bj.shoubu-lab.com/" data-sl="bj"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">ベーシックストラテジー＆カウンティング</span></a></li>
+  <li><span class="sl-tools__cur" aria-current="page"><span class="sl-tools__t">ベッティングシステム</span><span class="sl-tools__d">マーチンゲール法ほか5法の破綻を実測（いまここ）</span></span></li>
+  <li><a href="https://shoubu-lab.com/edge/" data-sl="edge"><span class="sl-tools__t">還元率ランキング</span><span class="sl-tools__d">控除率・期待値・ケリー基準の計算機</span></a></li>
+  <li><a href="https://shoubu-lab.com/koei/" data-sl="koei"><span class="sl-tools__t">公営競技の資金管理</span><span class="sl-tools__d">競馬・競艇で同じ手法を検証する</span></a></li>
+  <li><a href="https://shoubu-lab.com/hall/" data-sl="hall"><span class="sl-tools__t">ホールデータラボ</span><span class="sl-tools__d">城南8店の実測値と、外れた検証記録</span></a></li>
+  </ul>
+</nav>
+<script>
+/* SL-TOOLS-NAV v1: ツール間の回遊をGA4に送る */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('.sl-tools a[data-sl]'):null;
+  if(!a||typeof window.gtag!=='function')return;
+  window.gtag('event','tool_nav_click',{tool:a.getAttribute('data-sl'),from_host:location.hostname,link_url:a.href});
+},true);
+</script>
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
