@@ -48,6 +48,8 @@
 .sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
 .sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
 @media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+/* J751: 比較表の1列目リンクを高さ50px の標的に（行は 51px。隣と重ならない） */
+td.lk{padding-top:0;padding-bottom:0}td.lk a{display:block;line-height:50px;min-height:50px}
 </style>
 </head>
 <body>
@@ -132,11 +134,11 @@ E[収支] ＝ −（控除率） × E[総ベット額]
 <table>
 <thead><tr><th scope="col">システム</th><th scope="col">賭け金の決め方</th><th scope="col">増え方</th><th scope="col">向くゲーム</th><th scope="col">破綻の形</th></tr></thead>
 <tbody>
-<tr><td><a href="/betting/martingale">マーチンゲール法</a></td><td>負けたら2倍／勝ったらリセット</td><td>指数（2倍）</td><td>1:1（赤黒など）</td><td class="bad">数回の連敗で即・続行不能</td></tr>
-<tr><td><a href="/betting/montecarlo">モンテカルロ法</a></td><td>数列の両端の和／勝ちで両端を消す</td><td>ゆるやかに加速</td><td>1:1・2:1</td><td class="bad">数列が伸び続けて賭け金が膨張</td></tr>
-<tr><td><a href="/betting/dalembert">ダランベール法</a></td><td>負けたら+1単位／勝ったら−1単位</td><td>線形</td><td>1:1（赤黒など）</td><td class="bad">じわじわ減って戻らない</td></tr>
-<tr><td><a href="/betting/paroli">パーレー法</a></td><td>勝ったら2倍／負けたらリセット</td><td>指数（勝った時だけ）</td><td>1:1（赤黒など）</td><td class="bad">破綻はしにくいが着実に減る</td></tr>
-<tr><td><a href="/betting/cocomo">ココモ法</a></td><td>直前2回の賭け金の和</td><td>フィボナッチ（約1.618倍）</td><td>2:1（ダズンなど）</td><td class="bad">勝率が低く連敗が長い</td></tr>
+<tr><td class="lk"><a href="/betting/martingale">マーチンゲール法</a></td><td>負けたら2倍／勝ったらリセット</td><td>指数（2倍）</td><td>1:1（赤黒など）</td><td class="bad">数回の連敗で即・続行不能</td></tr>
+<tr><td class="lk"><a href="/betting/montecarlo">モンテカルロ法</a></td><td>数列の両端の和／勝ちで両端を消す</td><td>ゆるやかに加速</td><td>1:1・2:1</td><td class="bad">数列が伸び続けて賭け金が膨張</td></tr>
+<tr><td class="lk"><a href="/betting/dalembert">ダランベール法</a></td><td>負けたら+1単位／勝ったら−1単位</td><td>線形</td><td>1:1（赤黒など）</td><td class="bad">じわじわ減って戻らない</td></tr>
+<tr><td class="lk"><a href="/betting/paroli">パーレー法</a></td><td>勝ったら2倍／負けたらリセット</td><td>指数（勝った時だけ）</td><td>1:1（赤黒など）</td><td class="bad">破綻はしにくいが着実に減る</td></tr>
+<tr><td class="lk"><a href="/betting/cocomo">ココモ法</a></td><td>直前2回の賭け金の和</td><td>フィボナッチ（約1.618倍）</td><td>2:1（ダズンなど）</td><td class="bad">勝率が低く連敗が長い</td></tr>
 </tbody>
 </table>
 </div>
