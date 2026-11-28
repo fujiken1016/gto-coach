@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#101018">
+<title>cベットとは？フロップの打つ頻度は「板の型」で決まる｜勝負ラボ</title>
+<meta name="description" content="cベットの意味と、乾いた板・つながった板で打つ頻度とサイズが変わる理由を、BTN対BB・100bbのソルバーで解いた代表7枚の数字で整理します。前提条件つき。">
+<link rel="canonical" href="https://shoubu-lab.com/flop/cbet/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"cベットとは？フロップの打つ頻度は「板の型」で決まる","description":"cベットの意味と、乾いた板・つながった板で打つ頻度とサイズが変わる理由を、BTN対BB・100bbのソルバーで解いた代表7枚の数字で整理します。前提条件つき。","mainEntityOfPage":"https://shoubu-lab.com/flop/cbet/","inLanguage":"ja","image":"https://shoubu-lab.com/og_flop_cbet.jpg","datePublished":"2026-11-28T00:00:00+09:00","dateModified":"2026-11-28T00:00:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="勝負ラボ">
+<meta property="og:title" content="cベットとは？フロップの打つ頻度は「板の型」で決まる">
+<meta property="og:image" content="https://shoubu-lab.com/og_flop_cbet.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://shoubu-lab.com/og_flop_cbet.jpg">
+<meta property="og:description" content="cベットの意味と、乾いた板・つながった板で打つ頻度とサイズが変わる理由を、BTN対BB・100bbのソルバーで解いた代表7枚の数字で整理します。前提条件つき。">
+<meta property="og:url" content="https://shoubu-lab.com/flop/cbet/">
+<!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
+<script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
+<script src="/oc.js" defer></script>
+<style>
+/* 色・寸法は GTO Coach（shoubu-lab.com）の既存トークンをそのまま使う */
+:root{
+  --bg:#101018; --surface:#1a1a26; --surface2:#232333;
+  --text:#f2f2f7; --muted:#a9a9be; --line:#2b2b3a; --line-strong:#606076;
+  --primary:#3ddc97;  --gold:#ffd23e; --coral:#ff7a8a; --blue:#6aa8ff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+a{color:var(--primary)}
+:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+
+/* ヘッダー：右上にアプリへの常設ボタン（GTO Wizard「Go To App」・GTOBase「Go to app」） */
+.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:12px}
+.brand{font-size:16px;font-weight:700;color:var(--text);text-decoration:none;display:inline-flex;align-items:center;min-height:48px}
+.brand small{display:block;font-size:14px;font-weight:400;color:var(--muted);line-height:1.3}
+.nav{display:flex;align-items:center;gap:4px}
+.nav a.lnk{display:none;align-items:center;min-height:48px;padding:0 12px;color:var(--muted);text-decoration:none;font-size:16px}
+.nav a.lnk:hover{color:var(--text)}
+
+/* ボタン：主CTAは1色（GTO Wizard は #aafbb2 一色。うちは --primary 一色） */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:12px;font-size:16px;font-weight:700;text-decoration:none;border:1px solid transparent;line-height:1.3;text-align:center}
+.btn-primary{background:var(--primary);color:#0b1a12}
+.btn-primary:hover{background:#6ae9b5}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--line-strong)}
+.btn-ghost:hover{border-color:var(--text)}
+.btn-lg{min-height:56px;padding:0 32px}
+.btn-sm{padding:0 16px}
+
+/* ヒーロー：見出し→1文→主CTA→（副CTA）の順。375pxで主CTAが1画面目に入る */
+.hero{padding:32px 0 40px}
+.hero .wrap{display:grid;gap:24px;grid-template-columns:minmax(0,1fr)}
+.eyebrow{font-size:14px;color:var(--primary);font-weight:700;letter-spacing:.04em}
+h1{font-size:2rem;line-height:1.4;font-weight:700;margin:12px 0}
+.ph{display:inline-block}
+.lead{font-size:16px;color:var(--muted);max-width:34em}
+.cta-row{display:grid;gap:12px;margin-top:20px}
+.note{font-size:14px;color:var(--muted);margin-top:12px;line-height:1.7}
+
+/* ヒーロー右の図：板ごとの13×13のイメージ（実データではない・装飾） */
+.shot{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;max-width:440px;width:100%}
+.shot-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{display:inline-block;padding:4px 12px;border-radius:9999px;background:var(--surface2);font-size:14px;color:var(--muted)}
+.chip.on{background:var(--primary);color:#0b1a12;font-weight:700}
+.cap{font-size:14px;color:var(--muted);margin-top:8px}
+/* 実データの横棒（ヒーロー右）と表。スートは4色（GTO Wizard・PokerStars の4カラーデッキ） */
+.shot-h{font-size:14px;font-weight:700;color:var(--muted);margin-bottom:8px}
+.bars{list-style:none;display:grid;gap:8px}
+.bars li{display:grid;grid-template-columns:5.2em minmax(0,1fr) 3.6em;align-items:center;gap:8px}
+.bd{font-weight:700;font-size:16px;letter-spacing:.02em;white-space:nowrap}
+.bar{display:block;height:14px;border-radius:8px;background:var(--surface2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--primary);border-radius:8px}
+.v{font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
+b.s{color:#e6e6ef}b.h{color:#ff6b7d}b.d{color:#6aa8ff}b.c{color:#3ddc97}
+b.s,b.h,b.d,b.c{font-weight:700}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+.tbl th,.tbl td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.tbl thead th{color:var(--muted);font-weight:700;background:var(--surface);line-height:1.4;vertical-align:bottom}
+.tbl th[scope=row],.tbl thead th:first-child{text-align:left;font-size:16px}
+.tbl tbody tr:last-child>*{border-bottom:0}
+.tbl em{font-style:normal;color:var(--gold);font-weight:700}
+@media(max-width:479px){.tbl-wrap{margin:0 -16px;border-radius:0;border-left:0;border-right:0}.tbl th,.tbl td{padding:10px 4px}.tbl th[scope=row]{padding-left:10px;font-size:15px}.tbl td:last-child,.tbl thead th:last-child{padding-right:10px}.tbl td{letter-spacing:-.02em}}
+
+/* 日本語の改行：見出しは文節で割ってバランス、本文は孤立文字を避ける（単語途中では割らない） */
+h1,h2,h3,.cap,.note,.lead,.cond li,.sl-tools__d,.band p,.card p{word-break:auto-phrase;line-break:strict}
+h1,h2,h3,.cap,.sl-tools__d{text-wrap:balance}
+.note,.lead,.cond li,.band p,.card p{text-wrap:pretty}
+
+/* 節 */
+section{padding:32px 0;border-top:1px solid var(--line)}
+h2{font-size:1.5rem;line-height:1.4;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);margin-bottom:20px}
+.cards{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+.cards>*,.hero .wrap>*,.cond li{min-width:0;overflow-wrap:break-word}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card h3{font-size:1.25rem;line-height:1.4;font-weight:700;margin-bottom:4px}
+.card p{color:var(--muted);font-size:16px}
+a.card{display:block;text-decoration:none;color:var(--text)}
+a.card:hover{border-color:var(--primary)}
+.tag{display:block;font-size:14px;color:var(--muted);margin-bottom:12px}
+.go{display:inline-flex;align-items:center;min-height:48px;color:var(--primary);font-weight:700;margin-top:4px}
+
+/* 中盤・末尾のCTA帯：本文と色を変え、ボタンを1つだけ置く */
+.band{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:28px 20px;text-align:center}
+.band h2{margin-bottom:8px}
+.band p{color:var(--muted);margin:0 auto 20px;max-width:32em}
+
+/* 前提の明示（うちが手本から離れる所＝条件を隠さない） */
+.cond{display:grid;gap:8px;list-style:none}
+.cond li{background:var(--surface);border-radius:12px;padding:12px 16px;font-size:16px}
+.cond b{color:var(--gold)}
+
+/* 共通ツールナビ（SL-TOOLS-NAV v1 と同じ見た目） */
+.sl-tools{margin:0;padding:0}
+.sl-tools__list{list-style:none;display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
+.sl-tools a{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:48px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--text);text-decoration:none}
+.sl-tools a:hover{border-color:var(--gold)}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3}
+.sl-tools__d{font-size:14px;line-height:1.7;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding:32px 0 48px;font-size:14px;color:var(--muted);line-height:1.8}
+footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:48px;padding:0 8px}
+footer .links{margin:0 -8px}
+
+@media(min-width:720px){
+  .nav a.lnk{display:inline-flex}
+  .hero{padding:56px 0 64px}
+  .hero .wrap{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:40px}
+  h1{font-size:2.5rem}
+  .cta-row{display:flex;flex-wrap:wrap}
+  .cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .sl-tools__list{grid-template-columns:repeat(3,minmax(0,1fr))}
+  section{padding:56px 0}
+  .band{padding:40px 32px}
+}
+
+/* 解説記事用の追加（page-local） */
+.crumb{font-size:14px;color:var(--muted);padding:12px 0 0}
+.crumb a{display:inline-flex;align-items:center;min-height:48px;color:var(--muted)}
+.art h2{margin-top:0}
+.art p{margin:0 0 20px;max-width:40em}
+.art p,.art li,.art td,.art th,.art figcaption{word-break:auto-phrase;line-break:strict;text-wrap:pretty}
+.art .tbl th,.art .tbl td{white-space:normal;padding:10px 6px;overflow-wrap:anywhere}
+.art .tbl th,.art .tbl td{text-wrap:balance}
+.art .tbl thead th.l{text-align:left}
+.art .tbl a{display:inline-flex;align-items:center;min-height:48px}
+.art .lead{color:var(--muted)}
+.art figure{margin:16px 0 20px}
+.art figcaption{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.7}
+.art ul.pts,.art ol.pts{margin:0 0 16px;padding-left:1.4em;max-width:40em}
+.art ul.pts li,.art ol.pts li{margin-bottom:8px}
+.key{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:16px 20px;margin:0 0 20px}
+.key p{margin:0 0 16px;max-width:none}
+.key p:last-child{margin-bottom:0}
+.key b{color:var(--gold)}
+.art .tbl th[scope=row].l,.art .tbl td.l{text-align:left;white-space:normal}
+.toc ol a{display:flex;align-items:center;min-height:48px;color:var(--primary)}
+.band .bt{font-size:1.5rem;line-height:1.4;font-weight:700;margin:0 0 8px;color:var(--text)}
+.related{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:720px){.related{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><span>勝負ラボ<small>Shoubu Lab</small></span></a>
+    <nav class="nav" aria-label="メイン">
+      <a class="lnk" href="/flop/">フロップ早見盤</a>
+      <a class="btn btn-primary btn-sm" href="/?from=flop-article-cbet-header">GTO Coachを開く</a>
+    </nav>
+  </div>
+</header>
+
+<main class="art">
+<div class="wrap">
+  <p class="crumb"><a href="/">GTO Coach</a> › <a href="/flop/">フロップ早見盤</a> › この記事</p>
+  <div class="hero" style="padding-bottom:24px">
+    <p class="eyebrow">フロップ解説 ①</p>
+    <h1>cベットとは？<br>フロップの打つ頻度は<span class="ph">「板の型」で決まる</span></h1>
+    <p class="lead">BTN対BB（100bb）の代表7枚をソルバーで解き、cベットの頻度とサイズが板でどう変わるかを整理しました。数字の前提は先に書いています。</p>
+  </div>
+</div>
+<div class="wrap"><nav class="toc" aria-label="目次"><p class="shot-h">目次</p><ol style="list-style:none;padding:0;margin:0 0 24px"><li><a href="#s1">先に結論：頻度もサイズも板で動く</a></li><li><a href="#s2">cベットとは：フロップ最初のベット</a></li><li><a href="#cond">この数字の前提：先に条件を書いておく</a></li><li><a href="#s4">3枚の数字：K72・QJ4・T97</a></li><li><a href="#s5">板の名前で読む：なぜ違うのか</a></li><li><a href="#s6">7枚を並べると：差は28ポイント</a></li><li><a href="#s7">ほかの板でも向きは同じか：96板で確かめる</a></li><li><a href="#s8">よくある読み違い：3つの注意</a></li><li><a href="#s9">次に確かめる：自分の板で引く</a></li><li><a href="#s10">まとめ：cベットは「板の型」で読む</a></li></ol></nav></div>
+<section id="s1">
+  <div class="wrap">
+    <h2>先に結論：頻度もサイズも板で動く</h2>
+    <div class="key"><p><b>要点</b>　cベットは、プリフロップで最後にレイズした側が、フロップで最初に打つベットです。</p><p>BTN対BB（100bb）で解くと、K♠7♦2♣は約8割、T♠9♥7♠は約5割。同じcベットでも、この2枚で27ポイント違います。</p></div>
+    <ul class="pts"><li>高いカードが1枚で乾いた板は、小さいサイズ（33%）を高い頻度で打つ。</li><li>つながった板やスートがそろった板は、打つ頻度が下がり、打つときは大きいサイズ（75%）が増える。</li><li>どの板でも「毎回打つ」にはならない。7枚の最小は51.1%。</li></ul>
+    <p>この記事の数字は、当サイトの<a href="/flop/">フロップ早見盤</a>と同じ表から取っています。</p>
+    <p>条件は少し多いので、先に次の節で用語を、その次の節で前提を確認します。</p>
+  </div>
+</section>
+<section id="s2">
+  <div class="wrap">
+    <h2>cベットとは：フロップ最初のベット</h2>
+    <p>プリフロップで最後にレイズした人が、フロップでも最初にベットすることを「cベット」と呼びます。コンティニュエーション・ベット（続けてのベット）の略です。</p>
+    <p>BTNがオープンして、BBがコールしたとします。フロップでBBが先にチェックすると、BTNが打つかどうかを決めます。この「<b>打つ頻度」と「サイズ</b>」が板でどう変わるかが、この記事のテーマです。</p>
+    <figure><div class="tbl-wrap" role="region" aria-label="用語の表" tabindex="0"><table class="tbl"><thead><tr><th scope="col">用語</th><th scope="col" class=l>意味</th></tr></thead><tbody><tr><th scope="row">cベット</th><td class=l>プリフロップで最後にレイズした側が、フロップで最初に打つベット</td></tr>
+<tr><th scope="row">ドンク</th><td class=l>コールした側が、先に自分から打つベット（7枚のうち5♠5♥3♦の4.7%以外はほぼ0%）</td></tr>
+<tr><th scope="row" style="white-space:nowrap">チェックレイズ</th><td class=l>一度チェックして、相手のベットにレイズで返すこと（CR）</td></tr>
+<tr><th scope="row">MDF</th><td class=l>ベットを受けたとき、最低限守るべき割合（次の記事で詳しく扱う）</td></tr>
+</tbody></table></div><figcaption>用語の確認です。数字の出典は後の表に書きます。</figcaption></figure>
+  </div>
+</section>
+<section id="cond">
+  <div class="wrap">
+    <h2>この数字の前提：先に条件を書いておく</h2>
+    <p>数字は、次の条件で計算した結果です。実戦の条件が違えば、数字は動きます。</p>
+    <ul class="cond"><li><b>人数</b>　ヘッズアップのポット（2人）。3人以上の局面は含みません。</li><li><b>局面</b>　BTNが2.5bbでオープンし、BBがコール。ポットは5.5bb、残りは97.5bbです。</li><li><b>ベットの木</b>　BTNのベットは33%と75%の2サイズ。ターンとリバーにレイズが無い簡略版です。</li><li><b>道具</b>　オープンソースのソルバー（postflop-solver）を、誤差0.3%ポットまで回しました（2026年10月18日の計算）。</li><li><b>レンジ</b>　当サイトのプリフロップ表（BTNオープン44.8%・BBコール39.8%）です。</li></ul>
+  </div>
+</section>
+<section id="s4">
+  <div class="wrap">
+    <h2>3枚の数字：K72・QJ4・T97</h2>
+    <p>まず、性格の違う3枚を並べます。K72は乾いた板、T97はつながった板、QJ4はその中間です。</p>
+    <figure><div class="tbl-wrap" role="region" aria-label="3枚のcベット頻度" tabindex="0"><table class="tbl"><thead><tr><th scope="col">板</th><th scope="col">cベット合計</th><th scope="col">33%</th><th scope="col">75%</th></tr></thead><tbody><tr><th scope="row">K<b class="s">♠</b>7<b class="d">♦</b>2<b class="c">♣</b></th><td>79.5%</td><td>79.2%</td><td>0.3%</td></tr>
+<tr><th scope="row">Q<b class="s">♠</b>J<b class="h">♥</b>4<b class="s">♠</b></th><td>70.9%</td><td>53.0%</td><td>17.9%</td></tr>
+<tr><th scope="row">T<b class="s">♠</b>9<b class="h">♥</b>7<b class="s">♠</b></th><td>52.5%</td><td>9.7%</td><td>42.8%</td></tr>
+</tbody></table></div><figcaption>BTN対BB・100bb・出典：当サイトの計算（2026年10月18日に解いた表）。33%と75%はベットサイズ（ポット比）です。</figcaption></figure>
+    <p>K72は、ほぼ毎回、小さく打ちます。T97は半分ほどしか打たず、打つときは大きいサイズが中心です。</p>
+    <p>QJ4は中間で、小さいサイズが主役でした。</p>
+  </div>
+</section>
+<section id="s5">
+  <div class="wrap">
+    <h2>板の名前で読む：なぜ違うのか</h2>
+    <p>考えられる理由はあります。ただし、これは表の数字からの推測で、ソルバーが理由を出しているわけではありません。</p>
+    <p>確かなのは数字の差だけです。理由の候補は、板の形で整理すると読みやすくなります。</p>
+    <figure><div class="tbl-wrap" role="region" aria-label="板の形の比較" tabindex="0"><table class="tbl"><thead><tr><th scope="col">板</th><th scope="col" class=l>高いカード</th><th scope="col" class=l>つながり</th><th scope="col" class=l>スート</th></tr></thead><tbody><tr><th scope="row">K<b class="s">♠</b>7<b class="d">♦</b>2<b class="c">♣</b></th><td class=l>Kが1枚</td><td class=l>ほぼ無い</td><td class=l>3色別々</td></tr>
+<tr><th scope="row">Q<b class="s">♠</b>J<b class="h">♥</b>4<b class="s">♠</b></th><td class=l>QとJの2枚</td><td class=l>QJが連続</td><td class=l>♠が2枚</td></tr>
+<tr><th scope="row">T<b class="s">♠</b>9<b class="h">♥</b>7<b class="s">♠</b></th><td class=l>Tが最高</td><td class=l>T・9・7が近い</td><td class=l>♠が2枚</td></tr>
+</tbody></table></div><figcaption>板の形を言葉にした表です（計算結果ではなく、カードの並びの事実）。</figcaption></figure>
+    <p>K72は、BTN側にKを持つ手が多く残るため、小さく広く打てる板だと考えられます。</p>
+    <p>T97は、BBにもストレートやツーペアの形が残りやすいので、BTNが打つ手を選んでいると読めます。</p>
+  </div>
+</section>
+<section id="s6">
+  <div class="wrap">
+    <h2>7枚を並べると：差は28ポイント</h2>
+    <p>上の3枚に、同じ条件で解いた4枚を足します。cベットの合計は、51.1%から79.5%の範囲に収まりました。</p>
+    <p>最大と最小の<b>差は28.4ポイント</b>です。<b>いちばん多いK72でも、2割は打ちません</b>。</p>
+    <figure><ul class="bars" aria-label="7枚のcベット頻度"><li><span class="bd">K<b class="s">♠</b>7<b class="d">♦</b>2<b class="c">♣</b></span><span class="bar"><i style="width:79.5%"></i></span><span class="v">79.5%</span></li>
+<li><span class="bd">8<b class="h">♥</b>6<b class="d">♦</b>2<b class="c">♣</b></span><span class="bar"><i style="width:74.3%"></i></span><span class="v">74.3%</span></li>
+<li><span class="bd">Q<b class="s">♠</b>J<b class="h">♥</b>4<b class="s">♠</b></span><span class="bar"><i style="width:70.9%"></i></span><span class="v">70.9%</span></li>
+<li><span class="bd">5<b class="s">♠</b>5<b class="h">♥</b>3<b class="d">♦</b></span><span class="bar"><i style="width:60.9%"></i></span><span class="v">60.9%</span></li>
+<li><span class="bd">A<b class="s">♠</b>8<b class="d">♦</b>3<b class="c">♣</b></span><span class="bar"><i style="width:60.5%"></i></span><span class="v">60.5%</span></li>
+<li><span class="bd">T<b class="s">♠</b>9<b class="h">♥</b>7<b class="s">♠</b></span><span class="bar"><i style="width:52.5%"></i></span><span class="v">52.5%</span></li>
+<li><span class="bd">J<b class="s">♠</b>7<b class="s">♠</b>3<b class="s">♠</b></span><span class="bar"><i style="width:51.1%"></i></span><span class="v">51.1%</span></li>
+</ul><figcaption>cベット合計（%）。BTN対BB・100bb・出典：当サイトの計算（2026年10月18日に解いた表）。</figcaption></figure>
+    <figure><div class="tbl-wrap" role="region" aria-label="7枚のサイズ別頻度" tabindex="0"><table class="tbl"><thead><tr><th scope="col">板</th><th scope="col">33%</th><th scope="col">75%</th><th scope="col">主役のサイズ</th></tr></thead><tbody><tr><th scope="row">K<b class="s">♠</b>7<b class="d">♦</b>2<b class="c">♣</b></th><td>79.2</td><td>0.3</td><td>33%</td></tr>
+<tr><th scope="row">A<b class="s">♠</b>8<b class="d">♦</b>3<b class="c">♣</b></th><td>57.5</td><td>3.0</td><td>33%</td></tr>
+<tr><th scope="row">Q<b class="s">♠</b>J<b class="h">♥</b>4<b class="s">♠</b></th><td>53.0</td><td>17.9</td><td>33%</td></tr>
+<tr><th scope="row">8<b class="h">♥</b>6<b class="d">♦</b>2<b class="c">♣</b></th><td>36.1</td><td>38.2</td><td>ほぼ半々</td></tr>
+<tr><th scope="row">5<b class="s">♠</b>5<b class="h">♥</b>3<b class="d">♦</b></th><td>34.2</td><td>26.7</td><td>33%がやや多い</td></tr>
+<tr><th scope="row">T<b class="s">♠</b>9<b class="h">♥</b>7<b class="s">♠</b></th><td>9.7</td><td>42.8</td><td>75%</td></tr>
+<tr><th scope="row">J<b class="s">♠</b>7<b class="s">♠</b>3<b class="s">♠</b></th><td>17.7</td><td>33.4</td><td>75%</td></tr>
+</tbody></table></div><figcaption>サイズ別の頻度（%）。BTN対BB・100bb・出典：当サイトの計算（2026年10月18日に解いた表）。</figcaption></figure>
+    <p>並べると、「高いカードが1枚で乾いた板は小さく、つながった板やスートがそろった板は大きく」という並びが見えます。</p>
+    <p>ただし、これは7枚の範囲の話です。</p>
+  </div>
+</section>
+<section id="s7">
+  <div class="wrap">
+    <h2>ほかの板でも向きは同じか：96板で確かめる</h2>
+    <p>7枚だけでは偶然かもしれません。そこで、11月に別のレンジ版で解き直した96板のデータで、向きだけを確かめました。</p>
+    <p>板が別なので、数字は7枚の表と一致しません。使うのは<b>向きだけです</b>。</p>
+    <figure><div class="tbl-wrap" role="region" aria-label="96板での向きの確認" tabindex="0"><table class="tbl"><thead><tr><th scope="col">板</th><th scope="col">小さいサイズ（33%）</th><th scope="col">大きいサイズ（75%）</th><th scope="col">7枚との関係</th></tr></thead><tbody><tr><th scope="row">K<b class="c">♣</b>T<b class="d">♦</b>2<b class="h">♥</b></th><td>52%</td><td>9%</td><td>K72と同じ向き</td></tr>
+<tr><th scope="row">T<b class="c">♣</b>9<b class="d">♦</b>4<b class="h">♥</b></th><td>0%</td><td>43%</td><td>T97と同じ向き</td></tr>
+<tr><th scope="row">9<b class="c">♣</b>8<b class="d">♦</b>2<b class="h">♥</b></th><td>0%</td><td>45%</td><td>T97と同じ向き</td></tr>
+<tr><th scope="row">K<b class="c">♣</b>T<b class="c">♣</b>2<b class="c">♣</b></th><td>0%</td><td>41%</td><td>同じK高でも、スート3枚で逆向き</td></tr>
+</tbody></table></div><figcaption>出典：当サイトの別版の計算（2026年11月・精度0.05%）。別データなので向きのみ参照。</figcaption></figure>
+    <p>同じK高の板でも、スートがそろうと、小さいサイズは0%まで下がりました。</p>
+    <p>「Kが高いから小さく打つ」ではなく、<b>板の形全体で決まる</b>と読めます（この4例の範囲での読みです）。</p>
+  </div>
+</section>
+<section id="s8">
+  <div class="wrap">
+    <h2>よくある読み違い：3つの注意</h2>
+    <ul class="pts"><li>「cベットは<b>毎回打つもの」ではありません</b>。7枚で最少のJ♠7♠3♠でも51.1%で、約半分はチェックです。</li><li>「頻度が高い板は、サイズも大きい」でもありません。K72は頻度が最も高く、サイズは小さい側です。</li><li>表の数字は「この前提でのソルバーの答え」です。実戦の相手が、この頻度で降りてくれるとは限りません。</li></ul>
+    <p>実戦の相手に合わせた調整（打ちすぎる相手への対応など）は、この記事の範囲外です。</p>
+    <p>表はあくまで、<b>基準の位置を知るための道具</b>として使ってください。</p>
+  </div>
+</section>
+<section id="s9">
+  <div class="wrap">
+    <h2>次に確かめる：自分の板で引く</h2>
+    <p>知りたい板は、フロップ早見盤で引けます。まず3枚の違いを見て、次に自分が迷った板を探すのが近道です。</p>
+    <p>守る側の数字は、続きの記事にまとめました。</p>
+    <ul class="related" style="list-style:none;padding:0"><li><a class="card" href="/flop/check-raise/"><span class="tag">次の記事</span><h3>チェックレイズ率とMDF</h3><p>ベットを受ける側は、どれだけ守るか。ソルバーの実数で確かめます。</p><span class="go">読む →</span></a></li><li><a class="card" href="/flop/free-solver/"><span class="tag">関連記事</span><h3>GTOソルバーは無料で使える？</h3><p>自分で解く方法と、結果を引く方法の違いを整理します。</p><span class="go">読む →</span></a></li></ul>
+  </div>
+</section>
+<section id="s10">
+  <div class="wrap">
+    <h2>まとめ：cベットは「板の型」で読む</h2>
+    <div class="key"><p><b>結論</b>　cベットの頻度は51〜80%、サイズは板の形で33%と75%に分かれる。</p><p>覚えるのは小数点ではなく、「乾いた高い板は小さく、つながった板は大きく」の1行です。</p></div>
+    <p>まず<a href="/flop/">フロップ早見盤</a>で7枚を見比べて、気になった板だけ自分の頭で理由を考えてみてください。</p>
+    <p>手を動かして確かめたい人は、下のボタンから無料のクイズへ進めます。</p>
+    <ul class="pts"><li>頻度：51〜80%。毎回は打たない。</li><li>サイズ：乾いた高い板は33%、つながった板は75%が主役。</li><li>注意：ヘッズアップ・100bb・簡略木の前提つき。</li></ul>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="band">
+      <p class="bt">まず1問、解いてみる</p>
+      <p>どれも無料・登録不要。現金・賭け金は一切扱いません。</p>
+      <a class="btn btn-primary btn-lg" href="/?from=flop-article-cbet">GTO Coachで練習する</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links"><a href="/privacy">プライバシーポリシー</a><a href="/disclaimer">免責事項</a><a href="/about">運営者情報</a><a href="/contact">お問い合わせ</a></div>
+    <p>運営：勝負ラボ（Shoubu Lab）個人運営</p>
+    <p>© 2026 勝負ラボ — 本サイトは戦略学習ツールであり、賭博行為を推奨するものではありません。</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -75,8 +75,8 @@ h1{font-size:2rem;line-height:1.4;font-weight:700;margin:12px 0}
 .bars{list-style:none;display:grid;gap:8px}
 .bars li{display:grid;grid-template-columns:5.2em minmax(0,1fr) 3.6em;align-items:center;gap:8px}
 .bd{font-weight:700;font-size:16px;letter-spacing:.02em;white-space:nowrap}
-.bar{display:block;height:14px;border-radius:7px;background:var(--surface2);overflow:hidden}
-.bar i{display:block;height:100%;background:var(--primary);border-radius:7px}
+.bar{display:block;height:14px;border-radius:8px;background:var(--surface2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--primary);border-radius:8px}
 .v{font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
 b.s{color:#e6e6ef}b.h{color:#ff6b7d}b.d{color:#6aa8ff}b.c{color:#3ddc97}
 b.s,b.h,b.d,b.c{font-weight:700}
@@ -226,7 +226,7 @@ footer .links{margin:0 -8px}
       <div class="card">
         <span class="tag">数字の使い方</span>
         <h3>小数点まで覚えなくていい</h3>
-        <p>覚えるのは「板の型でサイズが変わる」の1つで十分です。ターンとリバーにレイズの無い簡略な木で解いたので、チェックレイズの値は、レイズありの木で解いた場合とずれる可能性があります（ずれの大きさは、このページでは測っていません）。7枚の頻度は上の表に載せているので、板ごとの違いはそこで見比べてください。</p>
+        <p>覚えるのは「板の型でサイズが変わる」の1つで十分です。ターンとリバーにレイズの無い簡略な木で解いたので、チェックレイズの値は、レイズありの木で解いた場合とずれる可能性があります（K♠7♦2♣の1枚だけ測ると、19.4%→19.6%でほぼ同じでした。ほかの板は測っていません）。7枚の頻度は上の表に載せているので、板ごとの違いはそこで見比べてください。</p>
       </div>
     </div>
   </div>
@@ -267,6 +267,19 @@ footer .links{margin:0 -8px}
       <li><b>ベットの木</b>　フロップはBTN 33%・75%、レイズ3倍。ターン66%・リバー75%で、ターン以降のレイズは無しの簡略版。</li>
       <li><b>道具とレンジ</b>　オープンソースのソルバー（postflop-solver）で、誤差0.3%ポットまで計算。レンジは当サイトのプリフロップ表（BTNオープン44.8%・BBコール39.8%）。</li>
     </ul>
+  </div>
+</section>
+
+<!-- 6a. 解説記事3本（J750：内部リンク） -->
+<section>
+  <div class="wrap">
+    <h2>表の読み方を、記事で詳しく</h2>
+    <p class="sub">この表の数字を、前提つきで解説した記事が3本あります。</p>
+    <div class="cards three">
+      <a class="card" href="/flop/cbet/"><span class="tag">解説 ①</span><h3>cベットとは？</h3><p>打つ頻度とサイズが、板の型でどう変わるかを7枚で整理します。</p><span class="go">読む →</span></a>
+      <a class="card" href="/flop/check-raise/"><span class="tag">解説 ②</span><h3>チェックレイズ率とMDF</h3><p>ベットを受ける側が、どれだけ降りてどれだけ返すかの実数です。</p><span class="go">読む →</span></a>
+      <a class="card" href="/flop/free-solver/"><span class="tag">解説 ③</span><h3>GTOソルバーは無料で使える？</h3><p>自分で解く・結果を引く・練習する、3つの入口の違いです。</p><span class="go">読む →</span></a>
+    </div>
   </div>
 </section>
 

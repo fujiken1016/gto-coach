@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#101018">
+<title>チェックレイズ率とMDF：受ける側はどれだけ守るか｜勝負ラボ</title>
+<meta name="description" content="MDFの式と、ソルバーが示したBBの降り・コール・チェックレイズの実数を並べ、ベットを受ける側の守り方を確かめます。レーキと簡略木の影響も記載。">
+<link rel="canonical" href="https://shoubu-lab.com/flop/check-raise/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"チェックレイズ率とMDF：受ける側はどれだけ守るか","description":"MDFの式と、ソルバーが示したBBの降り・コール・チェックレイズの実数を並べ、ベットを受ける側の守り方を確かめます。レーキと簡略木の影響も記載。","mainEntityOfPage":"https://shoubu-lab.com/flop/check-raise/","inLanguage":"ja","image":"https://shoubu-lab.com/og_flop_checkraise.jpg","datePublished":"2026-11-28T00:00:00+09:00","dateModified":"2026-11-28T00:00:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="勝負ラボ">
+<meta property="og:title" content="チェックレイズ率とMDF：受ける側はどれだけ守るか">
+<meta property="og:image" content="https://shoubu-lab.com/og_flop_checkraise.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://shoubu-lab.com/og_flop_checkraise.jpg">
+<meta property="og:description" content="MDFの式と、ソルバーが示したBBの降り・コール・チェックレイズの実数を並べ、ベットを受ける側の守り方を確かめます。レーキと簡略木の影響も記載。">
+<meta property="og:url" content="https://shoubu-lab.com/flop/check-raise/">
+<!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
+<script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
+<script src="/oc.js" defer></script>
+<style>
+/* 色・寸法は GTO Coach（shoubu-lab.com）の既存トークンをそのまま使う */
+:root{
+  --bg:#101018; --surface:#1a1a26; --surface2:#232333;
+  --text:#f2f2f7; --muted:#a9a9be; --line:#2b2b3a; --line-strong:#606076;
+  --primary:#3ddc97;  --gold:#ffd23e; --coral:#ff7a8a; --blue:#6aa8ff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:16px;line-height:1.7;overflow-x:hidden}
+a{color:var(--primary)}
+:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+
+/* ヘッダー：右上にアプリへの常設ボタン（GTO Wizard「Go To App」・GTOBase「Go to app」） */
+.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;min-height:64px;gap:12px}
+.brand{font-size:16px;font-weight:700;color:var(--text);text-decoration:none;display:inline-flex;align-items:center;min-height:48px}
+.brand small{display:block;font-size:14px;font-weight:400;color:var(--muted);line-height:1.3}
+.nav{display:flex;align-items:center;gap:4px}
+.nav a.lnk{display:none;align-items:center;min-height:48px;padding:0 12px;color:var(--muted);text-decoration:none;font-size:16px}
+.nav a.lnk:hover{color:var(--text)}
+
+/* ボタン：主CTAは1色（GTO Wizard は #aafbb2 一色。うちは --primary 一色） */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:12px;font-size:16px;font-weight:700;text-decoration:none;border:1px solid transparent;line-height:1.3;text-align:center}
+.btn-primary{background:var(--primary);color:#0b1a12}
+.btn-primary:hover{background:#6ae9b5}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--line-strong)}
+.btn-ghost:hover{border-color:var(--text)}
+.btn-lg{min-height:56px;padding:0 32px}
+.btn-sm{padding:0 16px}
+
+/* ヒーロー：見出し→1文→主CTA→（副CTA）の順。375pxで主CTAが1画面目に入る */
+.hero{padding:32px 0 40px}
+.hero .wrap{display:grid;gap:24px;grid-template-columns:minmax(0,1fr)}
+.eyebrow{font-size:14px;color:var(--primary);font-weight:700;letter-spacing:.04em}
+h1{font-size:2rem;line-height:1.4;font-weight:700;margin:12px 0}
+.ph{display:inline-block}
+.lead{font-size:16px;color:var(--muted);max-width:34em}
+.cta-row{display:grid;gap:12px;margin-top:20px}
+.note{font-size:14px;color:var(--muted);margin-top:12px;line-height:1.7}
+
+/* ヒーロー右の図：板ごとの13×13のイメージ（実データではない・装飾） */
+.shot{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;max-width:440px;width:100%}
+.shot-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{display:inline-block;padding:4px 12px;border-radius:9999px;background:var(--surface2);font-size:14px;color:var(--muted)}
+.chip.on{background:var(--primary);color:#0b1a12;font-weight:700}
+.cap{font-size:14px;color:var(--muted);margin-top:8px}
+/* 実データの横棒（ヒーロー右）と表。スートは4色（GTO Wizard・PokerStars の4カラーデッキ） */
+.shot-h{font-size:14px;font-weight:700;color:var(--muted);margin-bottom:8px}
+.bars{list-style:none;display:grid;gap:8px}
+.bars li{display:grid;grid-template-columns:5.2em minmax(0,1fr) 3.6em;align-items:center;gap:8px}
+.bd{font-weight:700;font-size:16px;letter-spacing:.02em;white-space:nowrap}
+.bar{display:block;height:14px;border-radius:8px;background:var(--surface2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--primary);border-radius:8px}
+.v{font-size:14px;text-align:right;font-variant-numeric:tabular-nums}
+b.s{color:#e6e6ef}b.h{color:#ff6b7d}b.d{color:#6aa8ff}b.c{color:#3ddc97}
+b.s,b.h,b.d,b.c{font-weight:700}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+.tbl th,.tbl td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.tbl thead th{color:var(--muted);font-weight:700;background:var(--surface);line-height:1.4;vertical-align:bottom}
+.tbl th[scope=row],.tbl thead th:first-child{text-align:left;font-size:16px}
+.tbl tbody tr:last-child>*{border-bottom:0}
+.tbl em{font-style:normal;color:var(--gold);font-weight:700}
+@media(max-width:479px){.tbl-wrap{margin:0 -16px;border-radius:0;border-left:0;border-right:0}.tbl th,.tbl td{padding:10px 4px}.tbl th[scope=row]{padding-left:10px;font-size:15px}.tbl td:last-child,.tbl thead th:last-child{padding-right:10px}.tbl td{letter-spacing:-.02em}}
+
+/* 日本語の改行：見出しは文節で割ってバランス、本文は孤立文字を避ける（単語途中では割らない） */
+h1,h2,h3,.cap,.note,.lead,.cond li,.sl-tools__d,.band p,.card p{word-break:auto-phrase;line-break:strict}
+h1,h2,h3,.cap,.sl-tools__d{text-wrap:balance}
+.note,.lead,.cond li,.band p,.card p{text-wrap:pretty}
+
+/* 節 */
+section{padding:32px 0;border-top:1px solid var(--line)}
+h2{font-size:1.5rem;line-height:1.4;font-weight:700;margin-bottom:8px}
+.sub{color:var(--muted);margin-bottom:20px}
+.cards{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+.cards>*,.hero .wrap>*,.cond li{min-width:0;overflow-wrap:break-word}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card h3{font-size:1.25rem;line-height:1.4;font-weight:700;margin-bottom:4px}
+.card p{color:var(--muted);font-size:16px}
+a.card{display:block;text-decoration:none;color:var(--text)}
+a.card:hover{border-color:var(--primary)}
+.tag{display:block;font-size:14px;color:var(--muted);margin-bottom:12px}
+.go{display:inline-flex;align-items:center;min-height:48px;color:var(--primary);font-weight:700;margin-top:4px}
+
+/* 中盤・末尾のCTA帯：本文と色を変え、ボタンを1つだけ置く */
+.band{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:28px 20px;text-align:center}
+.band h2{margin-bottom:8px}
+.band p{color:var(--muted);margin:0 auto 20px;max-width:32em}
+
+/* 前提の明示（うちが手本から離れる所＝条件を隠さない） */
+.cond{display:grid;gap:8px;list-style:none}
+.cond li{background:var(--surface);border-radius:12px;padding:12px 16px;font-size:16px}
+.cond b{color:var(--gold)}
+
+/* 共通ツールナビ（SL-TOOLS-NAV v1 と同じ見た目） */
+.sl-tools{margin:0;padding:0}
+.sl-tools__list{list-style:none;display:grid;gap:10px;grid-template-columns:minmax(0,1fr)}
+.sl-tools a{display:flex;flex-direction:column;justify-content:center;gap:3px;min-height:48px;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.28);color:var(--text);text-decoration:none}
+.sl-tools a:hover{border-color:var(--gold)}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3}
+.sl-tools__d{font-size:14px;line-height:1.7;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding:32px 0 48px;font-size:14px;color:var(--muted);line-height:1.8}
+footer a{color:var(--muted);display:inline-flex;align-items:center;min-height:48px;padding:0 8px}
+footer .links{margin:0 -8px}
+
+@media(min-width:720px){
+  .nav a.lnk{display:inline-flex}
+  .hero{padding:56px 0 64px}
+  .hero .wrap{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:40px}
+  h1{font-size:2.5rem}
+  .cta-row{display:flex;flex-wrap:wrap}
+  .cards.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .sl-tools__list{grid-template-columns:repeat(3,minmax(0,1fr))}
+  section{padding:56px 0}
+  .band{padding:40px 32px}
+}
+
+/* 解説記事用の追加（page-local） */
+.crumb{font-size:14px;color:var(--muted);padding:12px 0 0}
+.crumb a{display:inline-flex;align-items:center;min-height:48px;color:var(--muted)}
+.art h2{margin-top:0}
+.art p{margin:0 0 20px;max-width:40em}
+.art p,.art li,.art td,.art th,.art figcaption{word-break:auto-phrase;line-break:strict;text-wrap:pretty}
+.art .tbl th,.art .tbl td{white-space:normal;padding:10px 6px;overflow-wrap:anywhere}
+.art .tbl th,.art .tbl td{text-wrap:balance}
+.art .tbl thead th.l{text-align:left}
+.art .tbl a{display:inline-flex;align-items:center;min-height:48px}
+.art .lead{color:var(--muted)}
+.art figure{margin:16px 0 20px}
+.art figcaption{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.7}
+.art ul.pts,.art ol.pts{margin:0 0 16px;padding-left:1.4em;max-width:40em}
+.art ul.pts li,.art ol.pts li{margin-bottom:8px}
+.key{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:16px 20px;margin:0 0 20px}
+.key p{margin:0 0 16px;max-width:none}
+.key p:last-child{margin-bottom:0}
+.key b{color:var(--gold)}
+.art .tbl th[scope=row].l,.art .tbl td.l{text-align:left;white-space:normal}
+.toc ol a{display:flex;align-items:center;min-height:48px;color:var(--primary)}
+.band .bt{font-size:1.5rem;line-height:1.4;font-weight:700;margin:0 0 8px;color:var(--text)}
+.related{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+@media(min-width:720px){.related{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/"><span>勝負ラボ<small>Shoubu Lab</small></span></a>
+    <nav class="nav" aria-label="メイン">
+      <a class="lnk" href="/flop/">フロップ早見盤</a>
+      <a class="btn btn-primary btn-sm" href="/?from=flop-article-check-raise-header">GTO Coachを開く</a>
+    </nav>
+  </div>
+</header>
+
+<main class="art">
+<div class="wrap">
+  <p class="crumb"><a href="/">GTO Coach</a> › <a href="/flop/">フロップ早見盤</a> › この記事</p>
+  <div class="hero" style="padding-bottom:24px">
+    <p class="eyebrow">フロップ解説 ②</p>
+    <h1>チェックレイズ率とMDF：<br>受ける側はどれだけ守るか</h1>
+    <p class="lead">MDFの式から出る降りの量と、ソルバーのBBが実際に降りた量を、7枚の数字で並べました。前提と限界も正直に書いています。</p>
+  </div>
+</div>
+<div class="wrap"><nav class="toc" aria-label="目次"><p class="shot-h">目次</p><ol style="list-style:none;padding:0;margin:0 0 24px"><li><a href="#s1">先に結論：BBはMDFより多く降りる</a></li><li><a href="#s2">MDFとは：最低限守る割合</a></li><li><a href="#cond">この数字の前提：簡略な木で解いた</a></li><li><a href="#s4">ソルバーの実数：33%のベットに対するBB</a></li><li><a href="#s5">75%のベットに対しては：降りは約半分</a></li><li><a href="#s6">なぜMDFより降りてよいのか：ブラフにも当たり札がある</a></li><li><a href="#s7">チェックレイズが多い板・少ない板</a></li><li><a href="#s8">数字の読み方の例：100通りに置き換える</a></li><li><a href="#s9">この数字の限界：簡略木・レーキ・別データ</a></li><li><a href="#s10">次に確かめる：自分の板で引く</a></li><li><a href="#s11">まとめ：MDFは最低ライン、実際は降り側</a></li></ol></nav></div>
+<section id="s1">
+  <div class="wrap">
+    <h2>先に結論：BBはMDFより多く降りる</h2>
+    <div class="key"><p><b>要点</b>　33%のベットに対するMDFは約75%（降りは約25%）。ところがソルバーのBBは、7枚すべてでそれより多く降りました。</p><p>降りは30〜41%、チェックレイズは10〜22%です。</p></div>
+    <ul class="pts"><li>MDFは「相手のブラフが自動で得にならない」ための<b>最低ライン</b>の式。</li><li>実際の解は、ブラフにも当たる札が残るので、<b>MDFより降り側に出る</b>。</li><li>この7枚では、チェックレイズは<b>ペアの板とK72で増え</b>、モノトーンで減る。</li></ul>
+    <p>数字の出典は、当サイトの<a href="/flop/">フロップ早見盤</a>と同じ表（2026年10月18日に解いたもの）です。</p>
+    <p>守る側の話なので、打つ側の頻度は<a href="/flop/cbet/">前の記事</a>に任せます。</p>
+  </div>
+</section>
+<section id="s2">
+  <div class="wrap">
+    <h2>MDFとは：最低限守る割合</h2>
+    <p>ポットがP、ベットがBのとき、受ける側が最低限守るべき割合は P÷(P＋B) です。</p>
+    <p>これより少なく守ると、相手はどんな手でもブラフで打つだけで得をします。そのため「最低ライン」の目安として使われます。</p>
+    <figure><div class="tbl-wrap" role="region" aria-label="MDFの早見表" tabindex="0"><table class="tbl"><thead><tr><th scope="col">ベットサイズ（ポット比）</th><th scope="col">守る割合（MDF）</th><th scope="col">降りてよい割合</th></tr></thead><tbody><tr><th scope="row">33%</th><td>約75%</td><td>約25%</td></tr>
+<tr><th scope="row">50%</th><td>約67%</td><td>約33%</td></tr>
+<tr><th scope="row">75%</th><td>約57%</td><td>約43%</td></tr>
+<tr><th scope="row">100%</th><td>50%</td><td>50%</td></tr>
+</tbody></table></div><figcaption>出典：MDFの定義式 P÷(P＋B) による計算値（ソルバーの結果ではありません）。例：33%なら1÷1.33、75%なら1÷1.75です。</figcaption></figure>
+  </div>
+</section>
+<section id="cond">
+  <div class="wrap">
+    <h2>この数字の前提：簡略な木で解いた</h2>
+    <p>ここから先のソルバーの数字は、次の条件で計算しています。</p>
+    <ul class="cond"><li><b>人数</b>　ヘッズアップのポット。3人以上の局面は含みません。</li><li><b>局面</b>　BTNが2.5bbでオープン、BBがコール（ポット5.5bb）。100bb・レーキなしです。</li><li><b>ベットの木</b>　BTNのベットは33%と75%、BBのレイズは3倍。ターンとリバーにレイズが無い簡略版です。</li><li><b>道具</b>　postflop-solverを誤差0.3%ポットまで回しました（2026年10月18日の計算）。</li></ul>
+  </div>
+</section>
+<section id="s4">
+  <div class="wrap">
+    <h2>ソルバーの実数：33%のベットに対するBB</h2>
+    <p>BBが33%のベットを受けたときの、降り・コール・チェックレイズの割合です。4枚を抜き出します。</p>
+    <figure><div class="tbl-wrap" role="region" aria-label="33%のベットに対するBBの応手（4枚）" tabindex="0"><table class="tbl"><thead><tr><th scope="col">板</th><th scope="col">降り</th><th scope="col">コール</th><th scope="col">チェックレイズ</th></tr></thead><tbody><tr><th scope="row">K<b class="s">♠</b>7<b class="d">♦</b>2<b class="c">♣</b></th><td>34.1%</td><td>46.5%</td><td>19.4%</td></tr>
+<tr><th scope="row">A<b class="s">♠</b>8<b class="d">♦</b>3<b class="c">♣</b></th><td>39.0%</td><td>48.1%</td><td>12.9%</td></tr>
+<tr><th scope="row">5<b class="s">♠</b>5<b class="h">♥</b>3<b class="d">♦</b></th><td>36.6%</td><td>41.9%</td><td>21.5%</td></tr>
+<tr><th scope="row">J<b class="s">♠</b>7<b class="s">♠</b>3<b class="s">♠</b></th><td>34.5%</td><td>55.3%</td><td>10.2%</td></tr>
+</tbody></table></div><figcaption>BTN対BB・100bb・出典：当サイトの計算（2026年10月18日に解いた表）。</figcaption></figure>
+    <p>7枚の全体では、33%に対する<b>降りは30.5〜40.9%</b>、チェックレイズは10.2〜21.5%（中央値14.3%）でした。</p>
+    <p>MDFの降り25%と比べると、どの板でも降りが多く出ています。</p>
+  </div>
+</section>
+<section id="s5">
+  <div class="wrap">
+    <h2>75%のベットに対しては：降りは約半分</h2>
+    <p>大きいサイズ（75%）のベットを受けた場合も見ます。MDFの降りは約43%です。</p>
+    <p>K72は75%がほぼ打たれない（0.3%）ため、この表からは除いています。</p>
+    <figure><div class="tbl-wrap" role="region" aria-label="75%のベットに対するBBの応手" tabindex="0"><table class="tbl"><thead><tr><th scope="col">板</th><th scope="col">降り</th><th scope="col">コール</th><th scope="col">チェックレイズ</th></tr></thead><tbody><tr><th scope="row">A<b class="s">♠</b>8<b class="d">♦</b>3<b class="c">♣</b></th><td>54.4%</td><td>43.0%</td><td>2.6%</td></tr>
+<tr><th scope="row">T<b class="s">♠</b>9<b class="h">♥</b>7<b class="s">♠</b></th><td>52.5%</td><td>37.9%</td><td>9.6%</td></tr>
+<tr><th scope="row">8<b class="h">♥</b>6<b class="d">♦</b>2<b class="c">♣</b></th><td>48.6%</td><td>45.0%</td><td>6.4%</td></tr>
+<tr><th scope="row">Q<b class="s">♠</b>J<b class="h">♥</b>4<b class="s">♠</b></th><td>57.0%</td><td>37.5%</td><td>5.5%</td></tr>
+<tr><th scope="row">5<b class="s">♠</b>5<b class="h">♥</b>3<b class="d">♦</b></th><td>53.2%</td><td>31.4%</td><td>15.4%</td></tr>
+<tr><th scope="row">J<b class="s">♠</b>7<b class="s">♠</b>3<b class="s">♠</b></th><td>51.7%</td><td>44.6%</td><td>3.7%</td></tr>
+</tbody></table></div><figcaption>BTN対BB・100bb・出典：当サイトの計算（2026年10月18日に解いた表）。</figcaption></figure>
+    <p><b>降りは48.6〜57.0%</b>、チェックレイズは2.6〜15.4%でした。</p>
+    <p>大きいサイズほど、チェックレイズは少なく、降りは多くなります。</p>
+  </div>
+</section>
+<section id="s6">
+  <div class="wrap">
+    <h2>なぜMDFより降りてよいのか：ブラフにも当たり札がある</h2>
+    <p>MDFは、「ベットのブラフには当たり札が全く無い」という単純化の線です。</p>
+    <p>実際のBTNのベットには、ブラフ（弱い手）も含まれます。しかし、そのブラフにも、後で強くなる札が残っています。これを「エクイティがある」と呼びます。</p>
+    <ul class="pts"><li>ブラフに当たり札が無いなら、BBはMDFどおりに守らないと損をする。</li><li>ブラフに当たり札があるなら、BBが多めに降りても、BTNのベットが自動で得にはならない。</li><li>その結果、ソルバーの降りは、MDFより降り側に出る。</li></ul>
+    <p>これは「理由の説明」であり、ソルバー自身が理由を語っているわけではない点に注意してください。</p>
+  </div>
+</section>
+<section id="s7">
+  <div class="wrap">
+    <h2>チェックレイズが多い板・少ない板</h2>
+    <p>7枚のうち、チェックレイズが多いのは5♠5♥3♦（21.5%）とK♠7♦2♣（19.4%）です。少ないのはJ♠7♠3♠（10.2%）でした。</p>
+    <p>この7枚では、ペアの板とK72で増え、スート3枚のモノトーンで減っています。</p>
+    <figure><ul class="bars" aria-label="33%のベットに対するBBのチェックレイズ率"><li><span class="bd">5<b class="s">♠</b>5<b class="h">♥</b>3<b class="d">♦</b></span><span class="bar"><i style="width:21.5%"></i></span><span class="v">21.5%</span></li>
+<li><span class="bd">K<b class="s">♠</b>7<b class="d">♦</b>2<b class="c">♣</b></span><span class="bar"><i style="width:19.4%"></i></span><span class="v">19.4%</span></li>
+<li><span class="bd">8<b class="h">♥</b>6<b class="d">♦</b>2<b class="c">♣</b></span><span class="bar"><i style="width:14.7%"></i></span><span class="v">14.7%</span></li>
+<li><span class="bd">T<b class="s">♠</b>9<b class="h">♥</b>7<b class="s">♠</b></span><span class="bar"><i style="width:14.3%"></i></span><span class="v">14.3%</span></li>
+<li><span class="bd">A<b class="s">♠</b>8<b class="d">♦</b>3<b class="c">♣</b></span><span class="bar"><i style="width:12.9%"></i></span><span class="v">12.9%</span></li>
+<li><span class="bd">Q<b class="s">♠</b>J<b class="h">♥</b>4<b class="s">♠</b></span><span class="bar"><i style="width:12.8%"></i></span><span class="v">12.8%</span></li>
+<li><span class="bd">J<b class="s">♠</b>7<b class="s">♠</b>3<b class="s">♠</b></span><span class="bar"><i style="width:10.2%"></i></span><span class="v">10.2%</span></li>
+</ul><figcaption>チェックレイズ率（%）。BTN対BB・100bb・出典：当サイトの計算（2026年10月18日に解いた表）。</figcaption></figure>
+  </div>
+</section>
+<section id="s8">
+  <div class="wrap">
+    <h2>数字の読み方の例：100通りに置き換える</h2>
+    <p>割合のままだと実感しにくいので、BBの手を100通りに置き換えてみます。</p>
+    <p>K♠7♦2♣でBTNが33%を打つと、降りが約34通り、コールが約47通り、チェックレイズが約19通りです。</p>
+    <figure><div class="tbl-wrap" role="region" aria-label="100通りに置き換えた表" tabindex="0"><table class="tbl"><thead><tr><th scope="col">板</th><th scope="col">降り</th><th scope="col">コール</th><th scope="col">CR</th><th scope="col">合計</th></tr></thead><tbody><tr><th scope="row">K<b class="s">♠</b>7<b class="d">♦</b>2<b class="c">♣</b></th><td>34</td><td>47</td><td>19</td><td>100</td></tr>
+<tr><th scope="row">J<b class="s">♠</b>7<b class="s">♠</b>3<b class="s">♠</b></th><td>35</td><td>55</td><td>10</td><td>100</td></tr>
+</tbody></table></div><figcaption>単位は「通り」。CR＝チェックレイズ。出典：上の表の割合を四捨五入して置き換えた目安です（当サイトの計算・2026年10月18日）。</figcaption></figure>
+    <p>降りる量はほぼ同じですが、コールとチェックレイズの比率は板で入れ替わります。</p>
+    <p>K72でチェックレイズに回る手は、K7・22・KQなどの強い手と、32s・42s・52s・A-xオフなどの弱い手の両方でした（2026年10月18日の表）。</p>
+  </div>
+</section>
+<section id="s9">
+  <div class="wrap">
+    <h2>この数字の限界：簡略木・レーキ・別データ</h2>
+    <p>最後に、この数字を使うときの限界を3つ書きます。どれも、<b>向きだけを使う理由</b>になります。</p>
+    <figure><div class="tbl-wrap" role="region" aria-label="数字の限界の確認" tabindex="0"><table class="tbl"><thead><tr><th scope="col">確認</th><th scope="col" class=l>結果</th><th scope="col" class=l>読み方</th></tr></thead><tbody><tr><th scope="row">レイズ入りの木（K72）</th><td class=l>チェックレイズ 19.4%→19.6%</td><td class=l>ほぼ同じ</td></tr>
+<tr><th scope="row">レーキ5%（K72）</th><td class=l>降り 34.1%→37.6%、CR 19.4%→17.9%</td><td class=l>向きだけ採る（収束が遅い）</td></tr>
+<tr><th scope="row">別レンジ版の96板（2026年11月）</th><td class=l>BTNが33%を10%以上打つ63板で、降りは29〜51%。チェックレイズは6〜34%</td><td class=l>向きは同じ</td></tr>
+</tbody></table></div><figcaption>出典：当サイトの計算（2026年10月18日・11月）。レイズ入りの木は1枚だけの測定。96板はCRの幅が7枚より広く出ました。</figcaption></figure>
+    <p>レーキ付きの木は計算が遅く、誤差が0.59%まで残りました。差の一部は、計算の残りかもしれません。</p>
+    <p>また、3人以上のポットは、この記事の数字に含まれていません。</p>
+  </div>
+</section>
+<section id="s10">
+  <div class="wrap">
+    <h2>次に確かめる：自分の板で引く</h2>
+    <p>小数点まで覚える必要はありません。「33%のベットには<b>3割強から4割降りる</b>」「チェックレイズは10〜20%台」を目安にしてください。</p>
+    <p>迷った板は、早見盤で引けます。</p>
+    <ul class="related" style="list-style:none;padding:0"><li><a class="card" href="/flop/cbet/"><span class="tag">前の記事</span><h3>cベットとは？</h3><p>打つ側の頻度とサイズが、板でどう変わるかを7枚で整理しています。</p><span class="go">読む →</span></a></li><li><a class="card" href="/flop/free-solver/"><span class="tag">次の記事</span><h3>GTOソルバーは無料で使える？</h3><p>無料で触れる入口と、その限界をまとめています。</p><span class="go">読む →</span></a></li></ul>
+  </div>
+</section>
+<section id="s11">
+  <div class="wrap">
+    <h2>まとめ：MDFは最低ライン、実際は降り側</h2>
+    <div class="key"><p><b>結論</b>　33%のベットに対するBBの降りは30〜41%で、MDFの25%を上回る。チェックレイズは10〜22%。</p><p>ただし、簡略な木・100bb・ヘッズアップの前提つきの数字です。</p></div>
+    <p>まず<a href="/flop/">フロップ早見盤</a>で、自分が迷った板の降り・コール・チェックレイズを見てください。</p>
+    <p>確かめたいときは、下のボタンから無料のクイズへ進めます。</p>
+    <ul class="pts"><li>降り：33%のベットに30〜41%、75%のベットに49〜57%。</li><li>チェックレイズ：33%に10〜22%、75%に3〜15%。</li><li>注意：簡略木・レーキなし・ヘッズアップの前提つき。</li></ul>
+  </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="band">
+      <p class="bt">まず1問、解いてみる</p>
+      <p>どれも無料・登録不要。現金・賭け金は一切扱いません。</p>
+      <a class="btn btn-primary btn-lg" href="/?from=flop-article-check-raise">GTO Coachで練習する</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links"><a href="/privacy">プライバシーポリシー</a><a href="/disclaimer">免責事項</a><a href="/about">運営者情報</a><a href="/contact">お問い合わせ</a></div>
+    <p>運営：勝負ラボ（Shoubu Lab）個人運営</p>
+    <p>© 2026 勝負ラボ — 本サイトは戦略学習ツールであり、賭博行為を推奨するものではありません。</p>
+  </div>
+</footer>
+
+</body>
+</html>
