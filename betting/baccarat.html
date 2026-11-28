@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1230">
+<title>バカラの確率｜バンカー45.86%・プレイヤー44.62%・タイ9.52%、100ハンドで合計がプラスの確率</title>
+<meta name="description" content="バカラ（8デッキ）の勝敗を全数え上げ。バンカー45.86%・プレイヤー44.62%・タイ9.52%。控除率はバンカー1.06%・プレイヤー1.24%・タイ14.36%。100ハンド賭けて合計がプラスなのは、バンカー44.7%・プレイヤー42.8%。連敗の出方も。現金は扱いません。">
+<link rel="canonical" href="https://shoubu-lab.com/betting/baccarat">
+<meta property="og:title" content="バカラの確率｜バンカー45.86%・プレイヤー44.62%・タイ9.52%、100ハンドで合計がプラスの確率">
+<meta property="og:image" content="https://shoubu-lab.com/og_baccarat.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://shoubu-lab.com/og_baccarat.jpg">
+<meta property="og:description" content="バカラ（8デッキ）の勝敗を全数え上げ。バンカー45.86%・プレイヤー44.62%・タイ9.52%。控除率はバンカー1.06%・プレイヤー1.24%・タイ14.36%。100ハンド賭けて合計がプラスなのは、バンカー44.7%・プレイヤー42.8%。連敗の出方も。現金は扱いません。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://shoubu-lab.com/betting/baccarat">
+<meta property="og:site_name" content="GTO Coach">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"バカラの確率｜バンカー45.86%・プレイヤー44.62%・タイ9.52%、100ハンドで合計がプラスの確率","description":"バカラ（8デッキ）の勝敗を全数え上げ。バンカー45.86%・プレイヤー44.62%・タイ9.52%。控除率はバンカー1.06%・プレイヤー1.24%・タイ14.36%。100ハンド賭けて合計がプラスなのは、バンカー44.7%・プレイヤー42.8%。連敗の出方も。現金は扱いません。","mainEntityOfPage":"https://shoubu-lab.com/betting/baccarat","inLanguage":"ja","datePublished":"2026-11-28T20:30:00+09:00","dateModified":"2026-11-28T20:30:00+09:00","author":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"},"publisher":{"@type":"Organization","name":"勝負ラボ（Shoubu Lab）","url":"https://shoubu-lab.com/about"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"勝負ラボ","item":"https://shoubu-lab.com/"},{"@type":"ListItem","position":2,"name":"ベッティングシステム検証室","item":"https://shoubu-lab.com/betting/"},{"@type":"ListItem","position":3,"name":"バカラの確率","item":"https://shoubu-lab.com/betting/baccarat"}]}</script>
+<link rel="stylesheet" href="/betting/app.css">
+<!-- GA4 host-guard J347: 本番ホスト以外(localhost/pages.dev/プレビュー)では計測を送らない -->
+<script>(function(){var w=window;w.dataLayer=w.dataLayer||[];w.gtag=function(){w.dataLayer.push(arguments);};if(!/(^|\.)shoubu-lab\.com$/.test(location.hostname))return;gtag('js',new Date());gtag('config','G-2VF02QTTNV');var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-2VF02QTTNV';document.head.appendChild(s);})();</script>
+<script src="/oc.js" defer></script>
+<style>
+/* === 勝負ラボ 共通ツールナビ (SL-TOOLS-NAV v1) === */
+.sl-tools{
+  --slt-ink:var(--text,var(--ink,var(--txt,var(--d-text,#eef2ff))));
+  --slt-sub:var(--sub,var(--ink-dim,var(--d-text-muted,#8b96c9)));
+  --slt-line:var(--border,var(--line,var(--d-line,#2a3566)));
+  --slt-acc:var(--gold,var(--warn,#ffd23e));
+  margin:32px 0 20px;padding:18px 0 2px;
+  border-top:1px solid var(--slt-line);
+}
+.sl-tools__lead{margin:0 0 12px;padding:0;font-size:16px;font-weight:700;line-height:1.3;color:var(--slt-acc);}
+.sl-tools__list{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+.sl-tools__list li{margin:0;padding:0;}
+.sl-tools__list li::before{content:none;}
+.sl-tools a,.sl-tools .sl-tools__cur{
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  min-height:48px;padding:11px 14px;border-radius:12px;
+  border:1px solid var(--slt-line);background:rgba(0,0,0,.28);
+  color:var(--slt-ink);text-decoration:none;margin:0;
+}
+.sl-tools a:hover{border-color:var(--slt-acc);background:rgba(0,0,0,.45);}
+.sl-tools .sl-tools__cur{border-style:dashed;}
+.sl-tools__t{font-size:16px;font-weight:700;line-height:1.3;}
+.sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
+@media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "勝ち越す確率が50%に近い賭け方なら、期待値も悪くないのでは？", "acceptedAnswer": {"@type": "Answer", "text": "いいえ。上の表のとおり、ヨーロピアン1点賭けは100回で勝ち越す確率が約51%ですが、期待収支は赤黒と同じ −2.7回分です。 勝ち越す確率は「大きく当たる回がどれだけ混ざるか」で動くので、期待値の良し悪しとは別の数字です。"}}, {"@type": "Question", "name": "10回や20回なら勝って帰れる、と言えますか？", "acceptedAnswer": {"@type": "Answer", "text": "確率の上では、勝つ日も普通にあります。ヨーロピアン赤黒10回で収支が0以上は約59%、50回でも約48%です。 ただし、それは期待値が良いからではなく、回数が少なくて結果が散らばっているからです。回数が増えるほど、平均（マイナス）に引き寄せられます。"}}, {"@type": "Question", "name": "「収支が＋◯回分以上になる確率」は何に使えますか？", "acceptedAnswer": {"@type": "Answer", "text": "「目標」に届く確率を知る材料になります。たとえば赤黒100回で＋10回分以上は約12%です。 ただし、途中で資金が尽きる可能性は含まれません。資金が尽きる確率は 破産確率の計算機 で出せます。"}}]}</script>
+<style>
+/* /betting/baccarat 専用（共通の app.css は変更しない） */
+.bt2 .notice,.bt2 .notice b,.bt2 .lead{font-size:14px}
+.bt2 .tablebox th{white-space:nowrap;vertical-align:bottom}
+.bt2 .tablebox th[scope=row]{text-align:left;white-space:nowrap}
+.bt2 .tablebox td{white-space:nowrap}
+.bt2 .tablebox table{min-width:420px;font-size:14px}.bt2 .tablebox th{font-size:14px}
+.bt2 .tablebox caption{white-space:normal;text-align:left;font-size:14px;color:var(--sub);padding:6px 10px}
+.fg{margin:14px 0 18px}.bg2{margin:0 0 12px}.bn2{margin:0 0 2px;font-weight:700;font-size:14.5px;color:#fff}
+.br2{display:flex;align-items:center;gap:8px;font-size:14px;line-height:1.7;color:#d6ddfa}
+.bl2{flex:0 0 5.4em;color:var(--sub)}.bt2x{flex:1;display:block;background:var(--panel2);border-radius:9999px;height:10px;overflow:hidden}
+.bt2x i{display:block;height:10px;border-radius:9999px;background:var(--cyan)}.bv2{flex:0 0 5.8em;text-align:right;font-variant-numeric:tabular-nums}
+.fg figcaption{color:var(--sub);font-size:14px;margin-top:6px;line-height:1.7}
+.bt2 h2,.bt2 h3,.bt2 .toc a{word-break:auto-phrase;text-wrap:pretty}
+.toc{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin:14px 0}
+.tocT{font-weight:700;margin:0 0 2px;color:#fff;font-size:14.5px}
+.toc ol{margin:0 0 0 20px}.toc li{margin:0}.toc a{display:inline-block;padding:13px 0;line-height:1.6;font-size:14.5px}
+.bt2 .crumb,.bt2 footer,.bt2 footer div,.bt2 .eq .small{font-size:14px}
+.bt2 .tablebox::before{content:"表は横にスクロールできます →";display:block;font-size:14px;line-height:1.8;color:var(--sub);padding:6px 10px 0}
+@media(min-width:640px){.bt2 .tablebox::before{display:none}}
+.bt2 .tnote{font-size:14px;color:var(--sub);margin:-4px 0 12px}
+.bt2 article li>a:first-child:last-child{display:inline-block;padding:11px 0}
+
+/* J701: 数字を大きく出すタイル（D7）と、図の凡例 */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0 18px}
+.tl{background:var(--panel2);border-radius:14px;padding:12px 12px}
+.tl p{margin:0}.tn{font-size:28px;line-height:1.25;font-weight:700;color:var(--mint);font-variant-numeric:tabular-nums}
+.tt{font-size:14px;line-height:1.6;color:var(--sub);margin-top:4px}
+.tiles figcaption{grid-column:1/-1;color:var(--sub);font-size:14px;line-height:1.7}
+.tiles.t2{grid-template-columns:repeat(2,minmax(0,1fr))}.tl{overflow-wrap:anywhere}
+@media(max-width:420px){.tl{padding:10px 9px}.tn{font-size:22px}.tt{font-size:14px;line-height:1.5}}
+.bt2 .fq{color:#fff;font-weight:600}.bt2 ul.faq{margin:0 0 0 18px}.bt2 ul.faq li{margin:0 0 10px}
+</style>
+</head>
+<body class="bt2">
+<div class="wrap">
+
+<div class="crumb"><a href="/">勝負ラボ</a> ／ <a href="/betting/">ベッティングシステム検証室</a> ／ バカラの確率</div>
+<h1>バカラの確率は？バンカー・プレイヤー・タイを全部数えて、100ハンド賭けた結果まで</h1>
+<figure class="eye"><img src="/betting/img/chips-1024.webp" srcset="/betting/img/chips-640.webp 640w, /betting/img/chips-1024.webp 1024w" sizes="(max-width:720px) 100vw, 720px" width="1024" height="539" alt="積み上がるチップのイメージ（AI生成のイラスト）" fetchpriority="high"></figure>
+<div class="notice">
+<b>このページについて</b>：確率の計算を確かめるための学習用の解説です。
+<b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b>
+表示される数値はすべて計算上のもので、オンラインカジノ等の紹介・誘導も行いません。賭けを勧めるページでも、勝つ方法を案内するページでもありません。
+</div>
+<div class="lead">
+バカラは、バンカーが45.86%、プレイヤーが44.62%、タイが9.52%で勝ちます（8デッキ・厳密計算）。バンカーに賭けると手数料があり、控除率は1.06%です。<b>100ハンド賭け続けたとき、合計がプラスになるのは、バンカーで44.7%、プレイヤーで42.8%</b>です。この記事は、確率の計算を確かめるための解説です。
+</div>
+
+<nav class="toc" aria-label="目次"><p class="tocT">目次</p><ol>
+<li><a href="#h-concl">先に結論です。</a></li>
+<li><a href="#h-prob">1ハンドの結果の確率（デッキ数別）</a></li>
+<li><a href="#h-edge">賭け方ごとの控除率</a></li>
+<li><a href="#h-100">100ハンド賭けたら、合計はどうなるか</a></li>
+<li><a href="#h-run">連敗はどれくらい続くか</a></li>
+<li><a href="#h-rule">数えたルール（第3カードの表）</a></li>
+<li><a href="#h-limit">この計算の限界</a></li>
+<li><a href="#h-how">計算方法と、確かめたこと</a></li>
+<li><a href="#h-src">参考にした資料</a></li>
+<li><a href="#h-end">まとめと次の一歩</a></li>
+</ol></nav>
+
+
+<h2 id="h-concl">先に結論です。</h2>
+<figure class="tiles "><div class="tl"><p class="tn">45.86%</p><p class="tt">バンカー勝ち</p></div><div class="tl"><p class="tn">44.62%</p><p class="tt">プレイヤー勝ち</p></div><div class="tl"><p class="tn">9.52%</p><p class="tt">タイ（引き分け）</p></div><figcaption>8デッキの山で、1ハンドの結果の確率（全部の場合を数えた厳密値）。3つの合計は100%です。</figcaption></figure>
+<ul>
+<li><b>バンカーが45.86%、プレイヤーが44.62%、タイが9.52%です。</b>バンカーは、プレイヤーの約1.028倍の確率で勝ちます。</li>
+<li><b>控除率は、バンカー賭けが1.06%、プレイヤー賭けが1.24%、タイ賭け（8:1）が14.36%です。</b>バンカーはプレイヤーより勝つのに、勝ち分の5%の手数料があるので、控除率の差は0.18ポイントしかありません。</li>
+<li><b>100ハンド賭けた終わりに合計がプラスなのは、バンカーで44.7%、プレイヤーで42.8%、タイで24.1%です。</b>ルーレット赤黒（ヨーロピアン）の35.5%より、バンカーは9.2ポイント高くなります。</li>
+<li>バンカーに賭け続けたとき、100ハンドの間に10連敗が出る確率は3.5%、7連敗以上は27.1%です。</li>
+</ul>
+<p>※タイのときは賭け金が返却されるとして数えています。手数料は、バンカーが勝ったときに配当から5%を引く方式です。賭ける額は、すべて1ハンド1単位です。</p>
+
+<h2 id="h-prob">1ハンドの結果の確率（デッキ数別）</h2>
+<p><b>8デッキの山では、バンカーが45.86%、プレイヤーが44.62%、タイが9.52%です。</b>山のデッキ数が減ると、タイの確率が少し下がり、バンカーとプレイヤーの勝ちが少し増えます。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">バンカー勝ち</p><div class="br2"><span class="bl2">8デッキ</span><span class="bt2x"><i style="width:45.86%"></i></span><span class="bv2">45.86%</span></div></div><div class="bg2"><p class="bn2">プレイヤー勝ち</p><div class="br2"><span class="bl2">8デッキ</span><span class="bt2x"><i style="width:44.62%"></i></span><span class="bv2">44.62%</span></div></div><div class="bg2"><p class="bn2">タイ（引き分け）</p><div class="br2"><span class="bl2">8デッキ</span><span class="bt2x"><i style="width:9.52%"></i></span><span class="bv2">9.52%</span></div></div><figcaption>※8デッキの山での、1ハンドの結果の確率（厳密）。バーは0〜100%。</figcaption></figure>
+<div class="tablebox"><table><caption>デッキ数別の、1ハンドの結果の確率と控除率（厳密）</caption><thead><tr><th scope="col">デッキ数</th><th scope="col">バンカー勝ち</th><th scope="col">プレイヤー勝ち</th><th scope="col">タイ</th><th scope="col">バンカー賭けの控除率</th><th scope="col">プレイヤー賭けの控除率</th></tr></thead><tbody><tr><th scope="row">8デッキ</th><td>45.86%</td><td>44.62%</td><td>9.52%</td><td>1.06%</td><td>1.24%</td></tr><tr><th scope="row">6デッキ</th><td>45.87%</td><td>44.63%</td><td>9.51%</td><td>1.06%</td><td>1.24%</td></tr><tr><th scope="row">2デッキ</th><td>45.91%</td><td>44.65%</td><td>9.44%</td><td>1.04%</td><td>1.26%</td></tr><tr><th scope="row">1デッキ</th><td>45.96%</td><td>44.68%</td><td>9.36%</td><td>1.01%</td><td>1.29%</td></tr></tbody></table></div>
+<p>※1ハンドの確率は、カード1枚ずつ、残りの山から引く場合を全部数えた厳密な値です。8デッキは416枚、6デッキは312枚です。</p>
+<ul>
+<li>8デッキと6デッキの差は、タイで0.009ポイントです。実際の勝負に影響しない大きさです。</li>
+<li>1デッキでは、バンカーの勝ちが45.96%、タイが9.36%で、8デッキとは0.1〜0.2ポイント違います。</li>
+<li>どのデッキ数でも、バンカーはプレイヤーより1.2〜1.3ポイント高く勝ちます。</li>
+</ul>
+
+<h2 id="h-edge">賭け方ごとの控除率</h2>
+<p><b>バンカー賭けの控除率は1.06%で、プレイヤー賭けの1.24%よりわずかに低くなります。</b>タイ賭けは、8:1の配当だと14.36%で、桁が違います。</p>
+<div class="tablebox"><table><caption>賭け方別の控除率（8デッキ・1ハンドあたり）</caption><thead><tr><th scope="col">賭け方</th><th scope="col">勝ったときの配当</th><th scope="col">1ハンドの期待収支（1単位）</th><th scope="col">控除率</th></tr></thead><tbody><tr><th scope="row">バンカー</th><td>1:0.95（5%の手数料）</td><td>−0.0106</td><td>1.06%</td></tr><tr><th scope="row">プレイヤー</th><td>1:1</td><td>−0.0124</td><td>1.24%</td></tr><tr><th scope="row">タイ（8:1）</th><td>1:8</td><td>−0.1436</td><td>14.36%</td></tr><tr><th scope="row">タイ（9:1）</th><td>1:9</td><td>−0.0484</td><td>4.84%</td></tr></tbody></table></div>
+<p>※期待収支＝（勝つ確率×配当）−（負ける確率×1）。タイのときの返却は、期待収支に影響しません。控除率は、1ハンド1単位賭けたときの期待収支のマイナス分です。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">バンカー</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:6.61%"></i></span><span class="bv2">1.06%</span></div></div><div class="bg2"><p class="bn2">プレイヤー</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:7.72%"></i></span><span class="bv2">1.24%</span></div></div><div class="bg2"><p class="bn2">タイ（9:1）</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:30.28%"></i></span><span class="bv2">4.84%</span></div></div><div class="bg2"><p class="bn2">タイ（8:1）</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:89.75%"></i></span><span class="bv2">14.36%</span></div></div><div class="bg2"><p class="bn2">ルーレット赤黒（欧州）</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:16.89%"></i></span><span class="bv2">2.70%</span></div></div><figcaption>※バーは控除率16%を満点とした長さ。タイ（8:1）が14.36%で、バンカーの約14倍です。</figcaption></figure>
+<ul>
+<li>バンカーは、勝つときに配当が0.95になります。45.86%×0.95−44.62%＝−1.0579%です。</li>
+<li>公開されている値は、バンカー1.06%、プレイヤー1.24%、タイ（8:1）14.36%で、この計算と同じです。</li>
+<li>ルーレット赤黒（ヨーロピアン）の控除率は2.70%で、バンカー賭けの約2.6倍です。</li>
+</ul>
+
+<h2 id="h-100">100ハンド賭けたら、合計はどうなるか</h2>
+<p><b>100ハンド賭けた終わりに、合計がプラスになっているのは、バンカーで44.7%、プレイヤーで42.8%です。</b>控除率が1%台でも、半分以上はマイナスで終わります。</p>
+<div class="tablebox"><table><caption>100ハンド賭けたあとの、合計の収支（8デッキ・各ハンド1単位・タイは返却）</caption><thead><tr><th scope="col">賭け方</th><th scope="col">合計がプラス</th><th scope="col">ちょうど0</th><th scope="col">合計がマイナス</th><th scope="col">平均の収支（単位）</th><th scope="col">ばらつき（標準偏差）</th></tr></thead><tbody><tr><th scope="row">バンカー</th><td>44.7%</td><td>0.001%</td><td>55.3%</td><td>−1.06</td><td>9.3</td></tr><tr><th scope="row">プレイヤー</th><td>42.8%</td><td>4.1%</td><td>53.1%</td><td>−1.24</td><td>9.5</td></tr><tr><th scope="row">タイ（8:1）</th><td>24.1%</td><td>0.0%</td><td>75.9%</td><td>−14.36</td><td>26.4</td></tr></tbody></table></div>
+<p>※各ハンド1単位。バンカーは、勝ったときに+0.95単位です。ばらつきは、100ハンドの合計の標準偏差（単位）です。確率は、勝ち・負け・タイの全部の場合を足し合わせた厳密な値です。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">バンカー</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:44.74%"></i></span><span class="bv2">44.7%</span></div></div><div class="bg2"><p class="bn2">プレイヤー</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:42.76%"></i></span><span class="bv2">42.8%</span></div></div><div class="bg2"><p class="bn2">ルーレット赤黒（欧州）</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:35.53%"></i></span><span class="bv2">35.5%</span></div></div><div class="bg2"><p class="bn2">タイ（8:1）</p><div class="br2"><span class="bl2">プラス</span><span class="bt2x"><i style="width:24.15%"></i></span><span class="bv2">24.1%</span></div></div><figcaption>※100回（100ハンド）賭けた終わりに、合計がプラスになっている確率。バーは0〜100%。ルーレットは100回、的中なら配当1:1。</figcaption></figure>
+<ul>
+<li>バンカーの平均の収支は−1.06単位ですが、ばらつきが9.3単位あるので、44.7%はプラスで終わります。</li>
+<li>プレイヤーは、ちょうど0になる確率が4.1%あります。勝ちと負けの数が同じなら0になるからです。バンカーは、配当が0.95なので、ほぼ0になりません。</li>
+<li>タイ賭け（8:1）は、プラスで終わるのが24.1%と低く、平均は−14.4単位です。ばらつきも26.4単位と大きくなります。</li>
+</ul>
+<p>勝ち越しの確率を、勝つ確率と回数を変えて数えるには、<a href="/betting/kachikoshi">勝ち越し確率の計算機</a>が使えます。</p>
+
+<h2 id="h-run">連敗はどれくらい続くか</h2>
+<p><b>バンカーに賭け続けると、100ハンドの間に5連敗以上が1回でも出る確率は75.5%、7連敗以上は27.1%、10連敗以上は3.5%です。</b>連敗の途中でタイが出ても、賭け金が返るだけで、連敗は途切れません。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">3連敗以上</p><div class="br2"><span class="bl2">100ハンド</span><span class="bt2x"><i style="width:99.92%"></i></span><span class="bv2">99.9%</span></div></div><div class="bg2"><p class="bn2">5連敗以上</p><div class="br2"><span class="bl2">100ハンド</span><span class="bt2x"><i style="width:75.55%"></i></span><span class="bv2">75.5%</span></div></div><div class="bg2"><p class="bn2">7連敗以上</p><div class="br2"><span class="bl2">100ハンド</span><span class="bt2x"><i style="width:27.06%"></i></span><span class="bv2">27.1%</span></div></div><div class="bg2"><p class="bn2">10連敗以上</p><div class="br2"><span class="bl2">100ハンド</span><span class="bt2x"><i style="width:3.51%"></i></span><span class="bv2">3.5%</span></div></div><figcaption>※バンカーに賭け続けたとき、100ハンドの間に、N連敗以上が1回でも出る確率。バーは0〜100%。</figcaption></figure>
+<div class="tablebox"><table><caption>100ハンドの間に、N連敗以上が1回でも出る確率（タイは数えず、連敗は途切れない）</caption><thead><tr><th scope="col">連敗の長さ</th><th scope="col">バンカーに賭け続けた場合</th><th scope="col">プレイヤーに賭け続けた場合</th></tr></thead><tbody><tr><th scope="row">3連敗以上</th><td>99.9%</td><td>100.0%</td></tr><tr><th scope="row">5連敗以上</th><td>75.5%</td><td>79.6%</td></tr><tr><th scope="row">7連敗以上</th><td>27.1%</td><td>31.2%</td></tr><tr><th scope="row">10連敗以上</th><td>3.5%</td><td>4.5%</td></tr></tbody></table></div>
+<p>※連敗は、バンカーに賭けたときはプレイヤーが勝ち続けること、プレイヤーに賭けたときはバンカーが勝ち続けることです。1回でも勝つと0に戻ります。</p>
+<ul>
+<li>プレイヤーに賭けるほうが、連敗は出やすくなります。10連敗以上は、バンカーで3.5%、プレイヤーで4.5%です。</li>
+<li>負けたら倍にするマーチンゲール法では、7連敗の次の賭け額が最初の128倍になります。その場面が、100ハンドの間に来る確率が27.1%です。</li>
+<li>連敗の確率は、1回ごとの勝つ確率で決まります。連敗の確率を、勝つ確率と回数を変えて数えるには、<a href="/betting/renpai">連敗確率の計算機</a>が使えます。</li>
+</ul>
+<p>負けたら倍にする賭け方の破綻は、<a href="/betting/martingale">マーチンゲール法のシミュレーション</a>で確かめられます。連敗が長くなると、賭け額が急に増える仕組みです。</p>
+
+<h2 id="h-rule">数えたルール（第3カードの表）</h2>
+<p><b>数えたのは、カジノで一般的なプント・バンコ形式のバカラです。</b>プレイヤーとバンカーに2枚ずつ配り、合計の1の位が大きいほうが勝ちます。10・J・Q・Kは0、Aは1です。</p>
+<ol>
+<li>どちらかの合計が8か9なら、第3カードは引かず、そこで勝負が決まります（ナチュラル）。</li>
+<li>プレイヤーは、合計が0〜5なら1枚引き、6か7なら立ちます。</li>
+<li>プレイヤーが立ったとき、バンカーは合計が0〜5なら引き、6か7なら立ちます。</li>
+<li>プレイヤーが引いたとき、バンカーが引くかどうかは、次の表で決まります。</li>
+</ol>
+<div class="tablebox"><table><caption>バンカーの第3カード（プレイヤーが第3カードを引いたとき、その値ごと）</caption><thead><tr><th scope="col">バンカーの合計</th><th scope="col">プレイヤーの3枚目＝0</th><th scope="col">プレイヤーの3枚目＝1</th><th scope="col">プレイヤーの3枚目＝2</th><th scope="col">プレイヤーの3枚目＝3</th><th scope="col">プレイヤーの3枚目＝4</th><th scope="col">プレイヤーの3枚目＝5</th><th scope="col">プレイヤーの3枚目＝6</th><th scope="col">プレイヤーの3枚目＝7</th><th scope="col">プレイヤーの3枚目＝8</th><th scope="col">プレイヤーの3枚目＝9</th></tr></thead><tbody><tr><th scope="row">バンカー0〜2</th><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td></tr><tr><th scope="row">バンカー3</th><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>立つ</td><td>引く</td></tr><tr><th scope="row">バンカー4</th><td>立つ</td><td>立つ</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>立つ</td><td>立つ</td></tr><tr><th scope="row">バンカー5</th><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td><td>引く</td><td>引く</td><td>引く</td><td>引く</td><td>立つ</td><td>立つ</td></tr><tr><th scope="row">バンカー6</th><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td><td>引く</td><td>引く</td><td>立つ</td><td>立つ</td></tr><tr><th scope="row">バンカー7</th><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td><td>立つ</td></tr></tbody></table></div>
+<p>※バンカーの合計が7のときは、いつも立ちます。合計が0〜2のときは、いつも引きます。表は、この計算に使ったルールそのものです。</p>
+
+<h2 id="h-limit">この計算の限界</h2>
+<ul>
+<li>山をシャッフルしたあと、使ったカードを戻さずに続ける実際のゲームでは、確率がわずかに変わります。ここでは、1ハンドの最初から、山が満杯の確率を数えました。</li>
+<li>連敗とプラスの確率は、各ハンドが独立で、確率が一定という近似です。実際のハンドは、山の残りで確率が動きます（ただし、その差は小さい）。</li>
+<li>テーブルの最低・最高賭け額、ショートの形式（スーパー6など）、プレイヤー・バンカーのペアなどのサイドベットは含みません。</li>
+<li><b>これは、確率の仕組みを知るための解説で、賭けを勧めるものではありません。</b>賭け方で、控除率は変えられません。</li>
+</ul>
+
+<h2 id="h-how">計算方法と、確かめたこと</h2>
+<p>1ハンドの確率は、山から1枚ずつ引く全部の順序を、残りの枚数で確率を重みづけして足し合わせました。値の種類は10通り（0〜9）で、10・J・Q・Kはまとめて0です。数は、有理数（分数）で計算しました。乱数は使っていません。</p>
+<p>100ハンドと連敗は、1ハンドの確率（8デッキ）を使い、勝ち・負け・タイの数の組み合わせと、連敗の長さを状態にして、確率を回数ぶん順に更新して数えました。</p>
+<ol>
+<li>確率の合計が、全デッキ数で、ぴったり1になりました。</li>
+<li>公開されている控除率と一致しました。8デッキで、バンカー1.06%、プレイヤー1.24%、タイ（8:1）14.36%、タイ（9:1）4.85%です。</li>
+<li>別の方式で数え直しました。C言語で、山から1枚ずつ乱数で引く方式を、合計89億ハンド（8デッキ40億・2デッキ43億・6デッキと1デッキ各3億）回しました。厳密値との差は、標準誤差の最大1.4倍でした。乱数の揺れの範囲です。</li>
+<li>100ハンドの確率は、乱数200万セッションでも確かめました。バンカーがプラスで終わる確率は、厳密解44.74%に対して乱数で44.76%、連敗は7連敗以上が27.06%に対して27.05%でした。</li>
+</ol>
+
+<h2 id="h-src">参考にした資料</h2>
+<ul class="src">
+<li>Wikipedia「Baccarat (card game)」<a href="https://en.wikipedia.org/wiki/Baccarat_(card_game)">https://en.wikipedia.org/wiki/Baccarat_(card_game)</a> （プント・バンコの第3カードの表と、8デッキの控除率。2026年11月28日に確認）</li>
+<li>Wizard of Odds「Baccarat」<a href="https://wizardofodds.com/games/baccarat/">https://wizardofodds.com/games/baccarat/</a> （8デッキの控除率：バンカー1.06%・プレイヤー1.24%・タイ14.36%。勝敗の確率の数字は、取得した範囲のページには見当たらなかった。2026年11月28日に確認）</li>
+</ul>
+<p>検索した範囲では、100ハンド後にプラスで終わる確率や、連敗の出方を、バンカー・プレイヤー別に並べた日本語の表は見つかりませんでした（網羅的な調査ではありません）。</p>
+
+<h2 id="h-end">まとめと次の一歩</h2>
+<ul>
+<li>8デッキのバカラは、バンカー45.86%、プレイヤー44.62%、タイ9.52%で、控除率はバンカー1.06%、プレイヤー1.24%、タイ（8:1）14.36%です。</li>
+<li>100ハンド賭けた終わりに合計がプラスなのは、バンカーで44.7%、プレイヤーで42.8%です。半分以上は、マイナスで終わります。</li>
+<li>100ハンドの間に、7連敗以上は27.1%、10連敗以上は3.5%で出ます。</li>
+</ul>
+<p>次の1アクションは、<a href="/betting/kachikoshi">勝ち越し確率の計算機</a>で、勝つ確率を50.68%（タイを除いたバンカーの勝つ割合）などに変えて、回数を入れ、この記事の「100ハンド」の数字と見比べることです。続きは、同じ検証室の<a href="/betting/martingale">マーチンゲール法</a>です。</p>
+
+<h2 id="h-faq">よくある質問</h2>
+<ul class="faq">
+<li><span class="fq">バカラは、バンカーとプレイヤーのどちらが勝ちやすいですか？</span><br>バンカーです。8デッキで、バンカーが45.86%、プレイヤーが44.62%、タイが9.52%です。ただし、バンカーに賭けて勝ったときは、配当から5%の手数料を引かれます。</li>
+<li><span class="fq">バカラの控除率はいくらですか？</span><br>8デッキで、バンカー賭けが1.06%、プレイヤー賭けが1.24%、タイ賭け（8:1）が14.36%です。ルーレット赤黒（ヨーロピアン）の2.70%より、バンカーとプレイヤーは低くなります。</li>
+<li><span class="fq">バンカーに100回賭けると、プラスで終われますか？</span><br>8デッキで、100ハンドの合計がプラスなのは44.7%です。平均はマイナス（−1.06単位）なので、半分以上はマイナスで終わります。</li>
+<li><span class="fq">バカラで10連敗することはありますか？</span><br>あります。バンカーに賭け続けると、100ハンドの間に10連敗以上が1回でも出る確率は3.5%です。7連敗以上なら27.1%です。タイは返却で、連敗は途切れません。</li>
+<li><span class="fq">この数字で、勝つ賭け方はわかりますか？</span><br>勝つ賭け方は、わかりません。賭け方（金額の増やし方）を変えても、1ハンドの控除率は変わりません。この記事は、確率の計算を確かめるための解説です。</li>
+</ul>
+
+<div class="related">
+  <b>ベッティングシステム検証室</b><br>
+  <a href="/betting/">検証室トップ</a>
+  <a href="/betting/martingale">マーチンゲール法</a>
+  <a href="/betting/1326">1-3-2-6法</a>
+  <a href="/betting/labouchere">ラブシェール法の必要資金</a>
+  <a href="/betting/hasan">破産確率の計算機</a>
+  <a href="/betting/renpai">連敗確率の計算機</a>
+  <a href="/betting/kachikoshi">勝ち越し確率の計算機</a>
+  <a href="/edge/">還元率ランキング</a>
+</div>
+
+<!-- SL-TOOLS-NAV v1 -->
+<nav class="sl-tools" aria-label="勝負ラボのツール">
+  <p class="sl-tools__lead">勝負ラボのツール</p>
+  <ul class="sl-tools__list">
+  <li><a href="https://shoubu-lab.com/" data-sl="gto"><span class="sl-tools__t">GTO Coach</span><span class="sl-tools__d">ポーカーの正解手を全ストリートで練習</span></a></li>
+  <li><a href="https://rule.shoubu-lab.com/" data-sl="rules"><span class="sl-tools__t">ポーカー ルール入門</span><span class="sl-tools__d">役・進行・用語をゼロから対人デビューまで</span></a></li>
+  <li><a href="https://bj.shoubu-lab.com/" data-sl="bj"><span class="sl-tools__t">ブラックジャック</span><span class="sl-tools__d">ベーシックストラテジー＆カウンティング</span></a></li>
+  <li><span class="sl-tools__cur" aria-current="page"><span class="sl-tools__t">ベッティングシステム</span><span class="sl-tools__d">マーチンゲール法ほか5法の破綻を実測（いまここ）</span></span></li>
+  <li><a href="https://shoubu-lab.com/edge/" data-sl="edge"><span class="sl-tools__t">還元率ランキング</span><span class="sl-tools__d">控除率・期待値・ケリー基準の計算機</span></a></li>
+  <li><a href="https://shoubu-lab.com/koei/" data-sl="koei"><span class="sl-tools__t">公営競技の資金管理</span><span class="sl-tools__d">競馬・競艇で同じ手法を検証する</span></a></li>
+  <li><a href="https://shoubu-lab.com/hall/" data-sl="hall"><span class="sl-tools__t">ホールデータラボ</span><span class="sl-tools__d">城南8店の実測値と、外れた検証記録</span></a></li>
+  </ul>
+</nav>
+<script>
+/* SL-TOOLS-NAV v1: ツール間の回遊をGA4に送る */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('.sl-tools a[data-sl]'):null;
+  if(!a||typeof window.gtag!=='function')return;
+  window.gtag('event','tool_nav_click',{tool:a.getAttribute('data-sl'),from_host:location.hostname,link_url:a.href});
+},true);
+</script>
+<footer>
+  <div>© 2026 勝負ラボ（Shoubu Lab）個人運営 — 本サイトは確率と期待値の学習ツールであり、賭博行為を推奨・斡旋するものではありません。</div>
+  <div><b>現金・賭け金・賞金・ポイント等を一切扱わず、換金・出金の仕組みもありません。</b></div>
+  <div>
+    <a href="/privacy">プライバシーポリシー</a>｜<a href="/disclaimer">免責事項</a>｜<a href="/about">運営者情報</a>｜<a href="/contact">お問い合わせ</a>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
