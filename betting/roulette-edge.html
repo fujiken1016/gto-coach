@@ -50,7 +50,6 @@
 .sl-tools__d{font-size:14px;line-height:1.8;color:var(--slt-sub);}
 @media(max-width:420px){.sl-tools__list{grid-template-columns:1fr;}}
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "勝ち越す確率が50%に近い賭け方なら、期待値も悪くないのでは？", "acceptedAnswer": {"@type": "Answer", "text": "いいえ。上の表のとおり、ヨーロピアン1点賭けは100回で勝ち越す確率が約51%ですが、期待収支は赤黒と同じ −2.7回分です。 勝ち越す確率は「大きく当たる回がどれだけ混ざるか」で動くので、期待値の良し悪しとは別の数字です。"}}, {"@type": "Question", "name": "10回や20回なら勝って帰れる、と言えますか？", "acceptedAnswer": {"@type": "Answer", "text": "確率の上では、勝つ日も普通にあります。ヨーロピアン赤黒10回で収支が0以上は約59%、50回でも約48%です。 ただし、それは期待値が良いからではなく、回数が少なくて結果が散らばっているからです。回数が増えるほど、平均（マイナス）に引き寄せられます。"}}, {"@type": "Question", "name": "「収支が＋◯回分以上になる確率」は何に使えますか？", "acceptedAnswer": {"@type": "Answer", "text": "「目標」に届く確率を知る材料になります。たとえば赤黒100回で＋10回分以上は約12%です。 ただし、途中で資金が尽きる可能性は含まれません。資金が尽きる確率は 破産確率の計算機 で出せます。"}}]}</script>
 <style>
 /* /betting/roulette-edge 専用（共通の app.css は変更しない） */
 .bt2 .notice,.bt2 .notice b,.bt2 .lead{font-size:14px}
@@ -114,7 +113,7 @@
 
 
 <h2 id="h-concl">先に結論です。</h2>
-<figure class="tiles "><div class="tl"><p class="tn">2.70%</p><p class="tt">ヨーロピアン</p></div><div class="tl"><p class="tn">5.26%</p><p class="tt">アメリカン</p></div><div class="tl"><p class="tn">1.35%</p><p class="tt">ラ・パルタージュ</p></div><figcaption>赤黒など配当1:1の賭けの控除率（1回あたり・厳密）。3つとも、数字は賭け方によらない値です。</figcaption></figure>
+<figure class="tiles "><div class="tl"><p class="tn">2.70%</p><p class="tt">ヨーロピアン</p></div><div class="tl"><p class="tn">5.26%</p><p class="tt">アメリカン</p></div><div class="tl"><p class="tn">1.35%</p><p class="tt">ラ・パルタージュ</p></div><figcaption>1回あたりの控除率（厳密）。配当1:1の賭け（赤黒・奇数偶数・前半後半）の値です。</figcaption></figure>
 <ul>
 <li><b>ヨーロピアンの赤黒の控除率は2.70%、アメリカンは5.26%です。</b>アメリカンは、ヨーロピアンの約1.9倍です。</li>
 <li>ラ・パルタージュ（ゼロで半分戻る）は<b>1.35%</b>で、ヨーロピアンのちょうど半分です。アン・プリゾンは、流儀によって1.35%か1.39%です。</li>
@@ -124,9 +123,9 @@
 
 <h2 id="h-rule">ルールの違いと控除率</h2>
 <p><b>赤黒で負けるのは、ゼロ（アメリカンはゼロと00）が出たときの扱いが違うだけです。</b>ほかの数字の勝ち負けは、どのルールでも同じです。</p>
-<div class="tablebox"><table><caption>赤黒など配当1:1の賭けの控除率（1回あたり・厳密）</caption><thead><tr><th scope="col">ルール</th><th scope="col">ゼロ（00）が出たとき</th><th scope="col">勝つ確率</th><th scope="col">控除率</th></tr></thead><tbody><tr><th scope="row">ヨーロピアン（ゼロ1つ）</th><td>賭け金は没収</td><td>18/37（48.65%）</td><td>2.70%</td></tr><tr><th scope="row">アメリカン（ゼロと00）</th><td>賭け金は没収</td><td>18/38（47.37%）</td><td>5.26%</td></tr><tr><th scope="row">フレンチ：ラ・パルタージュ</th><td>賭け金の半分が戻る</td><td>18/37（48.65%）</td><td>1.35%</td></tr><tr><th scope="row">フレンチ：アン・プリゾン</th><td>賭け金は牢屋に入り、次の1回で決まる</td><td>18/37（48.65%）</td><td>1.35%</td></tr></tbody></table></div>
-<p>※控除率＝−（勝つ確率×1＋負ける確率×(−1)＋ゼロの収支×ゼロの確率）。ヨーロピアンは、18/37−19/37＝−1/37です。</p>
-<figure class="fg"><div class="bg2"><p class="bn2">アメリカン</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:87.72%"></i></span><span class="bv2">5.26%</span></div></div><div class="bg2"><p class="bn2">ヨーロピアン</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:45.05%"></i></span><span class="bv2">2.70%</span></div></div><div class="bg2"><p class="bn2">アン・プリゾン（2回目のゼロも牢屋）</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:22.52%"></i></span><span class="bv2">1.35%</span></div></div><div class="bg2"><p class="bn2">ラ・パルタージュ</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:22.52%"></i></span><span class="bv2">1.35%</span></div></div><figcaption>※バーは控除率6%を満点とした長さ。アメリカンは、ラ・パルタージュの約3.9倍です。</figcaption></figure>
+<div class="tablebox"><table><caption>赤黒など配当1:1の賭けの控除率（1回あたり・厳密）</caption><thead><tr><th scope="col">ルール</th><th scope="col">ゼロ（00）が出たとき</th><th scope="col">勝つ確率</th><th scope="col">控除率</th></tr></thead><tbody><tr><th scope="row">ヨーロピアン（ゼロ1つ）</th><td>賭け金は没収</td><td>18/37（48.65%）</td><td>2.70%</td></tr><tr><th scope="row">アメリカン（ゼロと00）</th><td>賭け金は没収</td><td>18/38（47.37%）</td><td>5.26%</td></tr><tr><th scope="row">フレンチ：ラ・パルタージュ</th><td>賭け金の半分が戻る</td><td>18/37（48.65%）</td><td>1.35%</td></tr><tr><th scope="row">フレンチ：アン・プリゾン</th><td>賭け金は牢屋に入り、次の1回で決まる</td><td>18/37（48.65%）</td><td>1.35〜1.39%（流儀による）</td></tr></tbody></table></div>
+<p>※控除率＝−（勝つ確率×1＋色が外れる確率×(−1)＋ゼロの確率×ゼロの収支）。ヨーロピアンは、18/37−18/37−1/37＝−1/37です（ゼロの収支は−1）。</p>
+<figure class="fg"><div class="bg2"><p class="bn2">アメリカン</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:87.72%"></i></span><span class="bv2">5.26%</span></div></div><div class="bg2"><p class="bn2">ヨーロピアン</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:45.05%"></i></span><span class="bv2">2.70%</span></div></div><div class="bg2"><p class="bn2">アン・プリゾン（流儀による）</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:22.52%"></i></span><span class="bv2">1.35〜1.39%</span></div></div><div class="bg2"><p class="bn2">ラ・パルタージュ</p><div class="br2"><span class="bl2">控除率</span><span class="bt2x"><i style="width:22.52%"></i></span><span class="bv2">1.35%</span></div></div><figcaption>※バーは控除率6%を満点とした長さ。アメリカンは、ラ・パルタージュの約3.9倍です。</figcaption></figure>
 <ul>
 <li>ヨーロピアンは、赤黒が各18個、ゼロが1個の37個です。勝つのは18/37、負けは19/37で、1/37（2.70%）だけ不利になります。</li>
 <li>アメリカンは、ゼロと00の2個が加わって38個です。勝つのは18/38、負けは20/38で、2/38（5.26%）です。</li>
@@ -171,7 +170,7 @@
 <h2 id="h-limit">この計算の限界</h2>
 <ul>
 <li>各回が独立で、ゼロ（00）の確率が一定のモデルです。実際のホイールやオンラインの乱数の癖は、この計算の外です。</li>
-<li>赤黒など配当1:1の賭けの値です。数字1つに賭ける（配当35:1）場合は、ヨーロピアンもアメリカンも、ラ・パルタージュ・アン・プリゾンは使えません。</li>
+<li>赤黒など配当1:1の賭けの値です。数字1つに賭ける（配当35:1）場合には、ラ・パルタージュとアン・プリゾンは適用されません。</li>
 <li>アン・プリゾンは、お店によって、牢屋の中でもう一度ゼロが出たときの決まりが違います。ここでは、その2通りを数えました。</li>
 <li><b>これは、確率の仕組みを知るための解説で、賭けを勧めるものではありません。</b>賭け方で、控除率は変えられません。</li>
 </ul>
@@ -188,7 +187,7 @@
 <h2 id="h-src">参考にした資料</h2>
 <ul class="src">
 <li>Wikipedia「Roulette」<a href="https://en.wikipedia.org/wiki/Roulette">https://en.wikipedia.org/wiki/Roulette</a> （ヨーロピアン2.70%・アメリカン5.26%、ラ・パルタージュとアン・プリゾンの定義。アン・プリゾンは1.35%〜1.38%と記載。2026年11月28日に確認）</li>
-<li>casino-winnersclub.com「ルーレットのハウスエッジ（控除率）」<a href="https://www.casino-winnersclub.com/roulette/rou-house-edge.php">https://www.casino-winnersclub.com/roulette/rou-house-edge.php</a> （ラ・パルタージュ1.35%、アン・プリゾン1.35〜1.39%の数字。回数ごとのプラスの確率は載っていない。2026年11月28日に確認）</li>
+<li>解説サイト「ルーレットのハウスエッジ（控除率）」（URLは載せません。ラ・パルタージュ1.35%、アン・プリゾン1.35〜1.39%の数字。回数ごとのプラスの確率は載っていない。2026年11月28日に確認）</li>
 </ul>
 <p>検索した範囲では、ルールごとに100回・500回後のプラスで終わる確率を並べた日本語の表は見つかりませんでした（網羅的な調査ではありません）。</p>
 
@@ -203,7 +202,7 @@
 <h2 id="h-faq">よくある質問</h2>
 <ul class="faq">
 <li><span class="fq">ルーレットの控除率はいくつですか？</span><br>赤黒など配当1:1の賭けで、ヨーロピアンが2.70%、アメリカンが5.26%です。ゼロで半分戻るラ・パルタージュは1.35%です。</li>
-<li><span class="fq">ラ・パルタージュとアン・プリゾンは、どちらが有利ですか？</span><br>控除率は、ラ・パルタージュが1.35%、アン・プリゾンが1.35%（牢屋で、またゼロが出ても牢屋のまま）か1.39%（賭け金を失う）です。前者の流儀なら、どちらも同じ値です。</li>
+<li><span class="fq">ラ・パルタージュとアン・プリゾンは、どちらが有利ですか？</span><br>控除率は、ラ・パルタージュが1.35%、アン・プリゾンが1.35%（牢屋で、またゼロが出ても牢屋のまま）か1.39%（賭け金を失う）です。流儀Aなら、どちらも同じ値です。</li>
 <li><span class="fq">赤黒に100回賭けると、プラスで終われますか？</span><br>ヨーロピアンで合計がプラスなのは35.5%、アメリカンで26.5%です。平均の収支はマイナス（−2.7単位、−5.3単位）なので、プラスで終わるほうが少数です。</li>
 <li><span class="fq">ゼロが出ない確率は？</span><br>ヨーロピアンで、100回のうち1回もゼロが出ない確率は6.5%です。平均では2.7回出ます。</li>
 <li><span class="fq">賭け方で控除率は変わりますか？</span><br>変わりません。賭け金の増やし方（マーチンゲール法など）を変えても、1回ごとの控除率は同じです。この記事は、確率の計算を確かめるための解説です。</li>
